@@ -6,7 +6,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright 2026 Bem</Copyright>
     <PackageProjectUrl>docs.bem.ai</PackageProjectUrl>
-    <RepositoryUrl>https://www.github.com/stainless-sdks/bem-csharp</RepositoryUrl>
+    <RepositoryUrl>https://www.github.com/bem-team/bem-csharp-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
 
     <!-- Documentation-->

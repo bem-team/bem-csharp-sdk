@@ -7,8 +7,8 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```bash
-git clone git@github.com:stainless-sdks/bem-csharp.git
-dotnet add reference bem-csharp/src/Bem
+git clone git@github.com:bem-team/bem-csharp-sdk.git
+dotnet add reference bem-csharp-sdk/src/Bem
 ```
 
 ## Requirements
@@ -441,4 +441,4 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/bem-csharp/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/bem-team/bem-csharp-sdk/issues) with questions, bugs, or suggestions.
