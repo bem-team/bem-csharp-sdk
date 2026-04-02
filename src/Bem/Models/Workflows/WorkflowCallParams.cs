@@ -89,12 +89,12 @@ public record class WorkflowCallParams : ParamsBase
     /// <summary>
     /// Multiple input files (for join functions).
     /// </summary>
-    public IReadOnlyList<string>? Files
+    public IReadOnlyList<JsonElement>? Files
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<ImmutableArray<string>>("files");
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<JsonElement>>("files");
         }
         init
         {
@@ -103,7 +103,7 @@ public record class WorkflowCallParams : ParamsBase
                 return;
             }
 
-            this._rawBodyData.Set<ImmutableArray<string>?>(
+            this._rawBodyData.Set<ImmutableArray<JsonElement>?>(
                 "files",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );

@@ -15,14 +15,14 @@ public class WorkflowCallParamsTest : TestBase
             WorkflowName = "workflowName",
             CallReferenceID = "callReferenceID",
             File = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Files = ["string"],
+            Files = [JsonSerializer.Deserialize<JsonElement>("{}")],
             Wait = "wait",
         };
 
         string expectedWorkflowName = "workflowName";
         string expectedCallReferenceID = "callReferenceID";
         JsonElement expectedFile = JsonSerializer.Deserialize<JsonElement>("{}");
-        List<string> expectedFiles = ["string"];
+        List<JsonElement> expectedFiles = [JsonSerializer.Deserialize<JsonElement>("{}")];
         string expectedWait = "wait";
 
         Assert.Equal(expectedWorkflowName, parameters.WorkflowName);
@@ -33,7 +33,7 @@ public class WorkflowCallParamsTest : TestBase
         Assert.Equal(expectedFiles.Count, parameters.Files.Count);
         for (int i = 0; i < expectedFiles.Count; i++)
         {
-            Assert.Equal(expectedFiles[i], parameters.Files[i]);
+            Assert.True(JsonElement.DeepEquals(expectedFiles[i], parameters.Files[i]));
         }
         Assert.Equal(expectedWait, parameters.Wait);
     }
@@ -95,7 +95,7 @@ public class WorkflowCallParamsTest : TestBase
             WorkflowName = "workflowName",
             CallReferenceID = "callReferenceID",
             File = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Files = ["string"],
+            Files = [JsonSerializer.Deserialize<JsonElement>("{}")],
             Wait = "wait",
         };
 
