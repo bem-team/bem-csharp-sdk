@@ -63,6 +63,8 @@ public interface IBemClient : IDisposable
     IOutputService Outputs { get; }
 
     IWorkflowService Workflows { get; }
+
+    IInferSchemaService InferSchema { get; }
 }
 
 /// <summary>
@@ -106,6 +108,8 @@ public interface IBemClientWithRawResponse : IDisposable
     IOutputServiceWithRawResponse Outputs { get; }
 
     IWorkflowServiceWithRawResponse Workflows { get; }
+
+    IInferSchemaServiceWithRawResponse InferSchema { get; }
 
     /// <summary>
     /// Sends a request to the Bem REST API.
