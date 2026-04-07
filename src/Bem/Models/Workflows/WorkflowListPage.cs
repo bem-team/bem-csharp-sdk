@@ -16,10 +16,10 @@ public sealed class WorkflowListPage(
     IWorkflowServiceWithRawResponse service,
     WorkflowListParams parameters,
     WorkflowListPageResponse response
-) : IPage<WorkflowListResponse>
+) : IPage<Workflow>
 {
     /// <inheritdoc/>
-    public IReadOnlyList<WorkflowListResponse> Items
+    public IReadOnlyList<Workflow> Items
     {
         get { return response.Workflows ?? []; }
     }
@@ -31,9 +31,8 @@ public sealed class WorkflowListPage(
     }
 
     /// <inheritdoc/>
-    async Task<IPage<WorkflowListResponse>> IPage<WorkflowListResponse>.Next(
-        CancellationToken cancellationToken
-    ) => await this.Next(cancellationToken).ConfigureAwait(false);
+    async Task<IPage<Workflow>> IPage<Workflow>.Next(CancellationToken cancellationToken) =>
+        await this.Next(cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc cref="IPage{T}.Next"/>
     public async Task<WorkflowListPage> Next(CancellationToken cancellationToken = default)

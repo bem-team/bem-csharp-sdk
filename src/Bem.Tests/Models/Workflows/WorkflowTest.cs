@@ -2,17 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
-using Bem.Models.Functions;
 using Bem.Models.Workflows;
 
 namespace Bem.Tests.Models.Workflows;
 
-public class WorkflowListResponseTest : TestBase
+public class WorkflowTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -79,7 +78,7 @@ public class WorkflowListResponseTest : TestBase
 
         string expectedID = "id";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        List<WorkflowListResponseEdge> expectedEdges =
+        List<WorkflowEdgeResponse> expectedEdges =
         [
             new()
             {
@@ -90,7 +89,7 @@ public class WorkflowListResponseTest : TestBase
         ];
         string expectedMainNodeName = "mainNodeName";
         string expectedName = "name";
-        List<WorkflowListResponseNode> expectedNodes =
+        List<WorkflowNodeResponse> expectedNodes =
         [
             new()
             {
@@ -105,7 +104,7 @@ public class WorkflowListResponseTest : TestBase
         ];
         DateTimeOffset expectedUpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         long expectedVersionNum = 0;
-        WorkflowListResponseAudit expectedAudit = new()
+        WorkflowAudit expectedAudit = new()
         {
             VersionCreatedBy = new()
             {
@@ -169,7 +168,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -235,10 +234,7 @@ public class WorkflowListResponseTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponse>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Workflow>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -246,7 +242,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -312,7 +308,7 @@ public class WorkflowListResponseTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Workflow>(
             element,
             ModelBase.SerializerOptions
         );
@@ -320,7 +316,7 @@ public class WorkflowListResponseTest : TestBase
 
         string expectedID = "id";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        List<WorkflowListResponseEdge> expectedEdges =
+        List<WorkflowEdgeResponse> expectedEdges =
         [
             new()
             {
@@ -331,7 +327,7 @@ public class WorkflowListResponseTest : TestBase
         ];
         string expectedMainNodeName = "mainNodeName";
         string expectedName = "name";
-        List<WorkflowListResponseNode> expectedNodes =
+        List<WorkflowNodeResponse> expectedNodes =
         [
             new()
             {
@@ -346,7 +342,7 @@ public class WorkflowListResponseTest : TestBase
         ];
         DateTimeOffset expectedUpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         long expectedVersionNum = 0;
-        WorkflowListResponseAudit expectedAudit = new()
+        WorkflowAudit expectedAudit = new()
         {
             VersionCreatedBy = new()
             {
@@ -410,7 +406,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -481,7 +477,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -526,7 +522,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -564,7 +560,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -615,7 +611,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -659,7 +655,7 @@ public class WorkflowListResponseTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new WorkflowListResponse
+        var model = new Workflow
         {
             ID = "id",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -724,596 +720,7 @@ public class WorkflowListResponseTest : TestBase
             Tags = ["string"],
         };
 
-        WorkflowListResponse copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class WorkflowListResponseEdgeTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-            DestinationName = "destinationName",
-        };
-
-        string expectedDestinationNodeName = "destinationNodeName";
-        string expectedSourceNodeName = "sourceNodeName";
-        string expectedDestinationName = "destinationName";
-
-        Assert.Equal(expectedDestinationNodeName, model.DestinationNodeName);
-        Assert.Equal(expectedSourceNodeName, model.SourceNodeName);
-        Assert.Equal(expectedDestinationName, model.DestinationName);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-            DestinationName = "destinationName",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponseEdge>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-            DestinationName = "destinationName",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponseEdge>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedDestinationNodeName = "destinationNodeName";
-        string expectedSourceNodeName = "sourceNodeName";
-        string expectedDestinationName = "destinationName";
-
-        Assert.Equal(expectedDestinationNodeName, deserialized.DestinationNodeName);
-        Assert.Equal(expectedSourceNodeName, deserialized.SourceNodeName);
-        Assert.Equal(expectedDestinationName, deserialized.DestinationName);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-            DestinationName = "destinationName",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-        };
-
-        Assert.Null(model.DestinationName);
-        Assert.False(model.RawData.ContainsKey("destinationName"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-
-            // Null should be interpreted as omitted for these properties
-            DestinationName = null,
-        };
-
-        Assert.Null(model.DestinationName);
-        Assert.False(model.RawData.ContainsKey("destinationName"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-
-            // Null should be interpreted as omitted for these properties
-            DestinationName = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new WorkflowListResponseEdge
-        {
-            DestinationNodeName = "destinationNodeName",
-            SourceNodeName = "sourceNodeName",
-            DestinationName = "destinationName",
-        };
-
-        WorkflowListResponseEdge copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class WorkflowListResponseNodeTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new WorkflowListResponseNode
-        {
-            Function = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
-            Name = "name",
-        };
-
-        FunctionVersionIdentifier expectedFunction = new()
-        {
-            ID = "id",
-            Name = "name",
-            VersionNum = 0,
-        };
-        string expectedName = "name";
-
-        Assert.Equal(expectedFunction, model.Function);
-        Assert.Equal(expectedName, model.Name);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new WorkflowListResponseNode
-        {
-            Function = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
-            Name = "name",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponseNode>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new WorkflowListResponseNode
-        {
-            Function = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
-            Name = "name",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponseNode>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        FunctionVersionIdentifier expectedFunction = new()
-        {
-            ID = "id",
-            Name = "name",
-            VersionNum = 0,
-        };
-        string expectedName = "name";
-
-        Assert.Equal(expectedFunction, deserialized.Function);
-        Assert.Equal(expectedName, deserialized.Name);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new WorkflowListResponseNode
-        {
-            Function = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
-            Name = "name",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new WorkflowListResponseNode
-        {
-            Function = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
-            Name = "name",
-        };
-
-        WorkflowListResponseNode copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class WorkflowListResponseAuditTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-
-        UserActionSummary expectedVersionCreatedBy = new()
-        {
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            UserActionID = "userActionID",
-            ApiKeyName = "apiKeyName",
-            EmailAddress = "emailAddress",
-            UserEmail = "userEmail",
-            UserID = "userID",
-        };
-        UserActionSummary expectedWorkflowCreatedBy = new()
-        {
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            UserActionID = "userActionID",
-            ApiKeyName = "apiKeyName",
-            EmailAddress = "emailAddress",
-            UserEmail = "userEmail",
-            UserID = "userID",
-        };
-        UserActionSummary expectedWorkflowLastUpdatedBy = new()
-        {
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            UserActionID = "userActionID",
-            ApiKeyName = "apiKeyName",
-            EmailAddress = "emailAddress",
-            UserEmail = "userEmail",
-            UserID = "userID",
-        };
-
-        Assert.Equal(expectedVersionCreatedBy, model.VersionCreatedBy);
-        Assert.Equal(expectedWorkflowCreatedBy, model.WorkflowCreatedBy);
-        Assert.Equal(expectedWorkflowLastUpdatedBy, model.WorkflowLastUpdatedBy);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponseAudit>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowListResponseAudit>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        UserActionSummary expectedVersionCreatedBy = new()
-        {
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            UserActionID = "userActionID",
-            ApiKeyName = "apiKeyName",
-            EmailAddress = "emailAddress",
-            UserEmail = "userEmail",
-            UserID = "userID",
-        };
-        UserActionSummary expectedWorkflowCreatedBy = new()
-        {
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            UserActionID = "userActionID",
-            ApiKeyName = "apiKeyName",
-            EmailAddress = "emailAddress",
-            UserEmail = "userEmail",
-            UserID = "userID",
-        };
-        UserActionSummary expectedWorkflowLastUpdatedBy = new()
-        {
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            UserActionID = "userActionID",
-            ApiKeyName = "apiKeyName",
-            EmailAddress = "emailAddress",
-            UserEmail = "userEmail",
-            UserID = "userID",
-        };
-
-        Assert.Equal(expectedVersionCreatedBy, deserialized.VersionCreatedBy);
-        Assert.Equal(expectedWorkflowCreatedBy, deserialized.WorkflowCreatedBy);
-        Assert.Equal(expectedWorkflowLastUpdatedBy, deserialized.WorkflowLastUpdatedBy);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new WorkflowListResponseAudit { };
-
-        Assert.Null(model.VersionCreatedBy);
-        Assert.False(model.RawData.ContainsKey("versionCreatedBy"));
-        Assert.Null(model.WorkflowCreatedBy);
-        Assert.False(model.RawData.ContainsKey("workflowCreatedBy"));
-        Assert.Null(model.WorkflowLastUpdatedBy);
-        Assert.False(model.RawData.ContainsKey("workflowLastUpdatedBy"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new WorkflowListResponseAudit { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            // Null should be interpreted as omitted for these properties
-            VersionCreatedBy = null,
-            WorkflowCreatedBy = null,
-            WorkflowLastUpdatedBy = null,
-        };
-
-        Assert.Null(model.VersionCreatedBy);
-        Assert.False(model.RawData.ContainsKey("versionCreatedBy"));
-        Assert.Null(model.WorkflowCreatedBy);
-        Assert.False(model.RawData.ContainsKey("workflowCreatedBy"));
-        Assert.Null(model.WorkflowLastUpdatedBy);
-        Assert.False(model.RawData.ContainsKey("workflowLastUpdatedBy"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            // Null should be interpreted as omitted for these properties
-            VersionCreatedBy = null,
-            WorkflowCreatedBy = null,
-            WorkflowLastUpdatedBy = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new WorkflowListResponseAudit
-        {
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            WorkflowLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-
-        WorkflowListResponseAudit copied = new(model);
+        Workflow copied = new(model);
 
         Assert.Equal(model, copied);
     }

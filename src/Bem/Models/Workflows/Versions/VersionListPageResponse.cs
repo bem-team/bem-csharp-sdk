@@ -53,12 +53,12 @@ public sealed record class VersionListPageResponse : JsonModel
         }
     }
 
-    public IReadOnlyList<VersionListResponse>? Versions
+    public IReadOnlyList<Workflow>? Versions
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<VersionListResponse>>("versions");
+            return this._rawData.GetNullableStruct<ImmutableArray<Workflow>>("versions");
         }
         init
         {
@@ -67,7 +67,7 @@ public sealed record class VersionListPageResponse : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<VersionListResponse>?>(
+            this._rawData.Set<ImmutableArray<Workflow>?>(
                 "versions",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
