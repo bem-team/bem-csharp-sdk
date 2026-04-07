@@ -16,10 +16,10 @@ public sealed class VersionListPage(
     IVersionServiceWithRawResponse service,
     VersionListParams parameters,
     VersionListPageResponse response
-) : IPage<Workflow>
+) : IPage<VersionListResponse>
 {
     /// <inheritdoc/>
-    public IReadOnlyList<Workflow> Items
+    public IReadOnlyList<VersionListResponse> Items
     {
         get { return response.Versions ?? []; }
     }
@@ -31,8 +31,9 @@ public sealed class VersionListPage(
     }
 
     /// <inheritdoc/>
-    async Task<IPage<Workflow>> IPage<Workflow>.Next(CancellationToken cancellationToken) =>
-        await this.Next(cancellationToken).ConfigureAwait(false);
+    async Task<IPage<VersionListResponse>> IPage<VersionListResponse>.Next(
+        CancellationToken cancellationToken
+    ) => await this.Next(cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc cref="IPage{T}.Next"/>
     public async Task<VersionListPage> Next(CancellationToken cancellationToken = default)

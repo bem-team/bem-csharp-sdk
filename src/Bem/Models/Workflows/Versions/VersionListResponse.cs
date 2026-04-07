@@ -10,101 +10,11 @@ using Bem.Models.Functions;
 
 namespace Bem.Models.Workflows.Versions;
 
-[JsonConverter(typeof(JsonModelConverter<VersionRetrieveResponse, VersionRetrieveResponseFromRaw>))]
-public sealed record class VersionRetrieveResponse : JsonModel
-{
-    /// <summary>
-    /// Error message if the workflow version retrieval failed.
-    /// </summary>
-    public string? Error
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("error");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("error", value);
-        }
-    }
-
-    /// <summary>
-    /// V3 read representation of a workflow version.
-    /// </summary>
-    public Workflow? Workflow
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<Workflow>("workflow");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflow", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Error;
-        this.Workflow?.Validate();
-    }
-
-    public VersionRetrieveResponse() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public VersionRetrieveResponse(VersionRetrieveResponse versionRetrieveResponse)
-        : base(versionRetrieveResponse) { }
-#pragma warning restore CS8618
-
-    public VersionRetrieveResponse(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    VersionRetrieveResponse(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="VersionRetrieveResponseFromRaw.FromRawUnchecked"/>
-    public static VersionRetrieveResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class VersionRetrieveResponseFromRaw : IFromRawJson<VersionRetrieveResponse>
-{
-    /// <inheritdoc/>
-    public VersionRetrieveResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => VersionRetrieveResponse.FromRawUnchecked(rawData);
-}
-
 /// <summary>
 /// V3 read representation of a workflow version.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<Workflow, WorkflowFromRaw>))]
-public sealed record class Workflow : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionListResponse, VersionListResponseFromRaw>))]
+public sealed record class VersionListResponse : JsonModel
 {
     /// <summary>
     /// Unique identifier of the workflow.
@@ -135,16 +45,16 @@ public sealed record class Workflow : JsonModel
     /// <summary>
     /// All directed edges in this workflow version's DAG.
     /// </summary>
-    public required IReadOnlyList<Edge> Edges
+    public required IReadOnlyList<VersionListResponseEdge> Edges
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<Edge>>("edges");
+            return this._rawData.GetNotNullStruct<ImmutableArray<VersionListResponseEdge>>("edges");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<Edge>>(
+            this._rawData.Set<ImmutableArray<VersionListResponseEdge>>(
                 "edges",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -180,16 +90,16 @@ public sealed record class Workflow : JsonModel
     /// <summary>
     /// All call-site nodes in this workflow version's DAG.
     /// </summary>
-    public required IReadOnlyList<Node> Nodes
+    public required IReadOnlyList<VersionListResponseNode> Nodes
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<Node>>("nodes");
+            return this._rawData.GetNotNullStruct<ImmutableArray<VersionListResponseNode>>("nodes");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<Node>>(
+            this._rawData.Set<ImmutableArray<VersionListResponseNode>>(
                 "nodes",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -225,12 +135,12 @@ public sealed record class Workflow : JsonModel
     /// <summary>
     /// Audit trail information.
     /// </summary>
-    public Audit? Audit
+    public VersionListResponseAudit? Audit
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<Audit>("audit");
+            return this._rawData.GetNullableClass<VersionListResponseAudit>("audit");
         }
         init
         {
@@ -332,46 +242,48 @@ public sealed record class Workflow : JsonModel
         _ = this.Tags;
     }
 
-    public Workflow() { }
+    public VersionListResponse() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Workflow(Workflow workflow)
-        : base(workflow) { }
+    public VersionListResponse(VersionListResponse versionListResponse)
+        : base(versionListResponse) { }
 #pragma warning restore CS8618
 
-    public Workflow(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionListResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Workflow(FrozenDictionary<string, JsonElement> rawData)
+    VersionListResponse(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="WorkflowFromRaw.FromRawUnchecked"/>
-    public static Workflow FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionListResponseFromRaw.FromRawUnchecked"/>
+    public static VersionListResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class WorkflowFromRaw : IFromRawJson<Workflow>
+class VersionListResponseFromRaw : IFromRawJson<VersionListResponse>
 {
     /// <inheritdoc/>
-    public Workflow FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Workflow.FromRawUnchecked(rawData);
+    public VersionListResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionListResponse.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Read representation of a directed edge between call-site nodes.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<Edge, EdgeFromRaw>))]
-public sealed record class Edge : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionListResponseEdge, VersionListResponseEdgeFromRaw>))]
+public sealed record class VersionListResponseEdge : JsonModel
 {
     /// <summary>
     /// Name of the destination node.
@@ -428,46 +340,49 @@ public sealed record class Edge : JsonModel
         _ = this.DestinationName;
     }
 
-    public Edge() { }
+    public VersionListResponseEdge() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Edge(Edge edge)
-        : base(edge) { }
+    public VersionListResponseEdge(VersionListResponseEdge versionListResponseEdge)
+        : base(versionListResponseEdge) { }
 #pragma warning restore CS8618
 
-    public Edge(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionListResponseEdge(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Edge(FrozenDictionary<string, JsonElement> rawData)
+    VersionListResponseEdge(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="EdgeFromRaw.FromRawUnchecked"/>
-    public static Edge FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionListResponseEdgeFromRaw.FromRawUnchecked"/>
+    public static VersionListResponseEdge FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class EdgeFromRaw : IFromRawJson<Edge>
+class VersionListResponseEdgeFromRaw : IFromRawJson<VersionListResponseEdge>
 {
     /// <inheritdoc/>
-    public Edge FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Edge.FromRawUnchecked(rawData);
+    public VersionListResponseEdge FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionListResponseEdge.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Read representation of a call-site node.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<Node, NodeFromRaw>))]
-public sealed record class Node : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionListResponseNode, VersionListResponseNodeFromRaw>))]
+public sealed record class VersionListResponseNode : JsonModel
 {
     /// <summary>
     /// Function (and version) executing at this call site.
@@ -502,46 +417,51 @@ public sealed record class Node : JsonModel
         _ = this.Name;
     }
 
-    public Node() { }
+    public VersionListResponseNode() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Node(Node node)
-        : base(node) { }
+    public VersionListResponseNode(VersionListResponseNode versionListResponseNode)
+        : base(versionListResponseNode) { }
 #pragma warning restore CS8618
 
-    public Node(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionListResponseNode(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Node(FrozenDictionary<string, JsonElement> rawData)
+    VersionListResponseNode(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="NodeFromRaw.FromRawUnchecked"/>
-    public static Node FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionListResponseNodeFromRaw.FromRawUnchecked"/>
+    public static VersionListResponseNode FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class NodeFromRaw : IFromRawJson<Node>
+class VersionListResponseNodeFromRaw : IFromRawJson<VersionListResponseNode>
 {
     /// <inheritdoc/>
-    public Node FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Node.FromRawUnchecked(rawData);
+    public VersionListResponseNode FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionListResponseNode.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Audit trail information.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<Audit, AuditFromRaw>))]
-public sealed record class Audit : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<VersionListResponseAudit, VersionListResponseAuditFromRaw>)
+)]
+public sealed record class VersionListResponseAudit : JsonModel
 {
     /// <summary>
     /// Information about who created the current version.
@@ -614,37 +534,40 @@ public sealed record class Audit : JsonModel
         this.WorkflowLastUpdatedBy?.Validate();
     }
 
-    public Audit() { }
+    public VersionListResponseAudit() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Audit(Audit audit)
-        : base(audit) { }
+    public VersionListResponseAudit(VersionListResponseAudit versionListResponseAudit)
+        : base(versionListResponseAudit) { }
 #pragma warning restore CS8618
 
-    public Audit(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionListResponseAudit(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Audit(FrozenDictionary<string, JsonElement> rawData)
+    VersionListResponseAudit(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="AuditFromRaw.FromRawUnchecked"/>
-    public static Audit FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionListResponseAuditFromRaw.FromRawUnchecked"/>
+    public static VersionListResponseAudit FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class AuditFromRaw : IFromRawJson<Audit>
+class VersionListResponseAuditFromRaw : IFromRawJson<VersionListResponseAudit>
 {
     /// <inheritdoc/>
-    public Audit FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Audit.FromRawUnchecked(rawData);
+    public VersionListResponseAudit FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionListResponseAudit.FromRawUnchecked(rawData);
 }

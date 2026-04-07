@@ -8,7 +8,24 @@ public class WorkflowServiceTest : TestBase
     public async Task Create_Works()
     {
         var workflow = await this.client.Workflows.Create(
-            new(),
+            new()
+            {
+                MainNodeName = "mainNodeName",
+                Name = "name",
+                Nodes =
+                [
+                    new()
+                    {
+                        Function = new()
+                        {
+                            ID = "id",
+                            Name = "name",
+                            VersionNum = 0,
+                        },
+                        Name = "name",
+                    },
+                ],
+            },
             TestContext.Current.CancellationToken
         );
         workflow.Validate();

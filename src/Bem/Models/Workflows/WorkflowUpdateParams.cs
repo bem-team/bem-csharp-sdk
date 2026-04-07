@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Bem.Core;
 
 namespace Bem.Models.Workflows;
@@ -28,7 +29,7 @@ public record class WorkflowUpdateParams : ParamsBase
     public string? WorkflowName { get; init; }
 
     /// <summary>
-    /// Display name of workflow.
+    /// Human-readable display name.
     /// </summary>
     public string? DisplayName
     {
@@ -48,21 +49,14 @@ public record class WorkflowUpdateParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Main function for the workflow. The `mainFunction` and `relationships` fields
-    /// act as a unit and must be provided together, or neither provided.
-    ///
-    /// <para>- If `mainFunction` is provided without `relationships`, relationships
-    /// will default to an empty array. - If `relationships` is provided, `mainFunction`
-    /// must also be provided (validation error if missing). - If neither is provided,
-    /// both mainFunction and relationships remain unchanged from the current workflow version.</para>
-    /// </summary>
-    public FunctionVersionIdentifier? MainFunction
+    public IReadOnlyList<WorkflowUpdateParamsEdge>? Edges
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableClass<FunctionVersionIdentifier>("mainFunction");
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<WorkflowUpdateParamsEdge>>(
+                "edges"
+            );
         }
         init
         {
@@ -71,13 +65,38 @@ public record class WorkflowUpdateParams : ParamsBase
                 return;
             }
 
-            this._rawBodyData.Set("mainFunction", value);
+            this._rawBodyData.Set<ImmutableArray<WorkflowUpdateParamsEdge>?>(
+                "edges",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
         }
     }
 
     /// <summary>
-    /// Name of workflow. Can be updated to rename the workflow. Must be unique within
-    /// the environment and match the pattern ^[a-zA-Z0-9_-]{1,128}$.
+    /// `mainNodeName`, `nodes`, and `edges` must be provided together to update
+    /// the DAG topology. If none are provided the topology is copied unchanged from
+    /// the current version.
+    /// </summary>
+    public string? MainNodeName
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("mainNodeName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("mainNodeName", value);
+        }
+    }
+
+    /// <summary>
+    /// New name for the workflow (renames it). Must match `^[a-zA-Z0-9_-]{1,128}$`.
     /// </summary>
     public string? Name
     {
@@ -97,22 +116,13 @@ public record class WorkflowUpdateParams : ParamsBase
         }
     }
 
-    /// <summary>
-    /// Relationships between functions in the workflow. The `mainFunction` and `relationships`
-    /// fields act as a unit and must be provided together, or neither provided.
-    ///
-    /// <para>- If `relationships` is provided, `mainFunction` must also be provided
-    /// (validation error if missing). - If `mainFunction` is provided without `relationships`,
-    /// relationships will default to an empty array. - If neither is provided, both
-    /// mainFunction and relationships remain unchanged from the current workflow version.</para>
-    /// </summary>
-    public IReadOnlyList<WorkflowRequestRelationship>? Relationships
+    public IReadOnlyList<WorkflowUpdateParamsNode>? Nodes
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<ImmutableArray<WorkflowRequestRelationship>>(
-                "relationships"
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<WorkflowUpdateParamsNode>>(
+                "nodes"
             );
         }
         init
@@ -122,15 +132,15 @@ public record class WorkflowUpdateParams : ParamsBase
                 return;
             }
 
-            this._rawBodyData.Set<ImmutableArray<WorkflowRequestRelationship>?>(
-                "relationships",
+            this._rawBodyData.Set<ImmutableArray<WorkflowUpdateParamsNode>?>(
+                "nodes",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }
     }
 
     /// <summary>
-    /// Array of tags to categorize and organize workflows.
+    /// Tags to categorize and organize the workflow.
     /// </summary>
     public IReadOnlyList<string>? Tags
     {
@@ -272,4 +282,201 @@ public record class WorkflowUpdateParams : ParamsBase
     {
         return 0;
     }
+}
+
+/// <summary>
+/// A directed edge between two named call-site nodes.
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<WorkflowUpdateParamsEdge, WorkflowUpdateParamsEdgeFromRaw>)
+)]
+public sealed record class WorkflowUpdateParamsEdge : JsonModel
+{
+    /// <summary>
+    /// Name of the destination node.
+    /// </summary>
+    public required string DestinationNodeName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("destinationNodeName");
+        }
+        init { this._rawData.Set("destinationNodeName", value); }
+    }
+
+    /// <summary>
+    /// Name of the source node.
+    /// </summary>
+    public required string SourceNodeName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("sourceNodeName");
+        }
+        init { this._rawData.Set("sourceNodeName", value); }
+    }
+
+    /// <summary>
+    /// Labelled outlet on the source node that activates this edge. Omit for the
+    /// default (unlabelled) outlet.
+    /// </summary>
+    public string? DestinationName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("destinationName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("destinationName", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DestinationNodeName;
+        _ = this.SourceNodeName;
+        _ = this.DestinationName;
+    }
+
+    public WorkflowUpdateParamsEdge() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WorkflowUpdateParamsEdge(WorkflowUpdateParamsEdge workflowUpdateParamsEdge)
+        : base(workflowUpdateParamsEdge) { }
+#pragma warning restore CS8618
+
+    public WorkflowUpdateParamsEdge(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WorkflowUpdateParamsEdge(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WorkflowUpdateParamsEdgeFromRaw.FromRawUnchecked"/>
+    public static WorkflowUpdateParamsEdge FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class WorkflowUpdateParamsEdgeFromRaw : IFromRawJson<WorkflowUpdateParamsEdge>
+{
+    /// <inheritdoc/>
+    public WorkflowUpdateParamsEdge FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => WorkflowUpdateParamsEdge.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// A single function call-site node in a workflow DAG.
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<WorkflowUpdateParamsNode, WorkflowUpdateParamsNodeFromRaw>)
+)]
+public sealed record class WorkflowUpdateParamsNode : JsonModel
+{
+    /// <summary>
+    /// The function (and version) to execute at this call site.
+    /// </summary>
+    public required FunctionVersionIdentifier Function
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<FunctionVersionIdentifier>("function");
+        }
+        init { this._rawData.Set("function", value); }
+    }
+
+    /// <summary>
+    /// Name for this call site. Must be unique within the workflow version. Defaults
+    /// to the function's own name when omitted.
+    /// </summary>
+    public string? Name
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("name", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.Function.Validate();
+        _ = this.Name;
+    }
+
+    public WorkflowUpdateParamsNode() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WorkflowUpdateParamsNode(WorkflowUpdateParamsNode workflowUpdateParamsNode)
+        : base(workflowUpdateParamsNode) { }
+#pragma warning restore CS8618
+
+    public WorkflowUpdateParamsNode(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WorkflowUpdateParamsNode(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WorkflowUpdateParamsNodeFromRaw.FromRawUnchecked"/>
+    public static WorkflowUpdateParamsNode FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public WorkflowUpdateParamsNode(FunctionVersionIdentifier function)
+        : this()
+    {
+        this.Function = function;
+    }
+}
+
+class WorkflowUpdateParamsNodeFromRaw : IFromRawJson<WorkflowUpdateParamsNode>
+{
+    /// <inheritdoc/>
+    public WorkflowUpdateParamsNode FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => WorkflowUpdateParamsNode.FromRawUnchecked(rawData);
 }
