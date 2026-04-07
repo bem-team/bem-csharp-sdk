@@ -86,7 +86,7 @@ public class WorkflowListPageResponseTest : TestBase
 
         string expectedError = "error";
         long expectedTotalCount = 0;
-        List<WorkflowListResponse> expectedWorkflows =
+        List<Workflow> expectedWorkflows =
         [
             new()
             {
@@ -334,7 +334,7 @@ public class WorkflowListPageResponseTest : TestBase
 
         string expectedError = "error";
         long expectedTotalCount = 0;
-        List<WorkflowListResponse> expectedWorkflows =
+        List<Workflow> expectedWorkflows =
         [
             new()
             {

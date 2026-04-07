@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
+using Bem.Models.Workflows;
 using Bem.Models.Workflows.Versions;
 
 namespace Bem.Tests.Models.Workflows.Versions;
@@ -86,7 +87,7 @@ public class VersionListPageResponseTest : TestBase
 
         string expectedError = "error";
         long expectedTotalCount = 0;
-        List<VersionListResponse> expectedVersions =
+        List<Workflow> expectedVersions =
         [
             new()
             {
@@ -334,7 +335,7 @@ public class VersionListPageResponseTest : TestBase
 
         string expectedError = "error";
         long expectedTotalCount = 0;
-        List<VersionListResponse> expectedVersions =
+        List<Workflow> expectedVersions =
         [
             new()
             {
