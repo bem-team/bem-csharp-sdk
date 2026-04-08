@@ -27,15 +27,19 @@ public abstract record class ModelBase
         Converters =
         {
             new FrozenDictionaryConverterFactory(),
+            new ApiEnumConverter<string, DestinationType>(),
             new ApiEnumConverter<string, SplitType>(),
             new ApiEnumConverter<string, JoinType>(),
             new ApiEnumConverter<string, SearchMode>(),
+            new ApiEnumConverter<string, FunctionSendDestinationType>(),
             new ApiEnumConverter<string, FunctionSplitSplitType>(),
             new ApiEnumConverter<string, FunctionJoinJoinType>(),
             new ApiEnumConverter<string, FunctionType>(),
+            new ApiEnumConverter<string, UpdateFunctionSendDestinationType>(),
             new ApiEnumConverter<string, UpdateFunctionSplitSplitType>(),
             new ApiEnumConverter<string, UpdateFunctionJoinJoinType>(),
             new ApiEnumConverter<string, SortOrder>(),
+            new ApiEnumConverter<string, Versions::DestinationType>(),
             new ApiEnumConverter<string, Versions::SplitType>(),
             new ApiEnumConverter<string, Versions::JoinType>(),
             new ApiEnumConverter<string, Calls::CallStatus>(),
@@ -58,6 +62,8 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Outputs::CollectionProcessingEventType>(),
             new ApiEnumConverter<string, Outputs::SortOrder>(),
             new ApiEnumConverter<string, Workflows::SortOrder>(),
+            new ApiEnumConverter<string, Workflows::InputType>(),
+            new ApiEnumConverter<string, Workflows::SingleFileInputType>(),
             new ApiEnumConverter<string, WorkflowsVersions::SortOrder>(),
         },
     };

@@ -11,10 +11,9 @@ using Bem.Exceptions;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// A function that transforms and customizes input payloads using JMESPath expressions.
-/// Payload shaping allows you to extract specific data, perform calculations, and
-/// reshape complex input structures into simplified, standardized output formats
-/// tailored to your downstream systems or business requirements.
+/// A function that delivers workflow outputs to an external destination. Send functions
+/// receive the output of an upstream workflow node and forward it to a webhook,
+/// S3 bucket, or Google Drive folder.
 /// </summary>
 [JsonConverter(typeof(FunctionConverter))]
 public record class Function : ModelBase
@@ -42,6 +41,7 @@ public record class Function : ModelBase
                 transform: (x) => x.EmailAddress,
                 analyze: (_) => null,
                 route: (x) => x.EmailAddress,
+                send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
                 payloadShaping: (_) => null,
@@ -58,6 +58,7 @@ public record class Function : ModelBase
                 transform: (x) => x.FunctionID,
                 analyze: (x) => x.FunctionID,
                 route: (x) => x.FunctionID,
+                send: (x) => x.FunctionID,
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 payloadShaping: (x) => x.FunctionID,
@@ -74,6 +75,7 @@ public record class Function : ModelBase
                 transform: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
+                send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 payloadShaping: (x) => x.FunctionName,
@@ -90,6 +92,7 @@ public record class Function : ModelBase
                 transform: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
                 route: (_) => null,
+                send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
                 payloadShaping: (_) => null,
@@ -106,6 +109,7 @@ public record class Function : ModelBase
                 transform: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
                 route: (_) => null,
+                send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
                 payloadShaping: (_) => null,
@@ -122,6 +126,7 @@ public record class Function : ModelBase
                 transform: (x) => x.Type,
                 analyze: (x) => x.Type,
                 route: (x) => x.Type,
+                send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
                 payloadShaping: (x) => x.Type,
@@ -138,6 +143,7 @@ public record class Function : ModelBase
                 transform: (x) => x.VersionNum,
                 analyze: (x) => x.VersionNum,
                 route: (x) => x.VersionNum,
+                send: (x) => x.VersionNum,
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
                 payloadShaping: (x) => x.VersionNum,
@@ -154,6 +160,7 @@ public record class Function : ModelBase
                 transform: (x) => x.Audit,
                 analyze: (x) => x.Audit,
                 route: (x) => x.Audit,
+                send: (x) => x.Audit,
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
                 payloadShaping: (x) => x.Audit,
@@ -170,6 +177,7 @@ public record class Function : ModelBase
                 transform: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
                 route: (x) => x.DisplayName,
+                send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
                 payloadShaping: (x) => x.DisplayName,
@@ -186,6 +194,7 @@ public record class Function : ModelBase
                 transform: (_) => null,
                 analyze: (_) => null,
                 route: (x) => x.Description,
+                send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
                 payloadShaping: (_) => null,
@@ -207,6 +216,12 @@ public record class Function : ModelBase
     }
 
     public Function(FunctionRoute value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Function(FunctionSend value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -301,6 +316,27 @@ public record class Function : ModelBase
     public bool TryPickRoute([NotNullWhen(true)] out FunctionRoute? value)
     {
         value = this.Value as FunctionRoute;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="FunctionSend"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickSend(out var value)) {
+    ///     // `value` is of type `FunctionSend`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickSend([NotNullWhen(true)] out FunctionSend? value)
+    {
+        value = this.Value as FunctionSend;
         return value != null;
     }
 
@@ -405,6 +441,7 @@ public record class Function : ModelBase
     ///     (FunctionTransform value) =&gt; {...},
     ///     (FunctionAnalyze value) =&gt; {...},
     ///     (FunctionRoute value) =&gt; {...},
+    ///     (FunctionSend value) =&gt; {...},
     ///     (FunctionSplit value) =&gt; {...},
     ///     (FunctionJoin value) =&gt; {...},
     ///     (FunctionPayloadShaping value) =&gt; {...},
@@ -417,6 +454,7 @@ public record class Function : ModelBase
         Action<FunctionTransform> transform,
         Action<FunctionAnalyze> analyze,
         Action<FunctionRoute> route,
+        Action<FunctionSend> send,
         Action<FunctionSplit> split,
         Action<FunctionJoin> join,
         Action<FunctionPayloadShaping> payloadShaping,
@@ -433,6 +471,9 @@ public record class Function : ModelBase
                 break;
             case FunctionRoute value:
                 route(value);
+                break;
+            case FunctionSend value:
+                send(value);
                 break;
             case FunctionSplit value:
                 split(value);
@@ -469,6 +510,7 @@ public record class Function : ModelBase
     ///     (FunctionTransform value) =&gt; {...},
     ///     (FunctionAnalyze value) =&gt; {...},
     ///     (FunctionRoute value) =&gt; {...},
+    ///     (FunctionSend value) =&gt; {...},
     ///     (FunctionSplit value) =&gt; {...},
     ///     (FunctionJoin value) =&gt; {...},
     ///     (FunctionPayloadShaping value) =&gt; {...},
@@ -481,6 +523,7 @@ public record class Function : ModelBase
         Func<FunctionTransform, T> transform,
         Func<FunctionAnalyze, T> analyze,
         Func<FunctionRoute, T> route,
+        Func<FunctionSend, T> send,
         Func<FunctionSplit, T> split,
         Func<FunctionJoin, T> join,
         Func<FunctionPayloadShaping, T> payloadShaping,
@@ -492,6 +535,7 @@ public record class Function : ModelBase
             FunctionTransform value => transform(value),
             FunctionAnalyze value => analyze(value),
             FunctionRoute value => route(value),
+            FunctionSend value => send(value),
             FunctionSplit value => split(value),
             FunctionJoin value => join(value),
             FunctionPayloadShaping value => payloadShaping(value),
@@ -505,6 +549,8 @@ public record class Function : ModelBase
     public static implicit operator Function(FunctionAnalyze value) => new(value);
 
     public static implicit operator Function(FunctionRoute value) => new(value);
+
+    public static implicit operator Function(FunctionSend value) => new(value);
 
     public static implicit operator Function(FunctionSplit value) => new(value);
 
@@ -534,6 +580,7 @@ public record class Function : ModelBase
             (transform) => transform.Validate(),
             (analyze) => analyze.Validate(),
             (route) => route.Validate(),
+            (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
             (payloadShaping) => payloadShaping.Validate(),
@@ -564,10 +611,11 @@ public record class Function : ModelBase
             FunctionTransform _ => 0,
             FunctionAnalyze _ => 1,
             FunctionRoute _ => 2,
-            FunctionSplit _ => 3,
-            FunctionJoin _ => 4,
-            FunctionPayloadShaping _ => 5,
-            FunctionEnrich _ => 6,
+            FunctionSend _ => 3,
+            FunctionSplit _ => 4,
+            FunctionJoin _ => 5,
+            FunctionPayloadShaping _ => 6,
+            FunctionEnrich _ => 7,
             _ => -1,
         };
     }
@@ -639,6 +687,23 @@ sealed class FunctionConverter : JsonConverter<Function>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<FunctionRoute>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "send":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<FunctionSend>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1483,6 +1548,391 @@ class FunctionRouteFromRaw : IFromRawJson<FunctionRoute>
     /// <inheritdoc/>
     public FunctionRoute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         FunctionRoute.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// A function that delivers workflow outputs to an external destination. Send functions
+/// receive the output of an upstream workflow node and forward it to a webhook,
+/// S3 bucket, or Google Drive folder.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<FunctionSend, FunctionSendFromRaw>))]
+public sealed record class FunctionSend : JsonModel
+{
+    /// <summary>
+    /// Destination type for a Send function.
+    /// </summary>
+    public required ApiEnum<string, FunctionSendDestinationType> DestinationType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, FunctionSendDestinationType>>(
+                "destinationType"
+            );
+        }
+        init { this._rawData.Set("destinationType", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Google Drive folder ID. Present when destinationType is google_drive. Managed
+    /// via Paragon OAuth.
+    /// </summary>
+    public string? GoogleDriveFolderID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("googleDriveFolderId");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("googleDriveFolderId", value);
+        }
+    }
+
+    /// <summary>
+    /// S3 bucket to upload the payload to. Present when destinationType is s3.
+    /// </summary>
+    public string? S3Bucket
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3Bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3Bucket", value);
+        }
+    }
+
+    /// <summary>
+    /// S3 key prefix (folder path). Optional, present when destinationType is s3.
+    /// </summary>
+    public string? S3Prefix
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3Prefix");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3Prefix", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Whether webhook payloads are signed with an HMAC-SHA256 signature.
+    /// </summary>
+    public bool? WebhookSigningEnabled
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("webhookSigningEnabled");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("webhookSigningEnabled", value);
+        }
+    }
+
+    /// <summary>
+    /// Webhook URL to POST the payload to. Present when destinationType is webhook.
+    /// </summary>
+    public string? WebhookUrl
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("webhookUrl");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("webhookUrl", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.DestinationType.Validate();
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("send")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.DisplayName;
+        _ = this.GoogleDriveFolderID;
+        _ = this.S3Bucket;
+        _ = this.S3Prefix;
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+        _ = this.WebhookSigningEnabled;
+        _ = this.WebhookUrl;
+    }
+
+    public FunctionSend()
+    {
+        this.Type = JsonSerializer.SerializeToElement("send");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public FunctionSend(FunctionSend functionSend)
+        : base(functionSend) { }
+#pragma warning restore CS8618
+
+    public FunctionSend(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("send");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    FunctionSend(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="FunctionSendFromRaw.FromRawUnchecked"/>
+    public static FunctionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class FunctionSendFromRaw : IFromRawJson<FunctionSend>
+{
+    /// <inheritdoc/>
+    public FunctionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        FunctionSend.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Destination type for a Send function.
+/// </summary>
+[JsonConverter(typeof(FunctionSendDestinationTypeConverter))]
+public enum FunctionSendDestinationType
+{
+    Webhook,
+    S3,
+    GoogleDrive,
+}
+
+sealed class FunctionSendDestinationTypeConverter : JsonConverter<FunctionSendDestinationType>
+{
+    public override FunctionSendDestinationType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "webhook" => FunctionSendDestinationType.Webhook,
+            "s3" => FunctionSendDestinationType.S3,
+            "google_drive" => FunctionSendDestinationType.GoogleDrive,
+            _ => (FunctionSendDestinationType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        FunctionSendDestinationType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                FunctionSendDestinationType.Webhook => "webhook",
+                FunctionSendDestinationType.S3 => "s3",
+                FunctionSendDestinationType.GoogleDrive => "google_drive",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
 }
 
 [JsonConverter(typeof(JsonModelConverter<FunctionSplit, FunctionSplitFromRaw>))]

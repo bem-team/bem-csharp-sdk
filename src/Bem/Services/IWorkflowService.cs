@@ -91,16 +91,26 @@ public interface IWorkflowService
     );
 
     /// <summary>
-    /// **Invoke a workflow by submitting a multipart form request.**
+    /// **Invoke a workflow.**
     ///
-    /// <para>Workflows can only be called via multipart form in V3. Submit the input
-    /// file along with an optional reference ID for tracking.</para>
+    /// <para>Submit the input file as either a multipart form request or a JSON request
+    /// with base64-encoded file content. The workflow name is derived from the URL
+    /// path.</para>
+    ///
+    /// <para>## Input Formats</para>
+    ///
+    /// <para>- **Multipart form** (`multipart/form-data`): attach the file directly via
+    /// the `file` or `files` fields. Set `wait` in the form body to control synchronous
+    /// behaviour. - **JSON** (`application/json`): base64-encode the file content and
+    /// set it in `input.singleFile.inputContent` or
+    /// `input.batchFiles.inputs[*].inputContent`. Pass `wait=true` as a query parameter
+    /// to control synchronous behaviour.</para>
     ///
     /// <para>## Synchronous vs Asynchronous</para>
     ///
     /// <para>By default the call is created asynchronously and this endpoint returns
-    /// `202 Accepted` immediately with a `pending` call object. Set the `wait` field to
-    /// `true` to block until the call completes (up to 30 seconds):</para>
+    /// `202 Accepted` immediately with a `pending` call object. Set `wait` to `true` to
+    /// block until the call completes (up to 30 seconds):</para>
     ///
     /// <para>- On success: returns `200 OK` with the completed call, `outputs`
     /// populated - On failure: returns `500 Internal Server Error` with the call and an
@@ -119,7 +129,7 @@ public interface IWorkflowService
     /// <inheritdoc cref="Call(WorkflowCallParams, CancellationToken)"/>
     Task<CallGetResponse> Call(
         string workflowName,
-        WorkflowCallParams? parameters = null,
+        WorkflowCallParams parameters,
         CancellationToken cancellationToken = default
     );
 
@@ -225,7 +235,7 @@ public interface IWorkflowServiceWithRawResponse
     /// <inheritdoc cref="Call(WorkflowCallParams, CancellationToken)"/>
     Task<HttpResponse<CallGetResponse>> Call(
         string workflowName,
-        WorkflowCallParams? parameters = null,
+        WorkflowCallParams parameters,
         CancellationToken cancellationToken = default
     );
 

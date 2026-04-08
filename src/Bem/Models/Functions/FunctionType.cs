@@ -13,6 +13,7 @@ public enum FunctionType
 {
     Transform,
     Route,
+    Send,
     Split,
     Join,
     Analyze,
@@ -32,6 +33,7 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
         {
             "transform" => FunctionType.Transform,
             "route" => FunctionType.Route,
+            "send" => FunctionType.Send,
             "split" => FunctionType.Split,
             "join" => FunctionType.Join,
             "analyze" => FunctionType.Analyze,
@@ -53,6 +55,7 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
             {
                 FunctionType.Transform => "transform",
                 FunctionType.Route => "route",
+                FunctionType.Send => "send",
                 FunctionType.Split => "split",
                 FunctionType.Join => "join",
                 FunctionType.Analyze => "analyze",
