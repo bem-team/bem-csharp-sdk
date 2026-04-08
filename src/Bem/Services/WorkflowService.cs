@@ -152,12 +152,10 @@ public sealed class WorkflowService : IWorkflowService
     /// <inheritdoc/>
     public Task<CallGetResponse> Call(
         string workflowName,
-        WorkflowCallParams? parameters = null,
+        WorkflowCallParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        parameters ??= new();
-
         return this.Call(parameters with { WorkflowName = workflowName }, cancellationToken);
     }
 
@@ -413,12 +411,10 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
     /// <inheritdoc/>
     public Task<HttpResponse<CallGetResponse>> Call(
         string workflowName,
-        WorkflowCallParams? parameters = null,
+        WorkflowCallParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        parameters ??= new();
-
         return this.Call(parameters with { WorkflowName = workflowName }, cancellationToken);
     }
 

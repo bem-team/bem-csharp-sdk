@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Bem.Models.Workflows;
 
 namespace Bem.Tests.Services;
 
@@ -75,7 +76,29 @@ public class WorkflowServiceTest : TestBase
     {
         var callGetResponse = await this.client.Workflows.Call(
             "workflowName",
-            new(),
+            new()
+            {
+                Input = new()
+                {
+                    BatchFiles = new()
+                    {
+                        Inputs =
+                        [
+                            new()
+                            {
+                                InputContent = "inputContent",
+                                InputType = InputType.Csv,
+                                ItemReferenceID = "itemReferenceID",
+                            },
+                        ],
+                    },
+                    SingleFile = new()
+                    {
+                        InputContent = "inputContent",
+                        InputType = SingleFileInputType.Csv,
+                    },
+                },
+            },
             TestContext.Current.CancellationToken
         );
         callGetResponse.Validate();
