@@ -1437,7 +1437,9 @@ public sealed record class Send : JsonModel
     }
 
     /// <summary>
-    /// Whether to sign webhook payloads with an HMAC-SHA256 signature.
+    /// Whether to sign webhook deliveries with an HMAC-SHA256 `bem-signature` header.
+    /// Defaults to `true` when omitted — signing is on by default for new send functions.
+    /// Set explicitly to `false` to disable.
     /// </summary>
     public bool? WebhookSigningEnabled
     {
