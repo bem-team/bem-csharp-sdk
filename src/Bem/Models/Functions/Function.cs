@@ -1779,7 +1779,7 @@ public sealed record class FunctionSend : JsonModel
     }
 
     /// <summary>
-    /// Whether webhook payloads are signed with an HMAC-SHA256 signature.
+    /// Whether webhook payloads are signed with an HMAC-SHA256 `bem-signature` header.
     /// </summary>
     public bool? WebhookSigningEnabled
     {

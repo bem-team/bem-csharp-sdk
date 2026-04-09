@@ -1865,6 +1865,9 @@ public sealed record class Send : JsonModel
         }
     }
 
+    /// <summary>
+    /// Whether webhook deliveries are signed with an HMAC-SHA256 `bem-signature` header.
+    /// </summary>
     public bool? WebhookSigningEnabled
     {
         get
