@@ -70,6 +70,64 @@ public class FunctionVersionTest : TestBase
     }
 
     [Fact]
+    public void ExtractValidationWorks()
+    {
+        FunctionVersion value = new Extract()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void AnalyzeValidationWorks()
     {
         FunctionVersion value = new Analyze()
@@ -518,6 +576,70 @@ public class FunctionVersionTest : TestBase
         FunctionVersion value = new Transform()
         {
             EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void ExtractSerializationRoundtripWorks()
+    {
+        FunctionVersion value = new Extract()
+        {
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -1621,6 +1743,556 @@ public class TransformTest : TestBase
         };
 
         Transform copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ExtractTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedTabularChunkingEnabled = true;
+        JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
+        long expectedVersionNum = 0;
+        Functions::FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedDisplayName = "displayName";
+        List<string> expectedTags = ["string"];
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema));
+        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedTabularChunkingEnabled, model.TabularChunkingEnabled);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedVersionNum, model.VersionNum);
+        Assert.Equal(expectedAudit, model.Audit);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+        Assert.NotNull(model.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, model.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], model.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Extract>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Extract>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedTabularChunkingEnabled = true;
+        JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
+        long expectedVersionNum = 0;
+        Functions::FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedDisplayName = "displayName";
+        List<string> expectedTags = ["string"];
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema));
+        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedTabularChunkingEnabled, deserialized.TabularChunkingEnabled);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedVersionNum, deserialized.VersionNum);
+        Assert.Equal(expectedAudit, deserialized.Audit);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+        Assert.NotNull(deserialized.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, deserialized.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], deserialized.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            CreatedAt = null,
+            DisplayName = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            CreatedAt = null,
+            DisplayName = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Extract
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        Extract copied = new(model);
 
         Assert.Equal(model, copied);
     }

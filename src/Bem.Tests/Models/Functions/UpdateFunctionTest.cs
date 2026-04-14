@@ -24,6 +24,21 @@ public class UpdateFunctionTest : TestBase
     }
 
     [Fact]
+    public void ExtractValidationWorks()
+    {
+        UpdateFunction value = new UpdateFunctionExtract()
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void AnalyzeValidationWorks()
     {
         UpdateFunction value = new UpdateFunctionAnalyze()
@@ -169,6 +184,27 @@ public class UpdateFunctionTest : TestBase
     public void TransformSerializationRoundtripWorks()
     {
         UpdateFunction value = new UpdateFunctionTransform()
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UpdateFunction>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void ExtractSerializationRoundtripWorks()
+    {
+        UpdateFunction value = new UpdateFunctionExtract()
         {
             DisplayName = "displayName",
             FunctionName = "functionName",
@@ -576,6 +612,216 @@ public class UpdateFunctionTransformTest : TestBase
         };
 
         UpdateFunctionTransform copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class UpdateFunctionExtractTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
+        string expectedDisplayName = "displayName";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedTabularChunkingEnabled = true;
+        List<string> expectedTags = ["string"];
+
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.NotNull(model.OutputSchema);
+        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
+        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedTabularChunkingEnabled, model.TabularChunkingEnabled);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UpdateFunctionExtract>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UpdateFunctionExtract>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
+        string expectedDisplayName = "displayName";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedTabularChunkingEnabled = true;
+        List<string> expectedTags = ["string"];
+
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.NotNull(deserialized.OutputSchema);
+        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
+        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedTabularChunkingEnabled, deserialized.TabularChunkingEnabled);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new UpdateFunctionExtract { };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.OutputSchema);
+        Assert.False(model.RawData.ContainsKey("outputSchema"));
+        Assert.Null(model.OutputSchemaName);
+        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.TabularChunkingEnabled);
+        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new UpdateFunctionExtract { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            FunctionName = null,
+            OutputSchema = null,
+            OutputSchemaName = null,
+            TabularChunkingEnabled = null,
+            Tags = null,
+        };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.OutputSchema);
+        Assert.False(model.RawData.ContainsKey("outputSchema"));
+        Assert.Null(model.OutputSchemaName);
+        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.TabularChunkingEnabled);
+        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            FunctionName = null,
+            OutputSchema = null,
+            OutputSchemaName = null,
+            TabularChunkingEnabled = null,
+            Tags = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new UpdateFunctionExtract
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        UpdateFunctionExtract copied = new(model);
 
         Assert.Equal(model, copied);
     }

@@ -11,9 +11,8 @@ using Bem.Exceptions;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// A function that delivers workflow outputs to an external destination. Send functions
-/// receive the output of an upstream workflow node and forward it to a webhook,
-/// S3 bucket, or Google Drive folder.
+/// A function that extracts structured JSON from documents and images. Accepts a
+/// wide range of input types including PDFs, images, spreadsheets, emails, and more.
 /// </summary>
 [JsonConverter(typeof(FunctionConverter))]
 public record class Function : ModelBase
@@ -39,6 +38,7 @@ public record class Function : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.EmailAddress,
+                extract: (_) => null,
                 analyze: (_) => null,
                 route: (x) => x.EmailAddress,
                 send: (_) => null,
@@ -56,6 +56,7 @@ public record class Function : ModelBase
         {
             return Match(
                 transform: (x) => x.FunctionID,
+                extract: (x) => x.FunctionID,
                 analyze: (x) => x.FunctionID,
                 route: (x) => x.FunctionID,
                 send: (x) => x.FunctionID,
@@ -73,6 +74,7 @@ public record class Function : ModelBase
         {
             return Match(
                 transform: (x) => x.FunctionName,
+                extract: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
@@ -90,6 +92,7 @@ public record class Function : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.OutputSchema,
+                extract: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
                 route: (_) => null,
                 send: (_) => null,
@@ -107,11 +110,30 @@ public record class Function : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.OutputSchemaName,
+                extract: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
                 route: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
+                payloadShaping: (_) => null,
+                enrich: (_) => null
+            );
+        }
+    }
+
+    public bool? TabularChunkingEnabled
+    {
+        get
+        {
+            return Match<bool?>(
+                transform: (x) => x.TabularChunkingEnabled,
+                extract: (x) => x.TabularChunkingEnabled,
+                analyze: (_) => null,
+                route: (_) => null,
+                send: (_) => null,
+                split: (_) => null,
+                join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null
             );
@@ -124,6 +146,7 @@ public record class Function : ModelBase
         {
             return Match(
                 transform: (x) => x.Type,
+                extract: (x) => x.Type,
                 analyze: (x) => x.Type,
                 route: (x) => x.Type,
                 send: (x) => x.Type,
@@ -141,6 +164,7 @@ public record class Function : ModelBase
         {
             return Match(
                 transform: (x) => x.VersionNum,
+                extract: (x) => x.VersionNum,
                 analyze: (x) => x.VersionNum,
                 route: (x) => x.VersionNum,
                 send: (x) => x.VersionNum,
@@ -158,6 +182,7 @@ public record class Function : ModelBase
         {
             return Match<FunctionAudit?>(
                 transform: (x) => x.Audit,
+                extract: (x) => x.Audit,
                 analyze: (x) => x.Audit,
                 route: (x) => x.Audit,
                 send: (x) => x.Audit,
@@ -175,6 +200,7 @@ public record class Function : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.DisplayName,
+                extract: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
                 route: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
@@ -192,6 +218,7 @@ public record class Function : ModelBase
         {
             return Match<string?>(
                 transform: (_) => null,
+                extract: (_) => null,
                 analyze: (_) => null,
                 route: (x) => x.Description,
                 send: (_) => null,
@@ -204,6 +231,12 @@ public record class Function : ModelBase
     }
 
     public Function(FunctionTransform value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Function(FunctionExtract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -274,6 +307,27 @@ public record class Function : ModelBase
     public bool TryPickTransform([NotNullWhen(true)] out FunctionTransform? value)
     {
         value = this.Value as FunctionTransform;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="FunctionExtract"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickExtract(out var value)) {
+    ///     // `value` is of type `FunctionExtract`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickExtract([NotNullWhen(true)] out FunctionExtract? value)
+    {
+        value = this.Value as FunctionExtract;
         return value != null;
     }
 
@@ -439,6 +493,7 @@ public record class Function : ModelBase
     /// <code>
     /// instance.Switch(
     ///     (FunctionTransform value) =&gt; {...},
+    ///     (FunctionExtract value) =&gt; {...},
     ///     (FunctionAnalyze value) =&gt; {...},
     ///     (FunctionRoute value) =&gt; {...},
     ///     (FunctionSend value) =&gt; {...},
@@ -452,6 +507,7 @@ public record class Function : ModelBase
     /// </summary>
     public void Switch(
         Action<FunctionTransform> transform,
+        Action<FunctionExtract> extract,
         Action<FunctionAnalyze> analyze,
         Action<FunctionRoute> route,
         Action<FunctionSend> send,
@@ -465,6 +521,9 @@ public record class Function : ModelBase
         {
             case FunctionTransform value:
                 transform(value);
+                break;
+            case FunctionExtract value:
+                extract(value);
                 break;
             case FunctionAnalyze value:
                 analyze(value);
@@ -508,6 +567,7 @@ public record class Function : ModelBase
     /// <code>
     /// var result = instance.Match(
     ///     (FunctionTransform value) =&gt; {...},
+    ///     (FunctionExtract value) =&gt; {...},
     ///     (FunctionAnalyze value) =&gt; {...},
     ///     (FunctionRoute value) =&gt; {...},
     ///     (FunctionSend value) =&gt; {...},
@@ -521,6 +581,7 @@ public record class Function : ModelBase
     /// </summary>
     public T Match<T>(
         Func<FunctionTransform, T> transform,
+        Func<FunctionExtract, T> extract,
         Func<FunctionAnalyze, T> analyze,
         Func<FunctionRoute, T> route,
         Func<FunctionSend, T> send,
@@ -533,6 +594,7 @@ public record class Function : ModelBase
         return this.Value switch
         {
             FunctionTransform value => transform(value),
+            FunctionExtract value => extract(value),
             FunctionAnalyze value => analyze(value),
             FunctionRoute value => route(value),
             FunctionSend value => send(value),
@@ -545,6 +607,8 @@ public record class Function : ModelBase
     }
 
     public static implicit operator Function(FunctionTransform value) => new(value);
+
+    public static implicit operator Function(FunctionExtract value) => new(value);
 
     public static implicit operator Function(FunctionAnalyze value) => new(value);
 
@@ -578,6 +642,7 @@ public record class Function : ModelBase
         }
         this.Switch(
             (transform) => transform.Validate(),
+            (extract) => extract.Validate(),
             (analyze) => analyze.Validate(),
             (route) => route.Validate(),
             (send) => send.Validate(),
@@ -609,13 +674,14 @@ public record class Function : ModelBase
         return this.Value switch
         {
             FunctionTransform _ => 0,
-            FunctionAnalyze _ => 1,
-            FunctionRoute _ => 2,
-            FunctionSend _ => 3,
-            FunctionSplit _ => 4,
-            FunctionJoin _ => 5,
-            FunctionPayloadShaping _ => 6,
-            FunctionEnrich _ => 7,
+            FunctionExtract _ => 1,
+            FunctionAnalyze _ => 2,
+            FunctionRoute _ => 3,
+            FunctionSend _ => 4,
+            FunctionSplit _ => 5,
+            FunctionJoin _ => 6,
+            FunctionPayloadShaping _ => 7,
+            FunctionEnrich _ => 8,
             _ => -1,
         };
     }
@@ -647,6 +713,26 @@ sealed class FunctionConverter : JsonConverter<Function>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<FunctionTransform>(
+                        element,
+                        options
+                    );
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "extract":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<FunctionExtract>(
                         element,
                         options
                     );
@@ -1061,6 +1147,256 @@ class FunctionTransformFromRaw : IFromRawJson<FunctionTransform>
     /// <inheritdoc/>
     public FunctionTransform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         FunctionTransform.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// A function that extracts structured JSON from documents and images. Accepts a
+/// wide range of input types including PDFs, images, spreadsheets, emails, and more.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<FunctionExtract, FunctionExtractFromRaw>))]
+public sealed record class FunctionExtract : JsonModel
+{
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// Desired output structure defined in standard JSON Schema convention.
+    /// </summary>
+    public required JsonElement OutputSchema
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+        }
+        init { this._rawData.Set("outputSchema", value); }
+    }
+
+    /// <summary>
+    /// Name of output schema object.
+    /// </summary>
+    public required string OutputSchemaName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("outputSchemaName");
+        }
+        init { this._rawData.Set("outputSchemaName", value); }
+    }
+
+    /// <summary>
+    /// Whether tabular chunking is enabled. When true, tables in CSV/Excel files
+    /// are processed in row batches rather than all at once.
+    /// </summary>
+    public required bool TabularChunkingEnabled
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("tabularChunkingEnabled");
+        }
+        init { this._rawData.Set("tabularChunkingEnabled", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.OutputSchema;
+        _ = this.OutputSchemaName;
+        _ = this.TabularChunkingEnabled;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("extract")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.DisplayName;
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public FunctionExtract()
+    {
+        this.Type = JsonSerializer.SerializeToElement("extract");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public FunctionExtract(FunctionExtract functionExtract)
+        : base(functionExtract) { }
+#pragma warning restore CS8618
+
+    public FunctionExtract(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("extract");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    FunctionExtract(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="FunctionExtractFromRaw.FromRawUnchecked"/>
+    public static FunctionExtract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class FunctionExtractFromRaw : IFromRawJson<FunctionExtract>
+{
+    /// <inheritdoc/>
+    public FunctionExtract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        FunctionExtract.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<FunctionAnalyze, FunctionAnalyzeFromRaw>))]
