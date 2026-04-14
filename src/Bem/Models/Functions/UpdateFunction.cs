@@ -40,6 +40,7 @@ public record class UpdateFunction : ModelBase
         {
             return Match(
                 transform: (x) => x.Type,
+                extract: (x) => x.Type,
                 analyze: (x) => x.Type,
                 route: (x) => x.Type,
                 send: (x) => x.Type,
@@ -57,6 +58,7 @@ public record class UpdateFunction : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.DisplayName,
+                extract: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
                 route: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
@@ -74,6 +76,7 @@ public record class UpdateFunction : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionName,
+                extract: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
@@ -91,6 +94,7 @@ public record class UpdateFunction : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.OutputSchema,
+                extract: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
                 route: (_) => null,
                 send: (_) => null,
@@ -108,11 +112,30 @@ public record class UpdateFunction : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.OutputSchemaName,
+                extract: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
                 route: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
+                payloadShaping: (_) => null,
+                enrich: (_) => null
+            );
+        }
+    }
+
+    public bool? TabularChunkingEnabled
+    {
+        get
+        {
+            return Match<bool?>(
+                transform: (x) => x.TabularChunkingEnabled,
+                extract: (x) => x.TabularChunkingEnabled,
+                analyze: (_) => null,
+                route: (_) => null,
+                send: (_) => null,
+                split: (_) => null,
+                join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null
             );
@@ -125,6 +148,7 @@ public record class UpdateFunction : ModelBase
         {
             return Match<string?>(
                 transform: (_) => null,
+                extract: (_) => null,
                 analyze: (_) => null,
                 route: (x) => x.Description,
                 send: (_) => null,
@@ -137,6 +161,12 @@ public record class UpdateFunction : ModelBase
     }
 
     public UpdateFunction(UpdateFunctionTransform value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public UpdateFunction(UpdateFunctionExtract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -207,6 +237,27 @@ public record class UpdateFunction : ModelBase
     public bool TryPickTransform([NotNullWhen(true)] out UpdateFunctionTransform? value)
     {
         value = this.Value as UpdateFunctionTransform;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="UpdateFunctionExtract"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickExtract(out var value)) {
+    ///     // `value` is of type `UpdateFunctionExtract`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickExtract([NotNullWhen(true)] out UpdateFunctionExtract? value)
+    {
+        value = this.Value as UpdateFunctionExtract;
         return value != null;
     }
 
@@ -372,6 +423,7 @@ public record class UpdateFunction : ModelBase
     /// <code>
     /// instance.Switch(
     ///     (UpdateFunctionTransform value) =&gt; {...},
+    ///     (UpdateFunctionExtract value) =&gt; {...},
     ///     (UpdateFunctionAnalyze value) =&gt; {...},
     ///     (UpdateFunctionRoute value) =&gt; {...},
     ///     (UpdateFunctionSend value) =&gt; {...},
@@ -385,6 +437,7 @@ public record class UpdateFunction : ModelBase
     /// </summary>
     public void Switch(
         Action<UpdateFunctionTransform> transform,
+        Action<UpdateFunctionExtract> extract,
         Action<UpdateFunctionAnalyze> analyze,
         Action<UpdateFunctionRoute> route,
         Action<UpdateFunctionSend> send,
@@ -398,6 +451,9 @@ public record class UpdateFunction : ModelBase
         {
             case UpdateFunctionTransform value:
                 transform(value);
+                break;
+            case UpdateFunctionExtract value:
+                extract(value);
                 break;
             case UpdateFunctionAnalyze value:
                 analyze(value);
@@ -443,6 +499,7 @@ public record class UpdateFunction : ModelBase
     /// <code>
     /// var result = instance.Match(
     ///     (UpdateFunctionTransform value) =&gt; {...},
+    ///     (UpdateFunctionExtract value) =&gt; {...},
     ///     (UpdateFunctionAnalyze value) =&gt; {...},
     ///     (UpdateFunctionRoute value) =&gt; {...},
     ///     (UpdateFunctionSend value) =&gt; {...},
@@ -456,6 +513,7 @@ public record class UpdateFunction : ModelBase
     /// </summary>
     public T Match<T>(
         Func<UpdateFunctionTransform, T> transform,
+        Func<UpdateFunctionExtract, T> extract,
         Func<UpdateFunctionAnalyze, T> analyze,
         Func<UpdateFunctionRoute, T> route,
         Func<UpdateFunctionSend, T> send,
@@ -468,6 +526,7 @@ public record class UpdateFunction : ModelBase
         return this.Value switch
         {
             UpdateFunctionTransform value => transform(value),
+            UpdateFunctionExtract value => extract(value),
             UpdateFunctionAnalyze value => analyze(value),
             UpdateFunctionRoute value => route(value),
             UpdateFunctionSend value => send(value),
@@ -482,6 +541,8 @@ public record class UpdateFunction : ModelBase
     }
 
     public static implicit operator UpdateFunction(UpdateFunctionTransform value) => new(value);
+
+    public static implicit operator UpdateFunction(UpdateFunctionExtract value) => new(value);
 
     public static implicit operator UpdateFunction(UpdateFunctionAnalyze value) => new(value);
 
@@ -516,6 +577,7 @@ public record class UpdateFunction : ModelBase
         }
         this.Switch(
             (transform) => transform.Validate(),
+            (extract) => extract.Validate(),
             (analyze) => analyze.Validate(),
             (route) => route.Validate(),
             (send) => send.Validate(),
@@ -547,13 +609,14 @@ public record class UpdateFunction : ModelBase
         return this.Value switch
         {
             UpdateFunctionTransform _ => 0,
-            UpdateFunctionAnalyze _ => 1,
-            UpdateFunctionRoute _ => 2,
-            UpdateFunctionSend _ => 3,
-            UpdateFunctionSplit _ => 4,
-            UpdateFunctionJoin _ => 5,
-            UpdateFunctionPayloadShaping _ => 6,
-            UpdateFunctionEnrich _ => 7,
+            UpdateFunctionExtract _ => 1,
+            UpdateFunctionAnalyze _ => 2,
+            UpdateFunctionRoute _ => 3,
+            UpdateFunctionSend _ => 4,
+            UpdateFunctionSplit _ => 5,
+            UpdateFunctionJoin _ => 6,
+            UpdateFunctionPayloadShaping _ => 7,
+            UpdateFunctionEnrich _ => 8,
             _ => -1,
         };
     }
@@ -585,6 +648,26 @@ sealed class UpdateFunctionConverter : JsonConverter<UpdateFunction>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<UpdateFunctionTransform>(
+                        element,
+                        options
+                    );
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "extract":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<UpdateFunctionExtract>(
                         element,
                         options
                     );
@@ -956,6 +1039,207 @@ class UpdateFunctionTransformFromRaw : IFromRawJson<UpdateFunctionTransform>
     public UpdateFunctionTransform FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => UpdateFunctionTransform.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<UpdateFunctionExtract, UpdateFunctionExtractFromRaw>))]
+public sealed record class UpdateFunctionExtract : JsonModel
+{
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public string? FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionName", value);
+        }
+    }
+
+    /// <summary>
+    /// Desired output structure defined in standard JSON Schema convention.
+    /// </summary>
+    public JsonElement? OutputSchema
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("outputSchema");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("outputSchema", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of output schema object.
+    /// </summary>
+    public string? OutputSchemaName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("outputSchemaName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("outputSchemaName", value);
+        }
+    }
+
+    /// <summary>
+    /// Whether tabular chunking is enabled. When true, tables in CSV/Excel files
+    /// are processed in row batches rather than all at once.
+    /// </summary>
+    public bool? TabularChunkingEnabled
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("tabularChunkingEnabled");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("tabularChunkingEnabled", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("extract")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.DisplayName;
+        _ = this.FunctionName;
+        _ = this.OutputSchema;
+        _ = this.OutputSchemaName;
+        _ = this.TabularChunkingEnabled;
+        _ = this.Tags;
+    }
+
+    public UpdateFunctionExtract()
+    {
+        this.Type = JsonSerializer.SerializeToElement("extract");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public UpdateFunctionExtract(UpdateFunctionExtract updateFunctionExtract)
+        : base(updateFunctionExtract) { }
+#pragma warning restore CS8618
+
+    public UpdateFunctionExtract(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("extract");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    UpdateFunctionExtract(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="UpdateFunctionExtractFromRaw.FromRawUnchecked"/>
+    public static UpdateFunctionExtract FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class UpdateFunctionExtractFromRaw : IFromRawJson<UpdateFunctionExtract>
+{
+    /// <inheritdoc/>
+    public UpdateFunctionExtract FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => UpdateFunctionExtract.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<UpdateFunctionAnalyze, UpdateFunctionAnalyzeFromRaw>))]

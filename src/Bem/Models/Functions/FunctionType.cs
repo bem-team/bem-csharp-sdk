@@ -12,6 +12,7 @@ namespace Bem.Models.Functions;
 public enum FunctionType
 {
     Transform,
+    Extract,
     Route,
     Send,
     Split,
@@ -32,6 +33,7 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
             "transform" => FunctionType.Transform,
+            "extract" => FunctionType.Extract,
             "route" => FunctionType.Route,
             "send" => FunctionType.Send,
             "split" => FunctionType.Split,
@@ -54,6 +56,7 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
             value switch
             {
                 FunctionType.Transform => "transform",
+                FunctionType.Extract => "extract",
                 FunctionType.Route => "route",
                 FunctionType.Send => "send",
                 FunctionType.Split => "split",
