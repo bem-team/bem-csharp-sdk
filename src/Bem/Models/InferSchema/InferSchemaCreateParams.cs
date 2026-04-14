@@ -31,10 +31,12 @@ namespace Bem.Models.InferSchema;
 ///
 /// <para>Maximum file size is **20 MB**.</para>
 ///
-/// <para>## Example</para>
+/// <para>## Examples</para>
 ///
-/// <para>```bash curl -X POST https://api.bem.ai/v3/infer-schema \   -H "x-api-key:
-/// YOUR_API_KEY" \   -F "file=@invoice.pdf" ```</para>
+/// <para>Using curl: ```bash curl -X POST https://api.bem.ai/v3/infer-schema \
+///  -H "x-api-key: YOUR_API_KEY" \   -F "file=@invoice.pdf" ```</para>
+///
+/// <para>Using the Bem CLI: ```bash bem infer-schema create --file @invoice.pdf ```</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
