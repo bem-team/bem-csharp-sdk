@@ -40,6 +40,35 @@ namespace Bem.Models.Workflows;
 /// <para>Poll `GET /v3/calls/{callID}` to check status, or configure a webhook subscription
 /// to receive events when the call finishes.</para>
 ///
+/// <para>## CLI Usage</para>
+///
+/// <para>Use `@path/to/file` inside JSON string values to embed file contents automatically.
+/// Binary files (PDF, images, audio) are base64-encoded; text files are embedded
+/// as strings.</para>
+///
+/// <para>Single file (synchronous): ```bash bem workflows call \   --workflow-name
+/// my-workflow \   --input.single-file '{"inputContent": "@invoice.pdf", "inputType":
+/// "pdf"}' \   --wait ```</para>
+///
+/// <para>Single file (asynchronous, returns callID immediately): ```bash bem workflows
+/// call \   --workflow-name my-workflow \   --input.single-file '{"inputContent":
+/// "@invoice.pdf", "inputType": "pdf"}' ```</para>
+///
+/// <para>Batch files: ```bash bem workflows call \   --workflow-name my-workflow
+/// \   --input.batch-files '{"inputs": [{"inputContent": "@a.pdf", "inputType": "pdf"},
+/// {"inputContent": "@b.png", "inputType": "png"}]}' ```</para>
+///
+/// <para>Alternative: pass the full `--input` flag as JSON: ```bash bem workflows
+/// call \   --workflow-name my-workflow \   --input '{"singleFile": {"inputContent":
+/// "@invoice.pdf", "inputType": "pdf"}}' \   --wait ```</para>
+///
+/// <para>**Important:** `--wait` is a boolean flag. Use `--wait` or `--wait=true`.
+/// Do **not** use `--wait true` (with a space) — the `true` will be parsed as an
+/// unexpected positional argument.</para>
+///
+/// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jpeg,
+/// json, m4a, mp3, pdf, png, text, wav, webp, xls, xlsx, xml.</para>
+///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
 /// cause existing derived classes to break.</para>
@@ -251,6 +280,13 @@ public sealed record class Input : JsonModel
         }
     }
 
+    /// <summary>
+    /// A single file input with base64-encoded content.
+    ///
+    /// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
+    /// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
+    /// "@file.pdf", "inputType": "pdf"}'`</para>
+    /// </summary>
     public SingleFile? SingleFile
     {
         get
@@ -383,7 +419,8 @@ class BatchFilesFromRaw : IFromRawJson<BatchFiles>
 public sealed record class BatchFilesInput : JsonModel
 {
     /// <summary>
-    /// Base64-encoded file content
+    /// Base64-encoded file content. In the Bem CLI, use `@path/to/file` to embed
+    /// file contents automatically.
     /// </summary>
     public required string InputContent
     {
@@ -564,11 +601,19 @@ sealed class InputTypeConverter : JsonConverter<InputType>
     }
 }
 
+/// <summary>
+/// A single file input with base64-encoded content.
+///
+/// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
+/// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
+/// "@file.pdf", "inputType": "pdf"}'`</para>
+/// </summary>
 [JsonConverter(typeof(JsonModelConverter<SingleFile, SingleFileFromRaw>))]
 public sealed record class SingleFile : JsonModel
 {
     /// <summary>
-    /// Base64-encoded file content
+    /// Base64-encoded file content. In the Bem CLI, use `@path/to/file` to embed
+    /// file contents automatically.
     /// </summary>
     public required string InputContent
     {

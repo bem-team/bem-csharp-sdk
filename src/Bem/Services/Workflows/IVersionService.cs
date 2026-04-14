@@ -7,7 +7,18 @@ using Bem.Models.Workflows.Versions;
 namespace Bem.Services.Workflows;
 
 /// <summary>
-/// Workflow operations
+/// Workflows orchestrate one or more functions into a directed acyclic graph (DAG)
+/// for document processing.
+///
+/// <para>Use these endpoints to create, update, list, and manage workflows, and to
+/// invoke them with file input via `POST /v3/workflows/{workflowName}/call`.</para>
+///
+/// <para>The call endpoint accepts files as either multipart form data or JSON with
+/// base64-encoded content. In the Bem CLI, use `@path/to/file` inside JSON values
+/// to automatically read and encode files:</para>
+///
+/// <para>``` bem workflows call --workflow-name my-workflow \   --input.single-file
+/// '{"inputContent": "@file.pdf", "inputType": "pdf"}' \   --wait ```</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
