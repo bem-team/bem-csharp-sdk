@@ -1403,6 +1403,21 @@ class FunctionExtractFromRaw : IFromRawJson<FunctionExtract>
 public sealed record class FunctionAnalyze : JsonModel
 {
     /// <summary>
+    /// Whether bounding box extraction is enabled. Only applicable to analyze and
+    /// extract functions. When true, the function returns the document regions (page,
+    /// coordinates) from which each field was extracted.
+    /// </summary>
+    public required bool EnableBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("enableBoundingBoxes");
+        }
+        init { this._rawData.Set("enableBoundingBoxes", value); }
+    }
+
+    /// <summary>
     /// Unique identifier of function.
     /// </summary>
     public required string FunctionID
@@ -1572,6 +1587,7 @@ public sealed record class FunctionAnalyze : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
+        _ = this.EnableBoundingBoxes;
         _ = this.FunctionID;
         _ = this.FunctionName;
         _ = this.OutputSchema;

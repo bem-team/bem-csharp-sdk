@@ -132,6 +132,7 @@ public class FunctionVersionTest : TestBase
     {
         FunctionVersion value = new Analyze()
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -704,6 +705,7 @@ public class FunctionVersionTest : TestBase
     {
         FunctionVersion value = new Analyze()
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2305,6 +2307,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2355,6 +2358,7 @@ public class AnalyzeTest : TestBase
             ],
         };
 
+        bool expectedEnableBoundingBoxes = true;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
@@ -2405,6 +2409,7 @@ public class AnalyzeTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
         Assert.Equal(expectedFunctionID, model.FunctionID);
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema));
@@ -2433,6 +2438,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2494,6 +2500,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2551,6 +2558,7 @@ public class AnalyzeTest : TestBase
         );
         Assert.NotNull(deserialized);
 
+        bool expectedEnableBoundingBoxes = true;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
@@ -2601,6 +2609,7 @@ public class AnalyzeTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
         Assert.Equal(expectedFunctionID, deserialized.FunctionID);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema));
@@ -2629,6 +2638,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2687,6 +2697,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2711,6 +2722,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2726,6 +2738,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2757,6 +2770,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2779,6 +2793,7 @@ public class AnalyzeTest : TestBase
     {
         var model = new Analyze
         {
+            EnableBoundingBoxes = true,
             FunctionID = "functionID",
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),

@@ -1248,6 +1248,31 @@ public sealed record class Analyze : JsonModel
     }
 
     /// <summary>
+    /// Whether bounding box extraction is enabled. Only applicable to analyze and
+    /// extract functions. When true, the function returns the document regions (page,
+    /// coordinates) from which each field was extracted. Enabling this automatically
+    /// configures the function to use the bounding box model. Disabling resets to
+    /// the default.
+    /// </summary>
+    public bool? EnableBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("enableBoundingBoxes", value);
+        }
+    }
+
+    /// <summary>
     /// Desired output structure defined in standard JSON Schema convention.
     /// </summary>
     public JsonElement? OutputSchema
@@ -1322,6 +1347,7 @@ public sealed record class Analyze : JsonModel
             throw new BemInvalidDataException("Invalid value given for constant");
         }
         _ = this.DisplayName;
+        _ = this.EnableBoundingBoxes;
         _ = this.OutputSchema;
         _ = this.OutputSchemaName;
         _ = this.Tags;

@@ -44,6 +44,7 @@ public class UpdateFunctionTest : TestBase
         UpdateFunction value = new UpdateFunctionAnalyze()
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
@@ -228,6 +229,7 @@ public class UpdateFunctionTest : TestBase
         UpdateFunction value = new UpdateFunctionAnalyze()
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
@@ -835,6 +837,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         var model = new UpdateFunctionAnalyze
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
@@ -843,6 +846,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
@@ -850,6 +854,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.NotNull(model.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
@@ -868,6 +873,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         var model = new UpdateFunctionAnalyze
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
@@ -889,6 +895,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         var model = new UpdateFunctionAnalyze
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
@@ -904,6 +911,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
@@ -911,6 +919,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.NotNull(deserialized.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
@@ -929,6 +938,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         var model = new UpdateFunctionAnalyze
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
@@ -945,6 +955,8 @@ public class UpdateFunctionAnalyzeTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
         Assert.Null(model.OutputSchema);
@@ -970,6 +982,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         {
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             FunctionName = null,
             OutputSchema = null,
             OutputSchemaName = null,
@@ -978,6 +991,8 @@ public class UpdateFunctionAnalyzeTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
         Assert.Null(model.OutputSchema);
@@ -995,6 +1010,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         {
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             FunctionName = null,
             OutputSchema = null,
             OutputSchemaName = null,
@@ -1010,6 +1026,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         var model = new UpdateFunctionAnalyze
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",

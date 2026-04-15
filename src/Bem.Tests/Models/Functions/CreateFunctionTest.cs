@@ -45,6 +45,7 @@ public class CreateFunctionTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
@@ -232,6 +233,7 @@ public class CreateFunctionTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
@@ -832,6 +834,7 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
@@ -840,6 +843,7 @@ public class AnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         List<string> expectedTags = ["string"];
@@ -847,6 +851,7 @@ public class AnalyzeTest : TestBase
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
         Assert.NotNull(model.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
@@ -865,6 +870,7 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
@@ -883,6 +889,7 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
@@ -898,6 +905,7 @@ public class AnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         List<string> expectedTags = ["string"];
@@ -905,6 +913,7 @@ public class AnalyzeTest : TestBase
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
         Assert.NotNull(deserialized.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
@@ -923,6 +932,7 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
@@ -938,6 +948,8 @@ public class AnalyzeTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.OutputSchema);
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
@@ -963,6 +975,7 @@ public class AnalyzeTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             OutputSchema = null,
             OutputSchemaName = null,
             Tags = null,
@@ -970,6 +983,8 @@ public class AnalyzeTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.OutputSchema);
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
@@ -987,6 +1002,7 @@ public class AnalyzeTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             OutputSchema = null,
             OutputSchemaName = null,
             Tags = null,
@@ -1002,6 +1018,7 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             Tags = ["string"],
