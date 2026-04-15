@@ -84,7 +84,11 @@ public record class WorkflowCallParams : ParamsBase
     public string? WorkflowName { get; init; }
 
     /// <summary>
-    /// Input to the workflow call. Provide exactly one of `singleFile` or `batchFiles`.
+    /// Input file(s) for a call. Provide exactly one of `singleFile` or `batchFiles`.
+    ///
+    /// <para>In the CLI, use the nested flags `--input.single-file` or `--input.batch-files`
+    /// with `@path/to/file` for automatic file embedding: `--input.single-file '{"inputContent":
+    /// "@invoice.pdf", "inputType": "pdf"}' --wait`</para>
     /// </summary>
     public required Input Input
     {
@@ -97,8 +101,9 @@ public record class WorkflowCallParams : ParamsBase
     }
 
     /// <summary>
-    /// When `true`, the endpoint blocks until the call completes (up to 30 seconds)
-    /// and returns the finished call object. Default: `false`.
+    /// Block until the call completes (up to 30 seconds) and return the finished
+    /// call object. Default: `false`. This is a boolean flag — use `--wait` or `--wait=true`,
+    /// not `--wait true`.
     /// </summary>
     public bool? Wait
     {
@@ -257,11 +262,19 @@ public record class WorkflowCallParams : ParamsBase
 }
 
 /// <summary>
-/// Input to the workflow call. Provide exactly one of `singleFile` or `batchFiles`.
+/// Input file(s) for a call. Provide exactly one of `singleFile` or `batchFiles`.
+///
+/// <para>In the CLI, use the nested flags `--input.single-file` or `--input.batch-files`
+/// with `@path/to/file` for automatic file embedding: `--input.single-file '{"inputContent":
+/// "@invoice.pdf", "inputType": "pdf"}' --wait`</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Input, InputFromRaw>))]
 public sealed record class Input : JsonModel
 {
+    /// <summary>
+    /// Multiple files to process in one call. Each item in the `inputs` array has
+    /// its own `inputContent` and `inputType`.
+    /// </summary>
     public BatchFiles? BatchFiles
     {
         get
@@ -285,7 +298,7 @@ public sealed record class Input : JsonModel
     ///
     /// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
     /// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
-    /// "@file.pdf", "inputType": "pdf"}'`</para>
+    /// "@file.pdf", "inputType": "pdf"}' --wait`</para>
     /// </summary>
     public SingleFile? SingleFile
     {
@@ -347,6 +360,10 @@ class InputFromRaw : IFromRawJson<Input>
         Input.FromRawUnchecked(rawData);
 }
 
+/// <summary>
+/// Multiple files to process in one call. Each item in the `inputs` array has its
+/// own `inputContent` and `inputType`.
+/// </summary>
 [JsonConverter(typeof(JsonModelConverter<BatchFiles, BatchFilesFromRaw>))]
 public sealed record class BatchFiles : JsonModel
 {
@@ -606,7 +623,7 @@ sealed class InputTypeConverter : JsonConverter<InputType>
 ///
 /// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
 /// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
-/// "@file.pdf", "inputType": "pdf"}'`</para>
+/// "@file.pdf", "inputType": "pdf"}' --wait`</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<SingleFile, SingleFileFromRaw>))]
 public sealed record class SingleFile : JsonModel
