@@ -22,7 +22,7 @@ public class ErrorRetrieveParamsTest : TestBase
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.Equal(new Uri("https://api.bem.ai/v3/errors/eventID"), url);
+        Assert.True(TestBase.UrisEqual(new Uri("https://api.bem.ai/v3/errors/eventID"), url));
     }
 
     [Fact]
