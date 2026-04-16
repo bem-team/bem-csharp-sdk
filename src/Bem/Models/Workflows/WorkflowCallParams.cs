@@ -144,6 +144,29 @@ public record class WorkflowCallParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Arbitrary JSON object attached to this call. Stored on the call record and
+    /// injected into `transformedContent` under the reserved `_metadata` key (alongside
+    /// `referenceID`). Must be a JSON object. Maximum size: 4 KB.
+    /// </summary>
+    public JsonElement? Metadata
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<JsonElement>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("metadata", value);
+        }
+    }
+
     public WorkflowCallParams() { }
 
 #pragma warning disable CS8618

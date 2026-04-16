@@ -137,6 +137,7 @@ public class FunctionVersionTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {
@@ -710,6 +711,7 @@ public class FunctionVersionTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {
@@ -2312,6 +2314,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {
@@ -2363,6 +2366,7 @@ public class AnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         long expectedVersionNum = 0;
         Functions::FunctionAudit expectedAudit = new()
@@ -2414,6 +2418,7 @@ public class AnalyzeTest : TestBase
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema));
         Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedPreCount, model.PreCount);
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
@@ -2443,6 +2448,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {
@@ -2505,6 +2511,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {
@@ -2563,6 +2570,7 @@ public class AnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         long expectedVersionNum = 0;
         Functions::FunctionAudit expectedAudit = new()
@@ -2614,6 +2622,7 @@ public class AnalyzeTest : TestBase
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema));
         Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedPreCount, deserialized.PreCount);
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
@@ -2643,6 +2652,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {
@@ -2702,6 +2712,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
         };
 
@@ -2727,6 +2738,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
         };
 
@@ -2743,6 +2755,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -2775,6 +2788,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -2798,6 +2812,7 @@ public class AnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             VersionNum = 0,
             Audit = new()
             {

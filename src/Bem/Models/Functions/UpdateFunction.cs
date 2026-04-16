@@ -1365,6 +1365,28 @@ public sealed record class UpdateFunctionAnalyze : JsonModel
     }
 
     /// <summary>
+    /// Reducing the risk of the model stopping early on long documents. Trade-off:
+    /// Increases total latency. Compatible with `enableBoundingBoxes`.
+    /// </summary>
+    public bool? PreCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("preCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("preCount", value);
+        }
+    }
+
+    /// <summary>
     /// Array of tags to categorize and organize functions.
     /// </summary>
     public IReadOnlyList<string>? Tags
@@ -1400,6 +1422,7 @@ public sealed record class UpdateFunctionAnalyze : JsonModel
         _ = this.FunctionName;
         _ = this.OutputSchema;
         _ = this.OutputSchemaName;
+        _ = this.PreCount;
         _ = this.Tags;
     }
 
