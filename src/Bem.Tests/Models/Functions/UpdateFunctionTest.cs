@@ -48,6 +48,7 @@ public class UpdateFunctionTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
         value.Validate();
@@ -233,6 +234,7 @@ public class UpdateFunctionTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -841,6 +843,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -850,6 +853,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
@@ -859,6 +863,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         Assert.NotNull(model.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedPreCount, model.PreCount);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -877,6 +882,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -899,6 +905,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -915,6 +922,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
@@ -924,6 +932,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
         Assert.NotNull(deserialized.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedPreCount, deserialized.PreCount);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -942,6 +951,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -963,6 +973,8 @@ public class UpdateFunctionAnalyzeTest : TestBase
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
         Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.PreCount);
+        Assert.False(model.RawData.ContainsKey("preCount"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -986,6 +998,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = null,
             OutputSchema = null,
             OutputSchemaName = null,
+            PreCount = null,
             Tags = null,
         };
 
@@ -999,6 +1012,8 @@ public class UpdateFunctionAnalyzeTest : TestBase
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
         Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.PreCount);
+        Assert.False(model.RawData.ContainsKey("preCount"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -1014,6 +1029,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = null,
             OutputSchema = null,
             OutputSchemaName = null,
+            PreCount = null,
             Tags = null,
         };
 
@@ -1030,6 +1046,7 @@ public class UpdateFunctionAnalyzeTest : TestBase
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 

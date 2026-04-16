@@ -1523,6 +1523,20 @@ public sealed record class Analyze : JsonModel
         init { this._rawData.Set("outputSchemaName", value); }
     }
 
+    /// <summary>
+    /// Reducing the risk of the model stopping early on long documents. Trade-off:
+    /// Increases total latency.
+    /// </summary>
+    public required bool PreCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("preCount");
+        }
+        init { this._rawData.Set("preCount", value); }
+    }
+
     public JsonElement Type
     {
         get
@@ -1667,6 +1681,7 @@ public sealed record class Analyze : JsonModel
         _ = this.FunctionName;
         _ = this.OutputSchema;
         _ = this.OutputSchemaName;
+        _ = this.PreCount;
         if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("analyze")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");

@@ -37,6 +37,7 @@ public class WorkflowCallParamsTest : TestBase
             },
             Wait = true,
             CallReferenceID = "callReferenceID",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         string expectedWorkflowName = "workflowName";
@@ -62,11 +63,14 @@ public class WorkflowCallParamsTest : TestBase
         };
         bool expectedWait = true;
         string expectedCallReferenceID = "callReferenceID";
+        JsonElement expectedMetadata = JsonSerializer.Deserialize<JsonElement>("{}");
 
         Assert.Equal(expectedWorkflowName, parameters.WorkflowName);
         Assert.Equal(expectedInput, parameters.Input);
         Assert.Equal(expectedWait, parameters.Wait);
         Assert.Equal(expectedCallReferenceID, parameters.CallReferenceID);
+        Assert.NotNull(parameters.Metadata);
+        Assert.True(JsonElement.DeepEquals(expectedMetadata, parameters.Metadata.Value));
     }
 
     [Fact]
@@ -101,6 +105,8 @@ public class WorkflowCallParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("wait"));
         Assert.Null(parameters.CallReferenceID);
         Assert.False(parameters.RawBodyData.ContainsKey("callReferenceID"));
+        Assert.Null(parameters.Metadata);
+        Assert.False(parameters.RawBodyData.ContainsKey("metadata"));
     }
 
     [Fact]
@@ -133,12 +139,15 @@ public class WorkflowCallParamsTest : TestBase
             // Null should be interpreted as omitted for these properties
             Wait = null,
             CallReferenceID = null,
+            Metadata = null,
         };
 
         Assert.Null(parameters.Wait);
         Assert.False(parameters.RawQueryData.ContainsKey("wait"));
         Assert.Null(parameters.CallReferenceID);
         Assert.False(parameters.RawBodyData.ContainsKey("callReferenceID"));
+        Assert.Null(parameters.Metadata);
+        Assert.False(parameters.RawBodyData.ContainsKey("metadata"));
     }
 
     [Fact]
@@ -208,6 +217,7 @@ public class WorkflowCallParamsTest : TestBase
             },
             Wait = true,
             CallReferenceID = "callReferenceID",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         WorkflowCallParams copied = new(parameters);
