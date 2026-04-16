@@ -160,11 +160,13 @@ public class CallListParamsTest : TestBase
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.Equal(
-            new Uri(
-                "https://api.bem.ai/v3/calls?callIDs=string&endingBefore=endingBefore&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&statuses=pending&workflowIDs=string&workflowNames=string"
-            ),
-            url
+        Assert.True(
+            TestBase.UrisEqual(
+                new Uri(
+                    "https://api.bem.ai/v3/calls?callIDs=string&endingBefore=endingBefore&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&statuses=pending&workflowIDs=string&workflowNames=string"
+                ),
+                url
+            )
         );
     }
 

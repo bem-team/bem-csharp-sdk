@@ -86,11 +86,13 @@ public class VersionListParamsTest : TestBase
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.Equal(
-            new Uri(
-                "https://api.bem.ai/v3/workflows/workflowName/versions?endingBefore=0&limit=1&sortOrder=asc&startingAfter=0"
-            ),
-            url
+        Assert.True(
+            TestBase.UrisEqual(
+                new Uri(
+                    "https://api.bem.ai/v3/workflows/workflowName/versions?endingBefore=0&limit=1&sortOrder=asc&startingAfter=0"
+                ),
+                url
+            )
         );
     }
 

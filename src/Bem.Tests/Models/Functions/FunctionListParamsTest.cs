@@ -174,11 +174,13 @@ public class FunctionListParamsTest : TestBase
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.Equal(
-            new Uri(
-                "https://api.bem.ai/v3/functions?displayName=displayName&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&sortOrder=asc&startingAfter=startingAfter&tags=string&types=transform&workflowIDs=string&workflowNames=string"
-            ),
-            url
+        Assert.True(
+            TestBase.UrisEqual(
+                new Uri(
+                    "https://api.bem.ai/v3/functions?displayName=displayName&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&sortOrder=asc&startingAfter=startingAfter&tags=string&types=transform&workflowIDs=string&workflowNames=string"
+                ),
+                url
+            )
         );
     }
 

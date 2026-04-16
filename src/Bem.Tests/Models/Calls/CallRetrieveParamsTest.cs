@@ -22,7 +22,7 @@ public class CallRetrieveParamsTest : TestBase
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.Equal(new Uri("https://api.bem.ai/v3/calls/callID"), url);
+        Assert.True(TestBase.UrisEqual(new Uri("https://api.bem.ai/v3/calls/callID"), url));
     }
 
     [Fact]
