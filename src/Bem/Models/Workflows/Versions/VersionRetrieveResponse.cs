@@ -31,6 +31,9 @@ public sealed record class VersionRetrieveResponse : JsonModel
         }
     }
 
+    /// <summary>
+    /// V3 read representation of a workflow version.
+    /// </summary>
     public Workflow? Workflow
     {
         get

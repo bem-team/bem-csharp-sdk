@@ -16,10 +16,9 @@ namespace Bem.Models.Functions;
 public sealed record class FunctionResponse : JsonModel
 {
     /// <summary>
-    /// A function that transforms and customizes input payloads using JMESPath expressions.
-    /// Payload shaping allows you to extract specific data, perform calculations,
-    /// and reshape complex input structures into simplified, standardized output
-    /// formats tailored to your downstream systems or business requirements.
+    /// A function that extracts structured JSON from documents and images. Accepts
+    /// a wide range of input types including PDFs, images, spreadsheets, emails,
+    /// and more.
     /// </summary>
     public required Function Function
     {

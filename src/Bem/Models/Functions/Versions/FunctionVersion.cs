@@ -40,8 +40,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.EmailAddress,
+                extract: (_) => null,
                 analyze: (_) => null,
                 route: (x) => x.EmailAddress,
+                send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
@@ -56,8 +58,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match(
                 transform: (x) => x.FunctionID,
+                extract: (x) => x.FunctionID,
                 analyze: (x) => x.FunctionID,
                 route: (x) => x.FunctionID,
+                send: (x) => x.FunctionID,
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 enrich: (x) => x.FunctionID,
@@ -72,8 +76,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match(
                 transform: (x) => x.FunctionName,
+                extract: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
+                send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
@@ -88,8 +94,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.OutputSchema,
+                extract: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
                 route: (_) => null,
+                send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
                 enrich: (_) => null,
@@ -104,10 +112,30 @@ public record class FunctionVersion : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.OutputSchemaName,
+                extract: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
                 route: (_) => null,
+                send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
+                enrich: (_) => null,
+                payloadShaping: (_) => null
+            );
+        }
+    }
+
+    public bool? TabularChunkingEnabled
+    {
+        get
+        {
+            return Match<bool?>(
+                transform: (x) => x.TabularChunkingEnabled,
+                extract: (x) => x.TabularChunkingEnabled,
+                analyze: (_) => null,
+                route: (_) => null,
+                send: (_) => null,
+                split: (_) => null,
+                join: (_) => null,
                 enrich: (_) => null,
                 payloadShaping: (_) => null
             );
@@ -120,8 +148,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match(
                 transform: (x) => x.Type,
+                extract: (x) => x.Type,
                 analyze: (x) => x.Type,
                 route: (x) => x.Type,
+                send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
                 enrich: (x) => x.Type,
@@ -136,8 +166,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match(
                 transform: (x) => x.VersionNum,
+                extract: (x) => x.VersionNum,
                 analyze: (x) => x.VersionNum,
                 route: (x) => x.VersionNum,
+                send: (x) => x.VersionNum,
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
                 enrich: (x) => x.VersionNum,
@@ -152,8 +184,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match<FunctionAudit?>(
                 transform: (x) => x.Audit,
+                extract: (x) => x.Audit,
                 analyze: (x) => x.Audit,
                 route: (x) => x.Audit,
+                send: (x) => x.Audit,
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
                 enrich: (x) => x.Audit,
@@ -168,8 +202,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match<DateTimeOffset?>(
                 transform: (x) => x.CreatedAt,
+                extract: (x) => x.CreatedAt,
                 analyze: (x) => x.CreatedAt,
                 route: (x) => x.CreatedAt,
+                send: (x) => x.CreatedAt,
                 split: (x) => x.CreatedAt,
                 join: (x) => x.CreatedAt,
                 enrich: (x) => x.CreatedAt,
@@ -184,8 +220,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.DisplayName,
+                extract: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
                 route: (x) => x.DisplayName,
+                send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
                 enrich: (x) => x.DisplayName,
@@ -200,8 +238,10 @@ public record class FunctionVersion : ModelBase
         {
             return Match<string?>(
                 transform: (_) => null,
+                extract: (_) => null,
                 analyze: (_) => null,
                 route: (x) => x.Description,
+                send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
                 enrich: (_) => null,
@@ -216,6 +256,12 @@ public record class FunctionVersion : ModelBase
         this._element = element;
     }
 
+    public FunctionVersion(Extract value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
     public FunctionVersion(Analyze value, JsonElement? element = null)
     {
         this.Value = value;
@@ -223,6 +269,12 @@ public record class FunctionVersion : ModelBase
     }
 
     public FunctionVersion(Route value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public FunctionVersion(Send value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -280,6 +332,27 @@ public record class FunctionVersion : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Extract"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickExtract(out var value)) {
+    ///     // `value` is of type `Extract`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickExtract([NotNullWhen(true)] out Extract? value)
+    {
+        value = this.Value as Extract;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
     /// type <see cref="Analyze"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
@@ -317,6 +390,27 @@ public record class FunctionVersion : ModelBase
     public bool TryPickRoute([NotNullWhen(true)] out Route? value)
     {
         value = this.Value as Route;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Send"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickSend(out var value)) {
+    ///     // `value` is of type `Send`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickSend([NotNullWhen(true)] out Send? value)
+    {
+        value = this.Value as Send;
         return value != null;
     }
 
@@ -419,8 +513,10 @@ public record class FunctionVersion : ModelBase
     /// <code>
     /// instance.Switch(
     ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
     ///     (Analyze value) =&gt; {...},
     ///     (Route value) =&gt; {...},
+    ///     (Send value) =&gt; {...},
     ///     (Split value) =&gt; {...},
     ///     (Join value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
@@ -431,8 +527,10 @@ public record class FunctionVersion : ModelBase
     /// </summary>
     public void Switch(
         Action<Transform> transform,
+        Action<Extract> extract,
         Action<Analyze> analyze,
         Action<Route> route,
+        Action<Send> send,
         Action<Split> split,
         Action<Join> join,
         Action<Enrich> enrich,
@@ -444,11 +542,17 @@ public record class FunctionVersion : ModelBase
             case Transform value:
                 transform(value);
                 break;
+            case Extract value:
+                extract(value);
+                break;
             case Analyze value:
                 analyze(value);
                 break;
             case Route value:
                 route(value);
+                break;
+            case Send value:
+                send(value);
                 break;
             case Split value:
                 split(value);
@@ -485,8 +589,10 @@ public record class FunctionVersion : ModelBase
     /// <code>
     /// var result = instance.Match(
     ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
     ///     (Analyze value) =&gt; {...},
     ///     (Route value) =&gt; {...},
+    ///     (Send value) =&gt; {...},
     ///     (Split value) =&gt; {...},
     ///     (Join value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
@@ -497,8 +603,10 @@ public record class FunctionVersion : ModelBase
     /// </summary>
     public T Match<T>(
         Func<Transform, T> transform,
+        Func<Extract, T> extract,
         Func<Analyze, T> analyze,
         Func<Route, T> route,
+        Func<Send, T> send,
         Func<Split, T> split,
         Func<Join, T> join,
         Func<Enrich, T> enrich,
@@ -508,8 +616,10 @@ public record class FunctionVersion : ModelBase
         return this.Value switch
         {
             Transform value => transform(value),
+            Extract value => extract(value),
             Analyze value => analyze(value),
             Route value => route(value),
+            Send value => send(value),
             Split value => split(value),
             Join value => join(value),
             Enrich value => enrich(value),
@@ -522,9 +632,13 @@ public record class FunctionVersion : ModelBase
 
     public static implicit operator FunctionVersion(Transform value) => new(value);
 
+    public static implicit operator FunctionVersion(Extract value) => new(value);
+
     public static implicit operator FunctionVersion(Analyze value) => new(value);
 
     public static implicit operator FunctionVersion(Route value) => new(value);
+
+    public static implicit operator FunctionVersion(Send value) => new(value);
 
     public static implicit operator FunctionVersion(Split value) => new(value);
 
@@ -552,8 +666,10 @@ public record class FunctionVersion : ModelBase
         }
         this.Switch(
             (transform) => transform.Validate(),
+            (extract) => extract.Validate(),
             (analyze) => analyze.Validate(),
             (route) => route.Validate(),
+            (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
             (enrich) => enrich.Validate(),
@@ -582,12 +698,14 @@ public record class FunctionVersion : ModelBase
         return this.Value switch
         {
             Transform _ => 0,
-            Analyze _ => 1,
-            Route _ => 2,
-            Split _ => 3,
-            Join _ => 4,
-            Enrich _ => 5,
-            PayloadShaping _ => 6,
+            Extract _ => 1,
+            Analyze _ => 2,
+            Route _ => 3,
+            Send _ => 4,
+            Split _ => 5,
+            Join _ => 6,
+            Enrich _ => 7,
+            PayloadShaping _ => 8,
             _ => -1,
         };
     }
@@ -631,6 +749,23 @@ sealed class FunctionVersionConverter : JsonConverter<FunctionVersion>
 
                 return new(element);
             }
+            case "extract":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Extract>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
             case "analyze":
             {
                 try
@@ -653,6 +788,23 @@ sealed class FunctionVersionConverter : JsonConverter<FunctionVersion>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<Route>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "send":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Send>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1033,8 +1185,8 @@ class TransformFromRaw : IFromRawJson<Transform>
         Transform.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<Analyze, AnalyzeFromRaw>))]
-public sealed record class Analyze : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Extract, ExtractFromRaw>))]
+public sealed record class Extract : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -1086,6 +1238,20 @@ public sealed record class Analyze : JsonModel
             return this._rawData.GetNotNullClass<string>("outputSchemaName");
         }
         init { this._rawData.Set("outputSchemaName", value); }
+    }
+
+    /// <summary>
+    /// Whether tabular chunking is enabled. When true, tables in CSV/Excel files
+    /// are processed in row batches rather than all at once.
+    /// </summary>
+    public required bool TabularChunkingEnabled
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("tabularChunkingEnabled");
+        }
+        init { this._rawData.Set("tabularChunkingEnabled", value); }
     }
 
     public JsonElement Type
@@ -1231,6 +1397,291 @@ public sealed record class Analyze : JsonModel
         _ = this.FunctionName;
         _ = this.OutputSchema;
         _ = this.OutputSchemaName;
+        _ = this.TabularChunkingEnabled;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("extract")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.CreatedAt;
+        _ = this.DisplayName;
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public Extract()
+    {
+        this.Type = JsonSerializer.SerializeToElement("extract");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Extract(Extract extract)
+        : base(extract) { }
+#pragma warning restore CS8618
+
+    public Extract(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("extract");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Extract(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ExtractFromRaw.FromRawUnchecked"/>
+    public static Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ExtractFromRaw : IFromRawJson<Extract>
+{
+    /// <inheritdoc/>
+    public Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Extract.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<Analyze, AnalyzeFromRaw>))]
+public sealed record class Analyze : JsonModel
+{
+    /// <summary>
+    /// Whether bounding box extraction is enabled. Only applicable to analyze and
+    /// extract functions. When true, the function returns the document regions (page,
+    /// coordinates) from which each field was extracted.
+    /// </summary>
+    public required bool EnableBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("enableBoundingBoxes");
+        }
+        init { this._rawData.Set("enableBoundingBoxes", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// Desired output structure defined in standard JSON Schema convention.
+    /// </summary>
+    public required JsonElement OutputSchema
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+        }
+        init { this._rawData.Set("outputSchema", value); }
+    }
+
+    /// <summary>
+    /// Name of output schema object.
+    /// </summary>
+    public required string OutputSchemaName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("outputSchemaName");
+        }
+        init { this._rawData.Set("outputSchemaName", value); }
+    }
+
+    /// <summary>
+    /// Reducing the risk of the model stopping early on long documents. Trade-off:
+    /// Increases total latency.
+    /// </summary>
+    public required bool PreCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("preCount");
+        }
+        init { this._rawData.Set("preCount", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function version.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EnableBoundingBoxes;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.OutputSchema;
+        _ = this.OutputSchemaName;
+        _ = this.PreCount;
         if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("analyze")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
@@ -1562,6 +2013,395 @@ class RouteFromRaw : IFromRawJson<Route>
     /// <inheritdoc/>
     public Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Route.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]
+public sealed record class Send : JsonModel
+{
+    /// <summary>
+    /// Destination type for a Send function.
+    /// </summary>
+    public required ApiEnum<string, DestinationType> DestinationType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
+                "destinationType"
+            );
+        }
+        init { this._rawData.Set("destinationType", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function version.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    public string? GoogleDriveFolderID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("googleDriveFolderId");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("googleDriveFolderId", value);
+        }
+    }
+
+    public string? S3Bucket
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3Bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3Bucket", value);
+        }
+    }
+
+    public string? S3Prefix
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3Prefix");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3Prefix", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Whether webhook deliveries are signed with an HMAC-SHA256 `bem-signature` header.
+    /// </summary>
+    public bool? WebhookSigningEnabled
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("webhookSigningEnabled");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("webhookSigningEnabled", value);
+        }
+    }
+
+    public string? WebhookUrl
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("webhookUrl");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("webhookUrl", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.DestinationType.Validate();
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("send")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.CreatedAt;
+        _ = this.DisplayName;
+        _ = this.GoogleDriveFolderID;
+        _ = this.S3Bucket;
+        _ = this.S3Prefix;
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+        _ = this.WebhookSigningEnabled;
+        _ = this.WebhookUrl;
+    }
+
+    public Send()
+    {
+        this.Type = JsonSerializer.SerializeToElement("send");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Send(Send send)
+        : base(send) { }
+#pragma warning restore CS8618
+
+    public Send(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("send");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Send(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="SendFromRaw.FromRawUnchecked"/>
+    public static Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class SendFromRaw : IFromRawJson<Send>
+{
+    /// <inheritdoc/>
+    public Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Send.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Destination type for a Send function.
+/// </summary>
+[JsonConverter(typeof(DestinationTypeConverter))]
+public enum DestinationType
+{
+    Webhook,
+    S3,
+    GoogleDrive,
+}
+
+sealed class DestinationTypeConverter : JsonConverter<DestinationType>
+{
+    public override DestinationType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "webhook" => DestinationType.Webhook,
+            "s3" => DestinationType.S3,
+            "google_drive" => DestinationType.GoogleDrive,
+            _ => (DestinationType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        DestinationType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                DestinationType.Webhook => "webhook",
+                DestinationType.S3 => "s3",
+                DestinationType.GoogleDrive => "google_drive",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
 }
 
 [JsonConverter(typeof(JsonModelConverter<Split, SplitFromRaw>))]

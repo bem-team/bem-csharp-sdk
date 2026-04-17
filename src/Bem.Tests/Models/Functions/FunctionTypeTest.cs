@@ -9,7 +9,9 @@ public class FunctionTypeTest : TestBase
 {
     [Theory]
     [InlineData(FunctionType.Transform)]
+    [InlineData(FunctionType.Extract)]
     [InlineData(FunctionType.Route)]
+    [InlineData(FunctionType.Send)]
     [InlineData(FunctionType.Split)]
     [InlineData(FunctionType.Join)]
     [InlineData(FunctionType.Analyze)]
@@ -36,7 +38,9 @@ public class FunctionTypeTest : TestBase
 
     [Theory]
     [InlineData(FunctionType.Transform)]
+    [InlineData(FunctionType.Extract)]
     [InlineData(FunctionType.Route)]
+    [InlineData(FunctionType.Send)]
     [InlineData(FunctionType.Split)]
     [InlineData(FunctionType.Join)]
     [InlineData(FunctionType.Analyze)]

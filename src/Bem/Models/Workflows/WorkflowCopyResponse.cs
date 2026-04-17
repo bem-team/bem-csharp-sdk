@@ -12,8 +12,8 @@ namespace Bem.Models.Workflows;
 public sealed record class WorkflowCopyResponse : JsonModel
 {
     /// <summary>
-    /// Information about functions that were copied when copying to a different environment.
-    /// Empty when copying within the same environment.
+    /// Functions that were copied when copying to a different environment. Empty
+    /// when copying within the same environment.
     /// </summary>
     public IReadOnlyList<CopiedFunction>? CopiedFunctions
     {
@@ -39,7 +39,7 @@ public sealed record class WorkflowCopyResponse : JsonModel
     }
 
     /// <summary>
-    /// The environment where the workflow was copied to.
+    /// The environment the workflow was copied to.
     /// </summary>
     public string? Environment
     {
@@ -81,7 +81,7 @@ public sealed record class WorkflowCopyResponse : JsonModel
     }
 
     /// <summary>
-    /// The newly created workflow.
+    /// V3 read representation of a workflow version.
     /// </summary>
     public Workflow? Workflow
     {

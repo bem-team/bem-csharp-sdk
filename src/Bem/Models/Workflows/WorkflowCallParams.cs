@@ -5,21 +5,31 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Bem.Core;
+using Bem.Exceptions;
 
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// **Invoke a workflow by submitting a multipart form request.**
+/// **Invoke a workflow.**
 ///
-/// <para>Workflows can only be called via multipart form in V3. Submit the input
-/// file along with an optional reference ID for tracking.</para>
+/// <para>Submit the input file as either a multipart form request or a JSON request
+/// with base64-encoded file content. The workflow name is derived from the URL path.</para>
+///
+/// <para>## Input Formats</para>
+///
+/// <para>- **Multipart form** (`multipart/form-data`): attach the file directly
+/// via the `file` or `files` fields. Set `wait` in the form body to control synchronous
+/// behaviour. - **JSON** (`application/json`): base64-encode the file content and
+/// set it in `input.singleFile.inputContent` or `input.batchFiles.inputs[*].inputContent`.
+/// Pass `wait=true` as a query parameter to control synchronous behaviour.</para>
 ///
 /// <para>## Synchronous vs Asynchronous</para>
 ///
 /// <para>By default the call is created asynchronously and this endpoint returns
-/// `202 Accepted` immediately with a `pending` call object. Set the `wait` field
-/// to `true` to block until the call completes (up to 30 seconds):</para>
+/// `202 Accepted` immediately with a `pending` call object. Set `wait` to `true`
+/// to block until the call completes (up to 30 seconds):</para>
 ///
 /// <para>- On success: returns `200 OK` with the completed call, `outputs` populated
 /// - On failure: returns `500 Internal Server Error` with the call and an `error`
@@ -29,6 +39,35 @@ namespace Bem.Models.Workflows;
 ///
 /// <para>Poll `GET /v3/calls/{callID}` to check status, or configure a webhook subscription
 /// to receive events when the call finishes.</para>
+///
+/// <para>## CLI Usage</para>
+///
+/// <para>Use `@path/to/file` inside JSON string values to embed file contents automatically.
+/// Binary files (PDF, images, audio) are base64-encoded; text files are embedded
+/// as strings.</para>
+///
+/// <para>Single file (synchronous): ```bash bem workflows call \   --workflow-name
+/// my-workflow \   --input.single-file '{"inputContent": "@invoice.pdf", "inputType":
+/// "pdf"}' \   --wait ```</para>
+///
+/// <para>Single file (asynchronous, returns callID immediately): ```bash bem workflows
+/// call \   --workflow-name my-workflow \   --input.single-file '{"inputContent":
+/// "@invoice.pdf", "inputType": "pdf"}' ```</para>
+///
+/// <para>Batch files: ```bash bem workflows call \   --workflow-name my-workflow
+/// \   --input.batch-files '{"inputs": [{"inputContent": "@a.pdf", "inputType": "pdf"},
+/// {"inputContent": "@b.png", "inputType": "png"}]}' ```</para>
+///
+/// <para>Alternative: pass the full `--input` flag as JSON: ```bash bem workflows
+/// call \   --workflow-name my-workflow \   --input '{"singleFile": {"inputContent":
+/// "@invoice.pdf", "inputType": "pdf"}}' \   --wait ```</para>
+///
+/// <para>**Important:** `--wait` is a boolean flag. Use `--wait` or `--wait=true`.
+/// Do **not** use `--wait true` (with a space) — the `true` will be parsed as an
+/// unexpected positional argument.</para>
+///
+/// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jpeg,
+/// json, m4a, mp3, pdf, png, text, wav, webp, xls, xlsx, xml.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -43,6 +82,46 @@ public record class WorkflowCallParams : ParamsBase
     }
 
     public string? WorkflowName { get; init; }
+
+    /// <summary>
+    /// Input file(s) for a call. Provide exactly one of `singleFile` or `batchFiles`.
+    ///
+    /// <para>In the CLI, use the nested flags `--input.single-file` or `--input.batch-files`
+    /// with `@path/to/file` for automatic file embedding: `--input.single-file '{"inputContent":
+    /// "@invoice.pdf", "inputType": "pdf"}' --wait`</para>
+    /// </summary>
+    public required Input Input
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNotNullClass<Input>("input");
+        }
+        init { this._rawBodyData.Set("input", value); }
+    }
+
+    /// <summary>
+    /// Block until the call completes (up to 30 seconds) and return the finished
+    /// call object. Default: `false`. This is a boolean flag — use `--wait` or `--wait=true`,
+    /// not `--wait true`.
+    /// </summary>
+    public bool? Wait
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<bool>("wait");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("wait", value);
+        }
+    }
 
     /// <summary>
     /// Your reference ID for tracking this call.
@@ -66,14 +145,16 @@ public record class WorkflowCallParams : ParamsBase
     }
 
     /// <summary>
-    /// Single input file (for transform, analyze, route, and split functions).
+    /// Arbitrary JSON object attached to this call. Stored on the call record and
+    /// injected into `transformedContent` under the reserved `_metadata` key (alongside
+    /// `referenceID`). Must be a JSON object. Maximum size: 4 KB.
     /// </summary>
-    public JsonElement? File
+    public JsonElement? Metadata
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<JsonElement>("file");
+            return this._rawBodyData.GetNullableStruct<JsonElement>("metadata");
         }
         init
         {
@@ -82,53 +163,7 @@ public record class WorkflowCallParams : ParamsBase
                 return;
             }
 
-            this._rawBodyData.Set("file", value);
-        }
-    }
-
-    /// <summary>
-    /// Multiple input files (for join functions).
-    /// </summary>
-    public IReadOnlyList<string>? Files
-    {
-        get
-        {
-            this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<ImmutableArray<string>>("files");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawBodyData.Set<ImmutableArray<string>?>(
-                "files",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
-    /// When `true`, the endpoint blocks until the call completes (up to 30 seconds)
-    /// and returns the finished call object. Default: `false`.
-    /// </summary>
-    public string? Wait
-    {
-        get
-        {
-            this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableClass<string>("wait");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawBodyData.Set("wait", value);
+            this._rawBodyData.Set("metadata", value);
         }
     }
 
@@ -246,5 +281,536 @@ public record class WorkflowCallParams : ParamsBase
     public override int GetHashCode()
     {
         return 0;
+    }
+}
+
+/// <summary>
+/// Input file(s) for a call. Provide exactly one of `singleFile` or `batchFiles`.
+///
+/// <para>In the CLI, use the nested flags `--input.single-file` or `--input.batch-files`
+/// with `@path/to/file` for automatic file embedding: `--input.single-file '{"inputContent":
+/// "@invoice.pdf", "inputType": "pdf"}' --wait`</para>
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Input, InputFromRaw>))]
+public sealed record class Input : JsonModel
+{
+    /// <summary>
+    /// Multiple files to process in one call. Each item in the `inputs` array has
+    /// its own `inputContent` and `inputType`.
+    /// </summary>
+    public BatchFiles? BatchFiles
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<BatchFiles>("batchFiles");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("batchFiles", value);
+        }
+    }
+
+    /// <summary>
+    /// A single file input with base64-encoded content.
+    ///
+    /// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
+    /// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
+    /// "@file.pdf", "inputType": "pdf"}' --wait`</para>
+    /// </summary>
+    public SingleFile? SingleFile
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<SingleFile>("singleFile");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("singleFile", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.BatchFiles?.Validate();
+        this.SingleFile?.Validate();
+    }
+
+    public Input() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Input(Input input)
+        : base(input) { }
+#pragma warning restore CS8618
+
+    public Input(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Input(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="InputFromRaw.FromRawUnchecked"/>
+    public static Input FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class InputFromRaw : IFromRawJson<Input>
+{
+    /// <inheritdoc/>
+    public Input FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Input.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Multiple files to process in one call. Each item in the `inputs` array has its
+/// own `inputContent` and `inputType`.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<BatchFiles, BatchFilesFromRaw>))]
+public sealed record class BatchFiles : JsonModel
+{
+    public IReadOnlyList<BatchFilesInput>? Inputs
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<BatchFilesInput>>("inputs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<BatchFilesInput>?>(
+                "inputs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        foreach (var item in this.Inputs ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public BatchFiles() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public BatchFiles(BatchFiles batchFiles)
+        : base(batchFiles) { }
+#pragma warning restore CS8618
+
+    public BatchFiles(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    BatchFiles(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="BatchFilesFromRaw.FromRawUnchecked"/>
+    public static BatchFiles FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class BatchFilesFromRaw : IFromRawJson<BatchFiles>
+{
+    /// <inheritdoc/>
+    public BatchFiles FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        BatchFiles.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<BatchFilesInput, BatchFilesInputFromRaw>))]
+public sealed record class BatchFilesInput : JsonModel
+{
+    /// <summary>
+    /// Base64-encoded file content. In the Bem CLI, use `@path/to/file` to embed
+    /// file contents automatically.
+    /// </summary>
+    public required string InputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("inputContent");
+        }
+        init { this._rawData.Set("inputContent", value); }
+    }
+
+    /// <summary>
+    /// The input type of the content you're sending for transformation.
+    /// </summary>
+    public required ApiEnum<string, InputType> InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, InputType>>("inputType");
+        }
+        init { this._rawData.Set("inputType", value); }
+    }
+
+    public string? ItemReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("itemReferenceID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemReferenceID", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.InputContent;
+        this.InputType.Validate();
+        _ = this.ItemReferenceID;
+    }
+
+    public BatchFilesInput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public BatchFilesInput(BatchFilesInput batchFilesInput)
+        : base(batchFilesInput) { }
+#pragma warning restore CS8618
+
+    public BatchFilesInput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    BatchFilesInput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="BatchFilesInputFromRaw.FromRawUnchecked"/>
+    public static BatchFilesInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class BatchFilesInputFromRaw : IFromRawJson<BatchFilesInput>
+{
+    /// <inheritdoc/>
+    public BatchFilesInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        BatchFilesInput.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// The input type of the content you're sending for transformation.
+/// </summary>
+[JsonConverter(typeof(InputTypeConverter))]
+public enum InputType
+{
+    Csv,
+    Docx,
+    Email,
+    Heic,
+    Html,
+    Jpeg,
+    Json,
+    Heif,
+    M4a,
+    Mp3,
+    Pdf,
+    Png,
+    Text,
+    Wav,
+    Webp,
+    Xls,
+    Xlsx,
+    Xml,
+}
+
+sealed class InputTypeConverter : JsonConverter<InputType>
+{
+    public override InputType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "csv" => InputType.Csv,
+            "docx" => InputType.Docx,
+            "email" => InputType.Email,
+            "heic" => InputType.Heic,
+            "html" => InputType.Html,
+            "jpeg" => InputType.Jpeg,
+            "json" => InputType.Json,
+            "heif" => InputType.Heif,
+            "m4a" => InputType.M4a,
+            "mp3" => InputType.Mp3,
+            "pdf" => InputType.Pdf,
+            "png" => InputType.Png,
+            "text" => InputType.Text,
+            "wav" => InputType.Wav,
+            "webp" => InputType.Webp,
+            "xls" => InputType.Xls,
+            "xlsx" => InputType.Xlsx,
+            "xml" => InputType.Xml,
+            _ => (InputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        InputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                InputType.Csv => "csv",
+                InputType.Docx => "docx",
+                InputType.Email => "email",
+                InputType.Heic => "heic",
+                InputType.Html => "html",
+                InputType.Jpeg => "jpeg",
+                InputType.Json => "json",
+                InputType.Heif => "heif",
+                InputType.M4a => "m4a",
+                InputType.Mp3 => "mp3",
+                InputType.Pdf => "pdf",
+                InputType.Png => "png",
+                InputType.Text => "text",
+                InputType.Wav => "wav",
+                InputType.Webp => "webp",
+                InputType.Xls => "xls",
+                InputType.Xlsx => "xlsx",
+                InputType.Xml => "xml",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// A single file input with base64-encoded content.
+///
+/// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
+/// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
+/// "@file.pdf", "inputType": "pdf"}' --wait`</para>
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<SingleFile, SingleFileFromRaw>))]
+public sealed record class SingleFile : JsonModel
+{
+    /// <summary>
+    /// Base64-encoded file content. In the Bem CLI, use `@path/to/file` to embed
+    /// file contents automatically.
+    /// </summary>
+    public required string InputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("inputContent");
+        }
+        init { this._rawData.Set("inputContent", value); }
+    }
+
+    /// <summary>
+    /// The input type of the content you're sending for transformation.
+    /// </summary>
+    public required ApiEnum<string, SingleFileInputType> InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, SingleFileInputType>>("inputType");
+        }
+        init { this._rawData.Set("inputType", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.InputContent;
+        this.InputType.Validate();
+    }
+
+    public SingleFile() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public SingleFile(SingleFile singleFile)
+        : base(singleFile) { }
+#pragma warning restore CS8618
+
+    public SingleFile(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    SingleFile(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="SingleFileFromRaw.FromRawUnchecked"/>
+    public static SingleFile FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class SingleFileFromRaw : IFromRawJson<SingleFile>
+{
+    /// <inheritdoc/>
+    public SingleFile FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SingleFile.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// The input type of the content you're sending for transformation.
+/// </summary>
+[JsonConverter(typeof(SingleFileInputTypeConverter))]
+public enum SingleFileInputType
+{
+    Csv,
+    Docx,
+    Email,
+    Heic,
+    Html,
+    Jpeg,
+    Json,
+    Heif,
+    M4a,
+    Mp3,
+    Pdf,
+    Png,
+    Text,
+    Wav,
+    Webp,
+    Xls,
+    Xlsx,
+    Xml,
+}
+
+sealed class SingleFileInputTypeConverter : JsonConverter<SingleFileInputType>
+{
+    public override SingleFileInputType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "csv" => SingleFileInputType.Csv,
+            "docx" => SingleFileInputType.Docx,
+            "email" => SingleFileInputType.Email,
+            "heic" => SingleFileInputType.Heic,
+            "html" => SingleFileInputType.Html,
+            "jpeg" => SingleFileInputType.Jpeg,
+            "json" => SingleFileInputType.Json,
+            "heif" => SingleFileInputType.Heif,
+            "m4a" => SingleFileInputType.M4a,
+            "mp3" => SingleFileInputType.Mp3,
+            "pdf" => SingleFileInputType.Pdf,
+            "png" => SingleFileInputType.Png,
+            "text" => SingleFileInputType.Text,
+            "wav" => SingleFileInputType.Wav,
+            "webp" => SingleFileInputType.Webp,
+            "xls" => SingleFileInputType.Xls,
+            "xlsx" => SingleFileInputType.Xlsx,
+            "xml" => SingleFileInputType.Xml,
+            _ => (SingleFileInputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SingleFileInputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SingleFileInputType.Csv => "csv",
+                SingleFileInputType.Docx => "docx",
+                SingleFileInputType.Email => "email",
+                SingleFileInputType.Heic => "heic",
+                SingleFileInputType.Html => "html",
+                SingleFileInputType.Jpeg => "jpeg",
+                SingleFileInputType.Json => "json",
+                SingleFileInputType.Heif => "heif",
+                SingleFileInputType.M4a => "m4a",
+                SingleFileInputType.Mp3 => "mp3",
+                SingleFileInputType.Pdf => "pdf",
+                SingleFileInputType.Png => "png",
+                SingleFileInputType.Text => "text",
+                SingleFileInputType.Wav => "wav",
+                SingleFileInputType.Webp => "webp",
+                SingleFileInputType.Xls => "xls",
+                SingleFileInputType.Xlsx => "xlsx",
+                SingleFileInputType.Xml => "xml",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }

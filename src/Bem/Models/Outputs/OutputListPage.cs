@@ -44,7 +44,7 @@ public sealed class OutputListPage(
         if (parameters.EndingBefore != null)
         {
             var firstItem = this.Items[0];
-            var previousCursor = firstItem;
+            var previousCursor = firstItem.EventID;
             using var nextResponse = await service
                 .List(parameters with { EndingBefore = previousCursor }, cancellationToken)
                 .ConfigureAwait(false);
@@ -53,7 +53,7 @@ public sealed class OutputListPage(
         else
         {
             var lastItem = this.Items[this.Items.Count - 1];
-            var nextCursor = lastItem;
+            var nextCursor = lastItem.EventID;
             using var nextResponse = await service
                 .List(parameters with { StartingAfter = nextCursor }, cancellationToken)
                 .ConfigureAwait(false);

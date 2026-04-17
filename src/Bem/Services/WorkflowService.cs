@@ -45,7 +45,7 @@ public sealed class WorkflowService : IWorkflowService
 
     /// <inheritdoc/>
     public async Task<WorkflowCreateResponse> Create(
-        WorkflowCreateParams? parameters = null,
+        WorkflowCreateParams parameters,
         CancellationToken cancellationToken = default
     )
     {
@@ -152,12 +152,10 @@ public sealed class WorkflowService : IWorkflowService
     /// <inheritdoc/>
     public Task<CallGetResponse> Call(
         string workflowName,
-        WorkflowCallParams? parameters = null,
+        WorkflowCallParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        parameters ??= new();
-
         return this.Call(parameters with { WorkflowName = workflowName }, cancellationToken);
     }
 
@@ -200,12 +198,10 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
 
     /// <inheritdoc/>
     public async Task<HttpResponse<WorkflowCreateResponse>> Create(
-        WorkflowCreateParams? parameters = null,
+        WorkflowCreateParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        parameters ??= new();
-
         HttpRequest<WorkflowCreateParams> request = new()
         {
             Method = HttpMethod.Post,
@@ -415,12 +411,10 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
     /// <inheritdoc/>
     public Task<HttpResponse<CallGetResponse>> Call(
         string workflowName,
-        WorkflowCallParams? parameters = null,
+        WorkflowCallParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        parameters ??= new();
-
         return this.Call(parameters with { WorkflowName = workflowName }, cancellationToken);
     }
 

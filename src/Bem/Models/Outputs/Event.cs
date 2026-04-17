@@ -41,7 +41,8 @@ public record class Event : ModelBase
                 error: (x) => x.EventID,
                 join: (x) => x.EventID,
                 enrich: (x) => x.EventID,
-                collectionProcessing: (x) => x.EventID
+                collectionProcessing: (x) => x.EventID,
+                send: (x) => x.EventID
             );
         }
     }
@@ -58,7 +59,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 enrich: (x) => x.FunctionID,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.FunctionID
             );
         }
     }
@@ -75,7 +77,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.FunctionName
             );
         }
     }
@@ -92,7 +95,8 @@ public record class Event : ModelBase
                 error: (x) => x.ReferenceID,
                 join: (x) => x.ReferenceID,
                 enrich: (x) => x.ReferenceID,
-                collectionProcessing: (x) => x.ReferenceID
+                collectionProcessing: (x) => x.ReferenceID,
+                send: (x) => x.ReferenceID
             );
         }
     }
@@ -109,7 +113,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.TransformedContent,
                 enrich: (_) => null,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -126,7 +131,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.AvgConfidence,
                 enrich: (_) => null,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -143,7 +149,8 @@ public record class Event : ModelBase
                 error: (x) => x.CallID,
                 join: (x) => x.CallID,
                 enrich: (x) => x.CallID,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.CallID
             );
         }
     }
@@ -160,7 +167,8 @@ public record class Event : ModelBase
                 error: (x) => x.CreatedAt,
                 join: (x) => x.CreatedAt,
                 enrich: (x) => x.CreatedAt,
-                collectionProcessing: (x) => x.CreatedAt
+                collectionProcessing: (x) => x.CreatedAt,
+                send: (x) => x.CreatedAt
             );
         }
     }
@@ -177,7 +185,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.FieldConfidences,
                 enrich: (_) => null,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -194,7 +203,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionCallID,
                 join: (x) => x.FunctionCallID,
                 enrich: (x) => x.FunctionCallID,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.FunctionCallID
             );
         }
     }
@@ -211,7 +221,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionCallTryNumber,
                 join: (x) => x.FunctionCallTryNumber,
                 enrich: (x) => x.FunctionCallTryNumber,
-                collectionProcessing: (x) => x.FunctionCallTryNumber
+                collectionProcessing: (x) => x.FunctionCallTryNumber,
+                send: (x) => x.FunctionCallTryNumber
             );
         }
     }
@@ -228,7 +239,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionVersionNum,
                 join: (x) => x.FunctionVersionNum,
                 enrich: (x) => x.FunctionVersionNum,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.FunctionVersionNum
             );
         }
     }
@@ -245,7 +257,8 @@ public record class Event : ModelBase
                 error: (x) => x.InboundEmail,
                 join: (x) => x.InboundEmail,
                 enrich: (x) => x.InboundEmail,
-                collectionProcessing: (x) => x.InboundEmail
+                collectionProcessing: (x) => x.InboundEmail,
+                send: (x) => x.InboundEmail
             );
         }
     }
@@ -262,7 +275,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -279,7 +293,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.TransformationID,
                 enrich: (_) => null,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -296,7 +311,8 @@ public record class Event : ModelBase
                 error: (x) => x.WorkflowID,
                 join: (x) => x.WorkflowID,
                 enrich: (x) => x.WorkflowID,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.WorkflowID
             );
         }
     }
@@ -313,7 +329,8 @@ public record class Event : ModelBase
                 error: (x) => x.WorkflowName,
                 join: (x) => x.WorkflowName,
                 enrich: (x) => x.WorkflowName,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.WorkflowName
             );
         }
     }
@@ -330,7 +347,8 @@ public record class Event : ModelBase
                 error: (x) => x.WorkflowVersionNum,
                 join: (x) => x.WorkflowVersionNum,
                 enrich: (x) => x.WorkflowVersionNum,
-                collectionProcessing: (_) => null
+                collectionProcessing: (_) => null,
+                send: (x) => x.WorkflowVersionNum
             );
         }
     }
@@ -378,6 +396,12 @@ public record class Event : ModelBase
     }
 
     public Event(CollectionProcessing value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Event(Send value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -557,6 +581,27 @@ public record class Event : ModelBase
     }
 
     /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Send"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickSend(out var value)) {
+    ///     // `value` is of type `Send`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickSend([NotNullWhen(true)] out Send? value)
+    {
+        value = this.Value as Send;
+        return value != null;
+    }
+
+    /// <summary>
     /// Calls the function parameter corresponding to the variant the instance was constructed with.
     ///
     /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
@@ -577,7 +622,8 @@ public record class Event : ModelBase
     ///     (ErrorEvent value) =&gt; {...},
     ///     (Join value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
-    ///     (CollectionProcessing value) =&gt; {...}
+    ///     (CollectionProcessing value) =&gt; {...},
+    ///     (Send value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -590,7 +636,8 @@ public record class Event : ModelBase
         Action<ErrorEvent> error,
         Action<Join> join,
         Action<Enrich> enrich,
-        Action<CollectionProcessing> collectionProcessing
+        Action<CollectionProcessing> collectionProcessing,
+        Action<Send> send
     )
     {
         switch (this.Value)
@@ -619,6 +666,9 @@ public record class Event : ModelBase
             case CollectionProcessing value:
                 collectionProcessing(value);
                 break;
+            case Send value:
+                send(value);
+                break;
             default:
                 throw new BemInvalidDataException("Data did not match any variant of Event");
         }
@@ -646,7 +696,8 @@ public record class Event : ModelBase
     ///     (ErrorEvent value) =&gt; {...},
     ///     (Join value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
-    ///     (CollectionProcessing value) =&gt; {...}
+    ///     (CollectionProcessing value) =&gt; {...},
+    ///     (Send value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -659,7 +710,8 @@ public record class Event : ModelBase
         Func<ErrorEvent, T> error,
         Func<Join, T> join,
         Func<Enrich, T> enrich,
-        Func<CollectionProcessing, T> collectionProcessing
+        Func<CollectionProcessing, T> collectionProcessing,
+        Func<Send, T> send
     )
     {
         return this.Value switch
@@ -672,6 +724,7 @@ public record class Event : ModelBase
             Join value => join(value),
             Enrich value => enrich(value),
             CollectionProcessing value => collectionProcessing(value),
+            Send value => send(value),
             _ => throw new BemInvalidDataException("Data did not match any variant of Event"),
         };
     }
@@ -691,6 +744,8 @@ public record class Event : ModelBase
     public static implicit operator Event(Enrich value) => new(value);
 
     public static implicit operator Event(CollectionProcessing value) => new(value);
+
+    public static implicit operator Event(Send value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -716,7 +771,8 @@ public record class Event : ModelBase
             (error) => error.Validate(),
             (join) => join.Validate(),
             (enrich) => enrich.Validate(),
-            (collectionProcessing) => collectionProcessing.Validate()
+            (collectionProcessing) => collectionProcessing.Validate(),
+            (send) => send.Validate()
         );
     }
 
@@ -748,6 +804,7 @@ public record class Event : ModelBase
             Join _ => 5,
             Enrich _ => 6,
             CollectionProcessing _ => 7,
+            Send _ => 8,
             _ => -1,
         };
     }
@@ -904,6 +961,23 @@ sealed class EventConverter : JsonConverter<Event>
                         element,
                         options
                     );
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "send":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Send>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -6787,4 +6861,885 @@ class CollectionProcessingMetadataFromRaw : IFromRawJson<CollectionProcessingMet
     public CollectionProcessingMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => CollectionProcessingMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]
+public sealed record class Send : JsonModel
+{
+    /// <summary>
+    /// Outcome of a Send function's delivery attempt.
+    /// </summary>
+    public required ApiEnum<string, DeliveryStatus> DeliveryStatus
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, DeliveryStatus>>("deliveryStatus");
+        }
+        init { this._rawData.Set("deliveryStatus", value); }
+    }
+
+    /// <summary>
+    /// Destination type for a Send function.
+    /// </summary>
+    public required ApiEnum<string, DestinationType> DestinationType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
+                "destinationType"
+            );
+        }
+        init { this._rawData.Set("destinationType", value); }
+    }
+
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    /// <summary>
+    /// The full protocol event JSON that was delivered — identical to what subscription
+    /// publish would deliver for the same event. For ad-hoc calls with a JSON file
+    /// input, contains the raw input JSON. For ad-hoc calls with a binary file input,
+    /// contains {"s3URL": "&lt;presigned-url&gt;"}.
+    /// </summary>
+    public JsonElement? DeliveredContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("deliveredContent");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("deliveredContent", value);
+        }
+    }
+
+    public ApiEnum<string, SendEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, SendEventType>>("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// Metadata returned when a Send function delivers to Google Drive.
+    /// </summary>
+    public GoogleDriveOutput? GoogleDriveOutput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<GoogleDriveOutput>("googleDriveOutput");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("googleDriveOutput", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public SendMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<SendMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Metadata returned when a Send function delivers to an S3 bucket.
+    /// </summary>
+    public S3Output? S3Output
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<S3Output>("s3Output");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3Output", value);
+        }
+    }
+
+    /// <summary>
+    /// Metadata returned when a Send function delivers to a webhook.
+    /// </summary>
+    public WebhookOutput? WebhookOutput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<WebhookOutput>("webhookOutput");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("webhookOutput", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.DeliveryStatus.Validate();
+        this.DestinationType.Validate();
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ReferenceID;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        _ = this.DeliveredContent;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.GoogleDriveOutput?.Validate();
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        this.S3Output?.Validate();
+        this.WebhookOutput?.Validate();
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public Send() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Send(Send send)
+        : base(send) { }
+#pragma warning restore CS8618
+
+    public Send(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Send(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="SendFromRaw.FromRawUnchecked"/>
+    public static Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class SendFromRaw : IFromRawJson<Send>
+{
+    /// <inheritdoc/>
+    public Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Send.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Outcome of a Send function's delivery attempt.
+/// </summary>
+[JsonConverter(typeof(DeliveryStatusConverter))]
+public enum DeliveryStatus
+{
+    Success,
+    Skip,
+}
+
+sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
+{
+    public override DeliveryStatus Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "success" => DeliveryStatus.Success,
+            "skip" => DeliveryStatus.Skip,
+            _ => (DeliveryStatus)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        DeliveryStatus value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                DeliveryStatus.Success => "success",
+                DeliveryStatus.Skip => "skip",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Destination type for a Send function.
+/// </summary>
+[JsonConverter(typeof(DestinationTypeConverter))]
+public enum DestinationType
+{
+    Webhook,
+    S3,
+    GoogleDrive,
+}
+
+sealed class DestinationTypeConverter : JsonConverter<DestinationType>
+{
+    public override DestinationType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "webhook" => DestinationType.Webhook,
+            "s3" => DestinationType.S3,
+            "google_drive" => DestinationType.GoogleDrive,
+            _ => (DestinationType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        DestinationType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                DestinationType.Webhook => "webhook",
+                DestinationType.S3 => "s3",
+                DestinationType.GoogleDrive => "google_drive",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(SendEventTypeConverter))]
+public enum SendEventType
+{
+    Send,
+}
+
+sealed class SendEventTypeConverter : JsonConverter<SendEventType>
+{
+    public override SendEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "send" => SendEventType.Send,
+            _ => (SendEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SendEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SendEventType.Send => "send",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Metadata returned when a Send function delivers to Google Drive.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<GoogleDriveOutput, GoogleDriveOutputFromRaw>))]
+public sealed record class GoogleDriveOutput : JsonModel
+{
+    /// <summary>
+    /// Name of the file created in Google Drive.
+    /// </summary>
+    public required string FileName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("fileName");
+        }
+        init { this._rawData.Set("fileName", value); }
+    }
+
+    /// <summary>
+    /// ID of the Google Drive folder the file was placed in.
+    /// </summary>
+    public required string FolderID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("folderID");
+        }
+        init { this._rawData.Set("folderID", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.FileName;
+        _ = this.FolderID;
+    }
+
+    public GoogleDriveOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public GoogleDriveOutput(GoogleDriveOutput googleDriveOutput)
+        : base(googleDriveOutput) { }
+#pragma warning restore CS8618
+
+    public GoogleDriveOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    GoogleDriveOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="GoogleDriveOutputFromRaw.FromRawUnchecked"/>
+    public static GoogleDriveOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class GoogleDriveOutputFromRaw : IFromRawJson<GoogleDriveOutput>
+{
+    /// <inheritdoc/>
+    public GoogleDriveOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        GoogleDriveOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<SendMetadata, SendMetadataFromRaw>))]
+public sealed record class SendMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public SendMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public SendMetadata(SendMetadata sendMetadata)
+        : base(sendMetadata) { }
+#pragma warning restore CS8618
+
+    public SendMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    SendMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="SendMetadataFromRaw.FromRawUnchecked"/>
+    public static SendMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class SendMetadataFromRaw : IFromRawJson<SendMetadata>
+{
+    /// <inheritdoc/>
+    public SendMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SendMetadata.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Metadata returned when a Send function delivers to an S3 bucket.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<S3Output, S3OutputFromRaw>))]
+public sealed record class S3Output : JsonModel
+{
+    /// <summary>
+    /// Name of the S3 bucket the payload was written to.
+    /// </summary>
+    public required string BucketName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("bucketName");
+        }
+        init { this._rawData.Set("bucketName", value); }
+    }
+
+    /// <summary>
+    /// Object key under which the payload was stored.
+    /// </summary>
+    public required string Key
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("key");
+        }
+        init { this._rawData.Set("key", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.BucketName;
+        _ = this.Key;
+    }
+
+    public S3Output() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public S3Output(S3Output s3Output)
+        : base(s3Output) { }
+#pragma warning restore CS8618
+
+    public S3Output(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    S3Output(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="S3OutputFromRaw.FromRawUnchecked"/>
+    public static S3Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class S3OutputFromRaw : IFromRawJson<S3Output>
+{
+    /// <inheritdoc/>
+    public S3Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        S3Output.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Metadata returned when a Send function delivers to a webhook.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<WebhookOutput, WebhookOutputFromRaw>))]
+public sealed record class WebhookOutput : JsonModel
+{
+    /// <summary>
+    /// Raw HTTP response body returned by the webhook endpoint.
+    /// </summary>
+    public required string HttpResponseBody
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("httpResponseBody");
+        }
+        init { this._rawData.Set("httpResponseBody", value); }
+    }
+
+    /// <summary>
+    /// HTTP status code returned by the webhook endpoint.
+    /// </summary>
+    public required long HttpStatusCode
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("httpStatusCode");
+        }
+        init { this._rawData.Set("httpStatusCode", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.HttpResponseBody;
+        _ = this.HttpStatusCode;
+    }
+
+    public WebhookOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WebhookOutput(WebhookOutput webhookOutput)
+        : base(webhookOutput) { }
+#pragma warning restore CS8618
+
+    public WebhookOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WebhookOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WebhookOutputFromRaw.FromRawUnchecked"/>
+    public static WebhookOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class WebhookOutputFromRaw : IFromRawJson<WebhookOutput>
+{
+    /// <inheritdoc/>
+    public WebhookOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        WebhookOutput.FromRawUnchecked(rawData);
 }

@@ -24,14 +24,31 @@ public class CreateFunctionTest : TestBase
     }
 
     [Fact]
+    public void ExtractValidationWorks()
+    {
+        CreateFunction value = new Extract()
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void AnalyzeValidationWorks()
     {
         CreateFunction value = new Analyze()
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
         value.Validate();
@@ -59,6 +76,24 @@ public class CreateFunctionTest : TestBase
                 },
             ],
             Tags = ["string"],
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void SendValidationWorks()
+    {
+        CreateFunction value = new Send()
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
         };
         value.Validate();
     }
@@ -172,14 +207,37 @@ public class CreateFunctionTest : TestBase
     }
 
     [Fact]
+    public void ExtractSerializationRoundtripWorks()
+    {
+        CreateFunction value = new Extract()
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<CreateFunction>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
     public void AnalyzeSerializationRoundtripWorks()
     {
         CreateFunction value = new Analyze()
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -213,6 +271,30 @@ public class CreateFunctionTest : TestBase
                 },
             ],
             Tags = ["string"],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<CreateFunction>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void SendSerializationRoundtripWorks()
+    {
+        CreateFunction value = new Send()
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<CreateFunction>(
@@ -540,6 +622,211 @@ public class TransformTest : TestBase
     }
 }
 
+public class ExtractTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
+        string expectedDisplayName = "displayName";
+        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedTabularChunkingEnabled = true;
+        List<string> expectedTags = ["string"];
+
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.NotNull(model.OutputSchema);
+        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
+        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedTabularChunkingEnabled, model.TabularChunkingEnabled);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Extract>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Extract>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
+        string expectedDisplayName = "displayName";
+        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedTabularChunkingEnabled = true;
+        List<string> expectedTags = ["string"];
+
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.NotNull(deserialized.OutputSchema);
+        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
+        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedTabularChunkingEnabled, deserialized.TabularChunkingEnabled);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Extract { FunctionName = "functionName" };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.OutputSchema);
+        Assert.False(model.RawData.ContainsKey("outputSchema"));
+        Assert.Null(model.OutputSchemaName);
+        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.TabularChunkingEnabled);
+        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Extract { FunctionName = "functionName" };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            OutputSchema = null,
+            OutputSchemaName = null,
+            TabularChunkingEnabled = null,
+            Tags = null,
+        };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.OutputSchema);
+        Assert.False(model.RawData.ContainsKey("outputSchema"));
+        Assert.Null(model.OutputSchemaName);
+        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.TabularChunkingEnabled);
+        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            OutputSchema = null,
+            OutputSchemaName = null,
+            TabularChunkingEnabled = null,
+            Tags = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Extract
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            OutputSchemaName = "outputSchemaName",
+            TabularChunkingEnabled = true,
+            Tags = ["string"],
+        };
+
+        Extract copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
 public class AnalyzeTest : TestBase
 {
     [Fact]
@@ -549,24 +836,30 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
         Assert.NotNull(model.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedPreCount, model.PreCount);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -582,8 +875,10 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -600,8 +895,10 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -615,16 +912,20 @@ public class AnalyzeTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
         Assert.NotNull(deserialized.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedPreCount, deserialized.PreCount);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -640,8 +941,10 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -655,10 +958,14 @@ public class AnalyzeTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.OutputSchema);
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
         Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.PreCount);
+        Assert.False(model.RawData.ContainsKey("preCount"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -680,17 +987,23 @@ public class AnalyzeTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             OutputSchema = null,
             OutputSchemaName = null,
+            PreCount = null,
             Tags = null,
         };
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.OutputSchema);
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
         Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.PreCount);
+        Assert.False(model.RawData.ContainsKey("preCount"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -704,8 +1017,10 @@ public class AnalyzeTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             OutputSchema = null,
             OutputSchemaName = null,
+            PreCount = null,
             Tags = null,
         };
 
@@ -719,8 +1034,10 @@ public class AnalyzeTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             Tags = ["string"],
         };
 
@@ -1006,6 +1323,311 @@ public class RouteTest : TestBase
         Route copied = new(model);
 
         Assert.Equal(model, copied);
+    }
+}
+
+public class SendTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
+        };
+
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("send");
+        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        string expectedDisplayName = "displayName";
+        string expectedGoogleDriveFolderID = "googleDriveFolderId";
+        string expectedS3Bucket = "s3Bucket";
+        string expectedS3Prefix = "s3Prefix";
+        List<string> expectedTags = ["string"];
+        bool expectedWebhookSigningEnabled = true;
+        string expectedWebhookUrl = "webhookUrl";
+
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedDestinationType, model.DestinationType);
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedGoogleDriveFolderID, model.GoogleDriveFolderID);
+        Assert.Equal(expectedS3Bucket, model.S3Bucket);
+        Assert.Equal(expectedS3Prefix, model.S3Prefix);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+        Assert.Equal(expectedWebhookSigningEnabled, model.WebhookSigningEnabled);
+        Assert.Equal(expectedWebhookUrl, model.WebhookUrl);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Send>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Send>(element, ModelBase.SerializerOptions);
+        Assert.NotNull(deserialized);
+
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("send");
+        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        string expectedDisplayName = "displayName";
+        string expectedGoogleDriveFolderID = "googleDriveFolderId";
+        string expectedS3Bucket = "s3Bucket";
+        string expectedS3Prefix = "s3Prefix";
+        List<string> expectedTags = ["string"];
+        bool expectedWebhookSigningEnabled = true;
+        string expectedWebhookUrl = "webhookUrl";
+
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedDestinationType, deserialized.DestinationType);
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedGoogleDriveFolderID, deserialized.GoogleDriveFolderID);
+        Assert.Equal(expectedS3Bucket, deserialized.S3Bucket);
+        Assert.Equal(expectedS3Prefix, deserialized.S3Prefix);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+        Assert.Equal(expectedWebhookSigningEnabled, deserialized.WebhookSigningEnabled);
+        Assert.Equal(expectedWebhookUrl, deserialized.WebhookUrl);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Send { FunctionName = "functionName" };
+
+        Assert.Null(model.DestinationType);
+        Assert.False(model.RawData.ContainsKey("destinationType"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.GoogleDriveFolderID);
+        Assert.False(model.RawData.ContainsKey("googleDriveFolderId"));
+        Assert.Null(model.S3Bucket);
+        Assert.False(model.RawData.ContainsKey("s3Bucket"));
+        Assert.Null(model.S3Prefix);
+        Assert.False(model.RawData.ContainsKey("s3Prefix"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.WebhookSigningEnabled);
+        Assert.False(model.RawData.ContainsKey("webhookSigningEnabled"));
+        Assert.Null(model.WebhookUrl);
+        Assert.False(model.RawData.ContainsKey("webhookUrl"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Send { FunctionName = "functionName" };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+
+            // Null should be interpreted as omitted for these properties
+            DestinationType = null,
+            DisplayName = null,
+            GoogleDriveFolderID = null,
+            S3Bucket = null,
+            S3Prefix = null,
+            Tags = null,
+            WebhookSigningEnabled = null,
+            WebhookUrl = null,
+        };
+
+        Assert.Null(model.DestinationType);
+        Assert.False(model.RawData.ContainsKey("destinationType"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.GoogleDriveFolderID);
+        Assert.False(model.RawData.ContainsKey("googleDriveFolderId"));
+        Assert.Null(model.S3Bucket);
+        Assert.False(model.RawData.ContainsKey("s3Bucket"));
+        Assert.Null(model.S3Prefix);
+        Assert.False(model.RawData.ContainsKey("s3Prefix"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.WebhookSigningEnabled);
+        Assert.False(model.RawData.ContainsKey("webhookSigningEnabled"));
+        Assert.Null(model.WebhookUrl);
+        Assert.False(model.RawData.ContainsKey("webhookUrl"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+
+            // Null should be interpreted as omitted for these properties
+            DestinationType = null,
+            DisplayName = null,
+            GoogleDriveFolderID = null,
+            S3Bucket = null,
+            S3Prefix = null,
+            Tags = null,
+            WebhookSigningEnabled = null,
+            WebhookUrl = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Send
+        {
+            FunctionName = "functionName",
+            DestinationType = DestinationType.Webhook,
+            DisplayName = "displayName",
+            GoogleDriveFolderID = "googleDriveFolderId",
+            S3Bucket = "s3Bucket",
+            S3Prefix = "s3Prefix",
+            Tags = ["string"],
+            WebhookSigningEnabled = true,
+            WebhookUrl = "webhookUrl",
+        };
+
+        Send copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class DestinationTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(DestinationType.Webhook)]
+    [InlineData(DestinationType.S3)]
+    [InlineData(DestinationType.GoogleDrive)]
+    public void Validation_Works(DestinationType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, DestinationType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(DestinationType.Webhook)]
+    [InlineData(DestinationType.S3)]
+    [InlineData(DestinationType.GoogleDrive)]
+    public void SerializationRoundtrip_Works(DestinationType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, DestinationType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
     }
 }
 

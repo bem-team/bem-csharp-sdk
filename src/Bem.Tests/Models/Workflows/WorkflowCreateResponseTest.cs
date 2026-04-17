@@ -16,13 +16,32 @@ public class WorkflowCreateResponseTest : TestBase
             Workflow = new()
             {
                 ID = "id",
-                MainFunction = new()
-                {
-                    ID = "id",
-                    Name = "name",
-                    VersionNum = 0,
-                },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Edges =
+                [
+                    new()
+                    {
+                        DestinationNodeName = "destinationNodeName",
+                        SourceNodeName = "sourceNodeName",
+                        DestinationName = "destinationName",
+                    },
+                ],
+                MainNodeName = "mainNodeName",
                 Name = "name",
+                Nodes =
+                [
+                    new()
+                    {
+                        Function = new()
+                        {
+                            ID = "id",
+                            Name = "name",
+                            VersionNum = 0,
+                        },
+                        Name = "name",
+                    },
+                ],
+                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
                 {
@@ -54,30 +73,9 @@ public class WorkflowCreateResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 EmailAddress = "emailAddress",
-                Relationships =
-                [
-                    new()
-                    {
-                        DestinationFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        SourceFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        DestinationName = "destinationName",
-                    },
-                ],
                 Tags = ["string"],
-                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
         };
 
@@ -85,13 +83,32 @@ public class WorkflowCreateResponseTest : TestBase
         Workflow expectedWorkflow = new()
         {
             ID = "id",
-            MainFunction = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            Edges =
+            [
+                new()
+                {
+                    DestinationNodeName = "destinationNodeName",
+                    SourceNodeName = "sourceNodeName",
+                    DestinationName = "destinationName",
+                },
+            ],
+            MainNodeName = "mainNodeName",
             Name = "name",
+            Nodes =
+            [
+                new()
+                {
+                    Function = new()
+                    {
+                        ID = "id",
+                        Name = "name",
+                        VersionNum = 0,
+                    },
+                    Name = "name",
+                },
+            ],
+            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
             {
@@ -123,30 +140,9 @@ public class WorkflowCreateResponseTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             EmailAddress = "emailAddress",
-            Relationships =
-            [
-                new()
-                {
-                    DestinationFunction = new()
-                    {
-                        ID = "id",
-                        Name = "name",
-                        VersionNum = 0,
-                    },
-                    SourceFunction = new()
-                    {
-                        ID = "id",
-                        Name = "name",
-                        VersionNum = 0,
-                    },
-                    DestinationName = "destinationName",
-                },
-            ],
             Tags = ["string"],
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
         };
 
         Assert.Equal(expectedError, model.Error);
@@ -162,13 +158,32 @@ public class WorkflowCreateResponseTest : TestBase
             Workflow = new()
             {
                 ID = "id",
-                MainFunction = new()
-                {
-                    ID = "id",
-                    Name = "name",
-                    VersionNum = 0,
-                },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Edges =
+                [
+                    new()
+                    {
+                        DestinationNodeName = "destinationNodeName",
+                        SourceNodeName = "sourceNodeName",
+                        DestinationName = "destinationName",
+                    },
+                ],
+                MainNodeName = "mainNodeName",
                 Name = "name",
+                Nodes =
+                [
+                    new()
+                    {
+                        Function = new()
+                        {
+                            ID = "id",
+                            Name = "name",
+                            VersionNum = 0,
+                        },
+                        Name = "name",
+                    },
+                ],
+                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
                 {
@@ -200,30 +215,9 @@ public class WorkflowCreateResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 EmailAddress = "emailAddress",
-                Relationships =
-                [
-                    new()
-                    {
-                        DestinationFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        SourceFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        DestinationName = "destinationName",
-                    },
-                ],
                 Tags = ["string"],
-                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
         };
 
@@ -245,13 +239,32 @@ public class WorkflowCreateResponseTest : TestBase
             Workflow = new()
             {
                 ID = "id",
-                MainFunction = new()
-                {
-                    ID = "id",
-                    Name = "name",
-                    VersionNum = 0,
-                },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Edges =
+                [
+                    new()
+                    {
+                        DestinationNodeName = "destinationNodeName",
+                        SourceNodeName = "sourceNodeName",
+                        DestinationName = "destinationName",
+                    },
+                ],
+                MainNodeName = "mainNodeName",
                 Name = "name",
+                Nodes =
+                [
+                    new()
+                    {
+                        Function = new()
+                        {
+                            ID = "id",
+                            Name = "name",
+                            VersionNum = 0,
+                        },
+                        Name = "name",
+                    },
+                ],
+                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
                 {
@@ -283,30 +296,9 @@ public class WorkflowCreateResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 EmailAddress = "emailAddress",
-                Relationships =
-                [
-                    new()
-                    {
-                        DestinationFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        SourceFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        DestinationName = "destinationName",
-                    },
-                ],
                 Tags = ["string"],
-                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
         };
 
@@ -321,13 +313,32 @@ public class WorkflowCreateResponseTest : TestBase
         Workflow expectedWorkflow = new()
         {
             ID = "id",
-            MainFunction = new()
-            {
-                ID = "id",
-                Name = "name",
-                VersionNum = 0,
-            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            Edges =
+            [
+                new()
+                {
+                    DestinationNodeName = "destinationNodeName",
+                    SourceNodeName = "sourceNodeName",
+                    DestinationName = "destinationName",
+                },
+            ],
+            MainNodeName = "mainNodeName",
             Name = "name",
+            Nodes =
+            [
+                new()
+                {
+                    Function = new()
+                    {
+                        ID = "id",
+                        Name = "name",
+                        VersionNum = 0,
+                    },
+                    Name = "name",
+                },
+            ],
+            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
             {
@@ -359,30 +370,9 @@ public class WorkflowCreateResponseTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             EmailAddress = "emailAddress",
-            Relationships =
-            [
-                new()
-                {
-                    DestinationFunction = new()
-                    {
-                        ID = "id",
-                        Name = "name",
-                        VersionNum = 0,
-                    },
-                    SourceFunction = new()
-                    {
-                        ID = "id",
-                        Name = "name",
-                        VersionNum = 0,
-                    },
-                    DestinationName = "destinationName",
-                },
-            ],
             Tags = ["string"],
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
         };
 
         Assert.Equal(expectedError, deserialized.Error);
@@ -398,13 +388,32 @@ public class WorkflowCreateResponseTest : TestBase
             Workflow = new()
             {
                 ID = "id",
-                MainFunction = new()
-                {
-                    ID = "id",
-                    Name = "name",
-                    VersionNum = 0,
-                },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Edges =
+                [
+                    new()
+                    {
+                        DestinationNodeName = "destinationNodeName",
+                        SourceNodeName = "sourceNodeName",
+                        DestinationName = "destinationName",
+                    },
+                ],
+                MainNodeName = "mainNodeName",
                 Name = "name",
+                Nodes =
+                [
+                    new()
+                    {
+                        Function = new()
+                        {
+                            ID = "id",
+                            Name = "name",
+                            VersionNum = 0,
+                        },
+                        Name = "name",
+                    },
+                ],
+                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
                 {
@@ -436,30 +445,9 @@ public class WorkflowCreateResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 EmailAddress = "emailAddress",
-                Relationships =
-                [
-                    new()
-                    {
-                        DestinationFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        SourceFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        DestinationName = "destinationName",
-                    },
-                ],
                 Tags = ["string"],
-                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
         };
 
@@ -523,13 +511,32 @@ public class WorkflowCreateResponseTest : TestBase
             Workflow = new()
             {
                 ID = "id",
-                MainFunction = new()
-                {
-                    ID = "id",
-                    Name = "name",
-                    VersionNum = 0,
-                },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Edges =
+                [
+                    new()
+                    {
+                        DestinationNodeName = "destinationNodeName",
+                        SourceNodeName = "sourceNodeName",
+                        DestinationName = "destinationName",
+                    },
+                ],
+                MainNodeName = "mainNodeName",
                 Name = "name",
+                Nodes =
+                [
+                    new()
+                    {
+                        Function = new()
+                        {
+                            ID = "id",
+                            Name = "name",
+                            VersionNum = 0,
+                        },
+                        Name = "name",
+                    },
+                ],
+                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
                 {
@@ -561,30 +568,9 @@ public class WorkflowCreateResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 EmailAddress = "emailAddress",
-                Relationships =
-                [
-                    new()
-                    {
-                        DestinationFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        SourceFunction = new()
-                        {
-                            ID = "id",
-                            Name = "name",
-                            VersionNum = 0,
-                        },
-                        DestinationName = "destinationName",
-                    },
-                ],
                 Tags = ["string"],
-                UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
         };
 

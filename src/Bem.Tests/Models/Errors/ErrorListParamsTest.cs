@@ -174,11 +174,13 @@ public class ErrorListParamsTest : TestBase
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.Equal(
-            new Uri(
-                "https://api.bem.ai/v3/errors?callIDs=string&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&workflowIDs=string&workflowNames=string"
-            ),
-            url
+        Assert.True(
+            TestBase.UrisEqual(
+                new Uri(
+                    "https://api.bem.ai/v3/errors?callIDs=string&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&workflowIDs=string&workflowNames=string"
+                ),
+                url
+            )
         );
     }
 

@@ -102,6 +102,12 @@ public sealed class BemClient : IBemClient
         get { return _workflows.Value; }
     }
 
+    readonly Lazy<IInferSchemaService> _inferSchema;
+    public IInferSchemaService InferSchema
+    {
+        get { return _inferSchema.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -114,6 +120,7 @@ public sealed class BemClient : IBemClient
         _errors = new(() => new ErrorService(this));
         _outputs = new(() => new OutputService(this));
         _workflows = new(() => new WorkflowService(this));
+        _inferSchema = new(() => new InferSchemaService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -217,6 +224,12 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public IWorkflowServiceWithRawResponse Workflows
     {
         get { return _workflows.Value; }
+    }
+
+    readonly Lazy<IInferSchemaServiceWithRawResponse> _inferSchema;
+    public IInferSchemaServiceWithRawResponse InferSchema
+    {
+        get { return _inferSchema.Value; }
     }
 
     /// <inheritdoc/>
@@ -422,6 +435,7 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _errors = new(() => new ErrorServiceWithRawResponse(this));
         _outputs = new(() => new OutputServiceWithRawResponse(this));
         _workflows = new(() => new WorkflowServiceWithRawResponse(this));
+        _inferSchema = new(() => new InferSchemaServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)
