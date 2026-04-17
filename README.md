@@ -6,9 +6,10 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
+Install the package from [NuGet](https://www.nuget.org/packages/Bem):
+
 ```bash
-git clone git@github.com:bem-team/bem-csharp-sdk.git
-dotnet add reference bem-csharp-sdk/src/Bem
+dotnet add package Bem
 ```
 
 ## Requirements
