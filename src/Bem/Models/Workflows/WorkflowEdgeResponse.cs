@@ -60,12 +60,35 @@ public sealed record class WorkflowEdgeResponse : JsonModel
         }
     }
 
+    /// <summary>
+    /// Opaque free-form JSON object attached to this edge on create/update. Returned
+    /// verbatim; never interpreted by the server.
+    /// </summary>
+    public JsonElement? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.DestinationNodeName;
         _ = this.SourceNodeName;
         _ = this.DestinationName;
+        _ = this.Metadata;
     }
 
     public WorkflowEdgeResponse() { }

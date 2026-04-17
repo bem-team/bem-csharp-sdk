@@ -39,11 +39,34 @@ public sealed record class WorkflowNodeResponse : JsonModel
         init { this._rawData.Set("name", value); }
     }
 
+    /// <summary>
+    /// Opaque free-form JSON object attached to this node on create/update. Returned
+    /// verbatim; never interpreted by the server.
+    /// </summary>
+    public JsonElement? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
         this.Function.Validate();
         _ = this.Name;
+        _ = this.Metadata;
     }
 
     public WorkflowNodeResponse() { }
