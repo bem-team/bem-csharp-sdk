@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -6,6 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
+using Bem.Exceptions;
+using System = System;
 
 namespace Bem.Models.Workflows;
 
@@ -29,14 +30,34 @@ public sealed record class Workflow : JsonModel
     }
 
     /// <summary>
-    /// The date and time the workflow was created.
+    /// Connectors currently attached to this workflow. For version-scoped reads (`/versions/{n}`)
+    /// this is always empty — connectors are current-state and not part of version history.
     /// </summary>
-    public required DateTimeOffset CreatedAt
+    public required IReadOnlyList<WorkflowConnector> Connectors
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<DateTimeOffset>("createdAt");
+            return this._rawData.GetNotNullStruct<ImmutableArray<WorkflowConnector>>("connectors");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<WorkflowConnector>>(
+                "connectors",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The date and time the workflow was created.
+    /// </summary>
+    public required System::DateTimeOffset CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<System::DateTimeOffset>("createdAt");
         }
         init { this._rawData.Set("createdAt", value); }
     }
@@ -108,12 +129,12 @@ public sealed record class Workflow : JsonModel
     /// <summary>
     /// The date and time the workflow was last updated.
     /// </summary>
-    public required DateTimeOffset UpdatedAt
+    public required System::DateTimeOffset UpdatedAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<DateTimeOffset>("updatedAt");
+            return this._rawData.GetNotNullStruct<System::DateTimeOffset>("updatedAt");
         }
         init { this._rawData.Set("updatedAt", value); }
     }
@@ -222,6 +243,10 @@ public sealed record class Workflow : JsonModel
     public override void Validate()
     {
         _ = this.ID;
+        foreach (var item in this.Connectors)
+        {
+            item.Validate();
+        }
         _ = this.CreatedAt;
         foreach (var item in this.Edges)
         {
@@ -274,4 +299,253 @@ class WorkflowFromRaw : IFromRawJson<Workflow>
     /// <inheritdoc/>
     public Workflow FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Workflow.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// A connector attached to a workflow. Ingestion point that triggers the workflow.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<WorkflowConnector, WorkflowConnectorFromRaw>))]
+public sealed record class WorkflowConnector : JsonModel
+{
+    /// <summary>
+    /// Unique connector API ID.
+    /// </summary>
+    public required string ConnectorID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("connectorID");
+        }
+        init { this._rawData.Set("connectorID", value); }
+    }
+
+    /// <summary>
+    /// Human-friendly connector name.
+    /// </summary>
+    public required string Name
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
+    }
+
+    /// <summary>
+    /// Discriminator for a workflow connector. V3 supports `paragon` only.
+    /// </summary>
+    public required ApiEnum<string, WorkflowConnectorType> Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, WorkflowConnectorType>>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Paragon-integration configuration on a workflow connector.
+    /// </summary>
+    public WorkflowConnectorParagon? Paragon
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<WorkflowConnectorParagon>("paragon");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("paragon", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.ConnectorID;
+        _ = this.Name;
+        this.Type.Validate();
+        this.Paragon?.Validate();
+    }
+
+    public WorkflowConnector() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WorkflowConnector(WorkflowConnector workflowConnector)
+        : base(workflowConnector) { }
+#pragma warning restore CS8618
+
+    public WorkflowConnector(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WorkflowConnector(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WorkflowConnectorFromRaw.FromRawUnchecked"/>
+    public static WorkflowConnector FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class WorkflowConnectorFromRaw : IFromRawJson<WorkflowConnector>
+{
+    /// <inheritdoc/>
+    public WorkflowConnector FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        WorkflowConnector.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Discriminator for a workflow connector. V3 supports `paragon` only.
+/// </summary>
+[JsonConverter(typeof(WorkflowConnectorTypeConverter))]
+public enum WorkflowConnectorType
+{
+    Paragon,
+}
+
+sealed class WorkflowConnectorTypeConverter : JsonConverter<WorkflowConnectorType>
+{
+    public override WorkflowConnectorType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "paragon" => WorkflowConnectorType.Paragon,
+            _ => (WorkflowConnectorType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        WorkflowConnectorType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                WorkflowConnectorType.Paragon => "paragon",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Paragon-integration configuration on a workflow connector.
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<WorkflowConnectorParagon, WorkflowConnectorParagonFromRaw>)
+)]
+public sealed record class WorkflowConnectorParagon : JsonModel
+{
+    /// <summary>
+    /// Opaque per-integration configuration (e.g. `{"folderId": "..."}`).
+    /// </summary>
+    public required JsonElement Configuration
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("configuration");
+        }
+        init { this._rawData.Set("configuration", value); }
+    }
+
+    /// <summary>
+    /// Paragon integration key (e.g. "googledrive").
+    /// </summary>
+    public required string Integration
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("integration");
+        }
+        init { this._rawData.Set("integration", value); }
+    }
+
+    /// <summary>
+    /// Paragon sync ID managed by the server. Read-only.
+    /// </summary>
+    public required string SyncID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("syncID");
+        }
+        init { this._rawData.Set("syncID", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Configuration;
+        _ = this.Integration;
+        _ = this.SyncID;
+    }
+
+    public WorkflowConnectorParagon() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WorkflowConnectorParagon(WorkflowConnectorParagon workflowConnectorParagon)
+        : base(workflowConnectorParagon) { }
+#pragma warning restore CS8618
+
+    public WorkflowConnectorParagon(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WorkflowConnectorParagon(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WorkflowConnectorParagonFromRaw.FromRawUnchecked"/>
+    public static WorkflowConnectorParagon FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class WorkflowConnectorParagonFromRaw : IFromRawJson<WorkflowConnectorParagon>
+{
+    /// <inheritdoc/>
+    public WorkflowConnectorParagon FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => WorkflowConnectorParagon.FromRawUnchecked(rawData);
 }

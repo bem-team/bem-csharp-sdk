@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Threading.Tasks;
 using Bem.Models.Workflows;
 
@@ -23,6 +24,7 @@ public class WorkflowServiceTest : TestBase
                             Name = "name",
                             VersionNum = 0,
                         },
+                        Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         Name = "name",
                     },
                 ],

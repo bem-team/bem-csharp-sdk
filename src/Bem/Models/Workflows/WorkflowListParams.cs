@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
+using System = System;
 
 namespace Bem.Models.Workflows;
 
@@ -282,9 +282,9 @@ public record class WorkflowListParams : ParamsBase
             && this._rawQueryData.Equals(other._rawQueryData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v3/workflows")
+        return new System::UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v3/workflows")
         {
             Query = this.QueryString(options),
         }.Uri;
@@ -316,7 +316,7 @@ sealed class SortOrderConverter : JsonConverter<SortOrder>
 {
     public override SortOrder Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

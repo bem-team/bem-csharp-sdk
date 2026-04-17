@@ -14,15 +14,19 @@ public class WorkflowEdgeResponseTest : TestBase
             DestinationNodeName = "destinationNodeName",
             SourceNodeName = "sourceNodeName",
             DestinationName = "destinationName",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         string expectedDestinationNodeName = "destinationNodeName";
         string expectedSourceNodeName = "sourceNodeName";
         string expectedDestinationName = "destinationName";
+        JsonElement expectedMetadata = JsonSerializer.Deserialize<JsonElement>("{}");
 
         Assert.Equal(expectedDestinationNodeName, model.DestinationNodeName);
         Assert.Equal(expectedSourceNodeName, model.SourceNodeName);
         Assert.Equal(expectedDestinationName, model.DestinationName);
+        Assert.NotNull(model.Metadata);
+        Assert.True(JsonElement.DeepEquals(expectedMetadata, model.Metadata.Value));
     }
 
     [Fact]
@@ -33,6 +37,7 @@ public class WorkflowEdgeResponseTest : TestBase
             DestinationNodeName = "destinationNodeName",
             SourceNodeName = "sourceNodeName",
             DestinationName = "destinationName",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -52,6 +57,7 @@ public class WorkflowEdgeResponseTest : TestBase
             DestinationNodeName = "destinationNodeName",
             SourceNodeName = "sourceNodeName",
             DestinationName = "destinationName",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -64,10 +70,13 @@ public class WorkflowEdgeResponseTest : TestBase
         string expectedDestinationNodeName = "destinationNodeName";
         string expectedSourceNodeName = "sourceNodeName";
         string expectedDestinationName = "destinationName";
+        JsonElement expectedMetadata = JsonSerializer.Deserialize<JsonElement>("{}");
 
         Assert.Equal(expectedDestinationNodeName, deserialized.DestinationNodeName);
         Assert.Equal(expectedSourceNodeName, deserialized.SourceNodeName);
         Assert.Equal(expectedDestinationName, deserialized.DestinationName);
+        Assert.NotNull(deserialized.Metadata);
+        Assert.True(JsonElement.DeepEquals(expectedMetadata, deserialized.Metadata.Value));
     }
 
     [Fact]
@@ -78,6 +87,7 @@ public class WorkflowEdgeResponseTest : TestBase
             DestinationNodeName = "destinationNodeName",
             SourceNodeName = "sourceNodeName",
             DestinationName = "destinationName",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         model.Validate();
@@ -94,6 +104,8 @@ public class WorkflowEdgeResponseTest : TestBase
 
         Assert.Null(model.DestinationName);
         Assert.False(model.RawData.ContainsKey("destinationName"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
     }
 
     [Fact]
@@ -118,10 +130,13 @@ public class WorkflowEdgeResponseTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DestinationName = null,
+            Metadata = null,
         };
 
         Assert.Null(model.DestinationName);
         Assert.False(model.RawData.ContainsKey("destinationName"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
     }
 
     [Fact]
@@ -134,6 +149,7 @@ public class WorkflowEdgeResponseTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DestinationName = null,
+            Metadata = null,
         };
 
         model.Validate();
@@ -147,6 +163,7 @@ public class WorkflowEdgeResponseTest : TestBase
             DestinationNodeName = "destinationNodeName",
             SourceNodeName = "sourceNodeName",
             DestinationName = "destinationName",
+            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
         WorkflowEdgeResponse copied = new(model);
