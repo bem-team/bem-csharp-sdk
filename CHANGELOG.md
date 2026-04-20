@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 (2026-04-20)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([9ab1e39](https://github.com/bem-team/bem-csharp-sdk/commit/9ab1e39576cee82a8a69b075d2f044c6c01da94a))
+* **api:** api update ([177684d](https://github.com/bem-team/bem-csharp-sdk/commit/177684d89bd0a84bd2920880bf3c6bf8f42e6cb6))
+* **api:** fix model references in Stainless config ([f47380f](https://github.com/bem-team/bem-csharp-sdk/commit/f47380ffecdeb51adeb551e4ab65050e09c11159))
+
 ## 0.2.0 (2026-04-17)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.1.0...v0.2.0)
