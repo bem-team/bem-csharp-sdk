@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
-using Bem.Models.Functions;
+using Bem.Models.Functions.Versions;
 
-namespace Bem.Tests.Models.Functions;
+namespace Bem.Tests.Models.Functions.Versions;
 
-public class FunctionListPageResponseTest : TestBase
+public class ListFunctionVersionsResponseTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
-            Functions =
+            TotalCount = 0,
+            Versions =
             [
-                new FunctionListResponseTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -54,6 +55,7 @@ public class FunctionListPageResponseTest : TestBase
                             UserID = "userID",
                         },
                     },
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     DisplayName = "displayName",
                     Tags = ["string"],
                     UsedInWorkflows =
@@ -68,12 +70,12 @@ public class FunctionListPageResponseTest : TestBase
                     ],
                 },
             ],
-            TotalCount = 0,
         };
 
-        List<FunctionListResponse> expectedFunctions =
+        long expectedTotalCount = 0;
+        List<FunctionVersion> expectedVersions =
         [
-            new FunctionListResponseTransform()
+            new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -112,6 +114,7 @@ public class FunctionListPageResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 Tags = ["string"],
                 UsedInWorkflows =
@@ -126,25 +129,25 @@ public class FunctionListPageResponseTest : TestBase
                 ],
             },
         ];
-        long expectedTotalCount = 0;
 
-        Assert.NotNull(model.Functions);
-        Assert.Equal(expectedFunctions.Count, model.Functions.Count);
-        for (int i = 0; i < expectedFunctions.Count; i++)
-        {
-            Assert.Equal(expectedFunctions[i], model.Functions[i]);
-        }
         Assert.Equal(expectedTotalCount, model.TotalCount);
+        Assert.NotNull(model.Versions);
+        Assert.Equal(expectedVersions.Count, model.Versions.Count);
+        for (int i = 0; i < expectedVersions.Count; i++)
+        {
+            Assert.Equal(expectedVersions[i], model.Versions[i]);
+        }
     }
 
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
-            Functions =
+            TotalCount = 0,
+            Versions =
             [
-                new FunctionListResponseTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -183,6 +186,7 @@ public class FunctionListPageResponseTest : TestBase
                             UserID = "userID",
                         },
                     },
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     DisplayName = "displayName",
                     Tags = ["string"],
                     UsedInWorkflows =
@@ -197,11 +201,10 @@ public class FunctionListPageResponseTest : TestBase
                     ],
                 },
             ],
-            TotalCount = 0,
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListPageResponse>(
+        var deserialized = JsonSerializer.Deserialize<ListFunctionVersionsResponse>(
             json,
             ModelBase.SerializerOptions
         );
@@ -212,11 +215,12 @@ public class FunctionListPageResponseTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
-            Functions =
+            TotalCount = 0,
+            Versions =
             [
-                new FunctionListResponseTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -255,6 +259,7 @@ public class FunctionListPageResponseTest : TestBase
                             UserID = "userID",
                         },
                     },
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     DisplayName = "displayName",
                     Tags = ["string"],
                     UsedInWorkflows =
@@ -269,19 +274,19 @@ public class FunctionListPageResponseTest : TestBase
                     ],
                 },
             ],
-            TotalCount = 0,
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListPageResponse>(
+        var deserialized = JsonSerializer.Deserialize<ListFunctionVersionsResponse>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        List<FunctionListResponse> expectedFunctions =
+        long expectedTotalCount = 0;
+        List<FunctionVersion> expectedVersions =
         [
-            new FunctionListResponseTransform()
+            new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -320,6 +325,7 @@ public class FunctionListPageResponseTest : TestBase
                         UserID = "userID",
                     },
                 },
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 DisplayName = "displayName",
                 Tags = ["string"],
                 UsedInWorkflows =
@@ -334,25 +340,25 @@ public class FunctionListPageResponseTest : TestBase
                 ],
             },
         ];
-        long expectedTotalCount = 0;
 
-        Assert.NotNull(deserialized.Functions);
-        Assert.Equal(expectedFunctions.Count, deserialized.Functions.Count);
-        for (int i = 0; i < expectedFunctions.Count; i++)
-        {
-            Assert.Equal(expectedFunctions[i], deserialized.Functions[i]);
-        }
         Assert.Equal(expectedTotalCount, deserialized.TotalCount);
+        Assert.NotNull(deserialized.Versions);
+        Assert.Equal(expectedVersions.Count, deserialized.Versions.Count);
+        for (int i = 0; i < expectedVersions.Count; i++)
+        {
+            Assert.Equal(expectedVersions[i], deserialized.Versions[i]);
+        }
     }
 
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
-            Functions =
+            TotalCount = 0,
+            Versions =
             [
-                new FunctionListResponseTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -391,6 +397,7 @@ public class FunctionListPageResponseTest : TestBase
                             UserID = "userID",
                         },
                     },
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     DisplayName = "displayName",
                     Tags = ["string"],
                     UsedInWorkflows =
@@ -405,7 +412,6 @@ public class FunctionListPageResponseTest : TestBase
                     ],
                 },
             ],
-            TotalCount = 0,
         };
 
         model.Validate();
@@ -414,18 +420,18 @@ public class FunctionListPageResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListPageResponse { };
+        var model = new ListFunctionVersionsResponse { };
 
-        Assert.Null(model.Functions);
-        Assert.False(model.RawData.ContainsKey("functions"));
         Assert.Null(model.TotalCount);
         Assert.False(model.RawData.ContainsKey("totalCount"));
+        Assert.Null(model.Versions);
+        Assert.False(model.RawData.ContainsKey("versions"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListPageResponse { };
+        var model = new ListFunctionVersionsResponse { };
 
         model.Validate();
     }
@@ -433,27 +439,27 @@ public class FunctionListPageResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
             // Null should be interpreted as omitted for these properties
-            Functions = null,
             TotalCount = null,
+            Versions = null,
         };
 
-        Assert.Null(model.Functions);
-        Assert.False(model.RawData.ContainsKey("functions"));
         Assert.Null(model.TotalCount);
         Assert.False(model.RawData.ContainsKey("totalCount"));
+        Assert.Null(model.Versions);
+        Assert.False(model.RawData.ContainsKey("versions"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
             // Null should be interpreted as omitted for these properties
-            Functions = null,
             TotalCount = null,
+            Versions = null,
         };
 
         model.Validate();
@@ -462,11 +468,12 @@ public class FunctionListPageResponseTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListPageResponse
+        var model = new ListFunctionVersionsResponse
         {
-            Functions =
+            TotalCount = 0,
+            Versions =
             [
-                new FunctionListResponseTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -505,6 +512,7 @@ public class FunctionListPageResponseTest : TestBase
                             UserID = "userID",
                         },
                     },
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     DisplayName = "displayName",
                     Tags = ["string"],
                     UsedInWorkflows =
@@ -519,10 +527,9 @@ public class FunctionListPageResponseTest : TestBase
                     ],
                 },
             ],
-            TotalCount = 0,
         };
 
-        FunctionListPageResponse copied = new(model);
+        ListFunctionVersionsResponse copied = new(model);
 
         Assert.Equal(model, copied);
     }

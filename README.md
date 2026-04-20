@@ -27,7 +27,10 @@ using Bem.Models.Functions;
 
 BemClient client = new();
 
-FunctionCreateParams parameters = new() { Body = new Extract("functionName") };
+FunctionCreateParams parameters = new()
+{
+    CreateFunction = new Extract("functionName")
+};
 
 var functionResponse = await client.Functions.Create(parameters);
 
@@ -300,7 +303,7 @@ FunctionCreateParams parameters = new
 {
     // Documented properties can still be added here.
     // In case of conflict, these parameters take precedence over the custom parameters.
-    Body = new Extract()
+    CreateFunction = new Extract()
     {
         FunctionName = "functionName",
         DisplayName = "displayName",

@@ -58,13 +58,13 @@ public interface IVersionService
     /// <summary>
     /// List Function Versions
     /// </summary>
-    Task<VersionListResponse> List(
+    Task<ListFunctionVersionsResponse> List(
         VersionListParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="List(VersionListParams, CancellationToken)"/>
-    Task<VersionListResponse> List(
+    Task<ListFunctionVersionsResponse> List(
         string functionName,
         VersionListParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -104,13 +104,13 @@ public interface IVersionServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/functions/{functionName}/versions</c>, but is otherwise the
     /// same as <see cref="IVersionService.List(VersionListParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<VersionListResponse>> List(
+    Task<HttpResponse<ListFunctionVersionsResponse>> List(
         VersionListParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="List(VersionListParams, CancellationToken)"/>
-    Task<HttpResponse<VersionListResponse>> List(
+    Task<HttpResponse<ListFunctionVersionsResponse>> List(
         string functionName,
         VersionListParams? parameters = null,
         CancellationToken cancellationToken = default

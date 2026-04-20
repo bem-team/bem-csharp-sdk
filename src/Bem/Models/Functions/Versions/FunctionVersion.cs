@@ -8,15 +8,14 @@ using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
 
-namespace Bem.Models.Functions;
+namespace Bem.Models.Functions.Versions;
 
 /// <summary>
-/// V3 read-side union. Same shape as the shared `Function` union but with `classify`
-/// in place of `route`. Legacy `transform` and `analyze` functions remain readable
-/// via V3.
+/// V3 read-side union for function versions. Same shape as the shared `FunctionVersion`
+/// union but with `classify` in place of `route`.
 /// </summary>
-[JsonConverter(typeof(FunctionListResponseConverter))]
-public record class FunctionListResponse : ModelBase
+[JsonConverter(typeof(FunctionVersionConverter))]
+public record class FunctionVersion : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -45,8 +44,8 @@ public record class FunctionListResponse : ModelBase
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -63,8 +62,8 @@ public record class FunctionListResponse : ModelBase
                 send: (x) => x.FunctionID,
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
-                payloadShaping: (x) => x.FunctionID,
-                enrich: (x) => x.FunctionID
+                enrich: (x) => x.FunctionID,
+                payloadShaping: (x) => x.FunctionID
             );
         }
     }
@@ -81,8 +80,8 @@ public record class FunctionListResponse : ModelBase
                 send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
-                payloadShaping: (x) => x.FunctionName,
-                enrich: (x) => x.FunctionName
+                enrich: (x) => x.FunctionName,
+                payloadShaping: (x) => x.FunctionName
             );
         }
     }
@@ -99,8 +98,8 @@ public record class FunctionListResponse : ModelBase
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -117,8 +116,8 @@ public record class FunctionListResponse : ModelBase
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -135,8 +134,8 @@ public record class FunctionListResponse : ModelBase
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -153,8 +152,8 @@ public record class FunctionListResponse : ModelBase
                 send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
-                payloadShaping: (x) => x.Type,
-                enrich: (x) => x.Type
+                enrich: (x) => x.Type,
+                payloadShaping: (x) => x.Type
             );
         }
     }
@@ -171,8 +170,8 @@ public record class FunctionListResponse : ModelBase
                 send: (x) => x.VersionNum,
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
-                payloadShaping: (x) => x.VersionNum,
-                enrich: (x) => x.VersionNum
+                enrich: (x) => x.VersionNum,
+                payloadShaping: (x) => x.VersionNum
             );
         }
     }
@@ -189,8 +188,26 @@ public record class FunctionListResponse : ModelBase
                 send: (x) => x.Audit,
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
-                payloadShaping: (x) => x.Audit,
-                enrich: (x) => x.Audit
+                enrich: (x) => x.Audit,
+                payloadShaping: (x) => x.Audit
+            );
+        }
+    }
+
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            return Match<DateTimeOffset?>(
+                transform: (x) => x.CreatedAt,
+                extract: (x) => x.CreatedAt,
+                analyze: (x) => x.CreatedAt,
+                classify: (x) => x.CreatedAt,
+                send: (x) => x.CreatedAt,
+                split: (x) => x.CreatedAt,
+                join: (x) => x.CreatedAt,
+                enrich: (x) => x.CreatedAt,
+                payloadShaping: (x) => x.CreatedAt
             );
         }
     }
@@ -207,8 +224,8 @@ public record class FunctionListResponse : ModelBase
                 send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
-                payloadShaping: (x) => x.DisplayName,
-                enrich: (x) => x.DisplayName
+                enrich: (x) => x.DisplayName,
+                payloadShaping: (x) => x.DisplayName
             );
         }
     }
@@ -225,262 +242,257 @@ public record class FunctionListResponse : ModelBase
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
 
-    public FunctionListResponse(FunctionListResponseTransform value, JsonElement? element = null)
+    public FunctionVersion(Transform value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseExtract value, JsonElement? element = null)
+    public FunctionVersion(Extract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseAnalyze value, JsonElement? element = null)
+    public FunctionVersion(Analyze value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseClassify value, JsonElement? element = null)
+    public FunctionVersion(Classify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseSend value, JsonElement? element = null)
+    public FunctionVersion(Send value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseSplit value, JsonElement? element = null)
+    public FunctionVersion(Split value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseJoin value, JsonElement? element = null)
+    public FunctionVersion(Join value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(
-        FunctionListResponsePayloadShaping value,
-        JsonElement? element = null
-    )
+    public FunctionVersion(Enrich value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(FunctionListResponseEnrich value, JsonElement? element = null)
+    public FunctionVersion(PayloadShaping value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public FunctionListResponse(JsonElement element)
+    public FunctionVersion(JsonElement element)
     {
         this._element = element;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseTransform"/>.
+    /// type <see cref="Transform"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `FunctionListResponseTransform`
+    ///     // `value` is of type `Transform`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out FunctionListResponseTransform? value)
+    public bool TryPickTransform([NotNullWhen(true)] out Transform? value)
     {
-        value = this.Value as FunctionListResponseTransform;
+        value = this.Value as Transform;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseExtract"/>.
+    /// type <see cref="Extract"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickExtract(out var value)) {
-    ///     // `value` is of type `FunctionListResponseExtract`
+    ///     // `value` is of type `Extract`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickExtract([NotNullWhen(true)] out FunctionListResponseExtract? value)
+    public bool TryPickExtract([NotNullWhen(true)] out Extract? value)
     {
-        value = this.Value as FunctionListResponseExtract;
+        value = this.Value as Extract;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseAnalyze"/>.
+    /// type <see cref="Analyze"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickAnalyze(out var value)) {
-    ///     // `value` is of type `FunctionListResponseAnalyze`
+    ///     // `value` is of type `Analyze`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickAnalyze([NotNullWhen(true)] out FunctionListResponseAnalyze? value)
+    public bool TryPickAnalyze([NotNullWhen(true)] out Analyze? value)
     {
-        value = this.Value as FunctionListResponseAnalyze;
+        value = this.Value as Analyze;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseClassify"/>.
+    /// type <see cref="Classify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickClassify(out var value)) {
-    ///     // `value` is of type `FunctionListResponseClassify`
+    ///     // `value` is of type `Classify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickClassify([NotNullWhen(true)] out FunctionListResponseClassify? value)
+    public bool TryPickClassify([NotNullWhen(true)] out Classify? value)
     {
-        value = this.Value as FunctionListResponseClassify;
+        value = this.Value as Classify;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseSend"/>.
+    /// type <see cref="Send"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSend(out var value)) {
-    ///     // `value` is of type `FunctionListResponseSend`
+    ///     // `value` is of type `Send`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSend([NotNullWhen(true)] out FunctionListResponseSend? value)
+    public bool TryPickSend([NotNullWhen(true)] out Send? value)
     {
-        value = this.Value as FunctionListResponseSend;
+        value = this.Value as Send;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseSplit"/>.
+    /// type <see cref="Split"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSplit(out var value)) {
-    ///     // `value` is of type `FunctionListResponseSplit`
+    ///     // `value` is of type `Split`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSplit([NotNullWhen(true)] out FunctionListResponseSplit? value)
+    public bool TryPickSplit([NotNullWhen(true)] out Split? value)
     {
-        value = this.Value as FunctionListResponseSplit;
+        value = this.Value as Split;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseJoin"/>.
+    /// type <see cref="Join"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJoin(out var value)) {
-    ///     // `value` is of type `FunctionListResponseJoin`
+    ///     // `value` is of type `Join`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickJoin([NotNullWhen(true)] out FunctionListResponseJoin? value)
+    public bool TryPickJoin([NotNullWhen(true)] out Join? value)
     {
-        value = this.Value as FunctionListResponseJoin;
+        value = this.Value as Join;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponsePayloadShaping"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickPayloadShaping(out var value)) {
-    ///     // `value` is of type `FunctionListResponsePayloadShaping`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickPayloadShaping(
-        [NotNullWhen(true)] out FunctionListResponsePayloadShaping? value
-    )
-    {
-        value = this.Value as FunctionListResponsePayloadShaping;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionListResponseEnrich"/>.
+    /// type <see cref="Enrich"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickEnrich(out var value)) {
-    ///     // `value` is of type `FunctionListResponseEnrich`
+    ///     // `value` is of type `Enrich`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickEnrich([NotNullWhen(true)] out FunctionListResponseEnrich? value)
+    public bool TryPickEnrich([NotNullWhen(true)] out Enrich? value)
     {
-        value = this.Value as FunctionListResponseEnrich;
+        value = this.Value as Enrich;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="PayloadShaping"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickPayloadShaping(out var value)) {
+    ///     // `value` is of type `PayloadShaping`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickPayloadShaping([NotNullWhen(true)] out PayloadShaping? value)
+    {
+        value = this.Value as PayloadShaping;
         return value != null;
     }
 
@@ -498,63 +510,63 @@ public record class FunctionListResponse : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (FunctionListResponseTransform value) =&gt; {...},
-    ///     (FunctionListResponseExtract value) =&gt; {...},
-    ///     (FunctionListResponseAnalyze value) =&gt; {...},
-    ///     (FunctionListResponseClassify value) =&gt; {...},
-    ///     (FunctionListResponseSend value) =&gt; {...},
-    ///     (FunctionListResponseSplit value) =&gt; {...},
-    ///     (FunctionListResponseJoin value) =&gt; {...},
-    ///     (FunctionListResponsePayloadShaping value) =&gt; {...},
-    ///     (FunctionListResponseEnrich value) =&gt; {...}
+    ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
+    ///     (Analyze value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
+    ///     (Send value) =&gt; {...},
+    ///     (Split value) =&gt; {...},
+    ///     (Join value) =&gt; {...},
+    ///     (Enrich value) =&gt; {...},
+    ///     (PayloadShaping value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        Action<FunctionListResponseTransform> transform,
-        Action<FunctionListResponseExtract> extract,
-        Action<FunctionListResponseAnalyze> analyze,
-        Action<FunctionListResponseClassify> classify,
-        Action<FunctionListResponseSend> send,
-        Action<FunctionListResponseSplit> split,
-        Action<FunctionListResponseJoin> join,
-        Action<FunctionListResponsePayloadShaping> payloadShaping,
-        Action<FunctionListResponseEnrich> enrich
+        Action<Transform> transform,
+        Action<Extract> extract,
+        Action<Analyze> analyze,
+        Action<Classify> classify,
+        Action<Send> send,
+        Action<Split> split,
+        Action<Join> join,
+        Action<Enrich> enrich,
+        Action<PayloadShaping> payloadShaping
     )
     {
         switch (this.Value)
         {
-            case FunctionListResponseTransform value:
+            case Transform value:
                 transform(value);
                 break;
-            case FunctionListResponseExtract value:
+            case Extract value:
                 extract(value);
                 break;
-            case FunctionListResponseAnalyze value:
+            case Analyze value:
                 analyze(value);
                 break;
-            case FunctionListResponseClassify value:
+            case Classify value:
                 classify(value);
                 break;
-            case FunctionListResponseSend value:
+            case Send value:
                 send(value);
                 break;
-            case FunctionListResponseSplit value:
+            case Split value:
                 split(value);
                 break;
-            case FunctionListResponseJoin value:
+            case Join value:
                 join(value);
                 break;
-            case FunctionListResponsePayloadShaping value:
-                payloadShaping(value);
-                break;
-            case FunctionListResponseEnrich value:
+            case Enrich value:
                 enrich(value);
+                break;
+            case PayloadShaping value:
+                payloadShaping(value);
                 break;
             default:
                 throw new BemInvalidDataException(
-                    "Data did not match any variant of FunctionListResponse"
+                    "Data did not match any variant of FunctionVersion"
                 );
         }
     }
@@ -574,75 +586,65 @@ public record class FunctionListResponse : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (FunctionListResponseTransform value) =&gt; {...},
-    ///     (FunctionListResponseExtract value) =&gt; {...},
-    ///     (FunctionListResponseAnalyze value) =&gt; {...},
-    ///     (FunctionListResponseClassify value) =&gt; {...},
-    ///     (FunctionListResponseSend value) =&gt; {...},
-    ///     (FunctionListResponseSplit value) =&gt; {...},
-    ///     (FunctionListResponseJoin value) =&gt; {...},
-    ///     (FunctionListResponsePayloadShaping value) =&gt; {...},
-    ///     (FunctionListResponseEnrich value) =&gt; {...}
+    ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
+    ///     (Analyze value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
+    ///     (Send value) =&gt; {...},
+    ///     (Split value) =&gt; {...},
+    ///     (Join value) =&gt; {...},
+    ///     (Enrich value) =&gt; {...},
+    ///     (PayloadShaping value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<FunctionListResponseTransform, T> transform,
-        Func<FunctionListResponseExtract, T> extract,
-        Func<FunctionListResponseAnalyze, T> analyze,
-        Func<FunctionListResponseClassify, T> classify,
-        Func<FunctionListResponseSend, T> send,
-        Func<FunctionListResponseSplit, T> split,
-        Func<FunctionListResponseJoin, T> join,
-        Func<FunctionListResponsePayloadShaping, T> payloadShaping,
-        Func<FunctionListResponseEnrich, T> enrich
+        Func<Transform, T> transform,
+        Func<Extract, T> extract,
+        Func<Analyze, T> analyze,
+        Func<Classify, T> classify,
+        Func<Send, T> send,
+        Func<Split, T> split,
+        Func<Join, T> join,
+        Func<Enrich, T> enrich,
+        Func<PayloadShaping, T> payloadShaping
     )
     {
         return this.Value switch
         {
-            FunctionListResponseTransform value => transform(value),
-            FunctionListResponseExtract value => extract(value),
-            FunctionListResponseAnalyze value => analyze(value),
-            FunctionListResponseClassify value => classify(value),
-            FunctionListResponseSend value => send(value),
-            FunctionListResponseSplit value => split(value),
-            FunctionListResponseJoin value => join(value),
-            FunctionListResponsePayloadShaping value => payloadShaping(value),
-            FunctionListResponseEnrich value => enrich(value),
+            Transform value => transform(value),
+            Extract value => extract(value),
+            Analyze value => analyze(value),
+            Classify value => classify(value),
+            Send value => send(value),
+            Split value => split(value),
+            Join value => join(value),
+            Enrich value => enrich(value),
+            PayloadShaping value => payloadShaping(value),
             _ => throw new BemInvalidDataException(
-                "Data did not match any variant of FunctionListResponse"
+                "Data did not match any variant of FunctionVersion"
             ),
         };
     }
 
-    public static implicit operator FunctionListResponse(FunctionListResponseTransform value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Transform value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseExtract value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Extract value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseAnalyze value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Analyze value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseClassify value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Classify value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseSend value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Send value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseSplit value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Split value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseJoin value) =>
-        new(value);
+    public static implicit operator FunctionVersion(Join value) => new(value);
 
-    public static implicit operator FunctionListResponse(
-        FunctionListResponsePayloadShaping value
-    ) => new(value);
+    public static implicit operator FunctionVersion(Enrich value) => new(value);
 
-    public static implicit operator FunctionListResponse(FunctionListResponseEnrich value) =>
-        new(value);
+    public static implicit operator FunctionVersion(PayloadShaping value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -658,9 +660,7 @@ public record class FunctionListResponse : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException(
-                "Data did not match any variant of FunctionListResponse"
-            );
+            throw new BemInvalidDataException("Data did not match any variant of FunctionVersion");
         }
         this.Switch(
             (transform) => transform.Validate(),
@@ -670,12 +670,12 @@ public record class FunctionListResponse : ModelBase
             (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
-            (payloadShaping) => payloadShaping.Validate(),
-            (enrich) => enrich.Validate()
+            (enrich) => enrich.Validate(),
+            (payloadShaping) => payloadShaping.Validate()
         );
     }
 
-    public virtual bool Equals(FunctionListResponse? other) =>
+    public virtual bool Equals(FunctionVersion? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -695,23 +695,23 @@ public record class FunctionListResponse : ModelBase
     {
         return this.Value switch
         {
-            FunctionListResponseTransform _ => 0,
-            FunctionListResponseExtract _ => 1,
-            FunctionListResponseAnalyze _ => 2,
-            FunctionListResponseClassify _ => 3,
-            FunctionListResponseSend _ => 4,
-            FunctionListResponseSplit _ => 5,
-            FunctionListResponseJoin _ => 6,
-            FunctionListResponsePayloadShaping _ => 7,
-            FunctionListResponseEnrich _ => 8,
+            Transform _ => 0,
+            Extract _ => 1,
+            Analyze _ => 2,
+            Classify _ => 3,
+            Send _ => 4,
+            Split _ => 5,
+            Join _ => 6,
+            Enrich _ => 7,
+            PayloadShaping _ => 8,
             _ => -1,
         };
     }
 }
 
-sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
+sealed class FunctionVersionConverter : JsonConverter<FunctionVersion>
 {
-    public override FunctionListResponse? Read(
+    public override FunctionVersion? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -734,10 +734,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseTransform>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Transform>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -754,10 +751,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseExtract>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Extract>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -774,10 +768,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseAnalyze>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Analyze>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -794,10 +785,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassify>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Classify>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -814,10 +802,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseSend>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Send>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -834,10 +819,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseSplit>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Split>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -854,31 +836,7 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseJoin>(
-                        element,
-                        options
-                    );
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
-            case "payload_shaping":
-            {
-                try
-                {
-                    var deserialized =
-                        JsonSerializer.Deserialize<FunctionListResponsePayloadShaping>(
-                            element,
-                            options
-                        );
+                    var deserialized = JsonSerializer.Deserialize<Join>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -895,10 +853,24 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionListResponseEnrich>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Enrich>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "payload_shaping":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<PayloadShaping>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -913,14 +885,14 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
             }
             default:
             {
-                return new FunctionListResponse(element);
+                return new FunctionVersion(element);
             }
         }
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FunctionListResponse value,
+        FunctionVersion value,
         JsonSerializerOptions options
     )
     {
@@ -928,10 +900,8 @@ sealed class FunctionListResponseConverter : JsonConverter<FunctionListResponse>
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseTransform, FunctionListResponseTransformFromRaw>)
-)]
-public sealed record class FunctionListResponseTransform : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Transform, TransformFromRaw>))]
+public sealed record class Transform : JsonModel
 {
     /// <summary>
     /// Email address automatically created by bem. You can forward emails with or
@@ -1037,7 +1007,7 @@ public sealed record class FunctionListResponseTransform : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1054,6 +1024,27 @@ public sealed record class FunctionListResponseTransform : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1143,6 +1134,7 @@ public sealed record class FunctionListResponseTransform : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1151,20 +1143,18 @@ public sealed record class FunctionListResponseTransform : JsonModel
         }
     }
 
-    public FunctionListResponseTransform()
+    public Transform()
     {
         this.Type = JsonSerializer.SerializeToElement("transform");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseTransform(
-        FunctionListResponseTransform functionListResponseTransform
-    )
-        : base(functionListResponseTransform) { }
+    public Transform(Transform transform)
+        : base(transform) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseTransform(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Transform(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1173,37 +1163,28 @@ public sealed record class FunctionListResponseTransform : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseTransform(FrozenDictionary<string, JsonElement> rawData)
+    Transform(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseTransformFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="TransformFromRaw.FromRawUnchecked"/>
+    public static Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseTransformFromRaw : IFromRawJson<FunctionListResponseTransform>
+class TransformFromRaw : IFromRawJson<Transform>
 {
     /// <inheritdoc/>
-    public FunctionListResponseTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseTransform.FromRawUnchecked(rawData);
+    public Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Transform.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// A function that extracts structured JSON from documents and images. Accepts a
-/// wide range of input types including PDFs, images, spreadsheets, emails, and more.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseExtract, FunctionListResponseExtractFromRaw>)
-)]
-public sealed record class FunctionListResponseExtract : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Extract, ExtractFromRaw>))]
+public sealed record class Extract : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -1295,7 +1276,7 @@ public sealed record class FunctionListResponseExtract : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1312,6 +1293,27 @@ public sealed record class FunctionListResponseExtract : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1400,6 +1402,7 @@ public sealed record class FunctionListResponseExtract : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1408,18 +1411,18 @@ public sealed record class FunctionListResponseExtract : JsonModel
         }
     }
 
-    public FunctionListResponseExtract()
+    public Extract()
     {
         this.Type = JsonSerializer.SerializeToElement("extract");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseExtract(FunctionListResponseExtract functionListResponseExtract)
-        : base(functionListResponseExtract) { }
+    public Extract(Extract extract)
+        : base(extract) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseExtract(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Extract(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1428,33 +1431,28 @@ public sealed record class FunctionListResponseExtract : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseExtract(FrozenDictionary<string, JsonElement> rawData)
+    Extract(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseExtractFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseExtract FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ExtractFromRaw.FromRawUnchecked"/>
+    public static Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseExtractFromRaw : IFromRawJson<FunctionListResponseExtract>
+class ExtractFromRaw : IFromRawJson<Extract>
 {
     /// <inheritdoc/>
-    public FunctionListResponseExtract FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseExtract.FromRawUnchecked(rawData);
+    public Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Extract.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseAnalyze, FunctionListResponseAnalyzeFromRaw>)
-)]
-public sealed record class FunctionListResponseAnalyze : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Analyze, AnalyzeFromRaw>))]
+public sealed record class Analyze : JsonModel
 {
     /// <summary>
     /// Whether bounding box extraction is enabled. Only applicable to analyze and
@@ -1561,7 +1559,7 @@ public sealed record class FunctionListResponseAnalyze : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1578,6 +1576,27 @@ public sealed record class FunctionListResponseAnalyze : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1667,6 +1686,7 @@ public sealed record class FunctionListResponseAnalyze : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1675,18 +1695,18 @@ public sealed record class FunctionListResponseAnalyze : JsonModel
         }
     }
 
-    public FunctionListResponseAnalyze()
+    public Analyze()
     {
         this.Type = JsonSerializer.SerializeToElement("analyze");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseAnalyze(FunctionListResponseAnalyze functionListResponseAnalyze)
-        : base(functionListResponseAnalyze) { }
+    public Analyze(Analyze analyze)
+        : base(analyze) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseAnalyze(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Analyze(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1695,36 +1715,31 @@ public sealed record class FunctionListResponseAnalyze : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseAnalyze(FrozenDictionary<string, JsonElement> rawData)
+    Analyze(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseAnalyzeFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseAnalyze FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="AnalyzeFromRaw.FromRawUnchecked"/>
+    public static Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseAnalyzeFromRaw : IFromRawJson<FunctionListResponseAnalyze>
+class AnalyzeFromRaw : IFromRawJson<Analyze>
 {
     /// <inheritdoc/>
-    public FunctionListResponseAnalyze FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseAnalyze.FromRawUnchecked(rawData);
+    public Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Analyze.FromRawUnchecked(rawData);
 }
 
 /// <summary>
-/// V3 read-side shape of a Classify (internally Route) function. Mirrors {
+/// V3 read-side shape of a Classify (internally Route) function version. Mirrors {
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseClassify, FunctionListResponseClassifyFromRaw>)
-)]
-public sealed record class FunctionListResponseClassify : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Classify, ClassifyFromRaw>))]
+public sealed record class Classify : JsonModel
 {
     /// <summary>
     /// V3 create/update variants of the shared function payloads.
@@ -1741,18 +1756,18 @@ public sealed record class FunctionListResponseClassify : JsonModel
     /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
     /// name for the list of classifications a classify function can produce.</para>
     /// </summary>
-    public required IReadOnlyList<FunctionListResponseClassifyClassification> Classifications
+    public required IReadOnlyList<ClassificationListItem> Classifications
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<
-                ImmutableArray<FunctionListResponseClassifyClassification>
-            >("classifications");
+            return this._rawData.GetNotNullStruct<ImmutableArray<ClassificationListItem>>(
+                "classifications"
+            );
         }
         init
         {
-            this._rawData.Set<ImmutableArray<FunctionListResponseClassifyClassification>>(
+            this._rawData.Set<ImmutableArray<ClassificationListItem>>(
                 "classifications",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -1837,7 +1852,7 @@ public sealed record class FunctionListResponseClassify : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1854,6 +1869,27 @@ public sealed record class FunctionListResponseClassify : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1945,6 +1981,7 @@ public sealed record class FunctionListResponseClassify : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1953,18 +1990,18 @@ public sealed record class FunctionListResponseClassify : JsonModel
         }
     }
 
-    public FunctionListResponseClassify()
+    public Classify()
     {
         this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseClassify(FunctionListResponseClassify functionListResponseClassify)
-        : base(functionListResponseClassify) { }
+    public Classify(Classify classify)
+        : base(classify) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseClassify(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Classify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1973,477 +2010,40 @@ public sealed record class FunctionListResponseClassify : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseClassify(FrozenDictionary<string, JsonElement> rawData)
+    Classify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseClassifyFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseClassify FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ClassifyFromRaw.FromRawUnchecked"/>
+    public static Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseClassifyFromRaw : IFromRawJson<FunctionListResponseClassify>
+class ClassifyFromRaw : IFromRawJson<Classify>
 {
     /// <inheritdoc/>
-    public FunctionListResponseClassify FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseClassify.FromRawUnchecked(rawData);
+    public Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Classify.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponseClassifyClassification,
-        FunctionListResponseClassifyClassificationFromRaw
-    >)
-)]
-public sealed record class FunctionListResponseClassifyClassification : JsonModel
-{
-    public required string Name
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("name");
-        }
-        init { this._rawData.Set("name", value); }
-    }
-
-    public string? Description
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("description");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("description", value);
-        }
-    }
-
-    public string? FunctionID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionID", value);
-        }
-    }
-
-    public string? FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionName", value);
-        }
-    }
-
-    public bool? IsErrorFallback
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("isErrorFallback");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("isErrorFallback", value);
-        }
-    }
-
-    public FunctionListResponseClassifyClassificationOrigin? Origin
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionListResponseClassifyClassificationOrigin>(
-                "origin"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("origin", value);
-        }
-    }
-
-    public FunctionListResponseClassifyClassificationRegex? Regex
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionListResponseClassifyClassificationRegex>(
-                "regex"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("regex", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Name;
-        _ = this.Description;
-        _ = this.FunctionID;
-        _ = this.FunctionName;
-        _ = this.IsErrorFallback;
-        this.Origin?.Validate();
-        this.Regex?.Validate();
-    }
-
-    public FunctionListResponseClassifyClassification() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionListResponseClassifyClassification(
-        FunctionListResponseClassifyClassification functionListResponseClassifyClassification
-    )
-        : base(functionListResponseClassifyClassification) { }
-#pragma warning restore CS8618
-
-    public FunctionListResponseClassifyClassification(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionListResponseClassifyClassification(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionListResponseClassifyClassificationFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseClassifyClassification FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-
-    [SetsRequiredMembers]
-    public FunctionListResponseClassifyClassification(string name)
-        : this()
-    {
-        this.Name = name;
-    }
-}
-
-class FunctionListResponseClassifyClassificationFromRaw
-    : IFromRawJson<FunctionListResponseClassifyClassification>
-{
-    /// <inheritdoc/>
-    public FunctionListResponseClassifyClassification FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseClassifyClassification.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponseClassifyClassificationOrigin,
-        FunctionListResponseClassifyClassificationOriginFromRaw
-    >)
-)]
-public sealed record class FunctionListResponseClassifyClassificationOrigin : JsonModel
-{
-    public FunctionListResponseClassifyClassificationOriginEmail? Email
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionListResponseClassifyClassificationOriginEmail>(
-                "email"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("email", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Email?.Validate();
-    }
-
-    public FunctionListResponseClassifyClassificationOrigin() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionListResponseClassifyClassificationOrigin(
-        FunctionListResponseClassifyClassificationOrigin functionListResponseClassifyClassificationOrigin
-    )
-        : base(functionListResponseClassifyClassificationOrigin) { }
-#pragma warning restore CS8618
-
-    public FunctionListResponseClassifyClassificationOrigin(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionListResponseClassifyClassificationOrigin(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionListResponseClassifyClassificationOriginFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseClassifyClassificationOrigin FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionListResponseClassifyClassificationOriginFromRaw
-    : IFromRawJson<FunctionListResponseClassifyClassificationOrigin>
-{
-    /// <inheritdoc/>
-    public FunctionListResponseClassifyClassificationOrigin FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseClassifyClassificationOrigin.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponseClassifyClassificationOriginEmail,
-        FunctionListResponseClassifyClassificationOriginEmailFromRaw
-    >)
-)]
-public sealed record class FunctionListResponseClassifyClassificationOriginEmail : JsonModel
-{
-    public IReadOnlyList<string>? Patterns
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("patterns");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "patterns",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Patterns;
-    }
-
-    public FunctionListResponseClassifyClassificationOriginEmail() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionListResponseClassifyClassificationOriginEmail(
-        FunctionListResponseClassifyClassificationOriginEmail functionListResponseClassifyClassificationOriginEmail
-    )
-        : base(functionListResponseClassifyClassificationOriginEmail) { }
-#pragma warning restore CS8618
-
-    public FunctionListResponseClassifyClassificationOriginEmail(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionListResponseClassifyClassificationOriginEmail(
-        FrozenDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionListResponseClassifyClassificationOriginEmailFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseClassifyClassificationOriginEmail FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionListResponseClassifyClassificationOriginEmailFromRaw
-    : IFromRawJson<FunctionListResponseClassifyClassificationOriginEmail>
-{
-    /// <inheritdoc/>
-    public FunctionListResponseClassifyClassificationOriginEmail FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseClassifyClassificationOriginEmail.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponseClassifyClassificationRegex,
-        FunctionListResponseClassifyClassificationRegexFromRaw
-    >)
-)]
-public sealed record class FunctionListResponseClassifyClassificationRegex : JsonModel
-{
-    public IReadOnlyList<string>? Patterns
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("patterns");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "patterns",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Patterns;
-    }
-
-    public FunctionListResponseClassifyClassificationRegex() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionListResponseClassifyClassificationRegex(
-        FunctionListResponseClassifyClassificationRegex functionListResponseClassifyClassificationRegex
-    )
-        : base(functionListResponseClassifyClassificationRegex) { }
-#pragma warning restore CS8618
-
-    public FunctionListResponseClassifyClassificationRegex(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionListResponseClassifyClassificationRegex(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionListResponseClassifyClassificationRegexFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseClassifyClassificationRegex FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionListResponseClassifyClassificationRegexFromRaw
-    : IFromRawJson<FunctionListResponseClassifyClassificationRegex>
-{
-    /// <inheritdoc/>
-    public FunctionListResponseClassifyClassificationRegex FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseClassifyClassificationRegex.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// A function that delivers workflow outputs to an external destination. Send functions
-/// receive the output of an upstream workflow node and forward it to a webhook,
-/// S3 bucket, or Google Drive folder.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseSend, FunctionListResponseSendFromRaw>)
-)]
-public sealed record class FunctionListResponseSend : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]
+public sealed record class Send : JsonModel
 {
     /// <summary>
     /// Destination type for a Send function.
     /// </summary>
-    public required ApiEnum<string, FunctionListResponseSendDestinationType> DestinationType
+    public required ApiEnum<string, DestinationType> DestinationType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, FunctionListResponseSendDestinationType>
-            >("destinationType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
+                "destinationType"
+            );
         }
         init { this._rawData.Set("destinationType", value); }
     }
@@ -2498,7 +2098,7 @@ public sealed record class FunctionListResponseSend : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -2515,6 +2115,27 @@ public sealed record class FunctionListResponseSend : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -2539,10 +2160,6 @@ public sealed record class FunctionListResponseSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// Google Drive folder ID. Present when destinationType is google_drive. Managed
-    /// via Paragon OAuth.
-    /// </summary>
     public string? GoogleDriveFolderID
     {
         get
@@ -2561,9 +2178,6 @@ public sealed record class FunctionListResponseSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// S3 bucket to upload the payload to. Present when destinationType is s3.
-    /// </summary>
     public string? S3Bucket
     {
         get
@@ -2582,9 +2196,6 @@ public sealed record class FunctionListResponseSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// S3 key prefix (folder path). Optional, present when destinationType is s3.
-    /// </summary>
     public string? S3Prefix
     {
         get
@@ -2654,7 +2265,7 @@ public sealed record class FunctionListResponseSend : JsonModel
     }
 
     /// <summary>
-    /// Whether webhook payloads are signed with an HMAC-SHA256 `bem-signature` header.
+    /// Whether webhook deliveries are signed with an HMAC-SHA256 `bem-signature` header.
     /// </summary>
     public bool? WebhookSigningEnabled
     {
@@ -2674,9 +2285,6 @@ public sealed record class FunctionListResponseSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// Webhook URL to POST the payload to. Present when destinationType is webhook.
-    /// </summary>
     public string? WebhookUrl
     {
         get
@@ -2707,6 +2315,7 @@ public sealed record class FunctionListResponseSend : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.GoogleDriveFolderID;
         _ = this.S3Bucket;
@@ -2720,18 +2329,18 @@ public sealed record class FunctionListResponseSend : JsonModel
         _ = this.WebhookUrl;
     }
 
-    public FunctionListResponseSend()
+    public Send()
     {
         this.Type = JsonSerializer.SerializeToElement("send");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseSend(FunctionListResponseSend functionListResponseSend)
-        : base(functionListResponseSend) { }
+    public Send(Send send)
+        : base(send) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseSend(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Send(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -2740,44 +2349,40 @@ public sealed record class FunctionListResponseSend : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseSend(FrozenDictionary<string, JsonElement> rawData)
+    Send(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseSendFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseSend FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="SendFromRaw.FromRawUnchecked"/>
+    public static Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseSendFromRaw : IFromRawJson<FunctionListResponseSend>
+class SendFromRaw : IFromRawJson<Send>
 {
     /// <inheritdoc/>
-    public FunctionListResponseSend FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseSend.FromRawUnchecked(rawData);
+    public Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Send.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Destination type for a Send function.
 /// </summary>
-[JsonConverter(typeof(FunctionListResponseSendDestinationTypeConverter))]
-public enum FunctionListResponseSendDestinationType
+[JsonConverter(typeof(DestinationTypeConverter))]
+public enum DestinationType
 {
     Webhook,
     S3,
     GoogleDrive,
 }
 
-sealed class FunctionListResponseSendDestinationTypeConverter
-    : JsonConverter<FunctionListResponseSendDestinationType>
+sealed class DestinationTypeConverter : JsonConverter<DestinationType>
 {
-    public override FunctionListResponseSendDestinationType Read(
+    public override DestinationType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2785,16 +2390,16 @@ sealed class FunctionListResponseSendDestinationTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "webhook" => FunctionListResponseSendDestinationType.Webhook,
-            "s3" => FunctionListResponseSendDestinationType.S3,
-            "google_drive" => FunctionListResponseSendDestinationType.GoogleDrive,
-            _ => (FunctionListResponseSendDestinationType)(-1),
+            "webhook" => DestinationType.Webhook,
+            "s3" => DestinationType.S3,
+            "google_drive" => DestinationType.GoogleDrive,
+            _ => (DestinationType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FunctionListResponseSendDestinationType value,
+        DestinationType value,
         JsonSerializerOptions options
     )
     {
@@ -2802,9 +2407,9 @@ sealed class FunctionListResponseSendDestinationTypeConverter
             writer,
             value switch
             {
-                FunctionListResponseSendDestinationType.Webhook => "webhook",
-                FunctionListResponseSendDestinationType.S3 => "s3",
-                FunctionListResponseSendDestinationType.GoogleDrive => "google_drive",
+                DestinationType.Webhook => "webhook",
+                DestinationType.S3 => "s3",
+                DestinationType.GoogleDrive => "google_drive",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2814,10 +2419,8 @@ sealed class FunctionListResponseSendDestinationTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseSplit, FunctionListResponseSplitFromRaw>)
-)]
-public sealed record class FunctionListResponseSplit : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Split, SplitFromRaw>))]
+public sealed record class Split : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -2845,17 +2448,12 @@ public sealed record class FunctionListResponseSplit : JsonModel
         init { this._rawData.Set("functionName", value); }
     }
 
-    /// <summary>
-    /// The method used to split pages.
-    /// </summary>
-    public required ApiEnum<string, FunctionListResponseSplitSplitType> SplitType
+    public required ApiEnum<string, SplitType> SplitType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, FunctionListResponseSplitSplitType>
-            >("splitType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, SplitType>>("splitType");
         }
         init { this._rawData.Set("splitType", value); }
     }
@@ -2884,7 +2482,7 @@ public sealed record class FunctionListResponseSplit : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -2901,6 +2499,27 @@ public sealed record class FunctionListResponseSplit : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -2925,17 +2544,12 @@ public sealed record class FunctionListResponseSplit : JsonModel
         }
     }
 
-    /// <summary>
-    /// Configuration for print page splitting.
-    /// </summary>
-    public FunctionListResponseSplitPrintPageSplitConfig? PrintPageSplitConfig
+    public PrintPageSplitConfig? PrintPageSplitConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionListResponseSplitPrintPageSplitConfig>(
-                "printPageSplitConfig"
-            );
+            return this._rawData.GetNullableClass<PrintPageSplitConfig>("printPageSplitConfig");
         }
         init
         {
@@ -2948,15 +2562,12 @@ public sealed record class FunctionListResponseSplit : JsonModel
         }
     }
 
-    /// <summary>
-    /// Configuration for semantic page splitting.
-    /// </summary>
-    public FunctionListResponseSplitSemanticPageSplitConfig? SemanticPageSplitConfig
+    public SemanticPageSplitConfig? SemanticPageSplitConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionListResponseSplitSemanticPageSplitConfig>(
+            return this._rawData.GetNullableClass<SemanticPageSplitConfig>(
                 "semanticPageSplitConfig"
             );
         }
@@ -3033,6 +2644,7 @@ public sealed record class FunctionListResponseSplit : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         this.PrintPageSplitConfig?.Validate();
         this.SemanticPageSplitConfig?.Validate();
@@ -3043,18 +2655,18 @@ public sealed record class FunctionListResponseSplit : JsonModel
         }
     }
 
-    public FunctionListResponseSplit()
+    public Split()
     {
         this.Type = JsonSerializer.SerializeToElement("split");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseSplit(FunctionListResponseSplit functionListResponseSplit)
-        : base(functionListResponseSplit) { }
+    public Split(Split split)
+        : base(split) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseSplit(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Split(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -3063,43 +2675,36 @@ public sealed record class FunctionListResponseSplit : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseSplit(FrozenDictionary<string, JsonElement> rawData)
+    Split(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseSplitFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseSplit FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="SplitFromRaw.FromRawUnchecked"/>
+    public static Split FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseSplitFromRaw : IFromRawJson<FunctionListResponseSplit>
+class SplitFromRaw : IFromRawJson<Split>
 {
     /// <inheritdoc/>
-    public FunctionListResponseSplit FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseSplit.FromRawUnchecked(rawData);
+    public Split FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Split.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The method used to split pages.
-/// </summary>
-[JsonConverter(typeof(FunctionListResponseSplitSplitTypeConverter))]
-public enum FunctionListResponseSplitSplitType
+[JsonConverter(typeof(SplitTypeConverter))]
+public enum SplitType
 {
     PrintPage,
     SemanticPage,
 }
 
-sealed class FunctionListResponseSplitSplitTypeConverter
-    : JsonConverter<FunctionListResponseSplitSplitType>
+sealed class SplitTypeConverter : JsonConverter<SplitType>
 {
-    public override FunctionListResponseSplitSplitType Read(
+    public override SplitType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -3107,15 +2712,15 @@ sealed class FunctionListResponseSplitSplitTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "print_page" => FunctionListResponseSplitSplitType.PrintPage,
-            "semantic_page" => FunctionListResponseSplitSplitType.SemanticPage,
-            _ => (FunctionListResponseSplitSplitType)(-1),
+            "print_page" => SplitType.PrintPage,
+            "semantic_page" => SplitType.SemanticPage,
+            _ => (SplitType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FunctionListResponseSplitSplitType value,
+        SplitType value,
         JsonSerializerOptions options
     )
     {
@@ -3123,8 +2728,8 @@ sealed class FunctionListResponseSplitSplitTypeConverter
             writer,
             value switch
             {
-                FunctionListResponseSplitSplitType.PrintPage => "print_page",
-                FunctionListResponseSplitSplitType.SemanticPage => "semantic_page",
+                SplitType.PrintPage => "print_page",
+                SplitType.SemanticPage => "semantic_page",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -3134,16 +2739,8 @@ sealed class FunctionListResponseSplitSplitTypeConverter
     }
 }
 
-/// <summary>
-/// Configuration for print page splitting.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponseSplitPrintPageSplitConfig,
-        FunctionListResponseSplitPrintPageSplitConfigFromRaw
-    >)
-)]
-public sealed record class FunctionListResponseSplitPrintPageSplitConfig : JsonModel
+[JsonConverter(typeof(JsonModelConverter<PrintPageSplitConfig, PrintPageSplitConfigFromRaw>))]
+public sealed record class PrintPageSplitConfig : JsonModel
 {
     public string? NextFunctionID
     {
@@ -3169,33 +2766,29 @@ public sealed record class FunctionListResponseSplitPrintPageSplitConfig : JsonM
         _ = this.NextFunctionID;
     }
 
-    public FunctionListResponseSplitPrintPageSplitConfig() { }
+    public PrintPageSplitConfig() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseSplitPrintPageSplitConfig(
-        FunctionListResponseSplitPrintPageSplitConfig functionListResponseSplitPrintPageSplitConfig
-    )
-        : base(functionListResponseSplitPrintPageSplitConfig) { }
+    public PrintPageSplitConfig(PrintPageSplitConfig printPageSplitConfig)
+        : base(printPageSplitConfig) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseSplitPrintPageSplitConfig(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public PrintPageSplitConfig(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseSplitPrintPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
+    PrintPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseSplitPrintPageSplitConfigFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseSplitPrintPageSplitConfig FromRawUnchecked(
+    /// <inheritdoc cref="PrintPageSplitConfigFromRaw.FromRawUnchecked"/>
+    public static PrintPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -3203,25 +2796,16 @@ public sealed record class FunctionListResponseSplitPrintPageSplitConfig : JsonM
     }
 }
 
-class FunctionListResponseSplitPrintPageSplitConfigFromRaw
-    : IFromRawJson<FunctionListResponseSplitPrintPageSplitConfig>
+class PrintPageSplitConfigFromRaw : IFromRawJson<PrintPageSplitConfig>
 {
     /// <inheritdoc/>
-    public FunctionListResponseSplitPrintPageSplitConfig FromRawUnchecked(
+    public PrintPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseSplitPrintPageSplitConfig.FromRawUnchecked(rawData);
+    ) => PrintPageSplitConfig.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Configuration for semantic page splitting.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponseSplitSemanticPageSplitConfig,
-        FunctionListResponseSplitSemanticPageSplitConfigFromRaw
-    >)
-)]
-public sealed record class FunctionListResponseSplitSemanticPageSplitConfig : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SemanticPageSplitConfig, SemanticPageSplitConfigFromRaw>))]
+public sealed record class SemanticPageSplitConfig : JsonModel
 {
     public IReadOnlyList<SplitFunctionSemanticPageItemClass>? ItemClasses
     {
@@ -3255,33 +2839,29 @@ public sealed record class FunctionListResponseSplitSemanticPageSplitConfig : Js
         }
     }
 
-    public FunctionListResponseSplitSemanticPageSplitConfig() { }
+    public SemanticPageSplitConfig() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseSplitSemanticPageSplitConfig(
-        FunctionListResponseSplitSemanticPageSplitConfig functionListResponseSplitSemanticPageSplitConfig
-    )
-        : base(functionListResponseSplitSemanticPageSplitConfig) { }
+    public SemanticPageSplitConfig(SemanticPageSplitConfig semanticPageSplitConfig)
+        : base(semanticPageSplitConfig) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseSplitSemanticPageSplitConfig(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public SemanticPageSplitConfig(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseSplitSemanticPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
+    SemanticPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseSplitSemanticPageSplitConfigFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseSplitSemanticPageSplitConfig FromRawUnchecked(
+    /// <inheritdoc cref="SemanticPageSplitConfigFromRaw.FromRawUnchecked"/>
+    public static SemanticPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -3289,19 +2869,16 @@ public sealed record class FunctionListResponseSplitSemanticPageSplitConfig : Js
     }
 }
 
-class FunctionListResponseSplitSemanticPageSplitConfigFromRaw
-    : IFromRawJson<FunctionListResponseSplitSemanticPageSplitConfig>
+class SemanticPageSplitConfigFromRaw : IFromRawJson<SemanticPageSplitConfig>
 {
     /// <inheritdoc/>
-    public FunctionListResponseSplitSemanticPageSplitConfig FromRawUnchecked(
+    public SemanticPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseSplitSemanticPageSplitConfig.FromRawUnchecked(rawData);
+    ) => SemanticPageSplitConfig.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseJoin, FunctionListResponseJoinFromRaw>)
-)]
-public sealed record class FunctionListResponseJoin : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Join, JoinFromRaw>))]
+public sealed record class Join : JsonModel
 {
     /// <summary>
     /// Description of join function.
@@ -3345,14 +2922,12 @@ public sealed record class FunctionListResponseJoin : JsonModel
     /// <summary>
     /// The type of join to perform.
     /// </summary>
-    public required ApiEnum<string, FunctionListResponseJoinJoinType> JoinType
+    public required ApiEnum<string, JoinType> JoinType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FunctionListResponseJoinJoinType>>(
-                "joinType"
-            );
+            return this._rawData.GetNotNullClass<ApiEnum<string, JoinType>>("joinType");
         }
         init { this._rawData.Set("joinType", value); }
     }
@@ -3407,7 +2982,7 @@ public sealed record class FunctionListResponseJoin : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -3424,6 +2999,27 @@ public sealed record class FunctionListResponseJoin : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -3513,6 +3109,7 @@ public sealed record class FunctionListResponseJoin : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -3521,18 +3118,18 @@ public sealed record class FunctionListResponseJoin : JsonModel
         }
     }
 
-    public FunctionListResponseJoin()
+    public Join()
     {
         this.Type = JsonSerializer.SerializeToElement("join");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponseJoin(FunctionListResponseJoin functionListResponseJoin)
-        : base(functionListResponseJoin) { }
+    public Join(Join join)
+        : base(join) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponseJoin(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Join(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -3541,42 +3138,38 @@ public sealed record class FunctionListResponseJoin : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponseJoin(FrozenDictionary<string, JsonElement> rawData)
+    Join(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponseJoinFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseJoin FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="JoinFromRaw.FromRawUnchecked"/>
+    public static Join FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponseJoinFromRaw : IFromRawJson<FunctionListResponseJoin>
+class JoinFromRaw : IFromRawJson<Join>
 {
     /// <inheritdoc/>
-    public FunctionListResponseJoin FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseJoin.FromRawUnchecked(rawData);
+    public Join FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Join.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The type of join to perform.
 /// </summary>
-[JsonConverter(typeof(FunctionListResponseJoinJoinTypeConverter))]
-public enum FunctionListResponseJoinJoinType
+[JsonConverter(typeof(JoinTypeConverter))]
+public enum JoinType
 {
     Standard,
 }
 
-sealed class FunctionListResponseJoinJoinTypeConverter
-    : JsonConverter<FunctionListResponseJoinJoinType>
+sealed class JoinTypeConverter : JsonConverter<JoinType>
 {
-    public override FunctionListResponseJoinJoinType Read(
+    public override JoinType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -3584,22 +3177,18 @@ sealed class FunctionListResponseJoinJoinTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "standard" => FunctionListResponseJoinJoinType.Standard,
-            _ => (FunctionListResponseJoinJoinType)(-1),
+            "standard" => JoinType.Standard,
+            _ => (JoinType)(-1),
         };
     }
 
-    public override void Write(
-        Utf8JsonWriter writer,
-        FunctionListResponseJoinJoinType value,
-        JsonSerializerOptions options
-    )
+    public override void Write(Utf8JsonWriter writer, JoinType value, JsonSerializerOptions options)
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                FunctionListResponseJoinJoinType.Standard => "standard",
+                JoinType.Standard => "standard",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -3609,19 +3198,271 @@ sealed class FunctionListResponseJoinJoinTypeConverter
     }
 }
 
+[JsonConverter(typeof(JsonModelConverter<Enrich, EnrichFromRaw>))]
+public sealed record class Enrich : JsonModel
+{
+    /// <summary>
+    /// Configuration for enrich function with semantic search steps.
+    ///
+    /// <para>**How Enrich Functions Work:**</para>
+    ///
+    /// <para>Enrich functions use semantic search to augment JSON data with relevant
+    /// information from collections. They take JSON input (typically from a transform
+    /// function), extract specified fields, perform vector-based semantic search
+    /// against collections, and inject the results back into the data.</para>
+    ///
+    /// <para>**Input Requirements:** - Must receive JSON input (typically uploaded
+    /// to S3 from a previous function) - Can be chained after transform or other
+    /// functions that produce JSON output</para>
+    ///
+    /// <para>**Example Use Cases:** - Match product descriptions to SKU codes from
+    /// a product catalog - Enrich customer data with account information - Link order
+    /// line items to inventory records</para>
+    ///
+    /// <para>**Configuration:** - Define one or more enrichment steps - Each step
+    /// extracts values, searches a collection, and injects results - Steps are executed sequentially</para>
+    /// </summary>
+    public required EnrichConfig Config
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<EnrichConfig>("config");
+        }
+        init { this._rawData.Set("config", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function version.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.Config.Validate();
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("enrich")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.CreatedAt;
+        _ = this.DisplayName;
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public Enrich()
+    {
+        this.Type = JsonSerializer.SerializeToElement("enrich");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Enrich(Enrich enrich)
+        : base(enrich) { }
+#pragma warning restore CS8618
+
+    public Enrich(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("enrich");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Enrich(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="EnrichFromRaw.FromRawUnchecked"/>
+    public static Enrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class EnrichFromRaw : IFromRawJson<Enrich>
+{
+    /// <inheritdoc/>
+    public Enrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Enrich.FromRawUnchecked(rawData);
+}
+
 /// <summary>
-/// A function that transforms and customizes input payloads using JMESPath expressions.
-/// Payload shaping allows you to extract specific data, perform calculations, and
-/// reshape complex input structures into simplified, standardized output formats
-/// tailored to your downstream systems or business requirements.
+/// A version of a payload shaping function that transforms and customizes input
+/// payloads using JMESPath expressions. Payload shaping allows you to extract specific
+/// data, perform calculations, and reshape complex input structures into simplified,
+/// standardized output formats tailored to your downstream systems or business requirements.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionListResponsePayloadShaping,
-        FunctionListResponsePayloadShapingFromRaw
-    >)
-)]
-public sealed record class FunctionListResponsePayloadShaping : JsonModel
+[JsonConverter(typeof(JsonModelConverter<PayloadShaping, PayloadShapingFromRaw>))]
+public sealed record class PayloadShaping : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -3690,7 +3531,7 @@ public sealed record class FunctionListResponsePayloadShaping : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -3707,6 +3548,27 @@ public sealed record class FunctionListResponsePayloadShaping : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -3795,6 +3657,7 @@ public sealed record class FunctionListResponsePayloadShaping : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -3803,20 +3666,18 @@ public sealed record class FunctionListResponsePayloadShaping : JsonModel
         }
     }
 
-    public FunctionListResponsePayloadShaping()
+    public PayloadShaping()
     {
         this.Type = JsonSerializer.SerializeToElement("payload_shaping");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionListResponsePayloadShaping(
-        FunctionListResponsePayloadShaping functionListResponsePayloadShaping
-    )
-        : base(functionListResponsePayloadShaping) { }
+    public PayloadShaping(PayloadShaping payloadShaping)
+        : base(payloadShaping) { }
 #pragma warning restore CS8618
 
-    public FunctionListResponsePayloadShaping(IReadOnlyDictionary<string, JsonElement> rawData)
+    public PayloadShaping(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -3825,265 +3686,22 @@ public sealed record class FunctionListResponsePayloadShaping : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionListResponsePayloadShaping(FrozenDictionary<string, JsonElement> rawData)
+    PayloadShaping(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionListResponsePayloadShapingFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponsePayloadShaping FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="PayloadShapingFromRaw.FromRawUnchecked"/>
+    public static PayloadShaping FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionListResponsePayloadShapingFromRaw : IFromRawJson<FunctionListResponsePayloadShaping>
+class PayloadShapingFromRaw : IFromRawJson<PayloadShaping>
 {
     /// <inheritdoc/>
-    public FunctionListResponsePayloadShaping FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponsePayloadShaping.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<FunctionListResponseEnrich, FunctionListResponseEnrichFromRaw>)
-)]
-public sealed record class FunctionListResponseEnrich : JsonModel
-{
-    /// <summary>
-    /// Configuration for enrich function with semantic search steps.
-    ///
-    /// <para>**How Enrich Functions Work:**</para>
-    ///
-    /// <para>Enrich functions use semantic search to augment JSON data with relevant
-    /// information from collections. They take JSON input (typically from a transform
-    /// function), extract specified fields, perform vector-based semantic search
-    /// against collections, and inject the results back into the data.</para>
-    ///
-    /// <para>**Input Requirements:** - Must receive JSON input (typically uploaded
-    /// to S3 from a previous function) - Can be chained after transform or other
-    /// functions that produce JSON output</para>
-    ///
-    /// <para>**Example Use Cases:** - Match product descriptions to SKU codes from
-    /// a product catalog - Enrich customer data with account information - Link order
-    /// line items to inventory records</para>
-    ///
-    /// <para>**Configuration:** - Define one or more enrichment steps - Each step
-    /// extracts values, searches a collection, and injects results - Steps are executed sequentially</para>
-    /// </summary>
-    public required EnrichConfig Config
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<EnrichConfig>("config");
-        }
-        init { this._rawData.Set("config", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of function.
-    /// </summary>
-    public required string FunctionID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionID");
-        }
-        init { this._rawData.Set("functionID", value); }
-    }
-
-    /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    public JsonElement Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// Version number of function.
-    /// </summary>
-    public required long VersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("versionNum");
-        }
-        init { this._rawData.Set("versionNum", value); }
-    }
-
-    /// <summary>
-    /// Audit trail information for the function.
-    /// </summary>
-    public FunctionAudit? Audit
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionAudit>("audit");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("audit", value);
-        }
-    }
-
-    /// <summary>
-    /// Display name of function. Human-readable name to help you identify the function.
-    /// </summary>
-    public string? DisplayName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("displayName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayName", value);
-        }
-    }
-
-    /// <summary>
-    /// Array of tags to categorize and organize functions.
-    /// </summary>
-    public IReadOnlyList<string>? Tags
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "tags",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
-    /// List of workflows that use this function.
-    /// </summary>
-    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
-                "usedInWorkflows"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
-                "usedInWorkflows",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Config.Validate();
-        _ = this.FunctionID;
-        _ = this.FunctionName;
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("enrich")))
-        {
-            throw new BemInvalidDataException("Invalid value given for constant");
-        }
-        _ = this.VersionNum;
-        this.Audit?.Validate();
-        _ = this.DisplayName;
-        _ = this.Tags;
-        foreach (var item in this.UsedInWorkflows ?? [])
-        {
-            item.Validate();
-        }
-    }
-
-    public FunctionListResponseEnrich()
-    {
-        this.Type = JsonSerializer.SerializeToElement("enrich");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionListResponseEnrich(FunctionListResponseEnrich functionListResponseEnrich)
-        : base(functionListResponseEnrich) { }
-#pragma warning restore CS8618
-
-    public FunctionListResponseEnrich(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-
-        this.Type = JsonSerializer.SerializeToElement("enrich");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionListResponseEnrich(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionListResponseEnrichFromRaw.FromRawUnchecked"/>
-    public static FunctionListResponseEnrich FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionListResponseEnrichFromRaw : IFromRawJson<FunctionListResponseEnrich>
-{
-    /// <inheritdoc/>
-    public FunctionListResponseEnrich FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionListResponseEnrich.FromRawUnchecked(rawData);
+    public PayloadShaping FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        PayloadShaping.FromRawUnchecked(rawData);
 }
