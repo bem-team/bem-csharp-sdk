@@ -8,14 +8,108 @@ using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
 
-namespace Bem.Models.Functions;
+namespace Bem.Models.Functions.Versions;
+
+[JsonConverter(typeof(JsonModelConverter<VersionListResponse, VersionListResponseFromRaw>))]
+public sealed record class VersionListResponse : JsonModel
+{
+    /// <summary>
+    /// The total number of results available.
+    /// </summary>
+    public long? TotalCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("totalCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("totalCount", value);
+        }
+    }
+
+    public IReadOnlyList<global::Bem.Models.Functions.Versions.Version>? Versions
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<global::Bem.Models.Functions.Versions.Version>
+            >("versions");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<global::Bem.Models.Functions.Versions.Version>?>(
+                "versions",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.TotalCount;
+        foreach (var item in this.Versions ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public VersionListResponse() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public VersionListResponse(VersionListResponse versionListResponse)
+        : base(versionListResponse) { }
+#pragma warning restore CS8618
+
+    public VersionListResponse(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    VersionListResponse(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="VersionListResponseFromRaw.FromRawUnchecked"/>
+    public static VersionListResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class VersionListResponseFromRaw : IFromRawJson<VersionListResponse>
+{
+    /// <inheritdoc/>
+    public VersionListResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionListResponse.FromRawUnchecked(rawData);
+}
 
 /// <summary>
-/// A function that extracts structured JSON from documents and images. Accepts a
-/// wide range of input types including PDFs, images, spreadsheets, emails, and more.
+/// V3 read-side union for function versions. Same shape as the shared `FunctionVersion`
+/// union but with `classify` in place of `route`.
 /// </summary>
-[JsonConverter(typeof(FunctionConverter))]
-public record class Function : ModelBase
+[JsonConverter(typeof(VersionConverter))]
+public record class Version : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -40,12 +134,12 @@ public record class Function : ModelBase
                 transform: (x) => x.EmailAddress,
                 extract: (_) => null,
                 analyze: (_) => null,
-                route: (x) => x.EmailAddress,
+                classify: (x) => x.EmailAddress,
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -58,12 +152,12 @@ public record class Function : ModelBase
                 transform: (x) => x.FunctionID,
                 extract: (x) => x.FunctionID,
                 analyze: (x) => x.FunctionID,
-                route: (x) => x.FunctionID,
+                classify: (x) => x.FunctionID,
                 send: (x) => x.FunctionID,
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
-                payloadShaping: (x) => x.FunctionID,
-                enrich: (x) => x.FunctionID
+                enrich: (x) => x.FunctionID,
+                payloadShaping: (x) => x.FunctionID
             );
         }
     }
@@ -76,12 +170,12 @@ public record class Function : ModelBase
                 transform: (x) => x.FunctionName,
                 extract: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
-                route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
-                payloadShaping: (x) => x.FunctionName,
-                enrich: (x) => x.FunctionName
+                enrich: (x) => x.FunctionName,
+                payloadShaping: (x) => x.FunctionName
             );
         }
     }
@@ -94,12 +188,12 @@ public record class Function : ModelBase
                 transform: (x) => x.OutputSchema,
                 extract: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -112,12 +206,12 @@ public record class Function : ModelBase
                 transform: (x) => x.OutputSchemaName,
                 extract: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -130,12 +224,12 @@ public record class Function : ModelBase
                 transform: (x) => x.TabularChunkingEnabled,
                 extract: (x) => x.TabularChunkingEnabled,
                 analyze: (_) => null,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
@@ -148,12 +242,12 @@ public record class Function : ModelBase
                 transform: (x) => x.Type,
                 extract: (x) => x.Type,
                 analyze: (x) => x.Type,
-                route: (x) => x.Type,
+                classify: (x) => x.Type,
                 send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
-                payloadShaping: (x) => x.Type,
-                enrich: (x) => x.Type
+                enrich: (x) => x.Type,
+                payloadShaping: (x) => x.Type
             );
         }
     }
@@ -166,12 +260,12 @@ public record class Function : ModelBase
                 transform: (x) => x.VersionNum,
                 extract: (x) => x.VersionNum,
                 analyze: (x) => x.VersionNum,
-                route: (x) => x.VersionNum,
+                classify: (x) => x.VersionNum,
                 send: (x) => x.VersionNum,
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
-                payloadShaping: (x) => x.VersionNum,
-                enrich: (x) => x.VersionNum
+                enrich: (x) => x.VersionNum,
+                payloadShaping: (x) => x.VersionNum
             );
         }
     }
@@ -184,12 +278,30 @@ public record class Function : ModelBase
                 transform: (x) => x.Audit,
                 extract: (x) => x.Audit,
                 analyze: (x) => x.Audit,
-                route: (x) => x.Audit,
+                classify: (x) => x.Audit,
                 send: (x) => x.Audit,
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
-                payloadShaping: (x) => x.Audit,
-                enrich: (x) => x.Audit
+                enrich: (x) => x.Audit,
+                payloadShaping: (x) => x.Audit
+            );
+        }
+    }
+
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            return Match<DateTimeOffset?>(
+                transform: (x) => x.CreatedAt,
+                extract: (x) => x.CreatedAt,
+                analyze: (x) => x.CreatedAt,
+                classify: (x) => x.CreatedAt,
+                send: (x) => x.CreatedAt,
+                split: (x) => x.CreatedAt,
+                join: (x) => x.CreatedAt,
+                enrich: (x) => x.CreatedAt,
+                payloadShaping: (x) => x.CreatedAt
             );
         }
     }
@@ -202,12 +314,12 @@ public record class Function : ModelBase
                 transform: (x) => x.DisplayName,
                 extract: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
-                route: (x) => x.DisplayName,
+                classify: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
-                payloadShaping: (x) => x.DisplayName,
-                enrich: (x) => x.DisplayName
+                enrich: (x) => x.DisplayName,
+                payloadShaping: (x) => x.DisplayName
             );
         }
     }
@@ -220,261 +332,261 @@ public record class Function : ModelBase
                 transform: (_) => null,
                 extract: (_) => null,
                 analyze: (_) => null,
-                route: (x) => x.Description,
+                classify: (x) => x.Description,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                payloadShaping: (_) => null
             );
         }
     }
 
-    public Function(FunctionTransform value, JsonElement? element = null)
+    public Version(VersionTransform value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionExtract value, JsonElement? element = null)
+    public Version(VersionExtract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionAnalyze value, JsonElement? element = null)
+    public Version(VersionAnalyze value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionRoute value, JsonElement? element = null)
+    public Version(VersionClassify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionSend value, JsonElement? element = null)
+    public Version(VersionSend value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionSplit value, JsonElement? element = null)
+    public Version(VersionSplit value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionJoin value, JsonElement? element = null)
+    public Version(VersionJoin value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionPayloadShaping value, JsonElement? element = null)
+    public Version(VersionEnrich value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionEnrich value, JsonElement? element = null)
+    public Version(VersionPayloadShaping value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(JsonElement element)
+    public Version(JsonElement element)
     {
         this._element = element;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionTransform"/>.
+    /// type <see cref="VersionTransform"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `FunctionTransform`
+    ///     // `value` is of type `VersionTransform`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out FunctionTransform? value)
+    public bool TryPickTransform([NotNullWhen(true)] out VersionTransform? value)
     {
-        value = this.Value as FunctionTransform;
+        value = this.Value as VersionTransform;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionExtract"/>.
+    /// type <see cref="VersionExtract"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickExtract(out var value)) {
-    ///     // `value` is of type `FunctionExtract`
+    ///     // `value` is of type `VersionExtract`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickExtract([NotNullWhen(true)] out FunctionExtract? value)
+    public bool TryPickExtract([NotNullWhen(true)] out VersionExtract? value)
     {
-        value = this.Value as FunctionExtract;
+        value = this.Value as VersionExtract;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionAnalyze"/>.
+    /// type <see cref="VersionAnalyze"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickAnalyze(out var value)) {
-    ///     // `value` is of type `FunctionAnalyze`
+    ///     // `value` is of type `VersionAnalyze`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickAnalyze([NotNullWhen(true)] out FunctionAnalyze? value)
+    public bool TryPickAnalyze([NotNullWhen(true)] out VersionAnalyze? value)
     {
-        value = this.Value as FunctionAnalyze;
+        value = this.Value as VersionAnalyze;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionRoute"/>.
+    /// type <see cref="VersionClassify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `FunctionRoute`
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `VersionClassify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out FunctionRoute? value)
+    public bool TryPickClassify([NotNullWhen(true)] out VersionClassify? value)
     {
-        value = this.Value as FunctionRoute;
+        value = this.Value as VersionClassify;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionSend"/>.
+    /// type <see cref="VersionSend"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSend(out var value)) {
-    ///     // `value` is of type `FunctionSend`
+    ///     // `value` is of type `VersionSend`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSend([NotNullWhen(true)] out FunctionSend? value)
+    public bool TryPickSend([NotNullWhen(true)] out VersionSend? value)
     {
-        value = this.Value as FunctionSend;
+        value = this.Value as VersionSend;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionSplit"/>.
+    /// type <see cref="VersionSplit"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSplit(out var value)) {
-    ///     // `value` is of type `FunctionSplit`
+    ///     // `value` is of type `VersionSplit`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSplit([NotNullWhen(true)] out FunctionSplit? value)
+    public bool TryPickSplit([NotNullWhen(true)] out VersionSplit? value)
     {
-        value = this.Value as FunctionSplit;
+        value = this.Value as VersionSplit;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionJoin"/>.
+    /// type <see cref="VersionJoin"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJoin(out var value)) {
-    ///     // `value` is of type `FunctionJoin`
+    ///     // `value` is of type `VersionJoin`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickJoin([NotNullWhen(true)] out FunctionJoin? value)
+    public bool TryPickJoin([NotNullWhen(true)] out VersionJoin? value)
     {
-        value = this.Value as FunctionJoin;
+        value = this.Value as VersionJoin;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionPayloadShaping"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickPayloadShaping(out var value)) {
-    ///     // `value` is of type `FunctionPayloadShaping`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickPayloadShaping([NotNullWhen(true)] out FunctionPayloadShaping? value)
-    {
-        value = this.Value as FunctionPayloadShaping;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionEnrich"/>.
+    /// type <see cref="VersionEnrich"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickEnrich(out var value)) {
-    ///     // `value` is of type `FunctionEnrich`
+    ///     // `value` is of type `VersionEnrich`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickEnrich([NotNullWhen(true)] out FunctionEnrich? value)
+    public bool TryPickEnrich([NotNullWhen(true)] out VersionEnrich? value)
     {
-        value = this.Value as FunctionEnrich;
+        value = this.Value as VersionEnrich;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="VersionPayloadShaping"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickPayloadShaping(out var value)) {
+    ///     // `value` is of type `VersionPayloadShaping`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickPayloadShaping([NotNullWhen(true)] out VersionPayloadShaping? value)
+    {
+        value = this.Value as VersionPayloadShaping;
         return value != null;
     }
 
@@ -492,62 +604,62 @@ public record class Function : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (FunctionTransform value) =&gt; {...},
-    ///     (FunctionExtract value) =&gt; {...},
-    ///     (FunctionAnalyze value) =&gt; {...},
-    ///     (FunctionRoute value) =&gt; {...},
-    ///     (FunctionSend value) =&gt; {...},
-    ///     (FunctionSplit value) =&gt; {...},
-    ///     (FunctionJoin value) =&gt; {...},
-    ///     (FunctionPayloadShaping value) =&gt; {...},
-    ///     (FunctionEnrich value) =&gt; {...}
+    ///     (VersionTransform value) =&gt; {...},
+    ///     (VersionExtract value) =&gt; {...},
+    ///     (VersionAnalyze value) =&gt; {...},
+    ///     (VersionClassify value) =&gt; {...},
+    ///     (VersionSend value) =&gt; {...},
+    ///     (VersionSplit value) =&gt; {...},
+    ///     (VersionJoin value) =&gt; {...},
+    ///     (VersionEnrich value) =&gt; {...},
+    ///     (VersionPayloadShaping value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        Action<FunctionTransform> transform,
-        Action<FunctionExtract> extract,
-        Action<FunctionAnalyze> analyze,
-        Action<FunctionRoute> route,
-        Action<FunctionSend> send,
-        Action<FunctionSplit> split,
-        Action<FunctionJoin> join,
-        Action<FunctionPayloadShaping> payloadShaping,
-        Action<FunctionEnrich> enrich
+        Action<VersionTransform> transform,
+        Action<VersionExtract> extract,
+        Action<VersionAnalyze> analyze,
+        Action<VersionClassify> classify,
+        Action<VersionSend> send,
+        Action<VersionSplit> split,
+        Action<VersionJoin> join,
+        Action<VersionEnrich> enrich,
+        Action<VersionPayloadShaping> payloadShaping
     )
     {
         switch (this.Value)
         {
-            case FunctionTransform value:
+            case VersionTransform value:
                 transform(value);
                 break;
-            case FunctionExtract value:
+            case VersionExtract value:
                 extract(value);
                 break;
-            case FunctionAnalyze value:
+            case VersionAnalyze value:
                 analyze(value);
                 break;
-            case FunctionRoute value:
-                route(value);
+            case VersionClassify value:
+                classify(value);
                 break;
-            case FunctionSend value:
+            case VersionSend value:
                 send(value);
                 break;
-            case FunctionSplit value:
+            case VersionSplit value:
                 split(value);
                 break;
-            case FunctionJoin value:
+            case VersionJoin value:
                 join(value);
                 break;
-            case FunctionPayloadShaping value:
-                payloadShaping(value);
-                break;
-            case FunctionEnrich value:
+            case VersionEnrich value:
                 enrich(value);
                 break;
+            case VersionPayloadShaping value:
+                payloadShaping(value);
+                break;
             default:
-                throw new BemInvalidDataException("Data did not match any variant of Function");
+                throw new BemInvalidDataException("Data did not match any variant of Version");
         }
     }
 
@@ -566,63 +678,81 @@ public record class Function : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (FunctionTransform value) =&gt; {...},
-    ///     (FunctionExtract value) =&gt; {...},
-    ///     (FunctionAnalyze value) =&gt; {...},
-    ///     (FunctionRoute value) =&gt; {...},
-    ///     (FunctionSend value) =&gt; {...},
-    ///     (FunctionSplit value) =&gt; {...},
-    ///     (FunctionJoin value) =&gt; {...},
-    ///     (FunctionPayloadShaping value) =&gt; {...},
-    ///     (FunctionEnrich value) =&gt; {...}
+    ///     (VersionTransform value) =&gt; {...},
+    ///     (VersionExtract value) =&gt; {...},
+    ///     (VersionAnalyze value) =&gt; {...},
+    ///     (VersionClassify value) =&gt; {...},
+    ///     (VersionSend value) =&gt; {...},
+    ///     (VersionSplit value) =&gt; {...},
+    ///     (VersionJoin value) =&gt; {...},
+    ///     (VersionEnrich value) =&gt; {...},
+    ///     (VersionPayloadShaping value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<FunctionTransform, T> transform,
-        Func<FunctionExtract, T> extract,
-        Func<FunctionAnalyze, T> analyze,
-        Func<FunctionRoute, T> route,
-        Func<FunctionSend, T> send,
-        Func<FunctionSplit, T> split,
-        Func<FunctionJoin, T> join,
-        Func<FunctionPayloadShaping, T> payloadShaping,
-        Func<FunctionEnrich, T> enrich
+        Func<VersionTransform, T> transform,
+        Func<VersionExtract, T> extract,
+        Func<VersionAnalyze, T> analyze,
+        Func<VersionClassify, T> classify,
+        Func<VersionSend, T> send,
+        Func<VersionSplit, T> split,
+        Func<VersionJoin, T> join,
+        Func<VersionEnrich, T> enrich,
+        Func<VersionPayloadShaping, T> payloadShaping
     )
     {
         return this.Value switch
         {
-            FunctionTransform value => transform(value),
-            FunctionExtract value => extract(value),
-            FunctionAnalyze value => analyze(value),
-            FunctionRoute value => route(value),
-            FunctionSend value => send(value),
-            FunctionSplit value => split(value),
-            FunctionJoin value => join(value),
-            FunctionPayloadShaping value => payloadShaping(value),
-            FunctionEnrich value => enrich(value),
-            _ => throw new BemInvalidDataException("Data did not match any variant of Function"),
+            VersionTransform value => transform(value),
+            VersionExtract value => extract(value),
+            VersionAnalyze value => analyze(value),
+            VersionClassify value => classify(value),
+            VersionSend value => send(value),
+            VersionSplit value => split(value),
+            VersionJoin value => join(value),
+            VersionEnrich value => enrich(value),
+            VersionPayloadShaping value => payloadShaping(value),
+            _ => throw new BemInvalidDataException("Data did not match any variant of Version"),
         };
     }
 
-    public static implicit operator Function(FunctionTransform value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionTransform value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionExtract value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionExtract value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionAnalyze value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionAnalyze value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionRoute value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionClassify value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionSend value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionSend value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionSplit value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionSplit value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionJoin value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionJoin value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionPayloadShaping value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionEnrich value
+    ) => new(value);
 
-    public static implicit operator Function(FunctionEnrich value) => new(value);
+    public static implicit operator global::Bem.Models.Functions.Versions.Version(
+        VersionPayloadShaping value
+    ) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -638,22 +768,22 @@ public record class Function : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException("Data did not match any variant of Function");
+            throw new BemInvalidDataException("Data did not match any variant of Version");
         }
         this.Switch(
             (transform) => transform.Validate(),
             (extract) => extract.Validate(),
             (analyze) => analyze.Validate(),
-            (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
-            (payloadShaping) => payloadShaping.Validate(),
-            (enrich) => enrich.Validate()
+            (enrich) => enrich.Validate(),
+            (payloadShaping) => payloadShaping.Validate()
         );
     }
 
-    public virtual bool Equals(Function? other) =>
+    public virtual bool Equals(global::Bem.Models.Functions.Versions.Version? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -673,23 +803,23 @@ public record class Function : ModelBase
     {
         return this.Value switch
         {
-            FunctionTransform _ => 0,
-            FunctionExtract _ => 1,
-            FunctionAnalyze _ => 2,
-            FunctionRoute _ => 3,
-            FunctionSend _ => 4,
-            FunctionSplit _ => 5,
-            FunctionJoin _ => 6,
-            FunctionPayloadShaping _ => 7,
-            FunctionEnrich _ => 8,
+            VersionTransform _ => 0,
+            VersionExtract _ => 1,
+            VersionAnalyze _ => 2,
+            VersionClassify _ => 3,
+            VersionSend _ => 4,
+            VersionSplit _ => 5,
+            VersionJoin _ => 6,
+            VersionEnrich _ => 7,
+            VersionPayloadShaping _ => 8,
             _ => -1,
         };
     }
 }
 
-sealed class FunctionConverter : JsonConverter<Function>
+sealed class VersionConverter : JsonConverter<global::Bem.Models.Functions.Versions.Version>
 {
-    public override Function? Read(
+    public override global::Bem.Models.Functions.Versions.Version? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -712,7 +842,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionTransform>(
+                    var deserialized = JsonSerializer.Deserialize<VersionTransform>(
                         element,
                         options
                     );
@@ -732,10 +862,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionExtract>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<VersionExtract>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -752,10 +879,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionAnalyze>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<VersionAnalyze>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -768,11 +892,14 @@ sealed class FunctionConverter : JsonConverter<Function>
 
                 return new(element);
             }
-            case "route":
+            case "classify":
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionRoute>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<VersionClassify>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -789,7 +916,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionSend>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<VersionSend>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -806,7 +933,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionSplit>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<VersionSplit>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -823,27 +950,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionJoin>(element, options);
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
-            case "payload_shaping":
-            {
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<FunctionPayloadShaping>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<VersionJoin>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -860,7 +967,27 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionEnrich>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<VersionEnrich>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "payload_shaping":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<VersionPayloadShaping>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -875,19 +1002,23 @@ sealed class FunctionConverter : JsonConverter<Function>
             }
             default:
             {
-                return new Function(element);
+                return new global::Bem.Models.Functions.Versions.Version(element);
             }
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, Function value, JsonSerializerOptions options)
+    public override void Write(
+        Utf8JsonWriter writer,
+        global::Bem.Models.Functions.Versions.Version value,
+        JsonSerializerOptions options
+    )
     {
         JsonSerializer.Serialize(writer, value.Json, options);
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionTransform, FunctionTransformFromRaw>))]
-public sealed record class FunctionTransform : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionTransform, VersionTransformFromRaw>))]
+public sealed record class VersionTransform : JsonModel
 {
     /// <summary>
     /// Email address automatically created by bem. You can forward emails with or
@@ -993,7 +1124,7 @@ public sealed record class FunctionTransform : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1010,6 +1141,27 @@ public sealed record class FunctionTransform : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1099,6 +1251,7 @@ public sealed record class FunctionTransform : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1107,18 +1260,18 @@ public sealed record class FunctionTransform : JsonModel
         }
     }
 
-    public FunctionTransform()
+    public VersionTransform()
     {
         this.Type = JsonSerializer.SerializeToElement("transform");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionTransform(FunctionTransform functionTransform)
-        : base(functionTransform) { }
+    public VersionTransform(VersionTransform versionTransform)
+        : base(versionTransform) { }
 #pragma warning restore CS8618
 
-    public FunctionTransform(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionTransform(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1127,14 +1280,14 @@ public sealed record class FunctionTransform : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionTransform(FrozenDictionary<string, JsonElement> rawData)
+    VersionTransform(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionTransformFromRaw.FromRawUnchecked"/>
-    public static FunctionTransform FromRawUnchecked(
+    /// <inheritdoc cref="VersionTransformFromRaw.FromRawUnchecked"/>
+    public static VersionTransform FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -1142,19 +1295,15 @@ public sealed record class FunctionTransform : JsonModel
     }
 }
 
-class FunctionTransformFromRaw : IFromRawJson<FunctionTransform>
+class VersionTransformFromRaw : IFromRawJson<VersionTransform>
 {
     /// <inheritdoc/>
-    public FunctionTransform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionTransform.FromRawUnchecked(rawData);
+    public VersionTransform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionTransform.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// A function that extracts structured JSON from documents and images. Accepts a
-/// wide range of input types including PDFs, images, spreadsheets, emails, and more.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<FunctionExtract, FunctionExtractFromRaw>))]
-public sealed record class FunctionExtract : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionExtract, VersionExtractFromRaw>))]
+public sealed record class VersionExtract : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -1246,7 +1395,7 @@ public sealed record class FunctionExtract : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1263,6 +1412,27 @@ public sealed record class FunctionExtract : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1351,6 +1521,7 @@ public sealed record class FunctionExtract : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1359,18 +1530,18 @@ public sealed record class FunctionExtract : JsonModel
         }
     }
 
-    public FunctionExtract()
+    public VersionExtract()
     {
         this.Type = JsonSerializer.SerializeToElement("extract");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionExtract(FunctionExtract functionExtract)
-        : base(functionExtract) { }
+    public VersionExtract(VersionExtract versionExtract)
+        : base(versionExtract) { }
 #pragma warning restore CS8618
 
-    public FunctionExtract(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionExtract(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1379,28 +1550,28 @@ public sealed record class FunctionExtract : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionExtract(FrozenDictionary<string, JsonElement> rawData)
+    VersionExtract(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionExtractFromRaw.FromRawUnchecked"/>
-    public static FunctionExtract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionExtractFromRaw.FromRawUnchecked"/>
+    public static VersionExtract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionExtractFromRaw : IFromRawJson<FunctionExtract>
+class VersionExtractFromRaw : IFromRawJson<VersionExtract>
 {
     /// <inheritdoc/>
-    public FunctionExtract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionExtract.FromRawUnchecked(rawData);
+    public VersionExtract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionExtract.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionAnalyze, FunctionAnalyzeFromRaw>))]
-public sealed record class FunctionAnalyze : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionAnalyze, VersionAnalyzeFromRaw>))]
+public sealed record class VersionAnalyze : JsonModel
 {
     /// <summary>
     /// Whether bounding box extraction is enabled. Only applicable to analyze and
@@ -1507,7 +1678,7 @@ public sealed record class FunctionAnalyze : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1524,6 +1695,27 @@ public sealed record class FunctionAnalyze : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1613,6 +1805,7 @@ public sealed record class FunctionAnalyze : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1621,18 +1814,18 @@ public sealed record class FunctionAnalyze : JsonModel
         }
     }
 
-    public FunctionAnalyze()
+    public VersionAnalyze()
     {
         this.Type = JsonSerializer.SerializeToElement("analyze");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionAnalyze(FunctionAnalyze functionAnalyze)
-        : base(functionAnalyze) { }
+    public VersionAnalyze(VersionAnalyze versionAnalyze)
+        : base(versionAnalyze) { }
 #pragma warning restore CS8618
 
-    public FunctionAnalyze(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionAnalyze(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1641,31 +1834,67 @@ public sealed record class FunctionAnalyze : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionAnalyze(FrozenDictionary<string, JsonElement> rawData)
+    VersionAnalyze(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionAnalyzeFromRaw.FromRawUnchecked"/>
-    public static FunctionAnalyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionAnalyzeFromRaw.FromRawUnchecked"/>
+    public static VersionAnalyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionAnalyzeFromRaw : IFromRawJson<FunctionAnalyze>
+class VersionAnalyzeFromRaw : IFromRawJson<VersionAnalyze>
 {
     /// <inheritdoc/>
-    public FunctionAnalyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionAnalyze.FromRawUnchecked(rawData);
+    public VersionAnalyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionAnalyze.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionRoute, FunctionRouteFromRaw>))]
-public sealed record class FunctionRoute : JsonModel
+/// <summary>
+/// V3 read-side shape of a Classify (internally Route) function version. Mirrors {
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<VersionClassify, VersionClassifyFromRaw>))]
+public sealed record class VersionClassify : JsonModel
 {
     /// <summary>
-    /// Description of router. Can be used to provide additional context on router's
+    /// V3 create/update variants of the shared function payloads.
+    ///
+    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
+    /// function types when creating new functions or updating existing ones — both
+    /// have been unified under `extract`. Existing functions of those types remain
+    /// readable and callable via V3, so the V3 read-side unions still include `transform`
+    /// and `analyze` variants.</para>
+    ///
+    /// <para>The V3 API also renames the internal `route` function type to `classify`
+    /// on the wire, and the associated `routes` field to `classifications` (type
+    /// `ClassificationList`). Platform-internal storage and processing still use
+    /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
+    /// name for the list of classifications a classify function can produce.</para>
+    /// </summary>
+    public required IReadOnlyList<VersionClassifyClassification> Classifications
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<VersionClassifyClassification>>(
+                "classifications"
+            );
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<VersionClassifyClassification>>(
+                "classifications",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Description of classifier. Can be used to provide additional context on classifier's
     /// purpose and expected inputs.
     /// </summary>
     public required string Description
@@ -1680,7 +1909,7 @@ public sealed record class FunctionRoute : JsonModel
 
     /// <summary>
     /// Email address automatically created by bem. You can forward emails with or
-    /// without attachments, to be routed.
+    /// without attachments, to be classified.
     /// </summary>
     public required string EmailAddress
     {
@@ -1718,25 +1947,6 @@ public sealed record class FunctionRoute : JsonModel
         init { this._rawData.Set("functionName", value); }
     }
 
-    /// <summary>
-    /// List of routes.
-    /// </summary>
-    public required IReadOnlyList<RouteListItem> Routes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<RouteListItem>>("routes");
-        }
-        init
-        {
-            this._rawData.Set<ImmutableArray<RouteListItem>>(
-                "routes",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
     public JsonElement Type
     {
         get
@@ -1761,7 +1971,7 @@ public sealed record class FunctionRoute : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -1778,6 +1988,27 @@ public sealed record class FunctionRoute : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -1855,20 +2086,21 @@ public sealed record class FunctionRoute : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
+        foreach (var item in this.Classifications)
+        {
+            item.Validate();
+        }
         _ = this.Description;
         _ = this.EmailAddress;
         _ = this.FunctionID;
         _ = this.FunctionName;
-        foreach (var item in this.Routes)
-        {
-            item.Validate();
-        }
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("route")))
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("classify")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -1877,63 +2109,467 @@ public sealed record class FunctionRoute : JsonModel
         }
     }
 
-    public FunctionRoute()
+    public VersionClassify()
     {
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionRoute(FunctionRoute functionRoute)
-        : base(functionRoute) { }
+    public VersionClassify(VersionClassify versionClassify)
+        : base(versionClassify) { }
 #pragma warning restore CS8618
 
-    public FunctionRoute(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionClassify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionRoute(FrozenDictionary<string, JsonElement> rawData)
+    VersionClassify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionRouteFromRaw.FromRawUnchecked"/>
-    public static FunctionRoute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionClassifyFromRaw.FromRawUnchecked"/>
+    public static VersionClassify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionRouteFromRaw : IFromRawJson<FunctionRoute>
+class VersionClassifyFromRaw : IFromRawJson<VersionClassify>
 {
     /// <inheritdoc/>
-    public FunctionRoute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionRoute.FromRawUnchecked(rawData);
+    public VersionClassify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionClassify.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// A function that delivers workflow outputs to an external destination. Send functions
-/// receive the output of an upstream workflow node and forward it to a webhook,
-/// S3 bucket, or Google Drive folder.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<FunctionSend, FunctionSendFromRaw>))]
-public sealed record class FunctionSend : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<VersionClassifyClassification, VersionClassifyClassificationFromRaw>)
+)]
+public sealed record class VersionClassifyClassification : JsonModel
 {
-    /// <summary>
-    /// Destination type for a Send function.
-    /// </summary>
-    public required ApiEnum<string, FunctionSendDestinationType> DestinationType
+    public required string Name
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FunctionSendDestinationType>>(
+            return this._rawData.GetNotNullClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
+    }
+
+    public string? Description
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("description");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("description", value);
+        }
+    }
+
+    public string? FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionID", value);
+        }
+    }
+
+    public string? FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionName", value);
+        }
+    }
+
+    public bool? IsErrorFallback
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("isErrorFallback");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("isErrorFallback", value);
+        }
+    }
+
+    public VersionClassifyClassificationOrigin? Origin
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<VersionClassifyClassificationOrigin>("origin");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("origin", value);
+        }
+    }
+
+    public VersionClassifyClassificationRegex? Regex
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<VersionClassifyClassificationRegex>("regex");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("regex", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Name;
+        _ = this.Description;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.IsErrorFallback;
+        this.Origin?.Validate();
+        this.Regex?.Validate();
+    }
+
+    public VersionClassifyClassification() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public VersionClassifyClassification(
+        VersionClassifyClassification versionClassifyClassification
+    )
+        : base(versionClassifyClassification) { }
+#pragma warning restore CS8618
+
+    public VersionClassifyClassification(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    VersionClassifyClassification(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="VersionClassifyClassificationFromRaw.FromRawUnchecked"/>
+    public static VersionClassifyClassification FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public VersionClassifyClassification(string name)
+        : this()
+    {
+        this.Name = name;
+    }
+}
+
+class VersionClassifyClassificationFromRaw : IFromRawJson<VersionClassifyClassification>
+{
+    /// <inheritdoc/>
+    public VersionClassifyClassification FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionClassifyClassification.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        VersionClassifyClassificationOrigin,
+        VersionClassifyClassificationOriginFromRaw
+    >)
+)]
+public sealed record class VersionClassifyClassificationOrigin : JsonModel
+{
+    public VersionClassifyClassificationOriginEmail? Email
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<VersionClassifyClassificationOriginEmail>(
+                "email"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("email", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.Email?.Validate();
+    }
+
+    public VersionClassifyClassificationOrigin() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public VersionClassifyClassificationOrigin(
+        VersionClassifyClassificationOrigin versionClassifyClassificationOrigin
+    )
+        : base(versionClassifyClassificationOrigin) { }
+#pragma warning restore CS8618
+
+    public VersionClassifyClassificationOrigin(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    VersionClassifyClassificationOrigin(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="VersionClassifyClassificationOriginFromRaw.FromRawUnchecked"/>
+    public static VersionClassifyClassificationOrigin FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class VersionClassifyClassificationOriginFromRaw : IFromRawJson<VersionClassifyClassificationOrigin>
+{
+    /// <inheritdoc/>
+    public VersionClassifyClassificationOrigin FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionClassifyClassificationOrigin.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        VersionClassifyClassificationOriginEmail,
+        VersionClassifyClassificationOriginEmailFromRaw
+    >)
+)]
+public sealed record class VersionClassifyClassificationOriginEmail : JsonModel
+{
+    public IReadOnlyList<string>? Patterns
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("patterns");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "patterns",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Patterns;
+    }
+
+    public VersionClassifyClassificationOriginEmail() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public VersionClassifyClassificationOriginEmail(
+        VersionClassifyClassificationOriginEmail versionClassifyClassificationOriginEmail
+    )
+        : base(versionClassifyClassificationOriginEmail) { }
+#pragma warning restore CS8618
+
+    public VersionClassifyClassificationOriginEmail(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    VersionClassifyClassificationOriginEmail(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="VersionClassifyClassificationOriginEmailFromRaw.FromRawUnchecked"/>
+    public static VersionClassifyClassificationOriginEmail FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class VersionClassifyClassificationOriginEmailFromRaw
+    : IFromRawJson<VersionClassifyClassificationOriginEmail>
+{
+    /// <inheritdoc/>
+    public VersionClassifyClassificationOriginEmail FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionClassifyClassificationOriginEmail.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        VersionClassifyClassificationRegex,
+        VersionClassifyClassificationRegexFromRaw
+    >)
+)]
+public sealed record class VersionClassifyClassificationRegex : JsonModel
+{
+    public IReadOnlyList<string>? Patterns
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("patterns");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "patterns",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Patterns;
+    }
+
+    public VersionClassifyClassificationRegex() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public VersionClassifyClassificationRegex(
+        VersionClassifyClassificationRegex versionClassifyClassificationRegex
+    )
+        : base(versionClassifyClassificationRegex) { }
+#pragma warning restore CS8618
+
+    public VersionClassifyClassificationRegex(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    VersionClassifyClassificationRegex(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="VersionClassifyClassificationRegexFromRaw.FromRawUnchecked"/>
+    public static VersionClassifyClassificationRegex FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class VersionClassifyClassificationRegexFromRaw : IFromRawJson<VersionClassifyClassificationRegex>
+{
+    /// <inheritdoc/>
+    public VersionClassifyClassificationRegex FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => VersionClassifyClassificationRegex.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<VersionSend, VersionSendFromRaw>))]
+public sealed record class VersionSend : JsonModel
+{
+    /// <summary>
+    /// Destination type for a Send function.
+    /// </summary>
+    public required ApiEnum<string, VersionSendDestinationType> DestinationType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, VersionSendDestinationType>>(
                 "destinationType"
             );
         }
@@ -1990,7 +2626,7 @@ public sealed record class FunctionSend : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -2007,6 +2643,27 @@ public sealed record class FunctionSend : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -2031,10 +2688,6 @@ public sealed record class FunctionSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// Google Drive folder ID. Present when destinationType is google_drive. Managed
-    /// via Paragon OAuth.
-    /// </summary>
     public string? GoogleDriveFolderID
     {
         get
@@ -2053,9 +2706,6 @@ public sealed record class FunctionSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// S3 bucket to upload the payload to. Present when destinationType is s3.
-    /// </summary>
     public string? S3Bucket
     {
         get
@@ -2074,9 +2724,6 @@ public sealed record class FunctionSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// S3 key prefix (folder path). Optional, present when destinationType is s3.
-    /// </summary>
     public string? S3Prefix
     {
         get
@@ -2146,7 +2793,7 @@ public sealed record class FunctionSend : JsonModel
     }
 
     /// <summary>
-    /// Whether webhook payloads are signed with an HMAC-SHA256 `bem-signature` header.
+    /// Whether webhook deliveries are signed with an HMAC-SHA256 `bem-signature` header.
     /// </summary>
     public bool? WebhookSigningEnabled
     {
@@ -2166,9 +2813,6 @@ public sealed record class FunctionSend : JsonModel
         }
     }
 
-    /// <summary>
-    /// Webhook URL to POST the payload to. Present when destinationType is webhook.
-    /// </summary>
     public string? WebhookUrl
     {
         get
@@ -2199,6 +2843,7 @@ public sealed record class FunctionSend : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.GoogleDriveFolderID;
         _ = this.S3Bucket;
@@ -2212,18 +2857,18 @@ public sealed record class FunctionSend : JsonModel
         _ = this.WebhookUrl;
     }
 
-    public FunctionSend()
+    public VersionSend()
     {
         this.Type = JsonSerializer.SerializeToElement("send");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionSend(FunctionSend functionSend)
-        : base(functionSend) { }
+    public VersionSend(VersionSend versionSend)
+        : base(versionSend) { }
 #pragma warning restore CS8618
 
-    public FunctionSend(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionSend(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -2232,40 +2877,40 @@ public sealed record class FunctionSend : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionSend(FrozenDictionary<string, JsonElement> rawData)
+    VersionSend(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionSendFromRaw.FromRawUnchecked"/>
-    public static FunctionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionSendFromRaw.FromRawUnchecked"/>
+    public static VersionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionSendFromRaw : IFromRawJson<FunctionSend>
+class VersionSendFromRaw : IFromRawJson<VersionSend>
 {
     /// <inheritdoc/>
-    public FunctionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionSend.FromRawUnchecked(rawData);
+    public VersionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionSend.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Destination type for a Send function.
 /// </summary>
-[JsonConverter(typeof(FunctionSendDestinationTypeConverter))]
-public enum FunctionSendDestinationType
+[JsonConverter(typeof(VersionSendDestinationTypeConverter))]
+public enum VersionSendDestinationType
 {
     Webhook,
     S3,
     GoogleDrive,
 }
 
-sealed class FunctionSendDestinationTypeConverter : JsonConverter<FunctionSendDestinationType>
+sealed class VersionSendDestinationTypeConverter : JsonConverter<VersionSendDestinationType>
 {
-    public override FunctionSendDestinationType Read(
+    public override VersionSendDestinationType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2273,16 +2918,16 @@ sealed class FunctionSendDestinationTypeConverter : JsonConverter<FunctionSendDe
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "webhook" => FunctionSendDestinationType.Webhook,
-            "s3" => FunctionSendDestinationType.S3,
-            "google_drive" => FunctionSendDestinationType.GoogleDrive,
-            _ => (FunctionSendDestinationType)(-1),
+            "webhook" => VersionSendDestinationType.Webhook,
+            "s3" => VersionSendDestinationType.S3,
+            "google_drive" => VersionSendDestinationType.GoogleDrive,
+            _ => (VersionSendDestinationType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FunctionSendDestinationType value,
+        VersionSendDestinationType value,
         JsonSerializerOptions options
     )
     {
@@ -2290,9 +2935,9 @@ sealed class FunctionSendDestinationTypeConverter : JsonConverter<FunctionSendDe
             writer,
             value switch
             {
-                FunctionSendDestinationType.Webhook => "webhook",
-                FunctionSendDestinationType.S3 => "s3",
-                FunctionSendDestinationType.GoogleDrive => "google_drive",
+                VersionSendDestinationType.Webhook => "webhook",
+                VersionSendDestinationType.S3 => "s3",
+                VersionSendDestinationType.GoogleDrive => "google_drive",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2302,8 +2947,8 @@ sealed class FunctionSendDestinationTypeConverter : JsonConverter<FunctionSendDe
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionSplit, FunctionSplitFromRaw>))]
-public sealed record class FunctionSplit : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionSplit, VersionSplitFromRaw>))]
+public sealed record class VersionSplit : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -2331,15 +2976,12 @@ public sealed record class FunctionSplit : JsonModel
         init { this._rawData.Set("functionName", value); }
     }
 
-    /// <summary>
-    /// The method used to split pages.
-    /// </summary>
-    public required ApiEnum<string, FunctionSplitSplitType> SplitType
+    public required ApiEnum<string, VersionSplitSplitType> SplitType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FunctionSplitSplitType>>(
+            return this._rawData.GetNotNullClass<ApiEnum<string, VersionSplitSplitType>>(
                 "splitType"
             );
         }
@@ -2370,7 +3012,7 @@ public sealed record class FunctionSplit : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -2387,6 +3029,27 @@ public sealed record class FunctionSplit : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -2411,15 +3074,12 @@ public sealed record class FunctionSplit : JsonModel
         }
     }
 
-    /// <summary>
-    /// Configuration for print page splitting.
-    /// </summary>
-    public FunctionSplitPrintPageSplitConfig? PrintPageSplitConfig
+    public VersionSplitPrintPageSplitConfig? PrintPageSplitConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionSplitPrintPageSplitConfig>(
+            return this._rawData.GetNullableClass<VersionSplitPrintPageSplitConfig>(
                 "printPageSplitConfig"
             );
         }
@@ -2434,15 +3094,12 @@ public sealed record class FunctionSplit : JsonModel
         }
     }
 
-    /// <summary>
-    /// Configuration for semantic page splitting.
-    /// </summary>
-    public FunctionSplitSemanticPageSplitConfig? SemanticPageSplitConfig
+    public VersionSplitSemanticPageSplitConfig? SemanticPageSplitConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionSplitSemanticPageSplitConfig>(
+            return this._rawData.GetNullableClass<VersionSplitSemanticPageSplitConfig>(
                 "semanticPageSplitConfig"
             );
         }
@@ -2519,6 +3176,7 @@ public sealed record class FunctionSplit : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         this.PrintPageSplitConfig?.Validate();
         this.SemanticPageSplitConfig?.Validate();
@@ -2529,18 +3187,18 @@ public sealed record class FunctionSplit : JsonModel
         }
     }
 
-    public FunctionSplit()
+    public VersionSplit()
     {
         this.Type = JsonSerializer.SerializeToElement("split");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionSplit(FunctionSplit functionSplit)
-        : base(functionSplit) { }
+    public VersionSplit(VersionSplit versionSplit)
+        : base(versionSplit) { }
 #pragma warning restore CS8618
 
-    public FunctionSplit(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionSplit(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -2549,39 +3207,36 @@ public sealed record class FunctionSplit : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionSplit(FrozenDictionary<string, JsonElement> rawData)
+    VersionSplit(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionSplitFromRaw.FromRawUnchecked"/>
-    public static FunctionSplit FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionSplitFromRaw.FromRawUnchecked"/>
+    public static VersionSplit FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionSplitFromRaw : IFromRawJson<FunctionSplit>
+class VersionSplitFromRaw : IFromRawJson<VersionSplit>
 {
     /// <inheritdoc/>
-    public FunctionSplit FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionSplit.FromRawUnchecked(rawData);
+    public VersionSplit FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionSplit.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The method used to split pages.
-/// </summary>
-[JsonConverter(typeof(FunctionSplitSplitTypeConverter))]
-public enum FunctionSplitSplitType
+[JsonConverter(typeof(VersionSplitSplitTypeConverter))]
+public enum VersionSplitSplitType
 {
     PrintPage,
     SemanticPage,
 }
 
-sealed class FunctionSplitSplitTypeConverter : JsonConverter<FunctionSplitSplitType>
+sealed class VersionSplitSplitTypeConverter : JsonConverter<VersionSplitSplitType>
 {
-    public override FunctionSplitSplitType Read(
+    public override VersionSplitSplitType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2589,15 +3244,15 @@ sealed class FunctionSplitSplitTypeConverter : JsonConverter<FunctionSplitSplitT
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "print_page" => FunctionSplitSplitType.PrintPage,
-            "semantic_page" => FunctionSplitSplitType.SemanticPage,
-            _ => (FunctionSplitSplitType)(-1),
+            "print_page" => VersionSplitSplitType.PrintPage,
+            "semantic_page" => VersionSplitSplitType.SemanticPage,
+            _ => (VersionSplitSplitType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FunctionSplitSplitType value,
+        VersionSplitSplitType value,
         JsonSerializerOptions options
     )
     {
@@ -2605,8 +3260,8 @@ sealed class FunctionSplitSplitTypeConverter : JsonConverter<FunctionSplitSplitT
             writer,
             value switch
             {
-                FunctionSplitSplitType.PrintPage => "print_page",
-                FunctionSplitSplitType.SemanticPage => "semantic_page",
+                VersionSplitSplitType.PrintPage => "print_page",
+                VersionSplitSplitType.SemanticPage => "semantic_page",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2616,16 +3271,13 @@ sealed class FunctionSplitSplitTypeConverter : JsonConverter<FunctionSplitSplitT
     }
 }
 
-/// <summary>
-/// Configuration for print page splitting.
-/// </summary>
 [JsonConverter(
     typeof(JsonModelConverter<
-        FunctionSplitPrintPageSplitConfig,
-        FunctionSplitPrintPageSplitConfigFromRaw
+        VersionSplitPrintPageSplitConfig,
+        VersionSplitPrintPageSplitConfigFromRaw
     >)
 )]
-public sealed record class FunctionSplitPrintPageSplitConfig : JsonModel
+public sealed record class VersionSplitPrintPageSplitConfig : JsonModel
 {
     public string? NextFunctionID
     {
@@ -2651,31 +3303,31 @@ public sealed record class FunctionSplitPrintPageSplitConfig : JsonModel
         _ = this.NextFunctionID;
     }
 
-    public FunctionSplitPrintPageSplitConfig() { }
+    public VersionSplitPrintPageSplitConfig() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionSplitPrintPageSplitConfig(
-        FunctionSplitPrintPageSplitConfig functionSplitPrintPageSplitConfig
+    public VersionSplitPrintPageSplitConfig(
+        VersionSplitPrintPageSplitConfig versionSplitPrintPageSplitConfig
     )
-        : base(functionSplitPrintPageSplitConfig) { }
+        : base(versionSplitPrintPageSplitConfig) { }
 #pragma warning restore CS8618
 
-    public FunctionSplitPrintPageSplitConfig(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionSplitPrintPageSplitConfig(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionSplitPrintPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
+    VersionSplitPrintPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionSplitPrintPageSplitConfigFromRaw.FromRawUnchecked"/>
-    public static FunctionSplitPrintPageSplitConfig FromRawUnchecked(
+    /// <inheritdoc cref="VersionSplitPrintPageSplitConfigFromRaw.FromRawUnchecked"/>
+    public static VersionSplitPrintPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -2683,24 +3335,21 @@ public sealed record class FunctionSplitPrintPageSplitConfig : JsonModel
     }
 }
 
-class FunctionSplitPrintPageSplitConfigFromRaw : IFromRawJson<FunctionSplitPrintPageSplitConfig>
+class VersionSplitPrintPageSplitConfigFromRaw : IFromRawJson<VersionSplitPrintPageSplitConfig>
 {
     /// <inheritdoc/>
-    public FunctionSplitPrintPageSplitConfig FromRawUnchecked(
+    public VersionSplitPrintPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionSplitPrintPageSplitConfig.FromRawUnchecked(rawData);
+    ) => VersionSplitPrintPageSplitConfig.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Configuration for semantic page splitting.
-/// </summary>
 [JsonConverter(
     typeof(JsonModelConverter<
-        FunctionSplitSemanticPageSplitConfig,
-        FunctionSplitSemanticPageSplitConfigFromRaw
+        VersionSplitSemanticPageSplitConfig,
+        VersionSplitSemanticPageSplitConfigFromRaw
     >)
 )]
-public sealed record class FunctionSplitSemanticPageSplitConfig : JsonModel
+public sealed record class VersionSplitSemanticPageSplitConfig : JsonModel
 {
     public IReadOnlyList<SplitFunctionSemanticPageItemClass>? ItemClasses
     {
@@ -2734,31 +3383,31 @@ public sealed record class FunctionSplitSemanticPageSplitConfig : JsonModel
         }
     }
 
-    public FunctionSplitSemanticPageSplitConfig() { }
+    public VersionSplitSemanticPageSplitConfig() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionSplitSemanticPageSplitConfig(
-        FunctionSplitSemanticPageSplitConfig functionSplitSemanticPageSplitConfig
+    public VersionSplitSemanticPageSplitConfig(
+        VersionSplitSemanticPageSplitConfig versionSplitSemanticPageSplitConfig
     )
-        : base(functionSplitSemanticPageSplitConfig) { }
+        : base(versionSplitSemanticPageSplitConfig) { }
 #pragma warning restore CS8618
 
-    public FunctionSplitSemanticPageSplitConfig(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionSplitSemanticPageSplitConfig(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionSplitSemanticPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
+    VersionSplitSemanticPageSplitConfig(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionSplitSemanticPageSplitConfigFromRaw.FromRawUnchecked"/>
-    public static FunctionSplitSemanticPageSplitConfig FromRawUnchecked(
+    /// <inheritdoc cref="VersionSplitSemanticPageSplitConfigFromRaw.FromRawUnchecked"/>
+    public static VersionSplitSemanticPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -2766,17 +3415,16 @@ public sealed record class FunctionSplitSemanticPageSplitConfig : JsonModel
     }
 }
 
-class FunctionSplitSemanticPageSplitConfigFromRaw
-    : IFromRawJson<FunctionSplitSemanticPageSplitConfig>
+class VersionSplitSemanticPageSplitConfigFromRaw : IFromRawJson<VersionSplitSemanticPageSplitConfig>
 {
     /// <inheritdoc/>
-    public FunctionSplitSemanticPageSplitConfig FromRawUnchecked(
+    public VersionSplitSemanticPageSplitConfig FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionSplitSemanticPageSplitConfig.FromRawUnchecked(rawData);
+    ) => VersionSplitSemanticPageSplitConfig.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionJoin, FunctionJoinFromRaw>))]
-public sealed record class FunctionJoin : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionJoin, VersionJoinFromRaw>))]
+public sealed record class VersionJoin : JsonModel
 {
     /// <summary>
     /// Description of join function.
@@ -2820,12 +3468,12 @@ public sealed record class FunctionJoin : JsonModel
     /// <summary>
     /// The type of join to perform.
     /// </summary>
-    public required ApiEnum<string, FunctionJoinJoinType> JoinType
+    public required ApiEnum<string, VersionJoinJoinType> JoinType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FunctionJoinJoinType>>("joinType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, VersionJoinJoinType>>("joinType");
         }
         init { this._rawData.Set("joinType", value); }
     }
@@ -2880,7 +3528,7 @@ public sealed record class FunctionJoin : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -2897,6 +3545,27 @@ public sealed record class FunctionJoin : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -2986,6 +3655,7 @@ public sealed record class FunctionJoin : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -2994,18 +3664,18 @@ public sealed record class FunctionJoin : JsonModel
         }
     }
 
-    public FunctionJoin()
+    public VersionJoin()
     {
         this.Type = JsonSerializer.SerializeToElement("join");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionJoin(FunctionJoin functionJoin)
-        : base(functionJoin) { }
+    public VersionJoin(VersionJoin versionJoin)
+        : base(versionJoin) { }
 #pragma warning restore CS8618
 
-    public FunctionJoin(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionJoin(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -3014,38 +3684,38 @@ public sealed record class FunctionJoin : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionJoin(FrozenDictionary<string, JsonElement> rawData)
+    VersionJoin(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionJoinFromRaw.FromRawUnchecked"/>
-    public static FunctionJoin FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="VersionJoinFromRaw.FromRawUnchecked"/>
+    public static VersionJoin FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionJoinFromRaw : IFromRawJson<FunctionJoin>
+class VersionJoinFromRaw : IFromRawJson<VersionJoin>
 {
     /// <inheritdoc/>
-    public FunctionJoin FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionJoin.FromRawUnchecked(rawData);
+    public VersionJoin FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionJoin.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The type of join to perform.
 /// </summary>
-[JsonConverter(typeof(FunctionJoinJoinTypeConverter))]
-public enum FunctionJoinJoinType
+[JsonConverter(typeof(VersionJoinJoinTypeConverter))]
+public enum VersionJoinJoinType
 {
     Standard,
 }
 
-sealed class FunctionJoinJoinTypeConverter : JsonConverter<FunctionJoinJoinType>
+sealed class VersionJoinJoinTypeConverter : JsonConverter<VersionJoinJoinType>
 {
-    public override FunctionJoinJoinType Read(
+    public override VersionJoinJoinType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -3053,14 +3723,14 @@ sealed class FunctionJoinJoinTypeConverter : JsonConverter<FunctionJoinJoinType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "standard" => FunctionJoinJoinType.Standard,
-            _ => (FunctionJoinJoinType)(-1),
+            "standard" => VersionJoinJoinType.Standard,
+            _ => (VersionJoinJoinType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FunctionJoinJoinType value,
+        VersionJoinJoinType value,
         JsonSerializerOptions options
     )
     {
@@ -3068,7 +3738,7 @@ sealed class FunctionJoinJoinTypeConverter : JsonConverter<FunctionJoinJoinType>
             writer,
             value switch
             {
-                FunctionJoinJoinType.Standard => "standard",
+                VersionJoinJoinType.Standard => "standard",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -3078,14 +3748,271 @@ sealed class FunctionJoinJoinTypeConverter : JsonConverter<FunctionJoinJoinType>
     }
 }
 
+[JsonConverter(typeof(JsonModelConverter<VersionEnrich, VersionEnrichFromRaw>))]
+public sealed record class VersionEnrich : JsonModel
+{
+    /// <summary>
+    /// Configuration for enrich function with semantic search steps.
+    ///
+    /// <para>**How Enrich Functions Work:**</para>
+    ///
+    /// <para>Enrich functions use semantic search to augment JSON data with relevant
+    /// information from collections. They take JSON input (typically from a transform
+    /// function), extract specified fields, perform vector-based semantic search
+    /// against collections, and inject the results back into the data.</para>
+    ///
+    /// <para>**Input Requirements:** - Must receive JSON input (typically uploaded
+    /// to S3 from a previous function) - Can be chained after transform or other
+    /// functions that produce JSON output</para>
+    ///
+    /// <para>**Example Use Cases:** - Match product descriptions to SKU codes from
+    /// a product catalog - Enrich customer data with account information - Link order
+    /// line items to inventory records</para>
+    ///
+    /// <para>**Configuration:** - Define one or more enrichment steps - Each step
+    /// extracts values, searches a collection, and injects results - Steps are executed sequentially</para>
+    /// </summary>
+    public required EnrichConfig Config
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<EnrichConfig>("config");
+        }
+        init { this._rawData.Set("config", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function version.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.Config.Validate();
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("enrich")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.CreatedAt;
+        _ = this.DisplayName;
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public VersionEnrich()
+    {
+        this.Type = JsonSerializer.SerializeToElement("enrich");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public VersionEnrich(VersionEnrich versionEnrich)
+        : base(versionEnrich) { }
+#pragma warning restore CS8618
+
+    public VersionEnrich(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("enrich");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    VersionEnrich(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="VersionEnrichFromRaw.FromRawUnchecked"/>
+    public static VersionEnrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class VersionEnrichFromRaw : IFromRawJson<VersionEnrich>
+{
+    /// <inheritdoc/>
+    public VersionEnrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        VersionEnrich.FromRawUnchecked(rawData);
+}
+
 /// <summary>
-/// A function that transforms and customizes input payloads using JMESPath expressions.
-/// Payload shaping allows you to extract specific data, perform calculations, and
-/// reshape complex input structures into simplified, standardized output formats
-/// tailored to your downstream systems or business requirements.
+/// A version of a payload shaping function that transforms and customizes input
+/// payloads using JMESPath expressions. Payload shaping allows you to extract specific
+/// data, perform calculations, and reshape complex input structures into simplified,
+/// standardized output formats tailored to your downstream systems or business requirements.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<FunctionPayloadShaping, FunctionPayloadShapingFromRaw>))]
-public sealed record class FunctionPayloadShaping : JsonModel
+[JsonConverter(typeof(JsonModelConverter<VersionPayloadShaping, VersionPayloadShapingFromRaw>))]
+public sealed record class VersionPayloadShaping : JsonModel
 {
     /// <summary>
     /// Unique identifier of function.
@@ -3154,7 +4081,7 @@ public sealed record class FunctionPayloadShaping : JsonModel
     }
 
     /// <summary>
-    /// Audit trail information for the function.
+    /// Audit trail information for the function version.
     /// </summary>
     public FunctionAudit? Audit
     {
@@ -3171,6 +4098,27 @@ public sealed record class FunctionPayloadShaping : JsonModel
             }
 
             this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// The date and time the function version was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
         }
     }
 
@@ -3259,6 +4207,7 @@ public sealed record class FunctionPayloadShaping : JsonModel
         }
         _ = this.VersionNum;
         this.Audit?.Validate();
+        _ = this.CreatedAt;
         _ = this.DisplayName;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -3267,18 +4216,18 @@ public sealed record class FunctionPayloadShaping : JsonModel
         }
     }
 
-    public FunctionPayloadShaping()
+    public VersionPayloadShaping()
     {
         this.Type = JsonSerializer.SerializeToElement("payload_shaping");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionPayloadShaping(FunctionPayloadShaping functionPayloadShaping)
-        : base(functionPayloadShaping) { }
+    public VersionPayloadShaping(VersionPayloadShaping versionPayloadShaping)
+        : base(versionPayloadShaping) { }
 #pragma warning restore CS8618
 
-    public FunctionPayloadShaping(IReadOnlyDictionary<string, JsonElement> rawData)
+    public VersionPayloadShaping(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -3287,14 +4236,14 @@ public sealed record class FunctionPayloadShaping : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionPayloadShaping(FrozenDictionary<string, JsonElement> rawData)
+    VersionPayloadShaping(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionPayloadShapingFromRaw.FromRawUnchecked"/>
-    public static FunctionPayloadShaping FromRawUnchecked(
+    /// <inheritdoc cref="VersionPayloadShapingFromRaw.FromRawUnchecked"/>
+    public static VersionPayloadShaping FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -3302,245 +4251,10 @@ public sealed record class FunctionPayloadShaping : JsonModel
     }
 }
 
-class FunctionPayloadShapingFromRaw : IFromRawJson<FunctionPayloadShaping>
+class VersionPayloadShapingFromRaw : IFromRawJson<VersionPayloadShaping>
 {
     /// <inheritdoc/>
-    public FunctionPayloadShaping FromRawUnchecked(
+    public VersionPayloadShaping FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionPayloadShaping.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<FunctionEnrich, FunctionEnrichFromRaw>))]
-public sealed record class FunctionEnrich : JsonModel
-{
-    /// <summary>
-    /// Configuration for enrich function with semantic search steps.
-    ///
-    /// <para>**How Enrich Functions Work:**</para>
-    ///
-    /// <para>Enrich functions use semantic search to augment JSON data with relevant
-    /// information from collections. They take JSON input (typically from a transform
-    /// function), extract specified fields, perform vector-based semantic search
-    /// against collections, and inject the results back into the data.</para>
-    ///
-    /// <para>**Input Requirements:** - Must receive JSON input (typically uploaded
-    /// to S3 from a previous function) - Can be chained after transform or other
-    /// functions that produce JSON output</para>
-    ///
-    /// <para>**Example Use Cases:** - Match product descriptions to SKU codes from
-    /// a product catalog - Enrich customer data with account information - Link order
-    /// line items to inventory records</para>
-    ///
-    /// <para>**Configuration:** - Define one or more enrichment steps - Each step
-    /// extracts values, searches a collection, and injects results - Steps are executed sequentially</para>
-    /// </summary>
-    public required EnrichConfig Config
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<EnrichConfig>("config");
-        }
-        init { this._rawData.Set("config", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of function.
-    /// </summary>
-    public required string FunctionID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionID");
-        }
-        init { this._rawData.Set("functionID", value); }
-    }
-
-    /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    public JsonElement Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// Version number of function.
-    /// </summary>
-    public required long VersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("versionNum");
-        }
-        init { this._rawData.Set("versionNum", value); }
-    }
-
-    /// <summary>
-    /// Audit trail information for the function.
-    /// </summary>
-    public FunctionAudit? Audit
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionAudit>("audit");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("audit", value);
-        }
-    }
-
-    /// <summary>
-    /// Display name of function. Human-readable name to help you identify the function.
-    /// </summary>
-    public string? DisplayName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("displayName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayName", value);
-        }
-    }
-
-    /// <summary>
-    /// Array of tags to categorize and organize functions.
-    /// </summary>
-    public IReadOnlyList<string>? Tags
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "tags",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
-    /// List of workflows that use this function.
-    /// </summary>
-    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
-                "usedInWorkflows"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
-                "usedInWorkflows",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Config.Validate();
-        _ = this.FunctionID;
-        _ = this.FunctionName;
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("enrich")))
-        {
-            throw new BemInvalidDataException("Invalid value given for constant");
-        }
-        _ = this.VersionNum;
-        this.Audit?.Validate();
-        _ = this.DisplayName;
-        _ = this.Tags;
-        foreach (var item in this.UsedInWorkflows ?? [])
-        {
-            item.Validate();
-        }
-    }
-
-    public FunctionEnrich()
-    {
-        this.Type = JsonSerializer.SerializeToElement("enrich");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionEnrich(FunctionEnrich functionEnrich)
-        : base(functionEnrich) { }
-#pragma warning restore CS8618
-
-    public FunctionEnrich(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-
-        this.Type = JsonSerializer.SerializeToElement("enrich");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionEnrich(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionEnrichFromRaw.FromRawUnchecked"/>
-    public static FunctionEnrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionEnrichFromRaw : IFromRawJson<FunctionEnrich>
-{
-    /// <inheritdoc/>
-    public FunctionEnrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionEnrich.FromRawUnchecked(rawData);
+    ) => VersionPayloadShaping.FromRawUnchecked(rawData);
 }

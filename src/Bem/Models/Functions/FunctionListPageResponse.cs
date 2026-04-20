@@ -8,15 +8,19 @@ using Bem.Core;
 
 namespace Bem.Models.Functions;
 
-[JsonConverter(typeof(JsonModelConverter<ListFunctionsResponse, ListFunctionsResponseFromRaw>))]
-public sealed record class ListFunctionsResponse : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<FunctionListPageResponse, FunctionListPageResponseFromRaw>)
+)]
+public sealed record class FunctionListPageResponse : JsonModel
 {
-    public IReadOnlyList<Function>? Functions
+    public IReadOnlyList<FunctionListResponse>? Functions
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<Function>>("functions");
+            return this._rawData.GetNullableStruct<ImmutableArray<FunctionListResponse>>(
+                "functions"
+            );
         }
         init
         {
@@ -25,7 +29,7 @@ public sealed record class ListFunctionsResponse : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<Function>?>(
+            this._rawData.Set<ImmutableArray<FunctionListResponse>?>(
                 "functions",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -63,29 +67,29 @@ public sealed record class ListFunctionsResponse : JsonModel
         _ = this.TotalCount;
     }
 
-    public ListFunctionsResponse() { }
+    public FunctionListPageResponse() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public ListFunctionsResponse(ListFunctionsResponse listFunctionsResponse)
-        : base(listFunctionsResponse) { }
+    public FunctionListPageResponse(FunctionListPageResponse functionListPageResponse)
+        : base(functionListPageResponse) { }
 #pragma warning restore CS8618
 
-    public ListFunctionsResponse(IReadOnlyDictionary<string, JsonElement> rawData)
+    public FunctionListPageResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ListFunctionsResponse(FrozenDictionary<string, JsonElement> rawData)
+    FunctionListPageResponse(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="ListFunctionsResponseFromRaw.FromRawUnchecked"/>
-    public static ListFunctionsResponse FromRawUnchecked(
+    /// <inheritdoc cref="FunctionListPageResponseFromRaw.FromRawUnchecked"/>
+    public static FunctionListPageResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -93,10 +97,10 @@ public sealed record class ListFunctionsResponse : JsonModel
     }
 }
 
-class ListFunctionsResponseFromRaw : IFromRawJson<ListFunctionsResponse>
+class FunctionListPageResponseFromRaw : IFromRawJson<FunctionListPageResponse>
 {
     /// <inheritdoc/>
-    public ListFunctionsResponse FromRawUnchecked(
+    public FunctionListPageResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ListFunctionsResponse.FromRawUnchecked(rawData);
+    ) => FunctionListPageResponse.FromRawUnchecked(rawData);
 }

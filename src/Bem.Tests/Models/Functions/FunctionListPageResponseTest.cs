@@ -6,16 +6,16 @@ using Bem.Models.Functions;
 
 namespace Bem.Tests.Models.Functions;
 
-public class ListFunctionsResponseTest : TestBase
+public class FunctionListPageResponseTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             Functions =
             [
-                new FunctionTransform()
+                new FunctionListResponseTransform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -71,9 +71,9 @@ public class ListFunctionsResponseTest : TestBase
             TotalCount = 0,
         };
 
-        List<Function> expectedFunctions =
+        List<FunctionListResponse> expectedFunctions =
         [
-            new FunctionTransform()
+            new FunctionListResponseTransform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -140,11 +140,11 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             Functions =
             [
-                new FunctionTransform()
+                new FunctionListResponseTransform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -201,7 +201,7 @@ public class ListFunctionsResponseTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ListFunctionsResponse>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListPageResponse>(
             json,
             ModelBase.SerializerOptions
         );
@@ -212,11 +212,11 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             Functions =
             [
-                new FunctionTransform()
+                new FunctionListResponseTransform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -273,15 +273,15 @@ public class ListFunctionsResponseTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ListFunctionsResponse>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListPageResponse>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        List<Function> expectedFunctions =
+        List<FunctionListResponse> expectedFunctions =
         [
-            new FunctionTransform()
+            new FunctionListResponseTransform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -348,11 +348,11 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             Functions =
             [
-                new FunctionTransform()
+                new FunctionListResponseTransform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -414,7 +414,7 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new ListFunctionsResponse { };
+        var model = new FunctionListPageResponse { };
 
         Assert.Null(model.Functions);
         Assert.False(model.RawData.ContainsKey("functions"));
@@ -425,7 +425,7 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new ListFunctionsResponse { };
+        var model = new FunctionListPageResponse { };
 
         model.Validate();
     }
@@ -433,7 +433,7 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             // Null should be interpreted as omitted for these properties
             Functions = null,
@@ -449,7 +449,7 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             // Null should be interpreted as omitted for these properties
             Functions = null,
@@ -462,11 +462,11 @@ public class ListFunctionsResponseTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new ListFunctionsResponse
+        var model = new FunctionListPageResponse
         {
             Functions =
             [
-                new FunctionTransform()
+                new FunctionListResponseTransform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -522,7 +522,7 @@ public class ListFunctionsResponseTest : TestBase
             TotalCount = 0,
         };
 
-        ListFunctionsResponse copied = new(model);
+        FunctionListPageResponse copied = new(model);
 
         Assert.Equal(model, copied);
     }

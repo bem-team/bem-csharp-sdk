@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
 using Bem.Exceptions;
-using Bem.Models.Functions.Versions;
-using Functions = Bem.Models.Functions;
+using Bem.Models.Functions;
 
-namespace Bem.Tests.Models.Functions.Versions;
+namespace Bem.Tests.Models.Functions;
 
-public class FunctionVersionTest : TestBase
+public class FunctionListResponseTest : TestBase
 {
     [Fact]
     public void TransformValidationWorks()
     {
-        FunctionVersion value = new Transform()
+        FunctionListResponse value = new FunctionListResponseTransform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -52,7 +51,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -72,7 +70,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void ExtractValidationWorks()
     {
-        FunctionVersion value = new Extract()
+        FunctionListResponse value = new FunctionListResponseExtract()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -110,7 +108,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -130,7 +127,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void AnalyzeValidationWorks()
     {
-        FunctionVersion value = new Analyze()
+        FunctionListResponse value = new FunctionListResponseAnalyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -169,7 +166,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -187,15 +183,11 @@ public class FunctionVersionTest : TestBase
     }
 
     [Fact]
-    public void RouteValidationWorks()
+    public void ClassifyValidationWorks()
     {
-        FunctionVersion value = new Route()
+        FunctionListResponse value = new FunctionListResponseClassify()
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -208,6 +200,10 @@ public class FunctionVersionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -239,7 +235,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -259,9 +254,9 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void SendValidationWorks()
     {
-        FunctionVersion value = new Send()
+        FunctionListResponse value = new FunctionListResponseSend()
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -295,7 +290,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -320,11 +314,11 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void SplitValidationWorks()
     {
-        FunctionVersion value = new Split()
+        FunctionListResponse value = new FunctionListResponseSplit()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -356,7 +350,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -390,12 +383,12 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void JoinValidationWorks()
     {
-        FunctionVersion value = new Join()
+        FunctionListResponse value = new FunctionListResponseJoin()
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -429,7 +422,61 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void PayloadShapingValidationWorks()
+    {
+        FunctionListResponse value = new FunctionListResponsePayloadShaping()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ShapingSchema = "shapingSchema",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -449,7 +496,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void EnrichValidationWorks()
     {
-        FunctionVersion value = new Enrich()
+        FunctionListResponse value = new FunctionListResponseEnrich()
         {
             Config = new(
                 [
@@ -461,7 +508,7 @@ public class FunctionVersionTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
+                        SearchMode = SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -499,63 +546,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-        value.Validate();
-    }
-
-    [Fact]
-    public void PayloadShapingValidationWorks()
-    {
-        FunctionVersion value = new PayloadShaping()
-        {
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            ShapingSchema = "shapingSchema",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -575,7 +565,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void TransformSerializationRoundtripWorks()
     {
-        FunctionVersion value = new Transform()
+        FunctionListResponse value = new FunctionListResponseTransform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -614,7 +604,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -629,7 +618,7 @@ public class FunctionVersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -640,7 +629,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void ExtractSerializationRoundtripWorks()
     {
-        FunctionVersion value = new Extract()
+        FunctionListResponse value = new FunctionListResponseExtract()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -678,7 +667,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -693,7 +681,7 @@ public class FunctionVersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -704,7 +692,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void AnalyzeSerializationRoundtripWorks()
     {
-        FunctionVersion value = new Analyze()
+        FunctionListResponse value = new FunctionListResponseAnalyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -743,7 +731,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -758,7 +745,7 @@ public class FunctionVersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -767,15 +754,11 @@ public class FunctionVersionTest : TestBase
     }
 
     [Fact]
-    public void RouteSerializationRoundtripWorks()
+    public void ClassifySerializationRoundtripWorks()
     {
-        FunctionVersion value = new Route()
+        FunctionListResponse value = new FunctionListResponseClassify()
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -788,66 +771,8 @@ public class FunctionVersionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void SendSerializationRoundtripWorks()
-    {
-        FunctionVersion value = new Send()
-        {
-            DestinationType = DestinationType.Webhook,
+            Description = "description",
+            EmailAddress = "emailAddress",
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -881,7 +806,67 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void SendSerializationRoundtripWorks()
+    {
+        FunctionListResponse value = new FunctionListResponseSend()
+        {
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -901,7 +886,7 @@ public class FunctionVersionTest : TestBase
             WebhookUrl = "webhookUrl",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -912,11 +897,11 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void SplitSerializationRoundtripWorks()
     {
-        FunctionVersion value = new Split()
+        FunctionListResponse value = new FunctionListResponseSplit()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -948,7 +933,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -977,7 +961,7 @@ public class FunctionVersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -988,12 +972,12 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void JoinSerializationRoundtripWorks()
     {
-        FunctionVersion value = new Join()
+        FunctionListResponse value = new FunctionListResponseJoin()
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -1027,7 +1011,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1042,7 +1025,68 @@ public class FunctionVersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void PayloadShapingSerializationRoundtripWorks()
+    {
+        FunctionListResponse value = new FunctionListResponsePayloadShaping()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ShapingSchema = "shapingSchema",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1053,7 +1097,7 @@ public class FunctionVersionTest : TestBase
     [Fact]
     public void EnrichSerializationRoundtripWorks()
     {
-        FunctionVersion value = new Enrich()
+        FunctionListResponse value = new FunctionListResponseEnrich()
         {
             Config = new(
                 [
@@ -1065,7 +1109,7 @@ public class FunctionVersionTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
+                        SearchMode = SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -1103,7 +1147,6 @@ public class FunctionVersionTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1118,69 +1161,7 @@ public class FunctionVersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void PayloadShapingSerializationRoundtripWorks()
-    {
-        FunctionVersion value = new PayloadShaping()
-        {
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            ShapingSchema = "shapingSchema",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1189,12 +1170,12 @@ public class FunctionVersionTest : TestBase
     }
 }
 
-public class TransformTest : TestBase
+public class FunctionListResponseTransformTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1233,7 +1214,6 @@ public class TransformTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1256,7 +1236,7 @@ public class TransformTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -1286,10 +1266,9 @@ public class TransformTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -1309,7 +1288,6 @@ public class TransformTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -1328,7 +1306,7 @@ public class TransformTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1367,7 +1345,6 @@ public class TransformTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1383,7 +1360,10 @@ public class TransformTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Transform>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseTransform>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -1391,7 +1371,7 @@ public class TransformTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1430,7 +1410,6 @@ public class TransformTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1446,7 +1425,7 @@ public class TransformTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Transform>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseTransform>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1460,7 +1439,7 @@ public class TransformTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -1490,10 +1469,9 @@ public class TransformTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -1513,7 +1491,6 @@ public class TransformTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -1532,7 +1509,7 @@ public class TransformTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1571,7 +1548,6 @@ public class TransformTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1592,7 +1568,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1605,8 +1581,6 @@ public class TransformTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -1618,7 +1592,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1635,7 +1609,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1647,7 +1621,6 @@ public class TransformTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -1655,8 +1628,6 @@ public class TransformTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -1668,7 +1639,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1680,7 +1651,6 @@ public class TransformTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -1692,7 +1662,7 @@ public class TransformTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Transform
+        var model = new FunctionListResponseTransform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1731,7 +1701,6 @@ public class TransformTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1746,18 +1715,18 @@ public class TransformTest : TestBase
             ],
         };
 
-        Transform copied = new(model);
+        FunctionListResponseTransform copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class ExtractTest : TestBase
+public class FunctionListResponseExtractTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1795,7 +1764,6 @@ public class ExtractTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1817,7 +1785,7 @@ public class ExtractTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -1847,10 +1815,9 @@ public class ExtractTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -1869,7 +1836,6 @@ public class ExtractTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -1888,7 +1854,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1926,7 +1892,6 @@ public class ExtractTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -1942,7 +1907,10 @@ public class ExtractTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Extract>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseExtract>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -1950,7 +1918,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1988,7 +1956,6 @@ public class ExtractTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2004,7 +1971,7 @@ public class ExtractTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Extract>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseExtract>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2017,7 +1984,7 @@ public class ExtractTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2047,10 +2014,9 @@ public class ExtractTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2069,7 +2035,6 @@ public class ExtractTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -2088,7 +2053,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2126,7 +2091,6 @@ public class ExtractTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2147,7 +2111,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2159,8 +2123,6 @@ public class ExtractTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -2172,7 +2134,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2188,7 +2150,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2199,7 +2161,6 @@ public class ExtractTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -2207,8 +2168,6 @@ public class ExtractTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -2220,7 +2179,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2231,7 +2190,6 @@ public class ExtractTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -2243,7 +2201,7 @@ public class ExtractTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Extract
+        var model = new FunctionListResponseExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2281,7 +2239,6 @@ public class ExtractTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2296,18 +2253,18 @@ public class ExtractTest : TestBase
             ],
         };
 
-        Extract copied = new(model);
+        FunctionListResponseExtract copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class AnalyzeTest : TestBase
+public class FunctionListResponseAnalyzeTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2346,7 +2303,6 @@ public class AnalyzeTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2369,7 +2325,7 @@ public class AnalyzeTest : TestBase
         bool expectedPreCount = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2399,10 +2355,9 @@ public class AnalyzeTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2422,7 +2377,6 @@ public class AnalyzeTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -2441,7 +2395,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2480,7 +2434,6 @@ public class AnalyzeTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2496,7 +2449,10 @@ public class AnalyzeTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Analyze>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseAnalyze>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -2504,7 +2460,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2543,7 +2499,6 @@ public class AnalyzeTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2559,7 +2514,7 @@ public class AnalyzeTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Analyze>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseAnalyze>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2573,7 +2528,7 @@ public class AnalyzeTest : TestBase
         bool expectedPreCount = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2603,10 +2558,9 @@ public class AnalyzeTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2626,7 +2580,6 @@ public class AnalyzeTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -2645,7 +2598,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2684,7 +2637,6 @@ public class AnalyzeTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2705,7 +2657,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2718,8 +2670,6 @@ public class AnalyzeTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -2731,7 +2681,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2748,7 +2698,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2760,7 +2710,6 @@ public class AnalyzeTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -2768,8 +2717,6 @@ public class AnalyzeTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -2781,7 +2728,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2793,7 +2740,6 @@ public class AnalyzeTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -2805,7 +2751,7 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Analyze
+        var model = new FunctionListResponseAnalyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2844,7 +2790,6 @@ public class AnalyzeTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2859,24 +2804,20 @@ public class AnalyzeTest : TestBase
             ],
         };
 
-        Analyze copied = new(model);
+        FunctionListResponseAnalyze copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class RouteTest : TestBase
+public class FunctionListResponseClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -2889,6 +2830,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -2920,7 +2865,6 @@ public class RouteTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -2935,11 +2879,7 @@ public class RouteTest : TestBase
             ],
         };
 
-        string expectedDescription = "description";
-        string expectedEmailAddress = "emailAddress";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        List<Functions::RouteListItem> expectedRoutes =
+        List<FunctionListResponseClassifyClassification> expectedClassifications =
         [
             new()
             {
@@ -2952,9 +2892,13 @@ public class RouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
+        string expectedDescription = "description";
+        string expectedEmailAddress = "emailAddress";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2984,10 +2928,9 @@ public class RouteTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2998,19 +2941,18 @@ public class RouteTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedClassifications.Count, model.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], model.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedEmailAddress, model.EmailAddress);
         Assert.Equal(expectedFunctionID, model.FunctionID);
         Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.Equal(expectedRoutes.Count, model.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], model.Routes[i]);
-        }
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -3029,13 +2971,9 @@ public class RouteTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3048,6 +2986,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3079,7 +3021,6 @@ public class RouteTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -3095,7 +3036,10 @@ public class RouteTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassify>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -3103,13 +3047,9 @@ public class RouteTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3122,6 +3062,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3153,7 +3097,6 @@ public class RouteTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -3169,14 +3112,13 @@ public class RouteTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassify>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
-        string expectedDescription = "description";
-        string expectedEmailAddress = "emailAddress";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        List<Functions::RouteListItem> expectedRoutes =
+        List<FunctionListResponseClassifyClassification> expectedClassifications =
         [
             new()
             {
@@ -3189,9 +3131,13 @@ public class RouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
+        string expectedDescription = "description";
+        string expectedEmailAddress = "emailAddress";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -3221,10 +3167,9 @@ public class RouteTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -3235,19 +3180,18 @@ public class RouteTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedClassifications.Count, deserialized.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], deserialized.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedEmailAddress, deserialized.EmailAddress);
         Assert.Equal(expectedFunctionID, deserialized.FunctionID);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.Equal(expectedRoutes.Count, deserialized.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], deserialized.Routes[i]);
-        }
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -3266,13 +3210,9 @@ public class RouteTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3285,6 +3225,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3316,7 +3260,6 @@ public class RouteTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -3337,13 +3280,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3356,13 +3295,15 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
         };
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -3374,13 +3315,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3393,6 +3330,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
         };
 
@@ -3402,13 +3343,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3421,11 +3358,14 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -3433,8 +3373,6 @@ public class RouteTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -3446,13 +3384,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3465,11 +3399,14 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -3481,13 +3418,9 @@ public class RouteTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Route
+        var model = new FunctionListResponseClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3500,6 +3433,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3531,7 +3468,6 @@ public class RouteTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -3546,20 +3482,613 @@ public class RouteTest : TestBase
             ],
         };
 
-        Route copied = new(model);
+        FunctionListResponseClassify copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SendTest : TestBase
+public class FunctionListResponseClassifyClassificationTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseClassifyClassification
         {
-            DestinationType = DestinationType.Webhook,
+            Name = "name",
+            Description = "description",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            IsErrorFallback = true,
+            Origin = new() { Email = new() { Patterns = ["string"] } },
+            Regex = new() { Patterns = ["string"] },
+        };
+
+        string expectedName = "name";
+        string expectedDescription = "description";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        bool expectedIsErrorFallback = true;
+        FunctionListResponseClassifyClassificationOrigin expectedOrigin = new()
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+        FunctionListResponseClassifyClassificationRegex expectedRegex = new()
+        {
+            Patterns = ["string"],
+        };
+
+        Assert.Equal(expectedName, model.Name);
+        Assert.Equal(expectedDescription, model.Description);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedIsErrorFallback, model.IsErrorFallback);
+        Assert.Equal(expectedOrigin, model.Origin);
+        Assert.Equal(expectedRegex, model.Regex);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification
+        {
+            Name = "name",
+            Description = "description",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            IsErrorFallback = true,
+            Origin = new() { Email = new() { Patterns = ["string"] } },
+            Regex = new() { Patterns = ["string"] },
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassifyClassification>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification
+        {
+            Name = "name",
+            Description = "description",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            IsErrorFallback = true,
+            Origin = new() { Email = new() { Patterns = ["string"] } },
+            Regex = new() { Patterns = ["string"] },
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassifyClassification>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedName = "name";
+        string expectedDescription = "description";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        bool expectedIsErrorFallback = true;
+        FunctionListResponseClassifyClassificationOrigin expectedOrigin = new()
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+        FunctionListResponseClassifyClassificationRegex expectedRegex = new()
+        {
+            Patterns = ["string"],
+        };
+
+        Assert.Equal(expectedName, deserialized.Name);
+        Assert.Equal(expectedDescription, deserialized.Description);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedIsErrorFallback, deserialized.IsErrorFallback);
+        Assert.Equal(expectedOrigin, deserialized.Origin);
+        Assert.Equal(expectedRegex, deserialized.Regex);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification
+        {
+            Name = "name",
+            Description = "description",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            IsErrorFallback = true,
+            Origin = new() { Email = new() { Patterns = ["string"] } },
+            Regex = new() { Patterns = ["string"] },
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification { Name = "name" };
+
+        Assert.Null(model.Description);
+        Assert.False(model.RawData.ContainsKey("description"));
+        Assert.Null(model.FunctionID);
+        Assert.False(model.RawData.ContainsKey("functionID"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.IsErrorFallback);
+        Assert.False(model.RawData.ContainsKey("isErrorFallback"));
+        Assert.Null(model.Origin);
+        Assert.False(model.RawData.ContainsKey("origin"));
+        Assert.Null(model.Regex);
+        Assert.False(model.RawData.ContainsKey("regex"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification { Name = "name" };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification
+        {
+            Name = "name",
+
+            // Null should be interpreted as omitted for these properties
+            Description = null,
+            FunctionID = null,
+            FunctionName = null,
+            IsErrorFallback = null,
+            Origin = null,
+            Regex = null,
+        };
+
+        Assert.Null(model.Description);
+        Assert.False(model.RawData.ContainsKey("description"));
+        Assert.Null(model.FunctionID);
+        Assert.False(model.RawData.ContainsKey("functionID"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.IsErrorFallback);
+        Assert.False(model.RawData.ContainsKey("isErrorFallback"));
+        Assert.Null(model.Origin);
+        Assert.False(model.RawData.ContainsKey("origin"));
+        Assert.Null(model.Regex);
+        Assert.False(model.RawData.ContainsKey("regex"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification
+        {
+            Name = "name",
+
+            // Null should be interpreted as omitted for these properties
+            Description = null,
+            FunctionID = null,
+            FunctionName = null,
+            IsErrorFallback = null,
+            Origin = null,
+            Regex = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionListResponseClassifyClassification
+        {
+            Name = "name",
+            Description = "description",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            IsErrorFallback = true,
+            Origin = new() { Email = new() { Patterns = ["string"] } },
+            Regex = new() { Patterns = ["string"] },
+        };
+
+        FunctionListResponseClassifyClassification copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionListResponseClassifyClassificationOriginTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+
+        FunctionListResponseClassifyClassificationOriginEmail expectedEmail = new()
+        {
+            Patterns = ["string"],
+        };
+
+        Assert.Equal(expectedEmail, model.Email);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOrigin>(
+                json,
+                ModelBase.SerializerOptions
+            );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOrigin>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        Assert.NotNull(deserialized);
+
+        FunctionListResponseClassifyClassificationOriginEmail expectedEmail = new()
+        {
+            Patterns = ["string"],
+        };
+
+        Assert.Equal(expectedEmail, deserialized.Email);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin { };
+
+        Assert.Null(model.Email);
+        Assert.False(model.RawData.ContainsKey("email"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            // Null should be interpreted as omitted for these properties
+            Email = null,
+        };
+
+        Assert.Null(model.Email);
+        Assert.False(model.RawData.ContainsKey("email"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            // Null should be interpreted as omitted for these properties
+            Email = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOrigin
+        {
+            Email = new() { Patterns = ["string"] },
+        };
+
+        FunctionListResponseClassifyClassificationOrigin copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionListResponseClassifyClassificationOriginEmailTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            Patterns = ["string"],
+        };
+
+        List<string> expectedPatterns = ["string"];
+
+        Assert.NotNull(model.Patterns);
+        Assert.Equal(expectedPatterns.Count, model.Patterns.Count);
+        for (int i = 0; i < expectedPatterns.Count; i++)
+        {
+            Assert.Equal(expectedPatterns[i], model.Patterns[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            Patterns = ["string"],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOriginEmail>(
+                json,
+                ModelBase.SerializerOptions
+            );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            Patterns = ["string"],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOriginEmail>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        Assert.NotNull(deserialized);
+
+        List<string> expectedPatterns = ["string"];
+
+        Assert.NotNull(deserialized.Patterns);
+        Assert.Equal(expectedPatterns.Count, deserialized.Patterns.Count);
+        for (int i = 0; i < expectedPatterns.Count; i++)
+        {
+            Assert.Equal(expectedPatterns[i], deserialized.Patterns[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            Patterns = ["string"],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail { };
+
+        Assert.Null(model.Patterns);
+        Assert.False(model.RawData.ContainsKey("patterns"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            // Null should be interpreted as omitted for these properties
+            Patterns = null,
+        };
+
+        Assert.Null(model.Patterns);
+        Assert.False(model.RawData.ContainsKey("patterns"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            // Null should be interpreted as omitted for these properties
+            Patterns = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationOriginEmail
+        {
+            Patterns = ["string"],
+        };
+
+        FunctionListResponseClassifyClassificationOriginEmail copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionListResponseClassifyClassificationRegexTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
+
+        List<string> expectedPatterns = ["string"];
+
+        Assert.NotNull(model.Patterns);
+        Assert.Equal(expectedPatterns.Count, model.Patterns.Count);
+        for (int i = 0; i < expectedPatterns.Count; i++)
+        {
+            Assert.Equal(expectedPatterns[i], model.Patterns[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationRegex>(
+                json,
+                ModelBase.SerializerOptions
+            );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationRegex>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        Assert.NotNull(deserialized);
+
+        List<string> expectedPatterns = ["string"];
+
+        Assert.NotNull(deserialized.Patterns);
+        Assert.Equal(expectedPatterns.Count, deserialized.Patterns.Count);
+        for (int i = 0; i < expectedPatterns.Count; i++)
+        {
+            Assert.Equal(expectedPatterns[i], deserialized.Patterns[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { };
+
+        Assert.Null(model.Patterns);
+        Assert.False(model.RawData.ContainsKey("patterns"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex
+        {
+            // Null should be interpreted as omitted for these properties
+            Patterns = null,
+        };
+
+        Assert.Null(model.Patterns);
+        Assert.False(model.RawData.ContainsKey("patterns"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex
+        {
+            // Null should be interpreted as omitted for these properties
+            Patterns = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
+
+        FunctionListResponseClassifyClassificationRegex copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionListResponseSendTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionListResponseSend
+        {
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -3593,7 +4122,6 @@ public class SendTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -3613,12 +4141,13 @@ public class SendTest : TestBase
             WebhookUrl = "webhookUrl",
         };
 
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, FunctionListResponseSendDestinationType> expectedDestinationType =
+            FunctionListResponseSendDestinationType.Webhook;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -3648,13 +4177,12 @@ public class SendTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         string expectedGoogleDriveFolderID = "googleDriveFolderId";
         string expectedS3Bucket = "s3Bucket";
         string expectedS3Prefix = "s3Prefix";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -3673,7 +4201,6 @@ public class SendTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.Equal(expectedGoogleDriveFolderID, model.GoogleDriveFolderID);
         Assert.Equal(expectedS3Bucket, model.S3Bucket);
@@ -3697,9 +4224,9 @@ public class SendTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -3733,7 +4260,6 @@ public class SendTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -3754,7 +4280,10 @@ public class SendTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Send>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSend>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -3762,9 +4291,9 @@ public class SendTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -3798,7 +4327,6 @@ public class SendTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -3819,15 +4347,19 @@ public class SendTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Send>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSend>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, FunctionListResponseSendDestinationType> expectedDestinationType =
+            FunctionListResponseSendDestinationType.Webhook;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -3857,13 +4389,12 @@ public class SendTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         string expectedGoogleDriveFolderID = "googleDriveFolderId";
         string expectedS3Bucket = "s3Bucket";
         string expectedS3Prefix = "s3Prefix";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -3882,7 +4413,6 @@ public class SendTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.Equal(expectedGoogleDriveFolderID, deserialized.GoogleDriveFolderID);
         Assert.Equal(expectedS3Bucket, deserialized.S3Bucket);
@@ -3906,9 +4436,9 @@ public class SendTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -3942,7 +4472,6 @@ public class SendTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -3968,9 +4497,9 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -3978,8 +4507,6 @@ public class SendTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.GoogleDriveFolderID);
@@ -4001,9 +4528,9 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4015,16 +4542,15 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             GoogleDriveFolderID = null,
             S3Bucket = null,
@@ -4037,8 +4563,6 @@ public class SendTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.GoogleDriveFolderID);
@@ -4060,16 +4584,15 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             GoogleDriveFolderID = null,
             S3Bucket = null,
@@ -4086,9 +4609,9 @@ public class SendTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Send
+        var model = new FunctionListResponseSend
         {
-            DestinationType = DestinationType.Webhook,
+            DestinationType = FunctionListResponseSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4122,7 +4645,6 @@ public class SendTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -4142,51 +4664,49 @@ public class SendTest : TestBase
             WebhookUrl = "webhookUrl",
         };
 
-        Send copied = new(model);
+        FunctionListResponseSend copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class DestinationTypeTest : TestBase
+public class FunctionListResponseSendDestinationTypeTest : TestBase
 {
     [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void Validation_Works(DestinationType rawValue)
+    [InlineData(FunctionListResponseSendDestinationType.Webhook)]
+    [InlineData(FunctionListResponseSendDestinationType.S3)]
+    [InlineData(FunctionListResponseSendDestinationType.GoogleDrive)]
+    public void Validation_Works(FunctionListResponseSendDestinationType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
+        ApiEnum<string, FunctionListResponseSendDestinationType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseSendDestinationType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(DestinationType rawValue)
+    [InlineData(FunctionListResponseSendDestinationType.Webhook)]
+    [InlineData(FunctionListResponseSendDestinationType.S3)]
+    [InlineData(FunctionListResponseSendDestinationType.GoogleDrive)]
+    public void SerializationRoundtrip_Works(FunctionListResponseSendDestinationType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
+        ApiEnum<string, FunctionListResponseSendDestinationType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseSendDestinationType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -4194,30 +4714,28 @@ public class DestinationTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseSendDestinationType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseSendDestinationType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class SplitTest : TestBase
+public class FunctionListResponseSplitTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4249,7 +4767,6 @@ public class SplitTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -4280,10 +4797,11 @@ public class SplitTest : TestBase
 
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, SplitType> expectedSplitType = SplitType.PrintPage;
+        ApiEnum<string, FunctionListResponseSplitSplitType> expectedSplitType =
+            FunctionListResponseSplitSplitType.PrintPage;
         JsonElement expectedType = JsonSerializer.SerializeToElement("split");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -4313,13 +4831,12 @@ public class SplitTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
-        PrintPageSplitConfig expectedPrintPageSplitConfig = new()
+        FunctionListResponseSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
         {
             NextFunctionID = "nextFunctionID",
         };
-        SemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
+        FunctionListResponseSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
         {
             ItemClasses =
             [
@@ -4333,7 +4850,7 @@ public class SplitTest : TestBase
             ],
         };
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -4350,7 +4867,6 @@ public class SplitTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.Equal(expectedPrintPageSplitConfig, model.PrintPageSplitConfig);
         Assert.Equal(expectedSemanticPageSplitConfig, model.SemanticPageSplitConfig);
@@ -4371,11 +4887,11 @@ public class SplitTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4407,7 +4923,6 @@ public class SplitTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -4437,7 +4952,10 @@ public class SplitTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Split>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSplit>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -4445,11 +4963,11 @@ public class SplitTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4481,7 +4999,6 @@ public class SplitTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -4511,15 +5028,19 @@ public class SplitTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Split>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSplit>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, SplitType> expectedSplitType = SplitType.PrintPage;
+        ApiEnum<string, FunctionListResponseSplitSplitType> expectedSplitType =
+            FunctionListResponseSplitSplitType.PrintPage;
         JsonElement expectedType = JsonSerializer.SerializeToElement("split");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -4549,13 +5070,12 @@ public class SplitTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
-        PrintPageSplitConfig expectedPrintPageSplitConfig = new()
+        FunctionListResponseSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
         {
             NextFunctionID = "nextFunctionID",
         };
-        SemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
+        FunctionListResponseSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
         {
             ItemClasses =
             [
@@ -4569,7 +5089,7 @@ public class SplitTest : TestBase
             ],
         };
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -4586,7 +5106,6 @@ public class SplitTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.Equal(expectedPrintPageSplitConfig, deserialized.PrintPageSplitConfig);
         Assert.Equal(expectedSemanticPageSplitConfig, deserialized.SemanticPageSplitConfig);
@@ -4607,11 +5126,11 @@ public class SplitTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4643,7 +5162,6 @@ public class SplitTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -4678,18 +5196,16 @@ public class SplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
         };
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.PrintPageSplitConfig);
@@ -4705,11 +5221,11 @@ public class SplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
         };
 
@@ -4719,16 +5235,15 @@ public class SplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             PrintPageSplitConfig = null,
             SemanticPageSplitConfig = null,
@@ -4738,8 +5253,6 @@ public class SplitTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.PrintPageSplitConfig);
@@ -4755,16 +5268,15 @@ public class SplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             PrintPageSplitConfig = null,
             SemanticPageSplitConfig = null,
@@ -4778,11 +5290,11 @@ public class SplitTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Split
+        var model = new FunctionListResponseSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = SplitType.PrintPage,
+            SplitType = FunctionListResponseSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4814,7 +5326,6 @@ public class SplitTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             PrintPageSplitConfig = new() { NextFunctionID = "nextFunctionID" },
             SemanticPageSplitConfig = new()
@@ -4843,28 +5354,28 @@ public class SplitTest : TestBase
             ],
         };
 
-        Split copied = new(model);
+        FunctionListResponseSplit copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitTypeTest : TestBase
+public class FunctionListResponseSplitSplitTypeTest : TestBase
 {
     [Theory]
-    [InlineData(SplitType.PrintPage)]
-    [InlineData(SplitType.SemanticPage)]
-    public void Validation_Works(SplitType rawValue)
+    [InlineData(FunctionListResponseSplitSplitType.PrintPage)]
+    [InlineData(FunctionListResponseSplitSplitType.SemanticPage)]
+    public void Validation_Works(FunctionListResponseSplitSplitType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitType> value = rawValue;
+        ApiEnum<string, FunctionListResponseSplitSplitType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseSplitSplitType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -4874,18 +5385,17 @@ public class SplitTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(SplitType.PrintPage)]
-    [InlineData(SplitType.SemanticPage)]
-    public void SerializationRoundtrip_Works(SplitType rawValue)
+    [InlineData(FunctionListResponseSplitSplitType.PrintPage)]
+    [InlineData(FunctionListResponseSplitSplitType.SemanticPage)]
+    public void SerializationRoundtrip_Works(FunctionListResponseSplitSplitType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitType> value = rawValue;
+        ApiEnum<string, FunctionListResponseSplitSplitType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseSplitSplitType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -4893,26 +5403,28 @@ public class SplitTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseSplitSplitType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseSplitSplitType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class PrintPageSplitConfigTest : TestBase
+public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        {
+            NextFunctionID = "nextFunctionID",
+        };
 
         string expectedNextFunctionID = "nextFunctionID";
 
@@ -4922,13 +5434,17 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        {
+            NextFunctionID = "nextFunctionID",
+        };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PrintPageSplitConfig>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseSplitPrintPageSplitConfig>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -4936,13 +5452,17 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        {
+            NextFunctionID = "nextFunctionID",
+        };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PrintPageSplitConfig>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseSplitPrintPageSplitConfig>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         string expectedNextFunctionID = "nextFunctionID";
@@ -4953,7 +5473,10 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        {
+            NextFunctionID = "nextFunctionID",
+        };
 
         model.Validate();
     }
@@ -4961,7 +5484,7 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new PrintPageSplitConfig { };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig { };
 
         Assert.Null(model.NextFunctionID);
         Assert.False(model.RawData.ContainsKey("nextFunctionID"));
@@ -4970,7 +5493,7 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new PrintPageSplitConfig { };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig { };
 
         model.Validate();
     }
@@ -4978,7 +5501,7 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new PrintPageSplitConfig
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             NextFunctionID = null,
@@ -4991,7 +5514,7 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new PrintPageSplitConfig
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             NextFunctionID = null,
@@ -5003,20 +5526,23 @@ public class PrintPageSplitConfigTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
+        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        {
+            NextFunctionID = "nextFunctionID",
+        };
 
-        PrintPageSplitConfig copied = new(model);
+        FunctionListResponseSplitPrintPageSplitConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SemanticPageSplitConfigTest : TestBase
+public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5030,7 +5556,7 @@ public class SemanticPageSplitConfigTest : TestBase
             ],
         };
 
-        List<Functions::SplitFunctionSemanticPageItemClass> expectedItemClasses =
+        List<SplitFunctionSemanticPageItemClass> expectedItemClasses =
         [
             new()
             {
@@ -5052,7 +5578,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5067,10 +5593,11 @@ public class SemanticPageSplitConfigTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SemanticPageSplitConfig>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseSplitSemanticPageSplitConfig>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -5078,7 +5605,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5093,13 +5620,14 @@ public class SemanticPageSplitConfigTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SemanticPageSplitConfig>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<FunctionListResponseSplitSemanticPageSplitConfig>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
-        List<Functions::SplitFunctionSemanticPageItemClass> expectedItemClasses =
+        List<SplitFunctionSemanticPageItemClass> expectedItemClasses =
         [
             new()
             {
@@ -5121,7 +5649,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5141,7 +5669,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SemanticPageSplitConfig { };
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig { };
 
         Assert.Null(model.ItemClasses);
         Assert.False(model.RawData.ContainsKey("itemClasses"));
@@ -5150,7 +5678,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SemanticPageSplitConfig { };
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig { };
 
         model.Validate();
     }
@@ -5158,7 +5686,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             ItemClasses = null,
@@ -5171,7 +5699,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             ItemClasses = null,
@@ -5183,7 +5711,7 @@ public class SemanticPageSplitConfigTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SemanticPageSplitConfig
+        var model = new FunctionListResponseSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5197,23 +5725,23 @@ public class SemanticPageSplitConfigTest : TestBase
             ],
         };
 
-        SemanticPageSplitConfig copied = new(model);
+        FunctionListResponseSplitSemanticPageSplitConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class JoinTest : TestBase
+public class FunctionListResponseJoinTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5247,7 +5775,6 @@ public class JoinTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -5265,12 +5792,13 @@ public class JoinTest : TestBase
         string expectedDescription = "description";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, JoinType> expectedJoinType = JoinType.Standard;
+        ApiEnum<string, FunctionListResponseJoinJoinType> expectedJoinType =
+            FunctionListResponseJoinJoinType.Standard;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("join");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -5300,10 +5828,9 @@ public class JoinTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -5323,7 +5850,6 @@ public class JoinTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -5342,12 +5868,12 @@ public class JoinTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5381,7 +5907,6 @@ public class JoinTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -5397,7 +5922,10 @@ public class JoinTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Join>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseJoin>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -5405,12 +5933,12 @@ public class JoinTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5444,7 +5972,6 @@ public class JoinTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -5460,18 +5987,22 @@ public class JoinTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Join>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseJoin>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedDescription = "description";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, JoinType> expectedJoinType = JoinType.Standard;
+        ApiEnum<string, FunctionListResponseJoinJoinType> expectedJoinType =
+            FunctionListResponseJoinJoinType.Standard;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("join");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -5501,10 +6032,9 @@ public class JoinTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -5524,7 +6054,6 @@ public class JoinTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -5543,12 +6072,12 @@ public class JoinTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5582,7 +6111,6 @@ public class JoinTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -5603,12 +6131,12 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5616,8 +6144,6 @@ public class JoinTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -5629,12 +6155,12 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5646,19 +6172,18 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -5666,8 +6191,6 @@ public class JoinTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -5679,19 +6202,18 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -5703,12 +6225,12 @@ public class JoinTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Join
+        var model = new FunctionListResponseJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = JoinType.Standard,
+            JoinType = FunctionListResponseJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5742,7 +6264,6 @@ public class JoinTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -5757,27 +6278,27 @@ public class JoinTest : TestBase
             ],
         };
 
-        Join copied = new(model);
+        FunctionListResponseJoin copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class JoinTypeTest : TestBase
+public class FunctionListResponseJoinJoinTypeTest : TestBase
 {
     [Theory]
-    [InlineData(JoinType.Standard)]
-    public void Validation_Works(JoinType rawValue)
+    [InlineData(FunctionListResponseJoinJoinType.Standard)]
+    public void Validation_Works(FunctionListResponseJoinJoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, JoinType> value = rawValue;
+        ApiEnum<string, FunctionListResponseJoinJoinType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseJoinJoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -5787,17 +6308,16 @@ public class JoinTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(JoinType.Standard)]
-    public void SerializationRoundtrip_Works(JoinType rawValue)
+    [InlineData(FunctionListResponseJoinJoinType.Standard)]
+    public void SerializationRoundtrip_Works(FunctionListResponseJoinJoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, JoinType> value = rawValue;
+        ApiEnum<string, FunctionListResponseJoinJoinType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseJoinJoinType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -5805,701 +6325,25 @@ public class JoinTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseJoinJoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, FunctionListResponseJoinJoinType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class EnrichTest : TestBase
+public class FunctionListResponsePayloadShapingTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-
-        Functions::EnrichConfig expectedConfig = new(
-            [
-                new()
-                {
-                    CollectionName = "collectionName",
-                    SourceField = "sourceField",
-                    TargetField = "targetField",
-                    IncludeCosineDistance = true,
-                    IncludeSubcollections = true,
-                    ScoreThreshold = 0,
-                    SearchMode = Functions::SearchMode.Semantic,
-                    TopK = 1,
-                },
-            ]
-        );
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
-        long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
-        {
-            FunctionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            FunctionLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        string expectedDisplayName = "displayName";
-        List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
-        [
-            new()
-            {
-                CurrentVersionNum = 0,
-                UsedInWorkflowVersionNums = [0],
-                WorkflowID = "workflowID",
-                WorkflowName = "workflowName",
-            },
-        ];
-
-        Assert.Equal(expectedConfig, model.Config);
-        Assert.Equal(expectedFunctionID, model.FunctionID);
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
-        Assert.Equal(expectedVersionNum, model.VersionNum);
-        Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
-        Assert.Equal(expectedDisplayName, model.DisplayName);
-        Assert.NotNull(model.Tags);
-        Assert.Equal(expectedTags.Count, model.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], model.Tags[i]);
-        }
-        Assert.NotNull(model.UsedInWorkflows);
-        Assert.Equal(expectedUsedInWorkflows.Count, model.UsedInWorkflows.Count);
-        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
-        {
-            Assert.Equal(expectedUsedInWorkflows[i], model.UsedInWorkflows[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Enrich>(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Enrich>(element, ModelBase.SerializerOptions);
-        Assert.NotNull(deserialized);
-
-        Functions::EnrichConfig expectedConfig = new(
-            [
-                new()
-                {
-                    CollectionName = "collectionName",
-                    SourceField = "sourceField",
-                    TargetField = "targetField",
-                    IncludeCosineDistance = true,
-                    IncludeSubcollections = true,
-                    ScoreThreshold = 0,
-                    SearchMode = Functions::SearchMode.Semantic,
-                    TopK = 1,
-                },
-            ]
-        );
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
-        long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
-        {
-            FunctionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            FunctionLastUpdatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-            VersionCreatedBy = new()
-            {
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                UserActionID = "userActionID",
-                ApiKeyName = "apiKeyName",
-                EmailAddress = "emailAddress",
-                UserEmail = "userEmail",
-                UserID = "userID",
-            },
-        };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        string expectedDisplayName = "displayName";
-        List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
-        [
-            new()
-            {
-                CurrentVersionNum = 0,
-                UsedInWorkflowVersionNums = [0],
-                WorkflowID = "workflowID",
-                WorkflowName = "workflowName",
-            },
-        ];
-
-        Assert.Equal(expectedConfig, deserialized.Config);
-        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
-        Assert.Equal(expectedVersionNum, deserialized.VersionNum);
-        Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
-        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
-        Assert.NotNull(deserialized.Tags);
-        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
-        }
-        Assert.NotNull(deserialized.UsedInWorkflows);
-        Assert.Equal(expectedUsedInWorkflows.Count, deserialized.UsedInWorkflows.Count);
-        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
-        {
-            Assert.Equal(expectedUsedInWorkflows[i], deserialized.UsedInWorkflows[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-        };
-
-        Assert.Null(model.Audit);
-        Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-        Assert.Null(model.UsedInWorkflows);
-        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-
-            // Null should be interpreted as omitted for these properties
-            Audit = null,
-            CreatedAt = null,
-            DisplayName = null,
-            Tags = null,
-            UsedInWorkflows = null,
-        };
-
-        Assert.Null(model.Audit);
-        Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-        Assert.Null(model.UsedInWorkflows);
-        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-
-            // Null should be interpreted as omitted for these properties
-            Audit = null,
-            CreatedAt = null,
-            DisplayName = null,
-            Tags = null,
-            UsedInWorkflows = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Enrich
-        {
-            Config = new(
-                [
-                    new()
-                    {
-                        CollectionName = "collectionName",
-                        SourceField = "sourceField",
-                        TargetField = "targetField",
-                        IncludeCosineDistance = true,
-                        IncludeSubcollections = true,
-                        ScoreThreshold = 0,
-                        SearchMode = Functions::SearchMode.Semantic,
-                        TopK = 1,
-                    },
-                ]
-            ),
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            VersionNum = 0,
-            Audit = new()
-            {
-                FunctionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                FunctionLastUpdatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-                VersionCreatedBy = new()
-                {
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    UserActionID = "userActionID",
-                    ApiKeyName = "apiKeyName",
-                    EmailAddress = "emailAddress",
-                    UserEmail = "userEmail",
-                    UserID = "userID",
-                },
-            },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            DisplayName = "displayName",
-            Tags = ["string"],
-            UsedInWorkflows =
-            [
-                new()
-                {
-                    CurrentVersionNum = 0,
-                    UsedInWorkflowVersionNums = [0],
-                    WorkflowID = "workflowID",
-                    WorkflowName = "workflowName",
-                },
-            ],
-        };
-
-        Enrich copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class PayloadShapingTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6535,7 +6379,6 @@ public class PayloadShapingTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -6555,7 +6398,7 @@ public class PayloadShapingTest : TestBase
         string expectedShapingSchema = "shapingSchema";
         JsonElement expectedType = JsonSerializer.SerializeToElement("payload_shaping");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -6585,10 +6428,9 @@ public class PayloadShapingTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -6605,7 +6447,6 @@ public class PayloadShapingTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -6624,7 +6465,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6660,7 +6501,6 @@ public class PayloadShapingTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -6676,7 +6516,7 @@ public class PayloadShapingTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PayloadShaping>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponsePayloadShaping>(
             json,
             ModelBase.SerializerOptions
         );
@@ -6687,7 +6527,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6723,7 +6563,6 @@ public class PayloadShapingTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -6739,7 +6578,7 @@ public class PayloadShapingTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PayloadShaping>(
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponsePayloadShaping>(
             element,
             ModelBase.SerializerOptions
         );
@@ -6750,7 +6589,7 @@ public class PayloadShapingTest : TestBase
         string expectedShapingSchema = "shapingSchema";
         JsonElement expectedType = JsonSerializer.SerializeToElement("payload_shaping");
         long expectedVersionNum = 0;
-        Functions::FunctionAudit expectedAudit = new()
+        FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -6780,10 +6619,9 @@ public class PayloadShapingTest : TestBase
                 UserID = "userID",
             },
         };
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -6800,7 +6638,6 @@ public class PayloadShapingTest : TestBase
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -6819,7 +6656,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6855,7 +6692,6 @@ public class PayloadShapingTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -6876,7 +6712,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6886,8 +6722,6 @@ public class PayloadShapingTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -6899,7 +6733,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6913,7 +6747,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6922,7 +6756,6 @@ public class PayloadShapingTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -6930,8 +6763,6 @@ public class PayloadShapingTest : TestBase
 
         Assert.Null(model.Audit);
         Assert.False(model.RawData.ContainsKey("audit"));
-        Assert.Null(model.CreatedAt);
-        Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.Tags);
@@ -6943,7 +6774,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6952,7 +6783,6 @@ public class PayloadShapingTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Audit = null,
-            CreatedAt = null,
             DisplayName = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -6964,7 +6794,7 @@ public class PayloadShapingTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new PayloadShaping
+        var model = new FunctionListResponsePayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -7000,7 +6830,6 @@ public class PayloadShapingTest : TestBase
                     UserID = "userID",
                 },
             },
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
             Tags = ["string"],
             UsedInWorkflows =
@@ -7015,7 +6844,673 @@ public class PayloadShapingTest : TestBase
             ],
         };
 
-        PayloadShaping copied = new(model);
+        FunctionListResponsePayloadShaping copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionListResponseEnrichTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        EnrichConfig expectedConfig = new(
+            [
+                new()
+                {
+                    CollectionName = "collectionName",
+                    SourceField = "sourceField",
+                    TargetField = "targetField",
+                    IncludeCosineDistance = true,
+                    IncludeSubcollections = true,
+                    ScoreThreshold = 0,
+                    SearchMode = SearchMode.Semantic,
+                    TopK = 1,
+                },
+            ]
+        );
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
+        long expectedVersionNum = 0;
+        FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        string expectedDisplayName = "displayName";
+        List<string> expectedTags = ["string"];
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedConfig, model.Config);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedVersionNum, model.VersionNum);
+        Assert.Equal(expectedAudit, model.Audit);
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+        Assert.NotNull(model.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, model.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], model.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseEnrich>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionListResponseEnrich>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        EnrichConfig expectedConfig = new(
+            [
+                new()
+                {
+                    CollectionName = "collectionName",
+                    SourceField = "sourceField",
+                    TargetField = "targetField",
+                    IncludeCosineDistance = true,
+                    IncludeSubcollections = true,
+                    ScoreThreshold = 0,
+                    SearchMode = SearchMode.Semantic,
+                    TopK = 1,
+                },
+            ]
+        );
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
+        long expectedVersionNum = 0;
+        FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        string expectedDisplayName = "displayName";
+        List<string> expectedTags = ["string"];
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedConfig, deserialized.Config);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedVersionNum, deserialized.VersionNum);
+        Assert.Equal(expectedAudit, deserialized.Audit);
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+        Assert.NotNull(deserialized.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, deserialized.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], deserialized.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            DisplayName = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            DisplayName = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionListResponseEnrich
+        {
+            Config = new(
+                [
+                    new()
+                    {
+                        CollectionName = "collectionName",
+                        SourceField = "sourceField",
+                        TargetField = "targetField",
+                        IncludeCosineDistance = true,
+                        IncludeSubcollections = true,
+                        ScoreThreshold = 0,
+                        SearchMode = SearchMode.Semantic,
+                        TopK = 1,
+                    },
+                ]
+            ),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        FunctionListResponseEnrich copied = new(model);
 
         Assert.Equal(model, copied);
     }

@@ -15,11 +15,11 @@ namespace Bem.Models.Functions;
 public sealed class FunctionListPage(
     IFunctionServiceWithRawResponse service,
     FunctionListParams parameters,
-    ListFunctionsResponse response
-) : IPage<Function>
+    FunctionListPageResponse response
+) : IPage<FunctionListResponse>
 {
     /// <inheritdoc/>
-    public IReadOnlyList<Function> Items
+    public IReadOnlyList<FunctionListResponse> Items
     {
         get { return response.Functions ?? []; }
     }
@@ -31,8 +31,9 @@ public sealed class FunctionListPage(
     }
 
     /// <inheritdoc/>
-    async Task<IPage<Function>> IPage<Function>.Next(CancellationToken cancellationToken) =>
-        await this.Next(cancellationToken).ConfigureAwait(false);
+    async Task<IPage<FunctionListResponse>> IPage<FunctionListResponse>.Next(
+        CancellationToken cancellationToken
+    ) => await this.Next(cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc cref="IPage{T}.Next"/>
     public async Task<FunctionListPage> Next(CancellationToken cancellationToken = default)
