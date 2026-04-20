@@ -3,546 +3,17 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
 using Bem.Exceptions;
-using Bem.Models.Functions;
-using Versions = Bem.Models.Functions.Versions;
+using Bem.Models.Functions.Versions;
+using Functions = Bem.Models.Functions;
 
 namespace Bem.Tests.Models.Functions.Versions;
 
-public class VersionListResponseTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            TotalCount = 0,
-            Versions =
-            [
-                new Versions::VersionTransform()
-                {
-                    EmailAddress = "emailAddress",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    OutputSchemaName = "outputSchemaName",
-                    TabularChunkingEnabled = true,
-                    VersionNum = 0,
-                    Audit = new()
-                    {
-                        FunctionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        FunctionLastUpdatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        VersionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                    },
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    DisplayName = "displayName",
-                    Tags = ["string"],
-                    UsedInWorkflows =
-                    [
-                        new()
-                        {
-                            CurrentVersionNum = 0,
-                            UsedInWorkflowVersionNums = [0],
-                            WorkflowID = "workflowID",
-                            WorkflowName = "workflowName",
-                        },
-                    ],
-                },
-            ],
-        };
-
-        long expectedTotalCount = 0;
-        List<Versions::Version> expectedVersions =
-        [
-            new Versions::VersionTransform()
-            {
-                EmailAddress = "emailAddress",
-                FunctionID = "functionID",
-                FunctionName = "functionName",
-                OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                OutputSchemaName = "outputSchemaName",
-                TabularChunkingEnabled = true,
-                VersionNum = 0,
-                Audit = new()
-                {
-                    FunctionCreatedBy = new()
-                    {
-                        CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        UserActionID = "userActionID",
-                        ApiKeyName = "apiKeyName",
-                        EmailAddress = "emailAddress",
-                        UserEmail = "userEmail",
-                        UserID = "userID",
-                    },
-                    FunctionLastUpdatedBy = new()
-                    {
-                        CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        UserActionID = "userActionID",
-                        ApiKeyName = "apiKeyName",
-                        EmailAddress = "emailAddress",
-                        UserEmail = "userEmail",
-                        UserID = "userID",
-                    },
-                    VersionCreatedBy = new()
-                    {
-                        CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        UserActionID = "userActionID",
-                        ApiKeyName = "apiKeyName",
-                        EmailAddress = "emailAddress",
-                        UserEmail = "userEmail",
-                        UserID = "userID",
-                    },
-                },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                DisplayName = "displayName",
-                Tags = ["string"],
-                UsedInWorkflows =
-                [
-                    new()
-                    {
-                        CurrentVersionNum = 0,
-                        UsedInWorkflowVersionNums = [0],
-                        WorkflowID = "workflowID",
-                        WorkflowName = "workflowName",
-                    },
-                ],
-            },
-        ];
-
-        Assert.Equal(expectedTotalCount, model.TotalCount);
-        Assert.NotNull(model.Versions);
-        Assert.Equal(expectedVersions.Count, model.Versions.Count);
-        for (int i = 0; i < expectedVersions.Count; i++)
-        {
-            Assert.Equal(expectedVersions[i], model.Versions[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            TotalCount = 0,
-            Versions =
-            [
-                new Versions::VersionTransform()
-                {
-                    EmailAddress = "emailAddress",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    OutputSchemaName = "outputSchemaName",
-                    TabularChunkingEnabled = true,
-                    VersionNum = 0,
-                    Audit = new()
-                    {
-                        FunctionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        FunctionLastUpdatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        VersionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                    },
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    DisplayName = "displayName",
-                    Tags = ["string"],
-                    UsedInWorkflows =
-                    [
-                        new()
-                        {
-                            CurrentVersionNum = 0,
-                            UsedInWorkflowVersionNums = [0],
-                            WorkflowID = "workflowID",
-                            WorkflowName = "workflowName",
-                        },
-                    ],
-                },
-            ],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionListResponse>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            TotalCount = 0,
-            Versions =
-            [
-                new Versions::VersionTransform()
-                {
-                    EmailAddress = "emailAddress",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    OutputSchemaName = "outputSchemaName",
-                    TabularChunkingEnabled = true,
-                    VersionNum = 0,
-                    Audit = new()
-                    {
-                        FunctionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        FunctionLastUpdatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        VersionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                    },
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    DisplayName = "displayName",
-                    Tags = ["string"],
-                    UsedInWorkflows =
-                    [
-                        new()
-                        {
-                            CurrentVersionNum = 0,
-                            UsedInWorkflowVersionNums = [0],
-                            WorkflowID = "workflowID",
-                            WorkflowName = "workflowName",
-                        },
-                    ],
-                },
-            ],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionListResponse>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        long expectedTotalCount = 0;
-        List<Versions::Version> expectedVersions =
-        [
-            new Versions::VersionTransform()
-            {
-                EmailAddress = "emailAddress",
-                FunctionID = "functionID",
-                FunctionName = "functionName",
-                OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                OutputSchemaName = "outputSchemaName",
-                TabularChunkingEnabled = true,
-                VersionNum = 0,
-                Audit = new()
-                {
-                    FunctionCreatedBy = new()
-                    {
-                        CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        UserActionID = "userActionID",
-                        ApiKeyName = "apiKeyName",
-                        EmailAddress = "emailAddress",
-                        UserEmail = "userEmail",
-                        UserID = "userID",
-                    },
-                    FunctionLastUpdatedBy = new()
-                    {
-                        CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        UserActionID = "userActionID",
-                        ApiKeyName = "apiKeyName",
-                        EmailAddress = "emailAddress",
-                        UserEmail = "userEmail",
-                        UserID = "userID",
-                    },
-                    VersionCreatedBy = new()
-                    {
-                        CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        UserActionID = "userActionID",
-                        ApiKeyName = "apiKeyName",
-                        EmailAddress = "emailAddress",
-                        UserEmail = "userEmail",
-                        UserID = "userID",
-                    },
-                },
-                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                DisplayName = "displayName",
-                Tags = ["string"],
-                UsedInWorkflows =
-                [
-                    new()
-                    {
-                        CurrentVersionNum = 0,
-                        UsedInWorkflowVersionNums = [0],
-                        WorkflowID = "workflowID",
-                        WorkflowName = "workflowName",
-                    },
-                ],
-            },
-        ];
-
-        Assert.Equal(expectedTotalCount, deserialized.TotalCount);
-        Assert.NotNull(deserialized.Versions);
-        Assert.Equal(expectedVersions.Count, deserialized.Versions.Count);
-        for (int i = 0; i < expectedVersions.Count; i++)
-        {
-            Assert.Equal(expectedVersions[i], deserialized.Versions[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            TotalCount = 0,
-            Versions =
-            [
-                new Versions::VersionTransform()
-                {
-                    EmailAddress = "emailAddress",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    OutputSchemaName = "outputSchemaName",
-                    TabularChunkingEnabled = true,
-                    VersionNum = 0,
-                    Audit = new()
-                    {
-                        FunctionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        FunctionLastUpdatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        VersionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                    },
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    DisplayName = "displayName",
-                    Tags = ["string"],
-                    UsedInWorkflows =
-                    [
-                        new()
-                        {
-                            CurrentVersionNum = 0,
-                            UsedInWorkflowVersionNums = [0],
-                            WorkflowID = "workflowID",
-                            WorkflowName = "workflowName",
-                        },
-                    ],
-                },
-            ],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Versions::VersionListResponse { };
-
-        Assert.Null(model.TotalCount);
-        Assert.False(model.RawData.ContainsKey("totalCount"));
-        Assert.Null(model.Versions);
-        Assert.False(model.RawData.ContainsKey("versions"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Versions::VersionListResponse { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            // Null should be interpreted as omitted for these properties
-            TotalCount = null,
-            Versions = null,
-        };
-
-        Assert.Null(model.TotalCount);
-        Assert.False(model.RawData.ContainsKey("totalCount"));
-        Assert.Null(model.Versions);
-        Assert.False(model.RawData.ContainsKey("versions"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            // Null should be interpreted as omitted for these properties
-            TotalCount = null,
-            Versions = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Versions::VersionListResponse
-        {
-            TotalCount = 0,
-            Versions =
-            [
-                new Versions::VersionTransform()
-                {
-                    EmailAddress = "emailAddress",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    OutputSchemaName = "outputSchemaName",
-                    TabularChunkingEnabled = true,
-                    VersionNum = 0,
-                    Audit = new()
-                    {
-                        FunctionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        FunctionLastUpdatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                        VersionCreatedBy = new()
-                        {
-                            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            UserActionID = "userActionID",
-                            ApiKeyName = "apiKeyName",
-                            EmailAddress = "emailAddress",
-                            UserEmail = "userEmail",
-                            UserID = "userID",
-                        },
-                    },
-                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    DisplayName = "displayName",
-                    Tags = ["string"],
-                    UsedInWorkflows =
-                    [
-                        new()
-                        {
-                            CurrentVersionNum = 0,
-                            UsedInWorkflowVersionNums = [0],
-                            WorkflowID = "workflowID",
-                            WorkflowName = "workflowName",
-                        },
-                    ],
-                },
-            ],
-        };
-
-        Versions::VersionListResponse copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class VersionTest : TestBase
+public class FunctionVersionTest : TestBase
 {
     [Fact]
     public void TransformValidationWorks()
     {
-        Versions::Version value = new Versions::VersionTransform()
+        FunctionVersion value = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -601,7 +72,7 @@ public class VersionTest : TestBase
     [Fact]
     public void ExtractValidationWorks()
     {
-        Versions::Version value = new Versions::VersionExtract()
+        FunctionVersion value = new Extract()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -659,7 +130,7 @@ public class VersionTest : TestBase
     [Fact]
     public void AnalyzeValidationWorks()
     {
-        Versions::Version value = new Versions::VersionAnalyze()
+        FunctionVersion value = new Analyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -718,7 +189,7 @@ public class VersionTest : TestBase
     [Fact]
     public void ClassifyValidationWorks()
     {
-        Versions::Version value = new Versions::VersionClassify()
+        FunctionVersion value = new Classify()
         {
             Classifications =
             [
@@ -788,9 +259,9 @@ public class VersionTest : TestBase
     [Fact]
     public void SendValidationWorks()
     {
-        Versions::Version value = new Versions::VersionSend()
+        FunctionVersion value = new Send()
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -849,11 +320,11 @@ public class VersionTest : TestBase
     [Fact]
     public void SplitValidationWorks()
     {
-        Versions::Version value = new Versions::VersionSplit()
+        FunctionVersion value = new Split()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -919,12 +390,12 @@ public class VersionTest : TestBase
     [Fact]
     public void JoinValidationWorks()
     {
-        Versions::Version value = new Versions::VersionJoin()
+        FunctionVersion value = new Join()
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -978,7 +449,7 @@ public class VersionTest : TestBase
     [Fact]
     public void EnrichValidationWorks()
     {
-        Versions::Version value = new Versions::VersionEnrich()
+        FunctionVersion value = new Enrich()
         {
             Config = new(
                 [
@@ -990,7 +461,7 @@ public class VersionTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -1048,7 +519,7 @@ public class VersionTest : TestBase
     [Fact]
     public void PayloadShapingValidationWorks()
     {
-        Versions::Version value = new Versions::VersionPayloadShaping()
+        FunctionVersion value = new PayloadShaping()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1104,7 +575,7 @@ public class VersionTest : TestBase
     [Fact]
     public void TransformSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionTransform()
+        FunctionVersion value = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1158,7 +629,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1169,7 +640,7 @@ public class VersionTest : TestBase
     [Fact]
     public void ExtractSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionExtract()
+        FunctionVersion value = new Extract()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1222,7 +693,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1233,7 +704,7 @@ public class VersionTest : TestBase
     [Fact]
     public void AnalyzeSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionAnalyze()
+        FunctionVersion value = new Analyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -1287,7 +758,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1298,7 +769,7 @@ public class VersionTest : TestBase
     [Fact]
     public void ClassifySerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionClassify()
+        FunctionVersion value = new Classify()
         {
             Classifications =
             [
@@ -1363,7 +834,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1374,9 +845,9 @@ public class VersionTest : TestBase
     [Fact]
     public void SendSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionSend()
+        FunctionVersion value = new Send()
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -1430,7 +901,7 @@ public class VersionTest : TestBase
             WebhookUrl = "webhookUrl",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1441,11 +912,11 @@ public class VersionTest : TestBase
     [Fact]
     public void SplitSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionSplit()
+        FunctionVersion value = new Split()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -1506,7 +977,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1517,12 +988,12 @@ public class VersionTest : TestBase
     [Fact]
     public void JoinSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionJoin()
+        FunctionVersion value = new Join()
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -1571,7 +1042,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1582,7 +1053,7 @@ public class VersionTest : TestBase
     [Fact]
     public void EnrichSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionEnrich()
+        FunctionVersion value = new Enrich()
         {
             Config = new(
                 [
@@ -1594,7 +1065,7 @@ public class VersionTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -1647,7 +1118,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1658,7 +1129,7 @@ public class VersionTest : TestBase
     [Fact]
     public void PayloadShapingSerializationRoundtripWorks()
     {
-        Versions::Version value = new Versions::VersionPayloadShaping()
+        FunctionVersion value = new PayloadShaping()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1709,7 +1180,7 @@ public class VersionTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::Version>(
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1718,12 +1189,12 @@ public class VersionTest : TestBase
     }
 }
 
-public class VersionTransformTest : TestBase
+public class TransformTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1785,7 +1256,7 @@ public class VersionTransformTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -1818,7 +1289,7 @@ public class VersionTransformTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -1857,7 +1328,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1912,10 +1383,7 @@ public class VersionTransformTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionTransform>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Transform>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -1923,7 +1391,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1978,7 +1446,7 @@ public class VersionTransformTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionTransform>(
+        var deserialized = JsonSerializer.Deserialize<Transform>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1992,7 +1460,7 @@ public class VersionTransformTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2025,7 +1493,7 @@ public class VersionTransformTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2064,7 +1532,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -2124,7 +1592,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -2150,7 +1618,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -2167,7 +1635,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -2200,7 +1668,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -2224,7 +1692,7 @@ public class VersionTransformTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -2278,18 +1746,18 @@ public class VersionTransformTest : TestBase
             ],
         };
 
-        Versions::VersionTransform copied = new(model);
+        Transform copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionExtractTest : TestBase
+public class ExtractTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2349,7 +1817,7 @@ public class VersionExtractTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2382,7 +1850,7 @@ public class VersionExtractTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2420,7 +1888,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2474,10 +1942,7 @@ public class VersionExtractTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionExtract>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Extract>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -2485,7 +1950,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2539,7 +2004,7 @@ public class VersionExtractTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionExtract>(
+        var deserialized = JsonSerializer.Deserialize<Extract>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2552,7 +2017,7 @@ public class VersionExtractTest : TestBase
         bool expectedTabularChunkingEnabled = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2585,7 +2050,7 @@ public class VersionExtractTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2623,7 +2088,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2682,7 +2147,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2707,7 +2172,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2723,7 +2188,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2755,7 +2220,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2778,7 +2243,7 @@ public class VersionExtractTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionExtract
+        var model = new Extract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2831,18 +2296,18 @@ public class VersionExtractTest : TestBase
             ],
         };
 
-        Versions::VersionExtract copied = new(model);
+        Extract copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionAnalyzeTest : TestBase
+public class AnalyzeTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2904,7 +2369,7 @@ public class VersionAnalyzeTest : TestBase
         bool expectedPreCount = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -2937,7 +2402,7 @@ public class VersionAnalyzeTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -2976,7 +2441,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3031,10 +2496,7 @@ public class VersionAnalyzeTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionAnalyze>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Analyze>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -3042,7 +2504,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3097,7 +2559,7 @@ public class VersionAnalyzeTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionAnalyze>(
+        var deserialized = JsonSerializer.Deserialize<Analyze>(
             element,
             ModelBase.SerializerOptions
         );
@@ -3111,7 +2573,7 @@ public class VersionAnalyzeTest : TestBase
         bool expectedPreCount = true;
         JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -3144,7 +2606,7 @@ public class VersionAnalyzeTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -3183,7 +2645,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3243,7 +2705,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3269,7 +2731,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3286,7 +2748,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3319,7 +2781,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3343,7 +2805,7 @@ public class VersionAnalyzeTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -3397,18 +2859,18 @@ public class VersionAnalyzeTest : TestBase
             ],
         };
 
-        Versions::VersionAnalyze copied = new(model);
+        Analyze copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionClassifyTest : TestBase
+public class ClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3473,7 +2935,7 @@ public class VersionClassifyTest : TestBase
             ],
         };
 
-        List<Versions::VersionClassifyClassification> expectedClassifications =
+        List<Functions::ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -3492,7 +2954,7 @@ public class VersionClassifyTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -3525,7 +2987,7 @@ public class VersionClassifyTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -3567,7 +3029,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3633,10 +3095,7 @@ public class VersionClassifyTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionClassify>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Classify>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -3644,7 +3103,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3710,13 +3169,13 @@ public class VersionClassifyTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionClassify>(
+        var deserialized = JsonSerializer.Deserialize<Classify>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        List<Versions::VersionClassifyClassification> expectedClassifications =
+        List<Functions::ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -3735,7 +3194,7 @@ public class VersionClassifyTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -3768,7 +3227,7 @@ public class VersionClassifyTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -3810,7 +3269,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3881,7 +3340,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3918,7 +3377,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3946,7 +3405,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -3990,7 +3449,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -4025,7 +3484,7 @@ public class VersionClassifyTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionClassify
+        var model = new Classify
         {
             Classifications =
             [
@@ -4090,611 +3549,20 @@ public class VersionClassifyTest : TestBase
             ],
         };
 
-        Versions::VersionClassify copied = new(model);
+        Classify copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionClassifyClassificationTest : TestBase
+public class SendTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionClassifyClassification
+        var model = new Send
         {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        string expectedName = "name";
-        string expectedDescription = "description";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        bool expectedIsErrorFallback = true;
-        Versions::VersionClassifyClassificationOrigin expectedOrigin = new()
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-        Versions::VersionClassifyClassificationRegex expectedRegex = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedName, model.Name);
-        Assert.Equal(expectedDescription, model.Description);
-        Assert.Equal(expectedFunctionID, model.FunctionID);
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.Equal(expectedIsErrorFallback, model.IsErrorFallback);
-        Assert.Equal(expectedOrigin, model.Origin);
-        Assert.Equal(expectedRegex, model.Regex);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionClassifyClassification>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Versions::VersionClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionClassifyClassification>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedName = "name";
-        string expectedDescription = "description";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        bool expectedIsErrorFallback = true;
-        Versions::VersionClassifyClassificationOrigin expectedOrigin = new()
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-        Versions::VersionClassifyClassificationRegex expectedRegex = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedName, deserialized.Name);
-        Assert.Equal(expectedDescription, deserialized.Description);
-        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.Equal(expectedIsErrorFallback, deserialized.IsErrorFallback);
-        Assert.Equal(expectedOrigin, deserialized.Origin);
-        Assert.Equal(expectedRegex, deserialized.Regex);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Versions::VersionClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassification { Name = "name" };
-
-        Assert.Null(model.Description);
-        Assert.False(model.RawData.ContainsKey("description"));
-        Assert.Null(model.FunctionID);
-        Assert.False(model.RawData.ContainsKey("functionID"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.IsErrorFallback);
-        Assert.False(model.RawData.ContainsKey("isErrorFallback"));
-        Assert.Null(model.Origin);
-        Assert.False(model.RawData.ContainsKey("origin"));
-        Assert.Null(model.Regex);
-        Assert.False(model.RawData.ContainsKey("regex"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassification { Name = "name" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassification
-        {
-            Name = "name",
-
-            // Null should be interpreted as omitted for these properties
-            Description = null,
-            FunctionID = null,
-            FunctionName = null,
-            IsErrorFallback = null,
-            Origin = null,
-            Regex = null,
-        };
-
-        Assert.Null(model.Description);
-        Assert.False(model.RawData.ContainsKey("description"));
-        Assert.Null(model.FunctionID);
-        Assert.False(model.RawData.ContainsKey("functionID"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.IsErrorFallback);
-        Assert.False(model.RawData.ContainsKey("isErrorFallback"));
-        Assert.Null(model.Origin);
-        Assert.False(model.RawData.ContainsKey("origin"));
-        Assert.Null(model.Regex);
-        Assert.False(model.RawData.ContainsKey("regex"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassification
-        {
-            Name = "name",
-
-            // Null should be interpreted as omitted for these properties
-            Description = null,
-            FunctionID = null,
-            FunctionName = null,
-            IsErrorFallback = null,
-            Origin = null,
-            Regex = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Versions::VersionClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        Versions::VersionClassifyClassification copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class VersionClassifyClassificationOriginTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        Versions::VersionClassifyClassificationOriginEmail expectedEmail = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedEmail, model.Email);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<Versions::VersionClassifyClassificationOrigin>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<Versions::VersionClassifyClassificationOrigin>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        Versions::VersionClassifyClassificationOriginEmail expectedEmail = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedEmail, deserialized.Email);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin { };
-
-        Assert.Null(model.Email);
-        Assert.False(model.RawData.ContainsKey("email"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            // Null should be interpreted as omitted for these properties
-            Email = null,
-        };
-
-        Assert.Null(model.Email);
-        Assert.False(model.RawData.ContainsKey("email"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            // Null should be interpreted as omitted for these properties
-            Email = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        Versions::VersionClassifyClassificationOrigin copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class VersionClassifyClassificationOriginEmailTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(model.Patterns);
-        Assert.Equal(expectedPatterns.Count, model.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], model.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<Versions::VersionClassifyClassificationOriginEmail>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<Versions::VersionClassifyClassificationOriginEmail>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(deserialized.Patterns);
-        Assert.Equal(expectedPatterns.Count, deserialized.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], deserialized.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail { };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        Versions::VersionClassifyClassificationOriginEmail copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class VersionClassifyClassificationRegexTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { Patterns = ["string"] };
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(model.Patterns);
-        Assert.Equal(expectedPatterns.Count, model.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], model.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { Patterns = ["string"] };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionClassifyClassificationRegex>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { Patterns = ["string"] };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionClassifyClassificationRegex>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(deserialized.Patterns);
-        Assert.Equal(expectedPatterns.Count, deserialized.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], deserialized.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { Patterns = ["string"] };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Versions::VersionClassifyClassificationRegex { Patterns = ["string"] };
-
-        Versions::VersionClassifyClassificationRegex copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class VersionSendTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Versions::VersionSend
-        {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4748,13 +3616,12 @@ public class VersionSendTest : TestBase
             WebhookUrl = "webhookUrl",
         };
 
-        ApiEnum<string, Versions::VersionSendDestinationType> expectedDestinationType =
-            Versions::VersionSendDestinationType.Webhook;
+        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -4790,7 +3657,7 @@ public class VersionSendTest : TestBase
         string expectedS3Bucket = "s3Bucket";
         string expectedS3Prefix = "s3Prefix";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -4833,9 +3700,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4890,10 +3757,7 @@ public class VersionSendTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionSend>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Send>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -4901,9 +3765,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4958,19 +3822,15 @@ public class VersionSendTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionSend>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Send>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
-        ApiEnum<string, Versions::VersionSendDestinationType> expectedDestinationType =
-            Versions::VersionSendDestinationType.Webhook;
+        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -5006,7 +3866,7 @@ public class VersionSendTest : TestBase
         string expectedS3Bucket = "s3Bucket";
         string expectedS3Prefix = "s3Prefix";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -5049,9 +3909,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5111,9 +3971,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5144,9 +4004,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5158,9 +4018,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5203,9 +4063,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5229,9 +4089,9 @@ public class VersionSendTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionSend
+        var model = new Send
         {
-            DestinationType = Versions::VersionSendDestinationType.Webhook,
+            DestinationType = DestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5285,49 +4145,51 @@ public class VersionSendTest : TestBase
             WebhookUrl = "webhookUrl",
         };
 
-        Versions::VersionSend copied = new(model);
+        Send copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionSendDestinationTypeTest : TestBase
+public class DestinationTypeTest : TestBase
 {
     [Theory]
-    [InlineData(Versions::VersionSendDestinationType.Webhook)]
-    [InlineData(Versions::VersionSendDestinationType.S3)]
-    [InlineData(Versions::VersionSendDestinationType.GoogleDrive)]
-    public void Validation_Works(Versions::VersionSendDestinationType rawValue)
+    [InlineData(DestinationType.Webhook)]
+    [InlineData(DestinationType.S3)]
+    [InlineData(DestinationType.GoogleDrive)]
+    public void Validation_Works(DestinationType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Versions::VersionSendDestinationType> value = rawValue;
+        ApiEnum<string, DestinationType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionSendDestinationType>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(Versions::VersionSendDestinationType.Webhook)]
-    [InlineData(Versions::VersionSendDestinationType.S3)]
-    [InlineData(Versions::VersionSendDestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(Versions::VersionSendDestinationType rawValue)
+    [InlineData(DestinationType.Webhook)]
+    [InlineData(DestinationType.S3)]
+    [InlineData(DestinationType.GoogleDrive)]
+    public void SerializationRoundtrip_Works(DestinationType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Versions::VersionSendDestinationType> value = rawValue;
+        ApiEnum<string, DestinationType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionSendDestinationType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -5335,28 +4197,30 @@ public class VersionSendDestinationTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionSendDestinationType>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionSendDestinationType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class VersionSplitTest : TestBase
+public class SplitTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5419,11 +4283,10 @@ public class VersionSplitTest : TestBase
 
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, Versions::VersionSplitSplitType> expectedSplitType =
-            Versions::VersionSplitSplitType.PrintPage;
+        ApiEnum<string, SplitType> expectedSplitType = SplitType.PrintPage;
         JsonElement expectedType = JsonSerializer.SerializeToElement("split");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -5455,11 +4318,11 @@ public class VersionSplitTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
-        Versions::VersionSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
+        PrintPageSplitConfig expectedPrintPageSplitConfig = new()
         {
             NextFunctionID = "nextFunctionID",
         };
-        Versions::VersionSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
+        SemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
         {
             ItemClasses =
             [
@@ -5473,7 +4336,7 @@ public class VersionSplitTest : TestBase
             ],
         };
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -5511,11 +4374,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5577,10 +4440,7 @@ public class VersionSplitTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionSplit>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Split>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -5588,11 +4448,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5654,19 +4514,15 @@ public class VersionSplitTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionSplit>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Split>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, Versions::VersionSplitSplitType> expectedSplitType =
-            Versions::VersionSplitSplitType.PrintPage;
+        ApiEnum<string, SplitType> expectedSplitType = SplitType.PrintPage;
         JsonElement expectedType = JsonSerializer.SerializeToElement("split");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -5698,11 +4554,11 @@ public class VersionSplitTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
-        Versions::VersionSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
+        PrintPageSplitConfig expectedPrintPageSplitConfig = new()
         {
             NextFunctionID = "nextFunctionID",
         };
-        Versions::VersionSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
+        SemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
         {
             ItemClasses =
             [
@@ -5716,7 +4572,7 @@ public class VersionSplitTest : TestBase
             ],
         };
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -5754,11 +4610,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5825,11 +4681,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
         };
 
@@ -5852,11 +4708,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
         };
 
@@ -5866,11 +4722,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -5902,11 +4758,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -5925,11 +4781,11 @@ public class VersionSplitTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionSplit
+        var model = new Split
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = Versions::VersionSplitSplitType.PrintPage,
+            SplitType = SplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5990,28 +4846,28 @@ public class VersionSplitTest : TestBase
             ],
         };
 
-        Versions::VersionSplit copied = new(model);
+        Split copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionSplitSplitTypeTest : TestBase
+public class SplitTypeTest : TestBase
 {
     [Theory]
-    [InlineData(Versions::VersionSplitSplitType.PrintPage)]
-    [InlineData(Versions::VersionSplitSplitType.SemanticPage)]
-    public void Validation_Works(Versions::VersionSplitSplitType rawValue)
+    [InlineData(SplitType.PrintPage)]
+    [InlineData(SplitType.SemanticPage)]
+    public void Validation_Works(SplitType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Versions::VersionSplitSplitType> value = rawValue;
+        ApiEnum<string, SplitType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Versions::VersionSplitSplitType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -6021,17 +4877,18 @@ public class VersionSplitSplitTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(Versions::VersionSplitSplitType.PrintPage)]
-    [InlineData(Versions::VersionSplitSplitType.SemanticPage)]
-    public void SerializationRoundtrip_Works(Versions::VersionSplitSplitType rawValue)
+    [InlineData(SplitType.PrintPage)]
+    [InlineData(SplitType.SemanticPage)]
+    public void SerializationRoundtrip_Works(SplitType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Versions::VersionSplitSplitType> value = rawValue;
+        ApiEnum<string, SplitType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionSplitSplitType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -6039,28 +4896,26 @@ public class VersionSplitSplitTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Versions::VersionSplitSplitType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionSplitSplitType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class VersionSplitPrintPageSplitConfigTest : TestBase
+public class PrintPageSplitConfigTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         string expectedNextFunctionID = "nextFunctionID";
 
@@ -6070,13 +4925,10 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionSplitPrintPageSplitConfig>(
+        var deserialized = JsonSerializer.Deserialize<PrintPageSplitConfig>(
             json,
             ModelBase.SerializerOptions
         );
@@ -6087,13 +4939,10 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionSplitPrintPageSplitConfig>(
+        var deserialized = JsonSerializer.Deserialize<PrintPageSplitConfig>(
             element,
             ModelBase.SerializerOptions
         );
@@ -6107,10 +4956,7 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         model.Validate();
     }
@@ -6118,7 +4964,7 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig { };
+        var model = new PrintPageSplitConfig { };
 
         Assert.Null(model.NextFunctionID);
         Assert.False(model.RawData.ContainsKey("nextFunctionID"));
@@ -6127,7 +4973,7 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig { };
+        var model = new PrintPageSplitConfig { };
 
         model.Validate();
     }
@@ -6135,7 +4981,7 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
+        var model = new PrintPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             NextFunctionID = null,
@@ -6148,7 +4994,7 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
+        var model = new PrintPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             NextFunctionID = null,
@@ -6160,23 +5006,20 @@ public class VersionSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new PrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
-        Versions::VersionSplitPrintPageSplitConfig copied = new(model);
+        PrintPageSplitConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionSplitSemanticPageSplitConfigTest : TestBase
+public class SemanticPageSplitConfigTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -6190,7 +5033,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
             ],
         };
 
-        List<SplitFunctionSemanticPageItemClass> expectedItemClasses =
+        List<Functions::SplitFunctionSemanticPageItemClass> expectedItemClasses =
         [
             new()
             {
@@ -6212,7 +5055,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -6227,11 +5070,10 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<Versions::VersionSplitSemanticPageSplitConfig>(
-                json,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<SemanticPageSplitConfig>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -6239,7 +5081,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -6254,14 +5096,13 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<Versions::VersionSplitSemanticPageSplitConfig>(
-                element,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<SemanticPageSplitConfig>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
-        List<SplitFunctionSemanticPageItemClass> expectedItemClasses =
+        List<Functions::SplitFunctionSemanticPageItemClass> expectedItemClasses =
         [
             new()
             {
@@ -6283,7 +5124,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -6303,7 +5144,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig { };
+        var model = new SemanticPageSplitConfig { };
 
         Assert.Null(model.ItemClasses);
         Assert.False(model.RawData.ContainsKey("itemClasses"));
@@ -6312,7 +5153,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig { };
+        var model = new SemanticPageSplitConfig { };
 
         model.Validate();
     }
@@ -6320,7 +5161,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             ItemClasses = null,
@@ -6333,7 +5174,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             ItemClasses = null,
@@ -6345,7 +5186,7 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionSplitSemanticPageSplitConfig
+        var model = new SemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -6359,23 +5200,23 @@ public class VersionSplitSemanticPageSplitConfigTest : TestBase
             ],
         };
 
-        Versions::VersionSplitSemanticPageSplitConfig copied = new(model);
+        SemanticPageSplitConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionJoinTest : TestBase
+public class JoinTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6427,13 +5268,12 @@ public class VersionJoinTest : TestBase
         string expectedDescription = "description";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, Versions::VersionJoinJoinType> expectedJoinType =
-            Versions::VersionJoinJoinType.Standard;
+        ApiEnum<string, JoinType> expectedJoinType = JoinType.Standard;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("join");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -6466,7 +5306,7 @@ public class VersionJoinTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -6505,12 +5345,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6560,10 +5400,7 @@ public class VersionJoinTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionJoin>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Join>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -6571,12 +5408,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6626,22 +5463,18 @@ public class VersionJoinTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionJoin>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Join>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         string expectedDescription = "description";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, Versions::VersionJoinJoinType> expectedJoinType =
-            Versions::VersionJoinJoinType.Standard;
+        ApiEnum<string, JoinType> expectedJoinType = JoinType.Standard;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("join");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -6674,7 +5507,7 @@ public class VersionJoinTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -6713,12 +5546,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6773,12 +5606,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6799,12 +5632,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6816,12 +5649,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6849,12 +5682,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6873,12 +5706,12 @@ public class VersionJoinTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionJoin
+        var model = new Join
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = Versions::VersionJoinJoinType.Standard,
+            JoinType = JoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6927,27 +5760,27 @@ public class VersionJoinTest : TestBase
             ],
         };
 
-        Versions::VersionJoin copied = new(model);
+        Join copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionJoinJoinTypeTest : TestBase
+public class JoinTypeTest : TestBase
 {
     [Theory]
-    [InlineData(Versions::VersionJoinJoinType.Standard)]
-    public void Validation_Works(Versions::VersionJoinJoinType rawValue)
+    [InlineData(JoinType.Standard)]
+    public void Validation_Works(JoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Versions::VersionJoinJoinType> value = rawValue;
+        ApiEnum<string, JoinType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Versions::VersionJoinJoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -6957,16 +5790,17 @@ public class VersionJoinJoinTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(Versions::VersionJoinJoinType.Standard)]
-    public void SerializationRoundtrip_Works(Versions::VersionJoinJoinType rawValue)
+    [InlineData(JoinType.Standard)]
+    public void SerializationRoundtrip_Works(JoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Versions::VersionJoinJoinType> value = rawValue;
+        ApiEnum<string, JoinType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionJoinJoinType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -6974,25 +5808,26 @@ public class VersionJoinJoinTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Versions::VersionJoinJoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, Versions::VersionJoinJoinType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class VersionEnrichTest : TestBase
+public class EnrichTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7004,7 +5839,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7057,7 +5892,7 @@ public class VersionEnrichTest : TestBase
             ],
         };
 
-        EnrichConfig expectedConfig = new(
+        Functions::EnrichConfig expectedConfig = new(
             [
                 new()
                 {
@@ -7067,7 +5902,7 @@ public class VersionEnrichTest : TestBase
                     IncludeCosineDistance = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
-                    SearchMode = SearchMode.Semantic,
+                    SearchMode = Functions::SearchMode.Semantic,
                     TopK = 1,
                 },
             ]
@@ -7076,7 +5911,7 @@ public class VersionEnrichTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -7109,7 +5944,7 @@ public class VersionEnrichTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -7145,7 +5980,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7157,7 +5992,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7211,10 +6046,7 @@ public class VersionEnrichTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionEnrich>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Enrich>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -7222,7 +6054,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7234,7 +6066,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7288,13 +6120,10 @@ public class VersionEnrichTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionEnrich>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Enrich>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
-        EnrichConfig expectedConfig = new(
+        Functions::EnrichConfig expectedConfig = new(
             [
                 new()
                 {
@@ -7304,7 +6133,7 @@ public class VersionEnrichTest : TestBase
                     IncludeCosineDistance = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
-                    SearchMode = SearchMode.Semantic,
+                    SearchMode = Functions::SearchMode.Semantic,
                     TopK = 1,
                 },
             ]
@@ -7313,7 +6142,7 @@ public class VersionEnrichTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -7346,7 +6175,7 @@ public class VersionEnrichTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -7382,7 +6211,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7394,7 +6223,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7453,7 +6282,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7465,7 +6294,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7490,7 +6319,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7502,7 +6331,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7518,7 +6347,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7530,7 +6359,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7562,7 +6391,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7574,7 +6403,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7597,7 +6426,7 @@ public class VersionEnrichTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionEnrich
+        var model = new Enrich
         {
             Config = new(
                 [
@@ -7609,7 +6438,7 @@ public class VersionEnrichTest : TestBase
                         IncludeCosineDistance = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
-                        SearchMode = SearchMode.Semantic,
+                        SearchMode = Functions::SearchMode.Semantic,
                         TopK = 1,
                     },
                 ]
@@ -7662,18 +6491,18 @@ public class VersionEnrichTest : TestBase
             ],
         };
 
-        Versions::VersionEnrich copied = new(model);
+        Enrich copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class VersionPayloadShapingTest : TestBase
+public class PayloadShapingTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -7729,7 +6558,7 @@ public class VersionPayloadShapingTest : TestBase
         string expectedShapingSchema = "shapingSchema";
         JsonElement expectedType = JsonSerializer.SerializeToElement("payload_shaping");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -7762,7 +6591,7 @@ public class VersionPayloadShapingTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -7798,7 +6627,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -7850,7 +6679,7 @@ public class VersionPayloadShapingTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionPayloadShaping>(
+        var deserialized = JsonSerializer.Deserialize<PayloadShaping>(
             json,
             ModelBase.SerializerOptions
         );
@@ -7861,7 +6690,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -7913,7 +6742,7 @@ public class VersionPayloadShapingTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Versions::VersionPayloadShaping>(
+        var deserialized = JsonSerializer.Deserialize<PayloadShaping>(
             element,
             ModelBase.SerializerOptions
         );
@@ -7924,7 +6753,7 @@ public class VersionPayloadShapingTest : TestBase
         string expectedShapingSchema = "shapingSchema";
         JsonElement expectedType = JsonSerializer.SerializeToElement("payload_shaping");
         long expectedVersionNum = 0;
-        FunctionAudit expectedAudit = new()
+        Functions::FunctionAudit expectedAudit = new()
         {
             FunctionCreatedBy = new()
             {
@@ -7957,7 +6786,7 @@ public class VersionPayloadShapingTest : TestBase
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
         List<string> expectedTags = ["string"];
-        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
             new()
             {
@@ -7993,7 +6822,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -8050,7 +6879,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -8073,7 +6902,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -8087,7 +6916,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -8117,7 +6946,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -8138,7 +6967,7 @@ public class VersionPayloadShapingTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Versions::VersionPayloadShaping
+        var model = new PayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -8189,7 +7018,7 @@ public class VersionPayloadShapingTest : TestBase
             ],
         };
 
-        Versions::VersionPayloadShaping copied = new(model);
+        PayloadShaping copied = new(model);
 
         Assert.Equal(model, copied);
     }

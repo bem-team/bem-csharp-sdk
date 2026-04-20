@@ -7,12 +7,12 @@ using Bem.Models.Functions;
 
 namespace Bem.Tests.Models.Functions;
 
-public class FunctionListResponseTest : TestBase
+public class FunctionTest : TestBase
 {
     [Fact]
     public void TransformValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseTransform()
+        Function value = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -70,7 +70,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void ExtractValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseExtract()
+        Function value = new FunctionExtract()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -127,7 +127,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void AnalyzeValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseAnalyze()
+        Function value = new Analyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -185,7 +185,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void ClassifyValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseClassify()
+        Function value = new FunctionClassify()
         {
             Classifications =
             [
@@ -254,9 +254,9 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void SendValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseSend()
+        Function value = new FunctionSend()
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -314,11 +314,11 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void SplitValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseSplit()
+        Function value = new FunctionSplit()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -383,12 +383,12 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void JoinValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseJoin()
+        Function value = new FunctionJoin()
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -441,7 +441,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void PayloadShapingValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponsePayloadShaping()
+        Function value = new FunctionPayloadShaping()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -496,7 +496,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void EnrichValidationWorks()
     {
-        FunctionListResponse value = new FunctionListResponseEnrich()
+        Function value = new FunctionEnrich()
         {
             Config = new(
                 [
@@ -565,7 +565,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void TransformSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseTransform()
+        Function value = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -618,7 +618,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -629,7 +629,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void ExtractSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseExtract()
+        Function value = new FunctionExtract()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -681,7 +681,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -692,7 +692,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void AnalyzeSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseAnalyze()
+        Function value = new Analyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -745,7 +745,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -756,7 +756,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void ClassifySerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseClassify()
+        Function value = new FunctionClassify()
         {
             Classifications =
             [
@@ -820,7 +820,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -831,9 +831,9 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void SendSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseSend()
+        Function value = new FunctionSend()
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -886,7 +886,7 @@ public class FunctionListResponseTest : TestBase
             WebhookUrl = "webhookUrl",
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -897,11 +897,11 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void SplitSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseSplit()
+        Function value = new FunctionSplit()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -961,7 +961,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -972,12 +972,12 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void JoinSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseJoin()
+        Function value = new FunctionJoin()
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -1025,7 +1025,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1036,7 +1036,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void PayloadShapingSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponsePayloadShaping()
+        Function value = new FunctionPayloadShaping()
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1086,7 +1086,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1097,7 +1097,7 @@ public class FunctionListResponseTest : TestBase
     [Fact]
     public void EnrichSerializationRoundtripWorks()
     {
-        FunctionListResponse value = new FunctionListResponseEnrich()
+        Function value = new FunctionEnrich()
         {
             Config = new(
                 [
@@ -1161,7 +1161,7 @@ public class FunctionListResponseTest : TestBase
             ],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponse>(
+        var deserialized = JsonSerializer.Deserialize<Function>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1170,12 +1170,12 @@ public class FunctionListResponseTest : TestBase
     }
 }
 
-public class FunctionListResponseTransformTest : TestBase
+public class TransformTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1306,7 +1306,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1360,10 +1360,7 @@ public class FunctionListResponseTransformTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseTransform>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Transform>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -1371,7 +1368,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1425,7 +1422,7 @@ public class FunctionListResponseTransformTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseTransform>(
+        var deserialized = JsonSerializer.Deserialize<Transform>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1509,7 +1506,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1568,7 +1565,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1592,7 +1589,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1609,7 +1606,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1639,7 +1636,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1662,7 +1659,7 @@ public class FunctionListResponseTransformTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1715,18 +1712,18 @@ public class FunctionListResponseTransformTest : TestBase
             ],
         };
 
-        FunctionListResponseTransform copied = new(model);
+        Transform copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseExtractTest : TestBase
+public class FunctionExtractTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1854,7 +1851,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1907,7 +1904,7 @@ public class FunctionListResponseExtractTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseExtract>(
+        var deserialized = JsonSerializer.Deserialize<FunctionExtract>(
             json,
             ModelBase.SerializerOptions
         );
@@ -1918,7 +1915,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -1971,7 +1968,7 @@ public class FunctionListResponseExtractTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseExtract>(
+        var deserialized = JsonSerializer.Deserialize<FunctionExtract>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2053,7 +2050,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2111,7 +2108,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2134,7 +2131,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2150,7 +2147,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2179,7 +2176,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2201,7 +2198,7 @@ public class FunctionListResponseExtractTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseExtract
+        var model = new FunctionExtract
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2253,18 +2250,18 @@ public class FunctionListResponseExtractTest : TestBase
             ],
         };
 
-        FunctionListResponseExtract copied = new(model);
+        FunctionExtract copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseAnalyzeTest : TestBase
+public class AnalyzeTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2395,7 +2392,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2449,10 +2446,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseAnalyze>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Analyze>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -2460,7 +2454,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2514,7 +2508,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseAnalyze>(
+        var deserialized = JsonSerializer.Deserialize<Analyze>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2598,7 +2592,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2657,7 +2651,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2681,7 +2675,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2698,7 +2692,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2728,7 +2722,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2751,7 +2745,7 @@ public class FunctionListResponseAnalyzeTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2804,18 +2798,18 @@ public class FunctionListResponseAnalyzeTest : TestBase
             ],
         };
 
-        FunctionListResponseAnalyze copied = new(model);
+        Analyze copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseClassifyTest : TestBase
+public class FunctionClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -2879,7 +2873,7 @@ public class FunctionListResponseClassifyTest : TestBase
             ],
         };
 
-        List<FunctionListResponseClassifyClassification> expectedClassifications =
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -2971,7 +2965,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3036,7 +3030,7 @@ public class FunctionListResponseClassifyTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassify>(
+        var deserialized = JsonSerializer.Deserialize<FunctionClassify>(
             json,
             ModelBase.SerializerOptions
         );
@@ -3047,7 +3041,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3112,13 +3106,13 @@ public class FunctionListResponseClassifyTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassify>(
+        var deserialized = JsonSerializer.Deserialize<FunctionClassify>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        List<FunctionListResponseClassifyClassification> expectedClassifications =
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -3210,7 +3204,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3280,7 +3274,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3315,7 +3309,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3343,7 +3337,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3384,7 +3378,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3418,7 +3412,7 @@ public class FunctionListResponseClassifyTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseClassify
+        var model = new FunctionClassify
         {
             Classifications =
             [
@@ -3482,613 +3476,20 @@ public class FunctionListResponseClassifyTest : TestBase
             ],
         };
 
-        FunctionListResponseClassify copied = new(model);
+        FunctionClassify copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseClassifyClassificationTest : TestBase
+public class FunctionSendTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseClassifyClassification
+        var model = new FunctionSend
         {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        string expectedName = "name";
-        string expectedDescription = "description";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        bool expectedIsErrorFallback = true;
-        FunctionListResponseClassifyClassificationOrigin expectedOrigin = new()
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-        FunctionListResponseClassifyClassificationRegex expectedRegex = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedName, model.Name);
-        Assert.Equal(expectedDescription, model.Description);
-        Assert.Equal(expectedFunctionID, model.FunctionID);
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.Equal(expectedIsErrorFallback, model.IsErrorFallback);
-        Assert.Equal(expectedOrigin, model.Origin);
-        Assert.Equal(expectedRegex, model.Regex);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassifyClassification>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseClassifyClassification>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedName = "name";
-        string expectedDescription = "description";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        bool expectedIsErrorFallback = true;
-        FunctionListResponseClassifyClassificationOrigin expectedOrigin = new()
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-        FunctionListResponseClassifyClassificationRegex expectedRegex = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedName, deserialized.Name);
-        Assert.Equal(expectedDescription, deserialized.Description);
-        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.Equal(expectedIsErrorFallback, deserialized.IsErrorFallback);
-        Assert.Equal(expectedOrigin, deserialized.Origin);
-        Assert.Equal(expectedRegex, deserialized.Regex);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification { Name = "name" };
-
-        Assert.Null(model.Description);
-        Assert.False(model.RawData.ContainsKey("description"));
-        Assert.Null(model.FunctionID);
-        Assert.False(model.RawData.ContainsKey("functionID"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.IsErrorFallback);
-        Assert.False(model.RawData.ContainsKey("isErrorFallback"));
-        Assert.Null(model.Origin);
-        Assert.False(model.RawData.ContainsKey("origin"));
-        Assert.Null(model.Regex);
-        Assert.False(model.RawData.ContainsKey("regex"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification { Name = "name" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification
-        {
-            Name = "name",
-
-            // Null should be interpreted as omitted for these properties
-            Description = null,
-            FunctionID = null,
-            FunctionName = null,
-            IsErrorFallback = null,
-            Origin = null,
-            Regex = null,
-        };
-
-        Assert.Null(model.Description);
-        Assert.False(model.RawData.ContainsKey("description"));
-        Assert.Null(model.FunctionID);
-        Assert.False(model.RawData.ContainsKey("functionID"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.IsErrorFallback);
-        Assert.False(model.RawData.ContainsKey("isErrorFallback"));
-        Assert.Null(model.Origin);
-        Assert.False(model.RawData.ContainsKey("origin"));
-        Assert.Null(model.Regex);
-        Assert.False(model.RawData.ContainsKey("regex"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification
-        {
-            Name = "name",
-
-            // Null should be interpreted as omitted for these properties
-            Description = null,
-            FunctionID = null,
-            FunctionName = null,
-            IsErrorFallback = null,
-            Origin = null,
-            Regex = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionListResponseClassifyClassification
-        {
-            Name = "name",
-            Description = "description",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            IsErrorFallback = true,
-            Origin = new() { Email = new() { Patterns = ["string"] } },
-            Regex = new() { Patterns = ["string"] },
-        };
-
-        FunctionListResponseClassifyClassification copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionListResponseClassifyClassificationOriginTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        FunctionListResponseClassifyClassificationOriginEmail expectedEmail = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedEmail, model.Email);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOrigin>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOrigin>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        FunctionListResponseClassifyClassificationOriginEmail expectedEmail = new()
-        {
-            Patterns = ["string"],
-        };
-
-        Assert.Equal(expectedEmail, deserialized.Email);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin { };
-
-        Assert.Null(model.Email);
-        Assert.False(model.RawData.ContainsKey("email"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            // Null should be interpreted as omitted for these properties
-            Email = null,
-        };
-
-        Assert.Null(model.Email);
-        Assert.False(model.RawData.ContainsKey("email"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            // Null should be interpreted as omitted for these properties
-            Email = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOrigin
-        {
-            Email = new() { Patterns = ["string"] },
-        };
-
-        FunctionListResponseClassifyClassificationOrigin copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionListResponseClassifyClassificationOriginEmailTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(model.Patterns);
-        Assert.Equal(expectedPatterns.Count, model.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], model.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOriginEmail>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationOriginEmail>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(deserialized.Patterns);
-        Assert.Equal(expectedPatterns.Count, deserialized.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], deserialized.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail { };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationOriginEmail
-        {
-            Patterns = ["string"],
-        };
-
-        FunctionListResponseClassifyClassificationOriginEmail copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionListResponseClassifyClassificationRegexTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(model.Patterns);
-        Assert.Equal(expectedPatterns.Count, model.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], model.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationRegex>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseClassifyClassificationRegex>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        List<string> expectedPatterns = ["string"];
-
-        Assert.NotNull(deserialized.Patterns);
-        Assert.Equal(expectedPatterns.Count, deserialized.Patterns.Count);
-        for (int i = 0; i < expectedPatterns.Count; i++)
-        {
-            Assert.Equal(expectedPatterns[i], deserialized.Patterns[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        Assert.Null(model.Patterns);
-        Assert.False(model.RawData.ContainsKey("patterns"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex
-        {
-            // Null should be interpreted as omitted for these properties
-            Patterns = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionListResponseClassifyClassificationRegex { Patterns = ["string"] };
-
-        FunctionListResponseClassifyClassificationRegex copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionListResponseSendTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionListResponseSend
-        {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4141,8 +3542,8 @@ public class FunctionListResponseSendTest : TestBase
             WebhookUrl = "webhookUrl",
         };
 
-        ApiEnum<string, FunctionListResponseSendDestinationType> expectedDestinationType =
-            FunctionListResponseSendDestinationType.Webhook;
+        ApiEnum<string, FunctionSendDestinationType> expectedDestinationType =
+            FunctionSendDestinationType.Webhook;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
@@ -4224,9 +3625,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4280,7 +3681,7 @@ public class FunctionListResponseSendTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSend>(
+        var deserialized = JsonSerializer.Deserialize<FunctionSend>(
             json,
             ModelBase.SerializerOptions
         );
@@ -4291,9 +3692,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4347,14 +3748,14 @@ public class FunctionListResponseSendTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSend>(
+        var deserialized = JsonSerializer.Deserialize<FunctionSend>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        ApiEnum<string, FunctionListResponseSendDestinationType> expectedDestinationType =
-            FunctionListResponseSendDestinationType.Webhook;
+        ApiEnum<string, FunctionSendDestinationType> expectedDestinationType =
+            FunctionSendDestinationType.Webhook;
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
@@ -4436,9 +3837,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4497,9 +3898,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4528,9 +3929,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4542,9 +3943,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4584,9 +3985,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4609,9 +4010,9 @@ public class FunctionListResponseSendTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseSend
+        var model = new FunctionSend
         {
-            DestinationType = FunctionListResponseSendDestinationType.Webhook,
+            DestinationType = FunctionSendDestinationType.Webhook,
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -4664,49 +4065,51 @@ public class FunctionListResponseSendTest : TestBase
             WebhookUrl = "webhookUrl",
         };
 
-        FunctionListResponseSend copied = new(model);
+        FunctionSend copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseSendDestinationTypeTest : TestBase
+public class FunctionSendDestinationTypeTest : TestBase
 {
     [Theory]
-    [InlineData(FunctionListResponseSendDestinationType.Webhook)]
-    [InlineData(FunctionListResponseSendDestinationType.S3)]
-    [InlineData(FunctionListResponseSendDestinationType.GoogleDrive)]
-    public void Validation_Works(FunctionListResponseSendDestinationType rawValue)
+    [InlineData(FunctionSendDestinationType.Webhook)]
+    [InlineData(FunctionSendDestinationType.S3)]
+    [InlineData(FunctionSendDestinationType.GoogleDrive)]
+    public void Validation_Works(FunctionSendDestinationType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FunctionListResponseSendDestinationType> value = rawValue;
+        ApiEnum<string, FunctionSendDestinationType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseSendDestinationType>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionSendDestinationType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(FunctionListResponseSendDestinationType.Webhook)]
-    [InlineData(FunctionListResponseSendDestinationType.S3)]
-    [InlineData(FunctionListResponseSendDestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(FunctionListResponseSendDestinationType rawValue)
+    [InlineData(FunctionSendDestinationType.Webhook)]
+    [InlineData(FunctionSendDestinationType.S3)]
+    [InlineData(FunctionSendDestinationType.GoogleDrive)]
+    public void SerializationRoundtrip_Works(FunctionSendDestinationType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FunctionListResponseSendDestinationType> value = rawValue;
+        ApiEnum<string, FunctionSendDestinationType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseSendDestinationType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FunctionSendDestinationType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -4714,28 +4117,30 @@ public class FunctionListResponseSendDestinationTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseSendDestinationType>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionSendDestinationType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseSendDestinationType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FunctionSendDestinationType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class FunctionListResponseSplitTest : TestBase
+public class FunctionSplitTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4797,8 +4202,8 @@ public class FunctionListResponseSplitTest : TestBase
 
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, FunctionListResponseSplitSplitType> expectedSplitType =
-            FunctionListResponseSplitSplitType.PrintPage;
+        ApiEnum<string, FunctionSplitSplitType> expectedSplitType =
+            FunctionSplitSplitType.PrintPage;
         JsonElement expectedType = JsonSerializer.SerializeToElement("split");
         long expectedVersionNum = 0;
         FunctionAudit expectedAudit = new()
@@ -4832,11 +4237,11 @@ public class FunctionListResponseSplitTest : TestBase
             },
         };
         string expectedDisplayName = "displayName";
-        FunctionListResponseSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
+        FunctionSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
         {
             NextFunctionID = "nextFunctionID",
         };
-        FunctionListResponseSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
+        FunctionSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
         {
             ItemClasses =
             [
@@ -4887,11 +4292,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -4952,7 +4357,7 @@ public class FunctionListResponseSplitTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSplit>(
+        var deserialized = JsonSerializer.Deserialize<FunctionSplit>(
             json,
             ModelBase.SerializerOptions
         );
@@ -4963,11 +4368,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5028,7 +4433,7 @@ public class FunctionListResponseSplitTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseSplit>(
+        var deserialized = JsonSerializer.Deserialize<FunctionSplit>(
             element,
             ModelBase.SerializerOptions
         );
@@ -5036,8 +4441,8 @@ public class FunctionListResponseSplitTest : TestBase
 
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, FunctionListResponseSplitSplitType> expectedSplitType =
-            FunctionListResponseSplitSplitType.PrintPage;
+        ApiEnum<string, FunctionSplitSplitType> expectedSplitType =
+            FunctionSplitSplitType.PrintPage;
         JsonElement expectedType = JsonSerializer.SerializeToElement("split");
         long expectedVersionNum = 0;
         FunctionAudit expectedAudit = new()
@@ -5071,11 +4476,11 @@ public class FunctionListResponseSplitTest : TestBase
             },
         };
         string expectedDisplayName = "displayName";
-        FunctionListResponseSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
+        FunctionSplitPrintPageSplitConfig expectedPrintPageSplitConfig = new()
         {
             NextFunctionID = "nextFunctionID",
         };
-        FunctionListResponseSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
+        FunctionSplitSemanticPageSplitConfig expectedSemanticPageSplitConfig = new()
         {
             ItemClasses =
             [
@@ -5126,11 +4531,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5196,11 +4601,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
         };
 
@@ -5221,11 +4626,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
         };
 
@@ -5235,11 +4640,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -5268,11 +4673,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -5290,11 +4695,11 @@ public class FunctionListResponseSplitTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseSplit
+        var model = new FunctionSplit
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
-            SplitType = FunctionListResponseSplitSplitType.PrintPage,
+            SplitType = FunctionSplitSplitType.PrintPage,
             VersionNum = 0,
             Audit = new()
             {
@@ -5354,28 +4759,28 @@ public class FunctionListResponseSplitTest : TestBase
             ],
         };
 
-        FunctionListResponseSplit copied = new(model);
+        FunctionSplit copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseSplitSplitTypeTest : TestBase
+public class FunctionSplitSplitTypeTest : TestBase
 {
     [Theory]
-    [InlineData(FunctionListResponseSplitSplitType.PrintPage)]
-    [InlineData(FunctionListResponseSplitSplitType.SemanticPage)]
-    public void Validation_Works(FunctionListResponseSplitSplitType rawValue)
+    [InlineData(FunctionSplitSplitType.PrintPage)]
+    [InlineData(FunctionSplitSplitType.SemanticPage)]
+    public void Validation_Works(FunctionSplitSplitType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FunctionListResponseSplitSplitType> value = rawValue;
+        ApiEnum<string, FunctionSplitSplitType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseSplitSplitType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionSplitSplitType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -5385,17 +4790,18 @@ public class FunctionListResponseSplitSplitTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(FunctionListResponseSplitSplitType.PrintPage)]
-    [InlineData(FunctionListResponseSplitSplitType.SemanticPage)]
-    public void SerializationRoundtrip_Works(FunctionListResponseSplitSplitType rawValue)
+    [InlineData(FunctionSplitSplitType.PrintPage)]
+    [InlineData(FunctionSplitSplitType.SemanticPage)]
+    public void SerializationRoundtrip_Works(FunctionSplitSplitType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FunctionListResponseSplitSplitType> value = rawValue;
+        ApiEnum<string, FunctionSplitSplitType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseSplitSplitType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FunctionSplitSplitType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -5403,28 +4809,26 @@ public class FunctionListResponseSplitSplitTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseSplitSplitType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionSplitSplitType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseSplitSplitType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FunctionSplitSplitType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
+public class FunctionSplitPrintPageSplitConfigTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new FunctionSplitPrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         string expectedNextFunctionID = "nextFunctionID";
 
@@ -5434,17 +4838,13 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new FunctionSplitPrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseSplitPrintPageSplitConfig>(
-                json,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<FunctionSplitPrintPageSplitConfig>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -5452,17 +4852,13 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new FunctionSplitPrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseSplitPrintPageSplitConfig>(
-                element,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<FunctionSplitPrintPageSplitConfig>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedNextFunctionID = "nextFunctionID";
@@ -5473,10 +4869,7 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new FunctionSplitPrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
         model.Validate();
     }
@@ -5484,7 +4877,7 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig { };
+        var model = new FunctionSplitPrintPageSplitConfig { };
 
         Assert.Null(model.NextFunctionID);
         Assert.False(model.RawData.ContainsKey("nextFunctionID"));
@@ -5493,7 +4886,7 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig { };
+        var model = new FunctionSplitPrintPageSplitConfig { };
 
         model.Validate();
     }
@@ -5501,7 +4894,7 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        var model = new FunctionSplitPrintPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             NextFunctionID = null,
@@ -5514,7 +4907,7 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
+        var model = new FunctionSplitPrintPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             NextFunctionID = null,
@@ -5526,23 +4919,20 @@ public class FunctionListResponseSplitPrintPageSplitConfigTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseSplitPrintPageSplitConfig
-        {
-            NextFunctionID = "nextFunctionID",
-        };
+        var model = new FunctionSplitPrintPageSplitConfig { NextFunctionID = "nextFunctionID" };
 
-        FunctionListResponseSplitPrintPageSplitConfig copied = new(model);
+        FunctionSplitPrintPageSplitConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
+public class FunctionSplitSemanticPageSplitConfigTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5578,7 +4968,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5593,11 +4983,10 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseSplitSemanticPageSplitConfig>(
-                json,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<FunctionSplitSemanticPageSplitConfig>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -5605,7 +4994,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5620,11 +5009,10 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionListResponseSplitSemanticPageSplitConfig>(
-                element,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<FunctionSplitSemanticPageSplitConfig>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         List<SplitFunctionSemanticPageItemClass> expectedItemClasses =
@@ -5649,7 +5037,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5669,7 +5057,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig { };
+        var model = new FunctionSplitSemanticPageSplitConfig { };
 
         Assert.Null(model.ItemClasses);
         Assert.False(model.RawData.ContainsKey("itemClasses"));
@@ -5678,7 +5066,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig { };
+        var model = new FunctionSplitSemanticPageSplitConfig { };
 
         model.Validate();
     }
@@ -5686,7 +5074,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             ItemClasses = null,
@@ -5699,7 +5087,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             // Null should be interpreted as omitted for these properties
             ItemClasses = null,
@@ -5711,7 +5099,7 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseSplitSemanticPageSplitConfig
+        var model = new FunctionSplitSemanticPageSplitConfig
         {
             ItemClasses =
             [
@@ -5725,23 +5113,23 @@ public class FunctionListResponseSplitSemanticPageSplitConfigTest : TestBase
             ],
         };
 
-        FunctionListResponseSplitSemanticPageSplitConfig copied = new(model);
+        FunctionSplitSemanticPageSplitConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseJoinTest : TestBase
+public class FunctionJoinTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5792,8 +5180,7 @@ public class FunctionListResponseJoinTest : TestBase
         string expectedDescription = "description";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, FunctionListResponseJoinJoinType> expectedJoinType =
-            FunctionListResponseJoinJoinType.Standard;
+        ApiEnum<string, FunctionJoinJoinType> expectedJoinType = FunctionJoinJoinType.Standard;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("join");
@@ -5868,12 +5255,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5922,7 +5309,7 @@ public class FunctionListResponseJoinTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseJoin>(
+        var deserialized = JsonSerializer.Deserialize<FunctionJoin>(
             json,
             ModelBase.SerializerOptions
         );
@@ -5933,12 +5320,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -5987,7 +5374,7 @@ public class FunctionListResponseJoinTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseJoin>(
+        var deserialized = JsonSerializer.Deserialize<FunctionJoin>(
             element,
             ModelBase.SerializerOptions
         );
@@ -5996,8 +5383,7 @@ public class FunctionListResponseJoinTest : TestBase
         string expectedDescription = "description";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, FunctionListResponseJoinJoinType> expectedJoinType =
-            FunctionListResponseJoinJoinType.Standard;
+        ApiEnum<string, FunctionJoinJoinType> expectedJoinType = FunctionJoinJoinType.Standard;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("join");
@@ -6072,12 +5458,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6131,12 +5517,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6155,12 +5541,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6172,12 +5558,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6202,12 +5588,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6225,12 +5611,12 @@ public class FunctionListResponseJoinTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseJoin
+        var model = new FunctionJoin
         {
             Description = "description",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            JoinType = FunctionListResponseJoinJoinType.Standard,
+            JoinType = FunctionJoinJoinType.Standard,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
             VersionNum = 0,
@@ -6278,27 +5664,27 @@ public class FunctionListResponseJoinTest : TestBase
             ],
         };
 
-        FunctionListResponseJoin copied = new(model);
+        FunctionJoin copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseJoinJoinTypeTest : TestBase
+public class FunctionJoinJoinTypeTest : TestBase
 {
     [Theory]
-    [InlineData(FunctionListResponseJoinJoinType.Standard)]
-    public void Validation_Works(FunctionListResponseJoinJoinType rawValue)
+    [InlineData(FunctionJoinJoinType.Standard)]
+    public void Validation_Works(FunctionJoinJoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FunctionListResponseJoinJoinType> value = rawValue;
+        ApiEnum<string, FunctionJoinJoinType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseJoinJoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionJoinJoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -6308,16 +5694,17 @@ public class FunctionListResponseJoinJoinTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(FunctionListResponseJoinJoinType.Standard)]
-    public void SerializationRoundtrip_Works(FunctionListResponseJoinJoinType rawValue)
+    [InlineData(FunctionJoinJoinType.Standard)]
+    public void SerializationRoundtrip_Works(FunctionJoinJoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FunctionListResponseJoinJoinType> value = rawValue;
+        ApiEnum<string, FunctionJoinJoinType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseJoinJoinType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FunctionJoinJoinType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -6325,25 +5712,26 @@ public class FunctionListResponseJoinJoinTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionListResponseJoinJoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, FunctionJoinJoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, FunctionListResponseJoinJoinType>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FunctionJoinJoinType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class FunctionListResponsePayloadShapingTest : TestBase
+public class FunctionPayloadShapingTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6465,7 +5853,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6516,7 +5904,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponsePayloadShaping>(
+        var deserialized = JsonSerializer.Deserialize<FunctionPayloadShaping>(
             json,
             ModelBase.SerializerOptions
         );
@@ -6527,7 +5915,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6578,7 +5966,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponsePayloadShaping>(
+        var deserialized = JsonSerializer.Deserialize<FunctionPayloadShaping>(
             element,
             ModelBase.SerializerOptions
         );
@@ -6656,7 +6044,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6712,7 +6100,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6733,7 +6121,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6747,7 +6135,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6774,7 +6162,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6794,7 +6182,7 @@ public class FunctionListResponsePayloadShapingTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponsePayloadShaping
+        var model = new FunctionPayloadShaping
         {
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -6844,18 +6232,18 @@ public class FunctionListResponsePayloadShapingTest : TestBase
             ],
         };
 
-        FunctionListResponsePayloadShaping copied = new(model);
+        FunctionPayloadShaping copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionListResponseEnrichTest : TestBase
+public class FunctionEnrichTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7005,7 +6393,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7070,7 +6458,7 @@ public class FunctionListResponseEnrichTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseEnrich>(
+        var deserialized = JsonSerializer.Deserialize<FunctionEnrich>(
             json,
             ModelBase.SerializerOptions
         );
@@ -7081,7 +6469,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7146,7 +6534,7 @@ public class FunctionListResponseEnrichTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionListResponseEnrich>(
+        var deserialized = JsonSerializer.Deserialize<FunctionEnrich>(
             element,
             ModelBase.SerializerOptions
         );
@@ -7238,7 +6626,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7308,7 +6696,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7343,7 +6731,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7371,7 +6759,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7412,7 +6800,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7446,7 +6834,7 @@ public class FunctionListResponseEnrichTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionListResponseEnrich
+        var model = new FunctionEnrich
         {
             Config = new(
                 [
@@ -7510,7 +6898,7 @@ public class FunctionListResponseEnrichTest : TestBase
             ],
         };
 
-        FunctionListResponseEnrich copied = new(model);
+        FunctionEnrich copied = new(model);
 
         Assert.Equal(model, copied);
     }
