@@ -11,10 +11,7 @@ using Bem.Exceptions;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// A function that transforms and customizes input payloads using JMESPath expressions.
-/// Payload shaping allows you to extract specific data, perform calculations, and
-/// reshape complex input structures into simplified, standardized output formats
-/// tailored to your downstream systems or business requirements.
+/// V3 wire form of the Route (classify) function upsert payload. Mirrors {
 /// </summary>
 [JsonConverter(typeof(UpdateFunctionConverter))]
 public record class UpdateFunction : ModelBase
@@ -39,10 +36,8 @@ public record class UpdateFunction : ModelBase
         get
         {
             return Match(
-                transform: (x) => x.Type,
                 extract: (x) => x.Type,
-                analyze: (x) => x.Type,
-                route: (x) => x.Type,
+                classify: (x) => x.Type,
                 send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
@@ -57,10 +52,8 @@ public record class UpdateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (x) => x.DisplayName,
                 extract: (x) => x.DisplayName,
-                analyze: (x) => x.DisplayName,
-                route: (x) => x.DisplayName,
+                classify: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
@@ -75,10 +68,8 @@ public record class UpdateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (x) => x.FunctionName,
                 extract: (x) => x.FunctionName,
-                analyze: (x) => x.FunctionName,
-                route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
@@ -93,10 +84,8 @@ public record class UpdateFunction : ModelBase
         get
         {
             return Match<JsonElement?>(
-                transform: (x) => x.OutputSchema,
                 extract: (x) => x.OutputSchema,
-                analyze: (x) => x.OutputSchema,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
@@ -111,31 +100,11 @@ public record class UpdateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (x) => x.OutputSchemaName,
                 extract: (x) => x.OutputSchemaName,
-                analyze: (x) => x.OutputSchemaName,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
-            );
-        }
-    }
-
-    public bool? TabularChunkingEnabled
-    {
-        get
-        {
-            return Match<bool?>(
-                transform: (x) => x.TabularChunkingEnabled,
-                extract: (x) => x.TabularChunkingEnabled,
-                analyze: (_) => null,
-                route: (_) => null,
-                send: (_) => null,
-                split: (_) => null,
-                join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null
             );
@@ -147,10 +116,8 @@ public record class UpdateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (_) => null,
                 extract: (_) => null,
-                analyze: (_) => null,
-                route: (x) => x.Description,
+                classify: (x) => x.Description,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
@@ -160,25 +127,13 @@ public record class UpdateFunction : ModelBase
         }
     }
 
-    public UpdateFunction(UpdateFunctionTransform value, JsonElement? element = null)
-    {
-        this.Value = value;
-        this._element = element;
-    }
-
     public UpdateFunction(UpdateFunctionExtract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public UpdateFunction(UpdateFunctionAnalyze value, JsonElement? element = null)
-    {
-        this.Value = value;
-        this._element = element;
-    }
-
-    public UpdateFunction(UpdateFunctionRoute value, JsonElement? element = null)
+    public UpdateFunction(UpdateFunctionClassify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -221,27 +176,6 @@ public record class UpdateFunction : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="UpdateFunctionTransform"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `UpdateFunctionTransform`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out UpdateFunctionTransform? value)
-    {
-        value = this.Value as UpdateFunctionTransform;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
     /// type <see cref="UpdateFunctionExtract"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
@@ -263,43 +197,22 @@ public record class UpdateFunction : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="UpdateFunctionAnalyze"/>.
+    /// type <see cref="UpdateFunctionClassify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickAnalyze(out var value)) {
-    ///     // `value` is of type `UpdateFunctionAnalyze`
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `UpdateFunctionClassify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickAnalyze([NotNullWhen(true)] out UpdateFunctionAnalyze? value)
+    public bool TryPickClassify([NotNullWhen(true)] out UpdateFunctionClassify? value)
     {
-        value = this.Value as UpdateFunctionAnalyze;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="UpdateFunctionRoute"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `UpdateFunctionRoute`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out UpdateFunctionRoute? value)
-    {
-        value = this.Value as UpdateFunctionRoute;
+        value = this.Value as UpdateFunctionClassify;
         return value != null;
     }
 
@@ -422,10 +335,8 @@ public record class UpdateFunction : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (UpdateFunctionTransform value) =&gt; {...},
     ///     (UpdateFunctionExtract value) =&gt; {...},
-    ///     (UpdateFunctionAnalyze value) =&gt; {...},
-    ///     (UpdateFunctionRoute value) =&gt; {...},
+    ///     (UpdateFunctionClassify value) =&gt; {...},
     ///     (UpdateFunctionSend value) =&gt; {...},
     ///     (UpdateFunctionSplit value) =&gt; {...},
     ///     (UpdateFunctionJoin value) =&gt; {...},
@@ -436,10 +347,8 @@ public record class UpdateFunction : ModelBase
     /// </example>
     /// </summary>
     public void Switch(
-        Action<UpdateFunctionTransform> transform,
         Action<UpdateFunctionExtract> extract,
-        Action<UpdateFunctionAnalyze> analyze,
-        Action<UpdateFunctionRoute> route,
+        Action<UpdateFunctionClassify> classify,
         Action<UpdateFunctionSend> send,
         Action<UpdateFunctionSplit> split,
         Action<UpdateFunctionJoin> join,
@@ -449,17 +358,11 @@ public record class UpdateFunction : ModelBase
     {
         switch (this.Value)
         {
-            case UpdateFunctionTransform value:
-                transform(value);
-                break;
             case UpdateFunctionExtract value:
                 extract(value);
                 break;
-            case UpdateFunctionAnalyze value:
-                analyze(value);
-                break;
-            case UpdateFunctionRoute value:
-                route(value);
+            case UpdateFunctionClassify value:
+                classify(value);
                 break;
             case UpdateFunctionSend value:
                 send(value);
@@ -498,10 +401,8 @@ public record class UpdateFunction : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (UpdateFunctionTransform value) =&gt; {...},
     ///     (UpdateFunctionExtract value) =&gt; {...},
-    ///     (UpdateFunctionAnalyze value) =&gt; {...},
-    ///     (UpdateFunctionRoute value) =&gt; {...},
+    ///     (UpdateFunctionClassify value) =&gt; {...},
     ///     (UpdateFunctionSend value) =&gt; {...},
     ///     (UpdateFunctionSplit value) =&gt; {...},
     ///     (UpdateFunctionJoin value) =&gt; {...},
@@ -512,10 +413,8 @@ public record class UpdateFunction : ModelBase
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<UpdateFunctionTransform, T> transform,
         Func<UpdateFunctionExtract, T> extract,
-        Func<UpdateFunctionAnalyze, T> analyze,
-        Func<UpdateFunctionRoute, T> route,
+        Func<UpdateFunctionClassify, T> classify,
         Func<UpdateFunctionSend, T> send,
         Func<UpdateFunctionSplit, T> split,
         Func<UpdateFunctionJoin, T> join,
@@ -525,10 +424,8 @@ public record class UpdateFunction : ModelBase
     {
         return this.Value switch
         {
-            UpdateFunctionTransform value => transform(value),
             UpdateFunctionExtract value => extract(value),
-            UpdateFunctionAnalyze value => analyze(value),
-            UpdateFunctionRoute value => route(value),
+            UpdateFunctionClassify value => classify(value),
             UpdateFunctionSend value => send(value),
             UpdateFunctionSplit value => split(value),
             UpdateFunctionJoin value => join(value),
@@ -540,13 +437,9 @@ public record class UpdateFunction : ModelBase
         };
     }
 
-    public static implicit operator UpdateFunction(UpdateFunctionTransform value) => new(value);
-
     public static implicit operator UpdateFunction(UpdateFunctionExtract value) => new(value);
 
-    public static implicit operator UpdateFunction(UpdateFunctionAnalyze value) => new(value);
-
-    public static implicit operator UpdateFunction(UpdateFunctionRoute value) => new(value);
+    public static implicit operator UpdateFunction(UpdateFunctionClassify value) => new(value);
 
     public static implicit operator UpdateFunction(UpdateFunctionSend value) => new(value);
 
@@ -576,10 +469,8 @@ public record class UpdateFunction : ModelBase
             throw new BemInvalidDataException("Data did not match any variant of UpdateFunction");
         }
         this.Switch(
-            (transform) => transform.Validate(),
             (extract) => extract.Validate(),
-            (analyze) => analyze.Validate(),
-            (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
@@ -608,15 +499,13 @@ public record class UpdateFunction : ModelBase
     {
         return this.Value switch
         {
-            UpdateFunctionTransform _ => 0,
-            UpdateFunctionExtract _ => 1,
-            UpdateFunctionAnalyze _ => 2,
-            UpdateFunctionRoute _ => 3,
-            UpdateFunctionSend _ => 4,
-            UpdateFunctionSplit _ => 5,
-            UpdateFunctionJoin _ => 6,
-            UpdateFunctionPayloadShaping _ => 7,
-            UpdateFunctionEnrich _ => 8,
+            UpdateFunctionExtract _ => 0,
+            UpdateFunctionClassify _ => 1,
+            UpdateFunctionSend _ => 2,
+            UpdateFunctionSplit _ => 3,
+            UpdateFunctionJoin _ => 4,
+            UpdateFunctionPayloadShaping _ => 5,
+            UpdateFunctionEnrich _ => 6,
             _ => -1,
         };
     }
@@ -643,26 +532,6 @@ sealed class UpdateFunctionConverter : JsonConverter<UpdateFunction>
 
         switch (type)
         {
-            case "transform":
-            {
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<UpdateFunctionTransform>(
-                        element,
-                        options
-                    );
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
             case "extract":
             {
                 try
@@ -683,31 +552,11 @@ sealed class UpdateFunctionConverter : JsonConverter<UpdateFunction>
 
                 return new(element);
             }
-            case "analyze":
+            case "classify":
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<UpdateFunctionAnalyze>(
-                        element,
-                        options
-                    );
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
-            case "route":
-            {
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<UpdateFunctionRoute>(
+                    var deserialized = JsonSerializer.Deserialize<UpdateFunctionClassify>(
                         element,
                         options
                     );
@@ -838,207 +687,6 @@ sealed class UpdateFunctionConverter : JsonConverter<UpdateFunction>
     {
         JsonSerializer.Serialize(writer, value.Json, options);
     }
-}
-
-[JsonConverter(typeof(JsonModelConverter<UpdateFunctionTransform, UpdateFunctionTransformFromRaw>))]
-public sealed record class UpdateFunctionTransform : JsonModel
-{
-    public JsonElement Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// Display name of function. Human-readable name to help you identify the function.
-    /// </summary>
-    public string? DisplayName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("displayName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayName", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis.
-    /// </summary>
-    public string? FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionName", value);
-        }
-    }
-
-    /// <summary>
-    /// Desired output structure defined in standard JSON Schema convention.
-    /// </summary>
-    public JsonElement? OutputSchema
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<JsonElement>("outputSchema");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchema", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of output schema object.
-    /// </summary>
-    public string? OutputSchemaName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("outputSchemaName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchemaName", value);
-        }
-    }
-
-    /// <summary>
-    /// Whether tabular chunking is enabled on the pipeline. This processes tables
-    /// in CSV/Excel in row batches, rather than all rows at once.
-    /// </summary>
-    public bool? TabularChunkingEnabled
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("tabularChunkingEnabled");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("tabularChunkingEnabled", value);
-        }
-    }
-
-    /// <summary>
-    /// Array of tags to categorize and organize functions.
-    /// </summary>
-    public IReadOnlyList<string>? Tags
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "tags",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("transform")))
-        {
-            throw new BemInvalidDataException("Invalid value given for constant");
-        }
-        _ = this.DisplayName;
-        _ = this.FunctionName;
-        _ = this.OutputSchema;
-        _ = this.OutputSchemaName;
-        _ = this.TabularChunkingEnabled;
-        _ = this.Tags;
-    }
-
-    public UpdateFunctionTransform()
-    {
-        this.Type = JsonSerializer.SerializeToElement("transform");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public UpdateFunctionTransform(UpdateFunctionTransform updateFunctionTransform)
-        : base(updateFunctionTransform) { }
-#pragma warning restore CS8618
-
-    public UpdateFunctionTransform(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-
-        this.Type = JsonSerializer.SerializeToElement("transform");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    UpdateFunctionTransform(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="UpdateFunctionTransformFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class UpdateFunctionTransformFromRaw : IFromRawJson<UpdateFunctionTransform>
-{
-    /// <inheritdoc/>
-    public UpdateFunctionTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => UpdateFunctionTransform.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<UpdateFunctionExtract, UpdateFunctionExtractFromRaw>))]
@@ -1242,8 +890,11 @@ class UpdateFunctionExtractFromRaw : IFromRawJson<UpdateFunctionExtract>
     ) => UpdateFunctionExtract.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<UpdateFunctionAnalyze, UpdateFunctionAnalyzeFromRaw>))]
-public sealed record class UpdateFunctionAnalyze : JsonModel
+/// <summary>
+/// V3 wire form of the Route (classify) function upsert payload. Mirrors {
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<UpdateFunctionClassify, UpdateFunctionClassifyFromRaw>))]
+public sealed record class UpdateFunctionClassify : JsonModel
 {
     public JsonElement Type
     {
@@ -1256,14 +907,28 @@ public sealed record class UpdateFunctionAnalyze : JsonModel
     }
 
     /// <summary>
-    /// Display name of function. Human-readable name to help you identify the function.
+    /// V3 create/update variants of the shared function payloads.
+    ///
+    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
+    /// function types when creating new functions or updating existing ones — both
+    /// have been unified under `extract`. Existing functions of those types remain
+    /// readable and callable via V3, so the V3 read-side unions still include `transform`
+    /// and `analyze` variants.</para>
+    ///
+    /// <para>The V3 API also renames the internal `route` function type to `classify`
+    /// on the wire, and the associated `routes` field to `classifications` (type
+    /// `ClassificationList`). Platform-internal storage and processing still use
+    /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
+    /// name for the list of classifications a classify function can produce.</para>
     /// </summary>
-    public string? DisplayName
+    public IReadOnlyList<ClassificationListItem>? Classifications
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("displayName");
+            return this._rawData.GetNullableStruct<ImmutableArray<ClassificationListItem>>(
+                "classifications"
+            );
         }
         init
         {
@@ -1272,218 +937,15 @@ public sealed record class UpdateFunctionAnalyze : JsonModel
                 return;
             }
 
-            this._rawData.Set("displayName", value);
-        }
-    }
-
-    /// <summary>
-    /// Whether bounding box extraction is enabled. Only applicable to analyze and
-    /// extract functions. When true, the function returns the document regions (page,
-    /// coordinates) from which each field was extracted. Enabling this automatically
-    /// configures the function to use the bounding box model. Disabling resets to
-    /// the default.
-    /// </summary>
-    public bool? EnableBoundingBoxes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("enableBoundingBoxes", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis.
-    /// </summary>
-    public string? FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionName", value);
-        }
-    }
-
-    /// <summary>
-    /// Desired output structure defined in standard JSON Schema convention.
-    /// </summary>
-    public JsonElement? OutputSchema
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<JsonElement>("outputSchema");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchema", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of output schema object.
-    /// </summary>
-    public string? OutputSchemaName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("outputSchemaName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchemaName", value);
-        }
-    }
-
-    /// <summary>
-    /// Reducing the risk of the model stopping early on long documents. Trade-off:
-    /// Increases total latency. Compatible with `enableBoundingBoxes`.
-    /// </summary>
-    public bool? PreCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("preCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("preCount", value);
-        }
-    }
-
-    /// <summary>
-    /// Array of tags to categorize and organize functions.
-    /// </summary>
-    public IReadOnlyList<string>? Tags
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "tags",
+            this._rawData.Set<ImmutableArray<ClassificationListItem>?>(
+                "classifications",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }
     }
 
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("analyze")))
-        {
-            throw new BemInvalidDataException("Invalid value given for constant");
-        }
-        _ = this.DisplayName;
-        _ = this.EnableBoundingBoxes;
-        _ = this.FunctionName;
-        _ = this.OutputSchema;
-        _ = this.OutputSchemaName;
-        _ = this.PreCount;
-        _ = this.Tags;
-    }
-
-    public UpdateFunctionAnalyze()
-    {
-        this.Type = JsonSerializer.SerializeToElement("analyze");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public UpdateFunctionAnalyze(UpdateFunctionAnalyze updateFunctionAnalyze)
-        : base(updateFunctionAnalyze) { }
-#pragma warning restore CS8618
-
-    public UpdateFunctionAnalyze(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-
-        this.Type = JsonSerializer.SerializeToElement("analyze");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    UpdateFunctionAnalyze(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="UpdateFunctionAnalyzeFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionAnalyze FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class UpdateFunctionAnalyzeFromRaw : IFromRawJson<UpdateFunctionAnalyze>
-{
-    /// <inheritdoc/>
-    public UpdateFunctionAnalyze FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => UpdateFunctionAnalyze.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<UpdateFunctionRoute, UpdateFunctionRouteFromRaw>))]
-public sealed record class UpdateFunctionRoute : JsonModel
-{
-    public JsonElement Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
     /// <summary>
-    /// Description of router. Can be used to provide additional context on router's
+    /// Description of classifier. Can be used to provide additional context on classifier's
     /// purpose and expected inputs.
     /// </summary>
     public string? Description
@@ -1547,30 +1009,6 @@ public sealed record class UpdateFunctionRoute : JsonModel
     }
 
     /// <summary>
-    /// List of routes.
-    /// </summary>
-    public IReadOnlyList<RouteListItem>? Routes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<RouteListItem>>("routes");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<RouteListItem>?>(
-                "routes",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
     /// Array of tags to categorize and organize functions.
     /// </summary>
     public IReadOnlyList<string>? Tags
@@ -1597,48 +1035,48 @@ public sealed record class UpdateFunctionRoute : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("route")))
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("classify")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        foreach (var item in this.Classifications ?? [])
+        {
+            item.Validate();
         }
         _ = this.Description;
         _ = this.DisplayName;
         _ = this.FunctionName;
-        foreach (var item in this.Routes ?? [])
-        {
-            item.Validate();
-        }
         _ = this.Tags;
     }
 
-    public UpdateFunctionRoute()
+    public UpdateFunctionClassify()
     {
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public UpdateFunctionRoute(UpdateFunctionRoute updateFunctionRoute)
-        : base(updateFunctionRoute) { }
+    public UpdateFunctionClassify(UpdateFunctionClassify updateFunctionClassify)
+        : base(updateFunctionClassify) { }
 #pragma warning restore CS8618
 
-    public UpdateFunctionRoute(IReadOnlyDictionary<string, JsonElement> rawData)
+    public UpdateFunctionClassify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    UpdateFunctionRoute(FrozenDictionary<string, JsonElement> rawData)
+    UpdateFunctionClassify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="UpdateFunctionRouteFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionRoute FromRawUnchecked(
+    /// <inheritdoc cref="UpdateFunctionClassifyFromRaw.FromRawUnchecked"/>
+    public static UpdateFunctionClassify FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -1646,11 +1084,12 @@ public sealed record class UpdateFunctionRoute : JsonModel
     }
 }
 
-class UpdateFunctionRouteFromRaw : IFromRawJson<UpdateFunctionRoute>
+class UpdateFunctionClassifyFromRaw : IFromRawJson<UpdateFunctionClassify>
 {
     /// <inheritdoc/>
-    public UpdateFunctionRoute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        UpdateFunctionRoute.FromRawUnchecked(rawData);
+    public UpdateFunctionClassify FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => UpdateFunctionClassify.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<UpdateFunctionSend, UpdateFunctionSendFromRaw>))]

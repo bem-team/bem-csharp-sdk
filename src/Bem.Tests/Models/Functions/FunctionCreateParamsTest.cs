@@ -11,7 +11,7 @@ public class FunctionCreateParamsTest : TestBase
     {
         var parameters = new FunctionCreateParams
         {
-            CreateFunction = new Transform()
+            CreateFunction = new Extract()
             {
                 FunctionName = "functionName",
                 DisplayName = "displayName",
@@ -22,7 +22,7 @@ public class FunctionCreateParamsTest : TestBase
             },
         };
 
-        CreateFunction expectedCreateFunction = new Transform()
+        CreateFunction expectedCreateFunction = new Extract()
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
@@ -40,7 +40,7 @@ public class FunctionCreateParamsTest : TestBase
     {
         FunctionCreateParams parameters = new()
         {
-            CreateFunction = new Transform()
+            CreateFunction = new Extract()
             {
                 FunctionName = "functionName",
                 DisplayName = "displayName",
@@ -61,7 +61,7 @@ public class FunctionCreateParamsTest : TestBase
     {
         var parameters = new FunctionCreateParams
         {
-            CreateFunction = new Transform()
+            CreateFunction = new Extract()
             {
                 FunctionName = "functionName",
                 DisplayName = "displayName",

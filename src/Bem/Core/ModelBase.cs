@@ -64,6 +64,14 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Outputs::DestinationType>(),
             new ApiEnumConverter<string, Outputs::SendEventType>(),
             new ApiEnumConverter<string, Outputs::SortOrder>(),
+            new ApiEnumConverter<string, Workflows::WorkflowConnectorType>(),
+            new ApiEnumConverter<string, Workflows::Operation>(),
+            new ApiEnumConverter<
+                string,
+                Workflows::WorkflowUpdateResponseConnectorErrorOperation
+            >(),
+            new ApiEnumConverter<string, Workflows::Type>(),
+            new ApiEnumConverter<string, Workflows::WorkflowUpdateParamsConnectorType>(),
             new ApiEnumConverter<string, Workflows::SortOrder>(),
             new ApiEnumConverter<string, Workflows::InputType>(),
             new ApiEnumConverter<string, Workflows::SingleFileInputType>(),

@@ -21,6 +21,21 @@ public class VersionListPageResponseTest : TestBase
                 new()
                 {
                     ID = "id",
+                    Connectors =
+                    [
+                        new()
+                        {
+                            ConnectorID = "connectorID",
+                            Name = "name",
+                            Type = WorkflowConnectorType.Paragon,
+                            Paragon = new()
+                            {
+                                Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                                Integration = "integration",
+                                SyncID = "syncID",
+                            },
+                        },
+                    ],
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Edges =
                     [
@@ -29,6 +44,7 @@ public class VersionListPageResponseTest : TestBase
                             DestinationNodeName = "destinationNodeName",
                             SourceNodeName = "sourceNodeName",
                             DestinationName = "destinationName",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     MainNodeName = "mainNodeName",
@@ -44,6 +60,7 @@ public class VersionListPageResponseTest : TestBase
                                 VersionNum = 0,
                             },
                             Name = "name",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -92,6 +109,21 @@ public class VersionListPageResponseTest : TestBase
             new()
             {
                 ID = "id",
+                Connectors =
+                [
+                    new()
+                    {
+                        ConnectorID = "connectorID",
+                        Name = "name",
+                        Type = WorkflowConnectorType.Paragon,
+                        Paragon = new()
+                        {
+                            Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Integration = "integration",
+                            SyncID = "syncID",
+                        },
+                    },
+                ],
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Edges =
                 [
@@ -100,6 +132,7 @@ public class VersionListPageResponseTest : TestBase
                         DestinationNodeName = "destinationNodeName",
                         SourceNodeName = "sourceNodeName",
                         DestinationName = "destinationName",
+                        Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
                 MainNodeName = "mainNodeName",
@@ -115,6 +148,7 @@ public class VersionListPageResponseTest : TestBase
                             VersionNum = 0,
                         },
                         Name = "name",
+                        Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -177,6 +211,21 @@ public class VersionListPageResponseTest : TestBase
                 new()
                 {
                     ID = "id",
+                    Connectors =
+                    [
+                        new()
+                        {
+                            ConnectorID = "connectorID",
+                            Name = "name",
+                            Type = WorkflowConnectorType.Paragon,
+                            Paragon = new()
+                            {
+                                Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                                Integration = "integration",
+                                SyncID = "syncID",
+                            },
+                        },
+                    ],
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Edges =
                     [
@@ -185,6 +234,7 @@ public class VersionListPageResponseTest : TestBase
                             DestinationNodeName = "destinationNodeName",
                             SourceNodeName = "sourceNodeName",
                             DestinationName = "destinationName",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     MainNodeName = "mainNodeName",
@@ -200,6 +250,7 @@ public class VersionListPageResponseTest : TestBase
                                 VersionNum = 0,
                             },
                             Name = "name",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -262,6 +313,21 @@ public class VersionListPageResponseTest : TestBase
                 new()
                 {
                     ID = "id",
+                    Connectors =
+                    [
+                        new()
+                        {
+                            ConnectorID = "connectorID",
+                            Name = "name",
+                            Type = WorkflowConnectorType.Paragon,
+                            Paragon = new()
+                            {
+                                Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                                Integration = "integration",
+                                SyncID = "syncID",
+                            },
+                        },
+                    ],
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Edges =
                     [
@@ -270,6 +336,7 @@ public class VersionListPageResponseTest : TestBase
                             DestinationNodeName = "destinationNodeName",
                             SourceNodeName = "sourceNodeName",
                             DestinationName = "destinationName",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     MainNodeName = "mainNodeName",
@@ -285,6 +352,7 @@ public class VersionListPageResponseTest : TestBase
                                 VersionNum = 0,
                             },
                             Name = "name",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -340,6 +408,21 @@ public class VersionListPageResponseTest : TestBase
             new()
             {
                 ID = "id",
+                Connectors =
+                [
+                    new()
+                    {
+                        ConnectorID = "connectorID",
+                        Name = "name",
+                        Type = WorkflowConnectorType.Paragon,
+                        Paragon = new()
+                        {
+                            Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Integration = "integration",
+                            SyncID = "syncID",
+                        },
+                    },
+                ],
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Edges =
                 [
@@ -348,6 +431,7 @@ public class VersionListPageResponseTest : TestBase
                         DestinationNodeName = "destinationNodeName",
                         SourceNodeName = "sourceNodeName",
                         DestinationName = "destinationName",
+                        Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
                 MainNodeName = "mainNodeName",
@@ -363,6 +447,7 @@ public class VersionListPageResponseTest : TestBase
                             VersionNum = 0,
                         },
                         Name = "name",
+                        Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -425,6 +510,21 @@ public class VersionListPageResponseTest : TestBase
                 new()
                 {
                     ID = "id",
+                    Connectors =
+                    [
+                        new()
+                        {
+                            ConnectorID = "connectorID",
+                            Name = "name",
+                            Type = WorkflowConnectorType.Paragon,
+                            Paragon = new()
+                            {
+                                Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                                Integration = "integration",
+                                SyncID = "syncID",
+                            },
+                        },
+                    ],
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Edges =
                     [
@@ -433,6 +533,7 @@ public class VersionListPageResponseTest : TestBase
                             DestinationNodeName = "destinationNodeName",
                             SourceNodeName = "sourceNodeName",
                             DestinationName = "destinationName",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     MainNodeName = "mainNodeName",
@@ -448,6 +549,7 @@ public class VersionListPageResponseTest : TestBase
                                 VersionNum = 0,
                             },
                             Name = "name",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
@@ -558,6 +660,21 @@ public class VersionListPageResponseTest : TestBase
                 new()
                 {
                     ID = "id",
+                    Connectors =
+                    [
+                        new()
+                        {
+                            ConnectorID = "connectorID",
+                            Name = "name",
+                            Type = WorkflowConnectorType.Paragon,
+                            Paragon = new()
+                            {
+                                Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
+                                Integration = "integration",
+                                SyncID = "syncID",
+                            },
+                        },
+                    ],
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Edges =
                     [
@@ -566,6 +683,7 @@ public class VersionListPageResponseTest : TestBase
                             DestinationNodeName = "destinationNodeName",
                             SourceNodeName = "sourceNodeName",
                             DestinationName = "destinationName",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     MainNodeName = "mainNodeName",
@@ -581,6 +699,7 @@ public class VersionListPageResponseTest : TestBase
                                 VersionNum = 0,
                             },
                             Name = "name",
+                            Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                         },
                     ],
                     UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),

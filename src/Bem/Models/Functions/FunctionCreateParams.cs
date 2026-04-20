@@ -20,6 +20,9 @@ public record class FunctionCreateParams : ParamsBase
 {
     public JsonElement RawBodyData { get; private init; }
 
+    /// <summary>
+    /// V3 wire form of the Route (classify) function create payload. Mirrors {
+    /// </summary>
     public required CreateFunction CreateFunction
     {
         get

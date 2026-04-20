@@ -11,10 +11,8 @@ using Bem.Exceptions;
 namespace Bem.Models.Functions.Versions;
 
 /// <summary>
-/// A version of a payload shaping function that transforms and customizes input
-/// payloads using JMESPath expressions. Payload shaping allows you to extract specific
-/// data, perform calculations, and reshape complex input structures into simplified,
-/// standardized output formats tailored to your downstream systems or business requirements.
+/// V3 read-side union for function versions. Same shape as the shared `FunctionVersion`
+/// union but with `classify` in place of `route`.
 /// </summary>
 [JsonConverter(typeof(FunctionVersionConverter))]
 public record class FunctionVersion : ModelBase
@@ -42,7 +40,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.EmailAddress,
                 extract: (_) => null,
                 analyze: (_) => null,
-                route: (x) => x.EmailAddress,
+                classify: (x) => x.EmailAddress,
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
@@ -60,7 +58,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.FunctionID,
                 extract: (x) => x.FunctionID,
                 analyze: (x) => x.FunctionID,
-                route: (x) => x.FunctionID,
+                classify: (x) => x.FunctionID,
                 send: (x) => x.FunctionID,
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
@@ -78,7 +76,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.FunctionName,
                 extract: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
-                route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
@@ -96,7 +94,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.OutputSchema,
                 extract: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
@@ -114,7 +112,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.OutputSchemaName,
                 extract: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
@@ -132,7 +130,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.TabularChunkingEnabled,
                 extract: (x) => x.TabularChunkingEnabled,
                 analyze: (_) => null,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
@@ -150,7 +148,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.Type,
                 extract: (x) => x.Type,
                 analyze: (x) => x.Type,
-                route: (x) => x.Type,
+                classify: (x) => x.Type,
                 send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
@@ -168,7 +166,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.VersionNum,
                 extract: (x) => x.VersionNum,
                 analyze: (x) => x.VersionNum,
-                route: (x) => x.VersionNum,
+                classify: (x) => x.VersionNum,
                 send: (x) => x.VersionNum,
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
@@ -186,7 +184,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.Audit,
                 extract: (x) => x.Audit,
                 analyze: (x) => x.Audit,
-                route: (x) => x.Audit,
+                classify: (x) => x.Audit,
                 send: (x) => x.Audit,
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
@@ -204,7 +202,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.CreatedAt,
                 extract: (x) => x.CreatedAt,
                 analyze: (x) => x.CreatedAt,
-                route: (x) => x.CreatedAt,
+                classify: (x) => x.CreatedAt,
                 send: (x) => x.CreatedAt,
                 split: (x) => x.CreatedAt,
                 join: (x) => x.CreatedAt,
@@ -222,7 +220,7 @@ public record class FunctionVersion : ModelBase
                 transform: (x) => x.DisplayName,
                 extract: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
-                route: (x) => x.DisplayName,
+                classify: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
@@ -240,7 +238,7 @@ public record class FunctionVersion : ModelBase
                 transform: (_) => null,
                 extract: (_) => null,
                 analyze: (_) => null,
-                route: (x) => x.Description,
+                classify: (x) => x.Description,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
@@ -268,7 +266,7 @@ public record class FunctionVersion : ModelBase
         this._element = element;
     }
 
-    public FunctionVersion(Route value, JsonElement? element = null)
+    public FunctionVersion(Classify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -374,22 +372,22 @@ public record class FunctionVersion : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Route"/>.
+    /// type <see cref="Classify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `Route`
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `Classify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out Route? value)
+    public bool TryPickClassify([NotNullWhen(true)] out Classify? value)
     {
-        value = this.Value as Route;
+        value = this.Value as Classify;
         return value != null;
     }
 
@@ -515,7 +513,7 @@ public record class FunctionVersion : ModelBase
     ///     (Transform value) =&gt; {...},
     ///     (Extract value) =&gt; {...},
     ///     (Analyze value) =&gt; {...},
-    ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
     ///     (Send value) =&gt; {...},
     ///     (Split value) =&gt; {...},
     ///     (Join value) =&gt; {...},
@@ -529,7 +527,7 @@ public record class FunctionVersion : ModelBase
         Action<Transform> transform,
         Action<Extract> extract,
         Action<Analyze> analyze,
-        Action<Route> route,
+        Action<Classify> classify,
         Action<Send> send,
         Action<Split> split,
         Action<Join> join,
@@ -548,8 +546,8 @@ public record class FunctionVersion : ModelBase
             case Analyze value:
                 analyze(value);
                 break;
-            case Route value:
-                route(value);
+            case Classify value:
+                classify(value);
                 break;
             case Send value:
                 send(value);
@@ -591,7 +589,7 @@ public record class FunctionVersion : ModelBase
     ///     (Transform value) =&gt; {...},
     ///     (Extract value) =&gt; {...},
     ///     (Analyze value) =&gt; {...},
-    ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
     ///     (Send value) =&gt; {...},
     ///     (Split value) =&gt; {...},
     ///     (Join value) =&gt; {...},
@@ -605,7 +603,7 @@ public record class FunctionVersion : ModelBase
         Func<Transform, T> transform,
         Func<Extract, T> extract,
         Func<Analyze, T> analyze,
-        Func<Route, T> route,
+        Func<Classify, T> classify,
         Func<Send, T> send,
         Func<Split, T> split,
         Func<Join, T> join,
@@ -618,7 +616,7 @@ public record class FunctionVersion : ModelBase
             Transform value => transform(value),
             Extract value => extract(value),
             Analyze value => analyze(value),
-            Route value => route(value),
+            Classify value => classify(value),
             Send value => send(value),
             Split value => split(value),
             Join value => join(value),
@@ -636,7 +634,7 @@ public record class FunctionVersion : ModelBase
 
     public static implicit operator FunctionVersion(Analyze value) => new(value);
 
-    public static implicit operator FunctionVersion(Route value) => new(value);
+    public static implicit operator FunctionVersion(Classify value) => new(value);
 
     public static implicit operator FunctionVersion(Send value) => new(value);
 
@@ -668,7 +666,7 @@ public record class FunctionVersion : ModelBase
             (transform) => transform.Validate(),
             (extract) => extract.Validate(),
             (analyze) => analyze.Validate(),
-            (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
@@ -700,7 +698,7 @@ public record class FunctionVersion : ModelBase
             Transform _ => 0,
             Extract _ => 1,
             Analyze _ => 2,
-            Route _ => 3,
+            Classify _ => 3,
             Send _ => 4,
             Split _ => 5,
             Join _ => 6,
@@ -783,11 +781,11 @@ sealed class FunctionVersionConverter : JsonConverter<FunctionVersion>
 
                 return new(element);
             }
-            case "route":
+            case "classify":
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Route>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<Classify>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1737,11 +1735,47 @@ class AnalyzeFromRaw : IFromRawJson<Analyze>
         Analyze.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<Route, RouteFromRaw>))]
-public sealed record class Route : JsonModel
+/// <summary>
+/// V3 read-side shape of a Classify (internally Route) function version. Mirrors {
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Classify, ClassifyFromRaw>))]
+public sealed record class Classify : JsonModel
 {
     /// <summary>
-    /// Description of router. Can be used to provide additional context on router's
+    /// V3 create/update variants of the shared function payloads.
+    ///
+    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
+    /// function types when creating new functions or updating existing ones — both
+    /// have been unified under `extract`. Existing functions of those types remain
+    /// readable and callable via V3, so the V3 read-side unions still include `transform`
+    /// and `analyze` variants.</para>
+    ///
+    /// <para>The V3 API also renames the internal `route` function type to `classify`
+    /// on the wire, and the associated `routes` field to `classifications` (type
+    /// `ClassificationList`). Platform-internal storage and processing still use
+    /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
+    /// name for the list of classifications a classify function can produce.</para>
+    /// </summary>
+    public required IReadOnlyList<ClassificationListItem> Classifications
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<ClassificationListItem>>(
+                "classifications"
+            );
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<ClassificationListItem>>(
+                "classifications",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Description of classifier. Can be used to provide additional context on classifier's
     /// purpose and expected inputs.
     /// </summary>
     public required string Description
@@ -1756,7 +1790,7 @@ public sealed record class Route : JsonModel
 
     /// <summary>
     /// Email address automatically created by bem. You can forward emails with or
-    /// without attachments, to be routed.
+    /// without attachments, to be classified.
     /// </summary>
     public required string EmailAddress
     {
@@ -1792,25 +1826,6 @@ public sealed record class Route : JsonModel
             return this._rawData.GetNotNullClass<string>("functionName");
         }
         init { this._rawData.Set("functionName", value); }
-    }
-
-    /// <summary>
-    /// List of routes.
-    /// </summary>
-    public required IReadOnlyList<RouteListItem> Routes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<RouteListItem>>("routes");
-        }
-        init
-        {
-            this._rawData.Set<ImmutableArray<RouteListItem>>(
-                "routes",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
     }
 
     public JsonElement Type
@@ -1952,15 +1967,15 @@ public sealed record class Route : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
+        foreach (var item in this.Classifications)
+        {
+            item.Validate();
+        }
         _ = this.Description;
         _ = this.EmailAddress;
         _ = this.FunctionID;
         _ = this.FunctionName;
-        foreach (var item in this.Routes)
-        {
-            item.Validate();
-        }
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("route")))
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("classify")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
         }
@@ -1975,44 +1990,44 @@ public sealed record class Route : JsonModel
         }
     }
 
-    public Route()
+    public Classify()
     {
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Route(Route route)
-        : base(route) { }
+    public Classify(Classify classify)
+        : base(classify) { }
 #pragma warning restore CS8618
 
-    public Route(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Classify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Route(FrozenDictionary<string, JsonElement> rawData)
+    Classify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="RouteFromRaw.FromRawUnchecked"/>
-    public static Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="ClassifyFromRaw.FromRawUnchecked"/>
+    public static Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class RouteFromRaw : IFromRawJson<Route>
+class ClassifyFromRaw : IFromRawJson<Classify>
 {
     /// <inheritdoc/>
-    public Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Route.FromRawUnchecked(rawData);
+    public Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Classify.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]

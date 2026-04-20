@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
+using System = System;
 
 namespace Bem.Models.Workflows;
 
@@ -253,9 +253,9 @@ public record class WorkflowCallParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(
+        return new System::UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/')
                 + string.Format("/v3/workflows/{0}/call", this.WorkflowName)
         )
@@ -576,7 +576,7 @@ sealed class InputTypeConverter : JsonConverter<InputType>
 {
     public override InputType Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {
@@ -750,7 +750,7 @@ sealed class SingleFileInputTypeConverter : JsonConverter<SingleFileInputType>
 {
     public override SingleFileInputType Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

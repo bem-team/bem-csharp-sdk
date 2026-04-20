@@ -10,6 +10,9 @@ using Bem.Exceptions;
 
 namespace Bem.Models.Functions;
 
+/// <summary>
+/// V3 wire form of the Route (classify) function create payload. Mirrors {
+/// </summary>
 [JsonConverter(typeof(CreateFunctionConverter))]
 public record class CreateFunction : ModelBase
 {
@@ -33,10 +36,8 @@ public record class CreateFunction : ModelBase
         get
         {
             return Match(
-                transform: (x) => x.FunctionName,
                 extract: (x) => x.FunctionName,
-                analyze: (x) => x.FunctionName,
-                route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
@@ -51,10 +52,8 @@ public record class CreateFunction : ModelBase
         get
         {
             return Match(
-                transform: (x) => x.Type,
                 extract: (x) => x.Type,
-                analyze: (x) => x.Type,
-                route: (x) => x.Type,
+                classify: (x) => x.Type,
                 send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
@@ -69,10 +68,8 @@ public record class CreateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (x) => x.DisplayName,
                 extract: (x) => x.DisplayName,
-                analyze: (x) => x.DisplayName,
-                route: (x) => x.DisplayName,
+                classify: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
@@ -87,10 +84,8 @@ public record class CreateFunction : ModelBase
         get
         {
             return Match<JsonElement?>(
-                transform: (x) => x.OutputSchema,
                 extract: (x) => x.OutputSchema,
-                analyze: (x) => x.OutputSchema,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
@@ -105,31 +100,11 @@ public record class CreateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (x) => x.OutputSchemaName,
                 extract: (x) => x.OutputSchemaName,
-                analyze: (x) => x.OutputSchemaName,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
-            );
-        }
-    }
-
-    public bool? TabularChunkingEnabled
-    {
-        get
-        {
-            return Match<bool?>(
-                transform: (x) => x.TabularChunkingEnabled,
-                extract: (x) => x.TabularChunkingEnabled,
-                analyze: (_) => null,
-                route: (_) => null,
-                send: (_) => null,
-                split: (_) => null,
-                join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null
             );
@@ -141,10 +116,8 @@ public record class CreateFunction : ModelBase
         get
         {
             return Match<string?>(
-                transform: (_) => null,
                 extract: (_) => null,
-                analyze: (_) => null,
-                route: (x) => x.Description,
+                classify: (x) => x.Description,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
@@ -154,25 +127,13 @@ public record class CreateFunction : ModelBase
         }
     }
 
-    public CreateFunction(Transform value, JsonElement? element = null)
-    {
-        this.Value = value;
-        this._element = element;
-    }
-
     public CreateFunction(Extract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public CreateFunction(Analyze value, JsonElement? element = null)
-    {
-        this.Value = value;
-        this._element = element;
-    }
-
-    public CreateFunction(Route value, JsonElement? element = null)
+    public CreateFunction(Classify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -215,27 +176,6 @@ public record class CreateFunction : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Transform"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `Transform`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out Transform? value)
-    {
-        value = this.Value as Transform;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
     /// type <see cref="Extract"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
@@ -257,43 +197,22 @@ public record class CreateFunction : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Analyze"/>.
+    /// type <see cref="Classify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickAnalyze(out var value)) {
-    ///     // `value` is of type `Analyze`
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `Classify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickAnalyze([NotNullWhen(true)] out Analyze? value)
+    public bool TryPickClassify([NotNullWhen(true)] out Classify? value)
     {
-        value = this.Value as Analyze;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Route"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `Route`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out Route? value)
-    {
-        value = this.Value as Route;
+        value = this.Value as Classify;
         return value != null;
     }
 
@@ -416,10 +335,8 @@ public record class CreateFunction : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (Transform value) =&gt; {...},
     ///     (Extract value) =&gt; {...},
-    ///     (Analyze value) =&gt; {...},
-    ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
     ///     (Send value) =&gt; {...},
     ///     (Split value) =&gt; {...},
     ///     (Join value) =&gt; {...},
@@ -430,10 +347,8 @@ public record class CreateFunction : ModelBase
     /// </example>
     /// </summary>
     public void Switch(
-        Action<Transform> transform,
         Action<Extract> extract,
-        Action<Analyze> analyze,
-        Action<Route> route,
+        Action<Classify> classify,
         Action<Send> send,
         Action<Split> split,
         Action<Join> join,
@@ -443,17 +358,11 @@ public record class CreateFunction : ModelBase
     {
         switch (this.Value)
         {
-            case Transform value:
-                transform(value);
-                break;
             case Extract value:
                 extract(value);
                 break;
-            case Analyze value:
-                analyze(value);
-                break;
-            case Route value:
-                route(value);
+            case Classify value:
+                classify(value);
                 break;
             case Send value:
                 send(value);
@@ -492,10 +401,8 @@ public record class CreateFunction : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (Transform value) =&gt; {...},
     ///     (Extract value) =&gt; {...},
-    ///     (Analyze value) =&gt; {...},
-    ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
     ///     (Send value) =&gt; {...},
     ///     (Split value) =&gt; {...},
     ///     (Join value) =&gt; {...},
@@ -506,10 +413,8 @@ public record class CreateFunction : ModelBase
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<Transform, T> transform,
         Func<Extract, T> extract,
-        Func<Analyze, T> analyze,
-        Func<Route, T> route,
+        Func<Classify, T> classify,
         Func<Send, T> send,
         Func<Split, T> split,
         Func<Join, T> join,
@@ -519,10 +424,8 @@ public record class CreateFunction : ModelBase
     {
         return this.Value switch
         {
-            Transform value => transform(value),
             Extract value => extract(value),
-            Analyze value => analyze(value),
-            Route value => route(value),
+            Classify value => classify(value),
             Send value => send(value),
             Split value => split(value),
             Join value => join(value),
@@ -534,13 +437,9 @@ public record class CreateFunction : ModelBase
         };
     }
 
-    public static implicit operator CreateFunction(Transform value) => new(value);
-
     public static implicit operator CreateFunction(Extract value) => new(value);
 
-    public static implicit operator CreateFunction(Analyze value) => new(value);
-
-    public static implicit operator CreateFunction(Route value) => new(value);
+    public static implicit operator CreateFunction(Classify value) => new(value);
 
     public static implicit operator CreateFunction(Send value) => new(value);
 
@@ -569,10 +468,8 @@ public record class CreateFunction : ModelBase
             throw new BemInvalidDataException("Data did not match any variant of CreateFunction");
         }
         this.Switch(
-            (transform) => transform.Validate(),
             (extract) => extract.Validate(),
-            (analyze) => analyze.Validate(),
-            (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
@@ -601,15 +498,13 @@ public record class CreateFunction : ModelBase
     {
         return this.Value switch
         {
-            Transform _ => 0,
-            Extract _ => 1,
-            Analyze _ => 2,
-            Route _ => 3,
-            Send _ => 4,
-            Split _ => 5,
-            Join _ => 6,
-            PayloadShaping _ => 7,
-            Enrich _ => 8,
+            Extract _ => 0,
+            Classify _ => 1,
+            Send _ => 2,
+            Split _ => 3,
+            Join _ => 4,
+            PayloadShaping _ => 5,
+            Enrich _ => 6,
             _ => -1,
         };
     }
@@ -636,23 +531,6 @@ sealed class CreateFunctionConverter : JsonConverter<CreateFunction>
 
         switch (type)
         {
-            case "transform":
-            {
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<Transform>(element, options);
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
             case "extract":
             {
                 try
@@ -670,28 +548,11 @@ sealed class CreateFunctionConverter : JsonConverter<CreateFunction>
 
                 return new(element);
             }
-            case "analyze":
+            case "classify":
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Analyze>(element, options);
-                    if (deserialized != null)
-                    {
-                        return new(deserialized, element);
-                    }
-                }
-                catch (JsonException)
-                {
-                    // ignore
-                }
-
-                return new(element);
-            }
-            case "route":
-            {
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<Route>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<Classify>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -804,203 +665,6 @@ sealed class CreateFunctionConverter : JsonConverter<CreateFunction>
     {
         JsonSerializer.Serialize(writer, value.Json, options);
     }
-}
-
-[JsonConverter(typeof(JsonModelConverter<Transform, TransformFromRaw>))]
-public sealed record class Transform : JsonModel
-{
-    /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    public JsonElement Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// Display name of function. Human-readable name to help you identify the function.
-    /// </summary>
-    public string? DisplayName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("displayName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayName", value);
-        }
-    }
-
-    /// <summary>
-    /// Desired output structure defined in standard JSON Schema convention.
-    /// </summary>
-    public JsonElement? OutputSchema
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<JsonElement>("outputSchema");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchema", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of output schema object.
-    /// </summary>
-    public string? OutputSchemaName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("outputSchemaName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchemaName", value);
-        }
-    }
-
-    /// <summary>
-    /// Whether tabular chunking is enabled on the pipeline. This processes tables
-    /// in CSV/Excel in row batches, rather than all rows at once.
-    /// </summary>
-    public bool? TabularChunkingEnabled
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("tabularChunkingEnabled");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("tabularChunkingEnabled", value);
-        }
-    }
-
-    /// <summary>
-    /// Array of tags to categorize and organize functions.
-    /// </summary>
-    public IReadOnlyList<string>? Tags
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "tags",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.FunctionName;
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("transform")))
-        {
-            throw new BemInvalidDataException("Invalid value given for constant");
-        }
-        _ = this.DisplayName;
-        _ = this.OutputSchema;
-        _ = this.OutputSchemaName;
-        _ = this.TabularChunkingEnabled;
-        _ = this.Tags;
-    }
-
-    public Transform()
-    {
-        this.Type = JsonSerializer.SerializeToElement("transform");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Transform(Transform transform)
-        : base(transform) { }
-#pragma warning restore CS8618
-
-    public Transform(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-
-        this.Type = JsonSerializer.SerializeToElement("transform");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Transform(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="TransformFromRaw.FromRawUnchecked"/>
-    public static Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-
-    [SetsRequiredMembers]
-    public Transform(string functionName)
-        : this()
-    {
-        this.FunctionName = functionName;
-    }
-}
-
-class TransformFromRaw : IFromRawJson<Transform>
-{
-    /// <inheritdoc/>
-    public Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Transform.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<Extract, ExtractFromRaw>))]
@@ -1200,8 +864,11 @@ class ExtractFromRaw : IFromRawJson<Extract>
         Extract.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<Analyze, AnalyzeFromRaw>))]
-public sealed record class Analyze : JsonModel
+/// <summary>
+/// V3 wire form of the Route (classify) function create payload. Mirrors {
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Classify, ClassifyFromRaw>))]
+public sealed record class Classify : JsonModel
 {
     /// <summary>
     /// Name of function. Must be UNIQUE on a per-environment basis.
@@ -1227,14 +894,28 @@ public sealed record class Analyze : JsonModel
     }
 
     /// <summary>
-    /// Display name of function. Human-readable name to help you identify the function.
+    /// V3 create/update variants of the shared function payloads.
+    ///
+    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
+    /// function types when creating new functions or updating existing ones — both
+    /// have been unified under `extract`. Existing functions of those types remain
+    /// readable and callable via V3, so the V3 read-side unions still include `transform`
+    /// and `analyze` variants.</para>
+    ///
+    /// <para>The V3 API also renames the internal `route` function type to `classify`
+    /// on the wire, and the associated `routes` field to `classifications` (type
+    /// `ClassificationList`). Platform-internal storage and processing still use
+    /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
+    /// name for the list of classifications a classify function can produce.</para>
     /// </summary>
-    public string? DisplayName
+    public IReadOnlyList<ClassificationListItem>? Classifications
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("displayName");
+            return this._rawData.GetNullableStruct<ImmutableArray<ClassificationListItem>>(
+                "classifications"
+            );
         }
         init
         {
@@ -1243,214 +924,15 @@ public sealed record class Analyze : JsonModel
                 return;
             }
 
-            this._rawData.Set("displayName", value);
-        }
-    }
-
-    /// <summary>
-    /// Whether bounding box extraction is enabled. Only applicable to analyze and
-    /// extract functions. When true, the function returns the document regions (page,
-    /// coordinates) from which each field was extracted. Enabling this automatically
-    /// configures the function to use the bounding box model. Disabling resets to
-    /// the default.
-    /// </summary>
-    public bool? EnableBoundingBoxes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("enableBoundingBoxes", value);
-        }
-    }
-
-    /// <summary>
-    /// Desired output structure defined in standard JSON Schema convention.
-    /// </summary>
-    public JsonElement? OutputSchema
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<JsonElement>("outputSchema");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchema", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of output schema object.
-    /// </summary>
-    public string? OutputSchemaName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("outputSchemaName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("outputSchemaName", value);
-        }
-    }
-
-    /// <summary>
-    /// Reducing the risk of the model stopping early on long documents. Trade-off:
-    /// Increases total latency. Compatible with `enableBoundingBoxes`.
-    /// </summary>
-    public bool? PreCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("preCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("preCount", value);
-        }
-    }
-
-    /// <summary>
-    /// Array of tags to categorize and organize functions.
-    /// </summary>
-    public IReadOnlyList<string>? Tags
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<string>?>(
-                "tags",
+            this._rawData.Set<ImmutableArray<ClassificationListItem>?>(
+                "classifications",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }
     }
 
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.FunctionName;
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("analyze")))
-        {
-            throw new BemInvalidDataException("Invalid value given for constant");
-        }
-        _ = this.DisplayName;
-        _ = this.EnableBoundingBoxes;
-        _ = this.OutputSchema;
-        _ = this.OutputSchemaName;
-        _ = this.PreCount;
-        _ = this.Tags;
-    }
-
-    public Analyze()
-    {
-        this.Type = JsonSerializer.SerializeToElement("analyze");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Analyze(Analyze analyze)
-        : base(analyze) { }
-#pragma warning restore CS8618
-
-    public Analyze(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-
-        this.Type = JsonSerializer.SerializeToElement("analyze");
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Analyze(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="AnalyzeFromRaw.FromRawUnchecked"/>
-    public static Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-
-    [SetsRequiredMembers]
-    public Analyze(string functionName)
-        : this()
-    {
-        this.FunctionName = functionName;
-    }
-}
-
-class AnalyzeFromRaw : IFromRawJson<Analyze>
-{
-    /// <inheritdoc/>
-    public Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Analyze.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<Route, RouteFromRaw>))]
-public sealed record class Route : JsonModel
-{
     /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    public JsonElement Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// Description of router. Can be used to provide additional context on router's
+    /// Description of classifier. Can be used to provide additional context on classifier's
     /// purpose and expected inputs.
     /// </summary>
     public string? Description
@@ -1493,30 +975,6 @@ public sealed record class Route : JsonModel
     }
 
     /// <summary>
-    /// List of routes.
-    /// </summary>
-    public IReadOnlyList<RouteListItem>? Routes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<RouteListItem>>("routes");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<RouteListItem>?>(
-                "routes",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
     /// Array of tags to categorize and organize functions.
     /// </summary>
     public IReadOnlyList<string>? Tags
@@ -1544,64 +1002,64 @@ public sealed record class Route : JsonModel
     public override void Validate()
     {
         _ = this.FunctionName;
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("route")))
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("classify")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
         }
-        _ = this.Description;
-        _ = this.DisplayName;
-        foreach (var item in this.Routes ?? [])
+        foreach (var item in this.Classifications ?? [])
         {
             item.Validate();
         }
+        _ = this.Description;
+        _ = this.DisplayName;
         _ = this.Tags;
     }
 
-    public Route()
+    public Classify()
     {
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Route(Route route)
-        : base(route) { }
+    public Classify(Classify classify)
+        : base(classify) { }
 #pragma warning restore CS8618
 
-    public Route(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Classify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Route(FrozenDictionary<string, JsonElement> rawData)
+    Classify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="RouteFromRaw.FromRawUnchecked"/>
-    public static Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="ClassifyFromRaw.FromRawUnchecked"/>
+    public static Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 
     [SetsRequiredMembers]
-    public Route(string functionName)
+    public Classify(string functionName)
         : this()
     {
         this.FunctionName = functionName;
     }
 }
 
-class RouteFromRaw : IFromRawJson<Route>
+class ClassifyFromRaw : IFromRawJson<Classify>
 {
     /// <inheritdoc/>
-    public Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Route.FromRawUnchecked(rawData);
+    public Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Classify.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]

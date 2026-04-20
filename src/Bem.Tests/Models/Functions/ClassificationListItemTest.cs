@@ -5,12 +5,12 @@ using Bem.Models.Functions;
 
 namespace Bem.Tests.Models.Functions;
 
-public class RouteListItemTest : TestBase
+public class ClassificationListItemTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
             Description = "description",
@@ -41,7 +41,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
             Description = "description",
@@ -53,7 +53,7 @@ public class RouteListItemTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RouteListItem>(
+        var deserialized = JsonSerializer.Deserialize<ClassificationListItem>(
             json,
             ModelBase.SerializerOptions
         );
@@ -64,7 +64,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
             Description = "description",
@@ -76,7 +76,7 @@ public class RouteListItemTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RouteListItem>(
+        var deserialized = JsonSerializer.Deserialize<ClassificationListItem>(
             element,
             ModelBase.SerializerOptions
         );
@@ -102,7 +102,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
             Description = "description",
@@ -119,7 +119,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new RouteListItem { Name = "name" };
+        var model = new ClassificationListItem { Name = "name" };
 
         Assert.Null(model.Description);
         Assert.False(model.RawData.ContainsKey("description"));
@@ -138,7 +138,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new RouteListItem { Name = "name" };
+        var model = new ClassificationListItem { Name = "name" };
 
         model.Validate();
     }
@@ -146,7 +146,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
 
@@ -176,7 +176,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
 
@@ -195,7 +195,7 @@ public class RouteListItemTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new RouteListItem
+        var model = new ClassificationListItem
         {
             Name = "name",
             Description = "description",
@@ -206,7 +206,7 @@ public class RouteListItemTest : TestBase
             Regex = new() { Patterns = ["string"] },
         };
 
-        RouteListItem copied = new(model);
+        ClassificationListItem copied = new(model);
 
         Assert.Equal(model, copied);
     }

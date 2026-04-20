@@ -11,8 +11,9 @@ using Bem.Exceptions;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// A function that extracts structured JSON from documents and images. Accepts a
-/// wide range of input types including PDFs, images, spreadsheets, emails, and more.
+/// V3 read-side union. Same shape as the shared `Function` union but with `classify`
+/// in place of `route`. Legacy `transform` and `analyze` functions remain readable
+/// via V3.
 /// </summary>
 [JsonConverter(typeof(FunctionConverter))]
 public record class Function : ModelBase
@@ -40,7 +41,7 @@ public record class Function : ModelBase
                 transform: (x) => x.EmailAddress,
                 extract: (_) => null,
                 analyze: (_) => null,
-                route: (x) => x.EmailAddress,
+                classify: (x) => x.EmailAddress,
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
@@ -58,7 +59,7 @@ public record class Function : ModelBase
                 transform: (x) => x.FunctionID,
                 extract: (x) => x.FunctionID,
                 analyze: (x) => x.FunctionID,
-                route: (x) => x.FunctionID,
+                classify: (x) => x.FunctionID,
                 send: (x) => x.FunctionID,
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
@@ -76,7 +77,7 @@ public record class Function : ModelBase
                 transform: (x) => x.FunctionName,
                 extract: (x) => x.FunctionName,
                 analyze: (x) => x.FunctionName,
-                route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 send: (x) => x.FunctionName,
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
@@ -94,7 +95,7 @@ public record class Function : ModelBase
                 transform: (x) => x.OutputSchema,
                 extract: (x) => x.OutputSchema,
                 analyze: (x) => x.OutputSchema,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
@@ -112,7 +113,7 @@ public record class Function : ModelBase
                 transform: (x) => x.OutputSchemaName,
                 extract: (x) => x.OutputSchemaName,
                 analyze: (x) => x.OutputSchemaName,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
@@ -130,7 +131,7 @@ public record class Function : ModelBase
                 transform: (x) => x.TabularChunkingEnabled,
                 extract: (x) => x.TabularChunkingEnabled,
                 analyze: (_) => null,
-                route: (_) => null,
+                classify: (_) => null,
                 send: (_) => null,
                 split: (_) => null,
                 join: (_) => null,
@@ -148,7 +149,7 @@ public record class Function : ModelBase
                 transform: (x) => x.Type,
                 extract: (x) => x.Type,
                 analyze: (x) => x.Type,
-                route: (x) => x.Type,
+                classify: (x) => x.Type,
                 send: (x) => x.Type,
                 split: (x) => x.Type,
                 join: (x) => x.Type,
@@ -166,7 +167,7 @@ public record class Function : ModelBase
                 transform: (x) => x.VersionNum,
                 extract: (x) => x.VersionNum,
                 analyze: (x) => x.VersionNum,
-                route: (x) => x.VersionNum,
+                classify: (x) => x.VersionNum,
                 send: (x) => x.VersionNum,
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
@@ -184,7 +185,7 @@ public record class Function : ModelBase
                 transform: (x) => x.Audit,
                 extract: (x) => x.Audit,
                 analyze: (x) => x.Audit,
-                route: (x) => x.Audit,
+                classify: (x) => x.Audit,
                 send: (x) => x.Audit,
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
@@ -202,7 +203,7 @@ public record class Function : ModelBase
                 transform: (x) => x.DisplayName,
                 extract: (x) => x.DisplayName,
                 analyze: (x) => x.DisplayName,
-                route: (x) => x.DisplayName,
+                classify: (x) => x.DisplayName,
                 send: (x) => x.DisplayName,
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
@@ -220,7 +221,7 @@ public record class Function : ModelBase
                 transform: (_) => null,
                 extract: (_) => null,
                 analyze: (_) => null,
-                route: (x) => x.Description,
+                classify: (x) => x.Description,
                 send: (_) => null,
                 split: (_) => null,
                 join: (x) => x.Description,
@@ -230,7 +231,7 @@ public record class Function : ModelBase
         }
     }
 
-    public Function(FunctionTransform value, JsonElement? element = null)
+    public Function(Transform value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -242,13 +243,13 @@ public record class Function : ModelBase
         this._element = element;
     }
 
-    public Function(FunctionAnalyze value, JsonElement? element = null)
+    public Function(Analyze value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Function(FunctionRoute value, JsonElement? element = null)
+    public Function(FunctionClassify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -291,22 +292,22 @@ public record class Function : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionTransform"/>.
+    /// type <see cref="Transform"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `FunctionTransform`
+    ///     // `value` is of type `Transform`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out FunctionTransform? value)
+    public bool TryPickTransform([NotNullWhen(true)] out Transform? value)
     {
-        value = this.Value as FunctionTransform;
+        value = this.Value as Transform;
         return value != null;
     }
 
@@ -333,43 +334,43 @@ public record class Function : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionAnalyze"/>.
+    /// type <see cref="Analyze"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickAnalyze(out var value)) {
-    ///     // `value` is of type `FunctionAnalyze`
+    ///     // `value` is of type `Analyze`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickAnalyze([NotNullWhen(true)] out FunctionAnalyze? value)
+    public bool TryPickAnalyze([NotNullWhen(true)] out Analyze? value)
     {
-        value = this.Value as FunctionAnalyze;
+        value = this.Value as Analyze;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="FunctionRoute"/>.
+    /// type <see cref="FunctionClassify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `FunctionRoute`
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `FunctionClassify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out FunctionRoute? value)
+    public bool TryPickClassify([NotNullWhen(true)] out FunctionClassify? value)
     {
-        value = this.Value as FunctionRoute;
+        value = this.Value as FunctionClassify;
         return value != null;
     }
 
@@ -492,10 +493,10 @@ public record class Function : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (FunctionTransform value) =&gt; {...},
+    ///     (Transform value) =&gt; {...},
     ///     (FunctionExtract value) =&gt; {...},
-    ///     (FunctionAnalyze value) =&gt; {...},
-    ///     (FunctionRoute value) =&gt; {...},
+    ///     (Analyze value) =&gt; {...},
+    ///     (FunctionClassify value) =&gt; {...},
     ///     (FunctionSend value) =&gt; {...},
     ///     (FunctionSplit value) =&gt; {...},
     ///     (FunctionJoin value) =&gt; {...},
@@ -506,10 +507,10 @@ public record class Function : ModelBase
     /// </example>
     /// </summary>
     public void Switch(
-        Action<FunctionTransform> transform,
+        Action<Transform> transform,
         Action<FunctionExtract> extract,
-        Action<FunctionAnalyze> analyze,
-        Action<FunctionRoute> route,
+        Action<Analyze> analyze,
+        Action<FunctionClassify> classify,
         Action<FunctionSend> send,
         Action<FunctionSplit> split,
         Action<FunctionJoin> join,
@@ -519,17 +520,17 @@ public record class Function : ModelBase
     {
         switch (this.Value)
         {
-            case FunctionTransform value:
+            case Transform value:
                 transform(value);
                 break;
             case FunctionExtract value:
                 extract(value);
                 break;
-            case FunctionAnalyze value:
+            case Analyze value:
                 analyze(value);
                 break;
-            case FunctionRoute value:
-                route(value);
+            case FunctionClassify value:
+                classify(value);
                 break;
             case FunctionSend value:
                 send(value);
@@ -566,10 +567,10 @@ public record class Function : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (FunctionTransform value) =&gt; {...},
+    ///     (Transform value) =&gt; {...},
     ///     (FunctionExtract value) =&gt; {...},
-    ///     (FunctionAnalyze value) =&gt; {...},
-    ///     (FunctionRoute value) =&gt; {...},
+    ///     (Analyze value) =&gt; {...},
+    ///     (FunctionClassify value) =&gt; {...},
     ///     (FunctionSend value) =&gt; {...},
     ///     (FunctionSplit value) =&gt; {...},
     ///     (FunctionJoin value) =&gt; {...},
@@ -580,10 +581,10 @@ public record class Function : ModelBase
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<FunctionTransform, T> transform,
+        Func<Transform, T> transform,
         Func<FunctionExtract, T> extract,
-        Func<FunctionAnalyze, T> analyze,
-        Func<FunctionRoute, T> route,
+        Func<Analyze, T> analyze,
+        Func<FunctionClassify, T> classify,
         Func<FunctionSend, T> send,
         Func<FunctionSplit, T> split,
         Func<FunctionJoin, T> join,
@@ -593,10 +594,10 @@ public record class Function : ModelBase
     {
         return this.Value switch
         {
-            FunctionTransform value => transform(value),
+            Transform value => transform(value),
             FunctionExtract value => extract(value),
-            FunctionAnalyze value => analyze(value),
-            FunctionRoute value => route(value),
+            Analyze value => analyze(value),
+            FunctionClassify value => classify(value),
             FunctionSend value => send(value),
             FunctionSplit value => split(value),
             FunctionJoin value => join(value),
@@ -606,13 +607,13 @@ public record class Function : ModelBase
         };
     }
 
-    public static implicit operator Function(FunctionTransform value) => new(value);
+    public static implicit operator Function(Transform value) => new(value);
 
     public static implicit operator Function(FunctionExtract value) => new(value);
 
-    public static implicit operator Function(FunctionAnalyze value) => new(value);
+    public static implicit operator Function(Analyze value) => new(value);
 
-    public static implicit operator Function(FunctionRoute value) => new(value);
+    public static implicit operator Function(FunctionClassify value) => new(value);
 
     public static implicit operator Function(FunctionSend value) => new(value);
 
@@ -644,7 +645,7 @@ public record class Function : ModelBase
             (transform) => transform.Validate(),
             (extract) => extract.Validate(),
             (analyze) => analyze.Validate(),
-            (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (send) => send.Validate(),
             (split) => split.Validate(),
             (join) => join.Validate(),
@@ -673,10 +674,10 @@ public record class Function : ModelBase
     {
         return this.Value switch
         {
-            FunctionTransform _ => 0,
+            Transform _ => 0,
             FunctionExtract _ => 1,
-            FunctionAnalyze _ => 2,
-            FunctionRoute _ => 3,
+            Analyze _ => 2,
+            FunctionClassify _ => 3,
             FunctionSend _ => 4,
             FunctionSplit _ => 5,
             FunctionJoin _ => 6,
@@ -712,10 +713,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionTransform>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Transform>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -752,10 +750,7 @@ sealed class FunctionConverter : JsonConverter<Function>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionAnalyze>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Analyze>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -768,11 +763,14 @@ sealed class FunctionConverter : JsonConverter<Function>
 
                 return new(element);
             }
-            case "route":
+            case "classify":
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<FunctionRoute>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<FunctionClassify>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -886,8 +884,8 @@ sealed class FunctionConverter : JsonConverter<Function>
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionTransform, FunctionTransformFromRaw>))]
-public sealed record class FunctionTransform : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Transform, TransformFromRaw>))]
+public sealed record class Transform : JsonModel
 {
     /// <summary>
     /// Email address automatically created by bem. You can forward emails with or
@@ -1107,18 +1105,18 @@ public sealed record class FunctionTransform : JsonModel
         }
     }
 
-    public FunctionTransform()
+    public Transform()
     {
         this.Type = JsonSerializer.SerializeToElement("transform");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionTransform(FunctionTransform functionTransform)
-        : base(functionTransform) { }
+    public Transform(Transform transform)
+        : base(transform) { }
 #pragma warning restore CS8618
 
-    public FunctionTransform(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Transform(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1127,26 +1125,24 @@ public sealed record class FunctionTransform : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionTransform(FrozenDictionary<string, JsonElement> rawData)
+    Transform(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionTransformFromRaw.FromRawUnchecked"/>
-    public static FunctionTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="TransformFromRaw.FromRawUnchecked"/>
+    public static Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionTransformFromRaw : IFromRawJson<FunctionTransform>
+class TransformFromRaw : IFromRawJson<Transform>
 {
     /// <inheritdoc/>
-    public FunctionTransform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionTransform.FromRawUnchecked(rawData);
+    public Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Transform.FromRawUnchecked(rawData);
 }
 
 /// <summary>
@@ -1399,8 +1395,8 @@ class FunctionExtractFromRaw : IFromRawJson<FunctionExtract>
         FunctionExtract.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionAnalyze, FunctionAnalyzeFromRaw>))]
-public sealed record class FunctionAnalyze : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Analyze, AnalyzeFromRaw>))]
+public sealed record class Analyze : JsonModel
 {
     /// <summary>
     /// Whether bounding box extraction is enabled. Only applicable to analyze and
@@ -1621,18 +1617,18 @@ public sealed record class FunctionAnalyze : JsonModel
         }
     }
 
-    public FunctionAnalyze()
+    public Analyze()
     {
         this.Type = JsonSerializer.SerializeToElement("analyze");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionAnalyze(FunctionAnalyze functionAnalyze)
-        : base(functionAnalyze) { }
+    public Analyze(Analyze analyze)
+        : base(analyze) { }
 #pragma warning restore CS8618
 
-    public FunctionAnalyze(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Analyze(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
@@ -1641,31 +1637,67 @@ public sealed record class FunctionAnalyze : JsonModel
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionAnalyze(FrozenDictionary<string, JsonElement> rawData)
+    Analyze(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionAnalyzeFromRaw.FromRawUnchecked"/>
-    public static FunctionAnalyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="AnalyzeFromRaw.FromRawUnchecked"/>
+    public static Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionAnalyzeFromRaw : IFromRawJson<FunctionAnalyze>
+class AnalyzeFromRaw : IFromRawJson<Analyze>
 {
     /// <inheritdoc/>
-    public FunctionAnalyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionAnalyze.FromRawUnchecked(rawData);
+    public Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Analyze.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<FunctionRoute, FunctionRouteFromRaw>))]
-public sealed record class FunctionRoute : JsonModel
+/// <summary>
+/// V3 read-side shape of a Classify (internally Route) function. Mirrors {
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<FunctionClassify, FunctionClassifyFromRaw>))]
+public sealed record class FunctionClassify : JsonModel
 {
     /// <summary>
-    /// Description of router. Can be used to provide additional context on router's
+    /// V3 create/update variants of the shared function payloads.
+    ///
+    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
+    /// function types when creating new functions or updating existing ones — both
+    /// have been unified under `extract`. Existing functions of those types remain
+    /// readable and callable via V3, so the V3 read-side unions still include `transform`
+    /// and `analyze` variants.</para>
+    ///
+    /// <para>The V3 API also renames the internal `route` function type to `classify`
+    /// on the wire, and the associated `routes` field to `classifications` (type
+    /// `ClassificationList`). Platform-internal storage and processing still use
+    /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
+    /// name for the list of classifications a classify function can produce.</para>
+    /// </summary>
+    public required IReadOnlyList<ClassificationListItem> Classifications
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<ClassificationListItem>>(
+                "classifications"
+            );
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<ClassificationListItem>>(
+                "classifications",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Description of classifier. Can be used to provide additional context on classifier's
     /// purpose and expected inputs.
     /// </summary>
     public required string Description
@@ -1680,7 +1712,7 @@ public sealed record class FunctionRoute : JsonModel
 
     /// <summary>
     /// Email address automatically created by bem. You can forward emails with or
-    /// without attachments, to be routed.
+    /// without attachments, to be classified.
     /// </summary>
     public required string EmailAddress
     {
@@ -1716,25 +1748,6 @@ public sealed record class FunctionRoute : JsonModel
             return this._rawData.GetNotNullClass<string>("functionName");
         }
         init { this._rawData.Set("functionName", value); }
-    }
-
-    /// <summary>
-    /// List of routes.
-    /// </summary>
-    public required IReadOnlyList<RouteListItem> Routes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<RouteListItem>>("routes");
-        }
-        init
-        {
-            this._rawData.Set<ImmutableArray<RouteListItem>>(
-                "routes",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
     }
 
     public JsonElement Type
@@ -1855,15 +1868,15 @@ public sealed record class FunctionRoute : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
+        foreach (var item in this.Classifications)
+        {
+            item.Validate();
+        }
         _ = this.Description;
         _ = this.EmailAddress;
         _ = this.FunctionID;
         _ = this.FunctionName;
-        foreach (var item in this.Routes)
-        {
-            item.Validate();
-        }
-        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("route")))
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("classify")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
         }
@@ -1877,44 +1890,46 @@ public sealed record class FunctionRoute : JsonModel
         }
     }
 
-    public FunctionRoute()
+    public FunctionClassify()
     {
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public FunctionRoute(FunctionRoute functionRoute)
-        : base(functionRoute) { }
+    public FunctionClassify(FunctionClassify functionClassify)
+        : base(functionClassify) { }
 #pragma warning restore CS8618
 
-    public FunctionRoute(IReadOnlyDictionary<string, JsonElement> rawData)
+    public FunctionClassify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
 
-        this.Type = JsonSerializer.SerializeToElement("route");
+        this.Type = JsonSerializer.SerializeToElement("classify");
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    FunctionRoute(FrozenDictionary<string, JsonElement> rawData)
+    FunctionClassify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="FunctionRouteFromRaw.FromRawUnchecked"/>
-    public static FunctionRoute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="FunctionClassifyFromRaw.FromRawUnchecked"/>
+    public static FunctionClassify FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class FunctionRouteFromRaw : IFromRawJson<FunctionRoute>
+class FunctionClassifyFromRaw : IFromRawJson<FunctionClassify>
 {
     /// <inheritdoc/>
-    public FunctionRoute FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FunctionRoute.FromRawUnchecked(rawData);
+    public FunctionClassify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        FunctionClassify.FromRawUnchecked(rawData);
 }
 
 /// <summary>

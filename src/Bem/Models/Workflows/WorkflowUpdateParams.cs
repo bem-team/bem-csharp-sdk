@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,6 +7,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
+using Bem.Exceptions;
+using System = System;
 
 namespace Bem.Models.Workflows;
 
@@ -27,6 +28,35 @@ public record class WorkflowUpdateParams : ParamsBase
     }
 
     public string? WorkflowName { get; init; }
+
+    /// <summary>
+    /// Declarative, full-desired-state array of connectors. If omitted, existing
+    /// connectors are left unchanged. If provided, it replaces the current set: entries
+    /// with `connectorID` are updates, entries without are creates, and existing
+    /// connectors whose `connectorID` is absent are deleted.
+    /// </summary>
+    public IReadOnlyList<WorkflowUpdateParamsConnector>? Connectors
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<
+                ImmutableArray<WorkflowUpdateParamsConnector>
+            >("connectors");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set<ImmutableArray<WorkflowUpdateParamsConnector>?>(
+                "connectors",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
 
     /// <summary>
     /// Human-readable display name.
@@ -249,9 +279,9 @@ public record class WorkflowUpdateParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(
+        return new System::UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/')
                 + string.Format("/v3/workflows/{0}", this.WorkflowName)
         )
@@ -282,6 +312,280 @@ public record class WorkflowUpdateParams : ParamsBase
     {
         return 0;
     }
+}
+
+/// <summary>
+/// Create/update entry for a connector inline with the workflow.
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<WorkflowUpdateParamsConnector, WorkflowUpdateParamsConnectorFromRaw>)
+)]
+public sealed record class WorkflowUpdateParamsConnector : JsonModel
+{
+    /// <summary>
+    /// Human-friendly connector name.
+    /// </summary>
+    public required string Name
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("name");
+        }
+        init { this._rawData.Set("name", value); }
+    }
+
+    /// <summary>
+    /// Discriminator for a workflow connector. V3 supports `paragon` only.
+    /// </summary>
+    public required ApiEnum<string, WorkflowUpdateParamsConnectorType> Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, WorkflowUpdateParamsConnectorType>
+            >("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Present → update. Absent → create.
+    /// </summary>
+    public string? ConnectorID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("connectorID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("connectorID", value);
+        }
+    }
+
+    /// <summary>
+    /// Request-side config block for a Paragon connector. Fields absent on update
+    /// are unchanged.
+    /// </summary>
+    public WorkflowUpdateParamsConnectorParagon? Paragon
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<WorkflowUpdateParamsConnectorParagon>("paragon");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("paragon", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Name;
+        this.Type.Validate();
+        _ = this.ConnectorID;
+        this.Paragon?.Validate();
+    }
+
+    public WorkflowUpdateParamsConnector() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WorkflowUpdateParamsConnector(
+        WorkflowUpdateParamsConnector workflowUpdateParamsConnector
+    )
+        : base(workflowUpdateParamsConnector) { }
+#pragma warning restore CS8618
+
+    public WorkflowUpdateParamsConnector(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WorkflowUpdateParamsConnector(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WorkflowUpdateParamsConnectorFromRaw.FromRawUnchecked"/>
+    public static WorkflowUpdateParamsConnector FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class WorkflowUpdateParamsConnectorFromRaw : IFromRawJson<WorkflowUpdateParamsConnector>
+{
+    /// <inheritdoc/>
+    public WorkflowUpdateParamsConnector FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => WorkflowUpdateParamsConnector.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Discriminator for a workflow connector. V3 supports `paragon` only.
+/// </summary>
+[JsonConverter(typeof(WorkflowUpdateParamsConnectorTypeConverter))]
+public enum WorkflowUpdateParamsConnectorType
+{
+    Paragon,
+}
+
+sealed class WorkflowUpdateParamsConnectorTypeConverter
+    : JsonConverter<WorkflowUpdateParamsConnectorType>
+{
+    public override WorkflowUpdateParamsConnectorType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "paragon" => WorkflowUpdateParamsConnectorType.Paragon,
+            _ => (WorkflowUpdateParamsConnectorType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        WorkflowUpdateParamsConnectorType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                WorkflowUpdateParamsConnectorType.Paragon => "paragon",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Request-side config block for a Paragon connector. Fields absent on update are unchanged.
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<
+        WorkflowUpdateParamsConnectorParagon,
+        WorkflowUpdateParamsConnectorParagonFromRaw
+    >)
+)]
+public sealed record class WorkflowUpdateParamsConnectorParagon : JsonModel
+{
+    /// <summary>
+    /// Opaque per-integration configuration. Required on create.
+    /// </summary>
+    public JsonElement? Configuration
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("configuration");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("configuration", value);
+        }
+    }
+
+    /// <summary>
+    /// Paragon integration key. Required on create.
+    /// </summary>
+    public string? Integration
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("integration");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("integration", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Configuration;
+        _ = this.Integration;
+    }
+
+    public WorkflowUpdateParamsConnectorParagon() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public WorkflowUpdateParamsConnectorParagon(
+        WorkflowUpdateParamsConnectorParagon workflowUpdateParamsConnectorParagon
+    )
+        : base(workflowUpdateParamsConnectorParagon) { }
+#pragma warning restore CS8618
+
+    public WorkflowUpdateParamsConnectorParagon(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    WorkflowUpdateParamsConnectorParagon(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="WorkflowUpdateParamsConnectorParagonFromRaw.FromRawUnchecked"/>
+    public static WorkflowUpdateParamsConnectorParagon FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class WorkflowUpdateParamsConnectorParagonFromRaw
+    : IFromRawJson<WorkflowUpdateParamsConnectorParagon>
+{
+    /// <inheritdoc/>
+    public WorkflowUpdateParamsConnectorParagon FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => WorkflowUpdateParamsConnectorParagon.FromRawUnchecked(rawData);
 }
 
 /// <summary>
@@ -340,12 +644,35 @@ public sealed record class WorkflowUpdateParamsEdge : JsonModel
         }
     }
 
+    /// <summary>
+    /// Opaque free-form JSON object attached to this edge. Stored and returned verbatim;
+    /// the server does not interpret it.
+    /// </summary>
+    public JsonElement? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.DestinationNodeName;
         _ = this.SourceNodeName;
         _ = this.DestinationName;
+        _ = this.Metadata;
     }
 
     public WorkflowUpdateParamsEdge() { }
@@ -408,6 +735,29 @@ public sealed record class WorkflowUpdateParamsNode : JsonModel
     }
 
     /// <summary>
+    /// Opaque free-form JSON object attached to this node. Stored and returned verbatim;
+    /// the server does not interpret it. Intended for client-side concerns such as
+    /// canvas display properties (position, color, collapsed state, etc.).
+    /// </summary>
+    public JsonElement? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
     /// Name for this call site. Must be unique within the workflow version. Defaults
     /// to the function's own name when omitted.
     /// </summary>
@@ -433,6 +783,7 @@ public sealed record class WorkflowUpdateParamsNode : JsonModel
     public override void Validate()
     {
         this.Function.Validate();
+        _ = this.Metadata;
         _ = this.Name;
     }
 

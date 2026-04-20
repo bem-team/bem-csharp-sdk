@@ -187,15 +187,11 @@ public class FunctionVersionTest : TestBase
     }
 
     [Fact]
-    public void RouteValidationWorks()
+    public void ClassifyValidationWorks()
     {
-        FunctionVersion value = new Route()
+        FunctionVersion value = new Classify()
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -208,6 +204,10 @@ public class FunctionVersionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -767,15 +767,11 @@ public class FunctionVersionTest : TestBase
     }
 
     [Fact]
-    public void RouteSerializationRoundtripWorks()
+    public void ClassifySerializationRoundtripWorks()
     {
-        FunctionVersion value = new Route()
+        FunctionVersion value = new Classify()
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -788,6 +784,10 @@ public class FunctionVersionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -2865,18 +2865,14 @@ public class AnalyzeTest : TestBase
     }
 }
 
-public class RouteTest : TestBase
+public class ClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -2889,6 +2885,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -2935,11 +2935,7 @@ public class RouteTest : TestBase
             ],
         };
 
-        string expectedDescription = "description";
-        string expectedEmailAddress = "emailAddress";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        List<Functions::RouteListItem> expectedRoutes =
+        List<Functions::ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -2952,7 +2948,11 @@ public class RouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
+        string expectedDescription = "description";
+        string expectedEmailAddress = "emailAddress";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
         Functions::FunctionAudit expectedAudit = new()
         {
@@ -2998,15 +2998,15 @@ public class RouteTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedClassifications.Count, model.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], model.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedEmailAddress, model.EmailAddress);
         Assert.Equal(expectedFunctionID, model.FunctionID);
         Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.Equal(expectedRoutes.Count, model.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], model.Routes[i]);
-        }
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
@@ -3029,13 +3029,9 @@ public class RouteTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3048,6 +3044,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3095,7 +3095,7 @@ public class RouteTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Classify>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -3103,13 +3103,9 @@ public class RouteTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3122,6 +3118,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3169,14 +3169,13 @@ public class RouteTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Classify>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
-        string expectedDescription = "description";
-        string expectedEmailAddress = "emailAddress";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        List<Functions::RouteListItem> expectedRoutes =
+        List<Functions::ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -3189,7 +3188,11 @@ public class RouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
+        string expectedDescription = "description";
+        string expectedEmailAddress = "emailAddress";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
         Functions::FunctionAudit expectedAudit = new()
         {
@@ -3235,15 +3238,15 @@ public class RouteTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedClassifications.Count, deserialized.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], deserialized.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedEmailAddress, deserialized.EmailAddress);
         Assert.Equal(expectedFunctionID, deserialized.FunctionID);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.Equal(expectedRoutes.Count, deserialized.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], deserialized.Routes[i]);
-        }
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
@@ -3266,13 +3269,9 @@ public class RouteTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3285,6 +3284,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3337,13 +3340,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3356,6 +3355,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
         };
 
@@ -3374,13 +3377,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3393,6 +3392,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
         };
 
@@ -3402,13 +3405,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3421,6 +3420,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -3446,13 +3449,9 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3465,6 +3464,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -3481,13 +3484,9 @@ public class RouteTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3500,6 +3499,10 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3546,7 +3549,7 @@ public class RouteTest : TestBase
             ],
         };
 
-        Route copied = new(model);
+        Classify copied = new(model);
 
         Assert.Equal(model, copied);
     }

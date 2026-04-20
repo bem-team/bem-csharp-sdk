@@ -9,21 +9,6 @@ namespace Bem.Tests.Models.Functions;
 public class UpdateFunctionTest : TestBase
 {
     [Fact]
-    public void TransformValidationWorks()
-    {
-        UpdateFunction value = new UpdateFunctionTransform()
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-        value.Validate();
-    }
-
-    [Fact]
     public void ExtractValidationWorks()
     {
         UpdateFunction value = new UpdateFunctionExtract()
@@ -39,30 +24,11 @@ public class UpdateFunctionTest : TestBase
     }
 
     [Fact]
-    public void AnalyzeValidationWorks()
+    public void ClassifyValidationWorks()
     {
-        UpdateFunction value = new UpdateFunctionAnalyze()
+        UpdateFunction value = new UpdateFunctionClassify()
         {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-        value.Validate();
-    }
-
-    [Fact]
-    public void RouteValidationWorks()
-    {
-        UpdateFunction value = new UpdateFunctionRoute()
-        {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -75,6 +41,9 @@ public class UpdateFunctionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
         value.Validate();
@@ -183,27 +152,6 @@ public class UpdateFunctionTest : TestBase
     }
 
     [Fact]
-    public void TransformSerializationRoundtripWorks()
-    {
-        UpdateFunction value = new UpdateFunctionTransform()
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunction>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
     public void ExtractSerializationRoundtripWorks()
     {
         UpdateFunction value = new UpdateFunctionExtract()
@@ -225,36 +173,11 @@ public class UpdateFunctionTest : TestBase
     }
 
     [Fact]
-    public void AnalyzeSerializationRoundtripWorks()
+    public void ClassifySerializationRoundtripWorks()
     {
-        UpdateFunction value = new UpdateFunctionAnalyze()
+        UpdateFunction value = new UpdateFunctionClassify()
         {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunction>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void RouteSerializationRoundtripWorks()
-    {
-        UpdateFunction value = new UpdateFunctionRoute()
-        {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -267,6 +190,9 @@ public class UpdateFunctionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -408,216 +334,6 @@ public class UpdateFunctionTest : TestBase
         );
 
         Assert.Equal(value, deserialized);
-    }
-}
-
-public class UpdateFunctionTransformTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
-        string expectedDisplayName = "displayName";
-        string expectedFunctionName = "functionName";
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedTabularChunkingEnabled = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
-        Assert.Equal(expectedDisplayName, model.DisplayName);
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.NotNull(model.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
-        Assert.Equal(expectedTabularChunkingEnabled, model.TabularChunkingEnabled);
-        Assert.NotNull(model.Tags);
-        Assert.Equal(expectedTags.Count, model.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], model.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionTransform>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionTransform>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
-        string expectedDisplayName = "displayName";
-        string expectedFunctionName = "functionName";
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedTabularChunkingEnabled = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
-        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.NotNull(deserialized.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
-        Assert.Equal(expectedTabularChunkingEnabled, deserialized.TabularChunkingEnabled);
-        Assert.NotNull(deserialized.Tags);
-        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new UpdateFunctionTransform { };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.TabularChunkingEnabled);
-        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new UpdateFunctionTransform { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            FunctionName = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            TabularChunkingEnabled = null,
-            Tags = null,
-        };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.TabularChunkingEnabled);
-        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            FunctionName = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            TabularChunkingEnabled = null,
-            Tags = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new UpdateFunctionTransform
-        {
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        UpdateFunctionTransform copied = new(model);
-
-        Assert.Equal(model, copied);
     }
 }
 
@@ -831,242 +547,14 @@ public class UpdateFunctionExtractTest : TestBase
     }
 }
 
-public class UpdateFunctionAnalyzeTest : TestBase
+public class UpdateFunctionClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new UpdateFunctionAnalyze
+        var model = new UpdateFunctionClassify
         {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
-        string expectedDisplayName = "displayName";
-        bool expectedEnableBoundingBoxes = true;
-        string expectedFunctionName = "functionName";
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedPreCount = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
-        Assert.Equal(expectedDisplayName, model.DisplayName);
-        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.NotNull(model.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
-        Assert.Equal(expectedPreCount, model.PreCount);
-        Assert.NotNull(model.Tags);
-        Assert.Equal(expectedTags.Count, model.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], model.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new UpdateFunctionAnalyze
-        {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionAnalyze>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new UpdateFunctionAnalyze
-        {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionAnalyze>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
-        string expectedDisplayName = "displayName";
-        bool expectedEnableBoundingBoxes = true;
-        string expectedFunctionName = "functionName";
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedPreCount = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
-        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
-        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.NotNull(deserialized.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
-        Assert.Equal(expectedPreCount, deserialized.PreCount);
-        Assert.NotNull(deserialized.Tags);
-        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new UpdateFunctionAnalyze
-        {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new UpdateFunctionAnalyze { };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.EnableBoundingBoxes);
-        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.PreCount);
-        Assert.False(model.RawData.ContainsKey("preCount"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new UpdateFunctionAnalyze { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new UpdateFunctionAnalyze
-        {
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            EnableBoundingBoxes = null,
-            FunctionName = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            PreCount = null,
-            Tags = null,
-        };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.EnableBoundingBoxes);
-        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
-        Assert.Null(model.FunctionName);
-        Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.PreCount);
-        Assert.False(model.RawData.ContainsKey("preCount"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new UpdateFunctionAnalyze
-        {
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            EnableBoundingBoxes = null,
-            FunctionName = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            PreCount = null,
-            Tags = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new UpdateFunctionAnalyze
-        {
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            FunctionName = "functionName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        UpdateFunctionAnalyze copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class UpdateFunctionRouteTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new UpdateFunctionRoute
-        {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1079,14 +567,14 @@ public class UpdateFunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
 
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
-        string expectedDescription = "description";
-        string expectedDisplayName = "displayName";
-        string expectedFunctionName = "functionName";
-        List<RouteListItem> expectedRoutes =
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -1099,18 +587,21 @@ public class UpdateFunctionRouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
+        string expectedDescription = "description";
+        string expectedDisplayName = "displayName";
+        string expectedFunctionName = "functionName";
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.NotNull(model.Classifications);
+        Assert.Equal(expectedClassifications.Count, model.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], model.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.NotNull(model.Routes);
-        Assert.Equal(expectedRoutes.Count, model.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], model.Routes[i]);
-        }
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -1122,12 +613,9 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new UpdateFunctionRoute
+        var model = new UpdateFunctionClassify
         {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1140,11 +628,14 @@ public class UpdateFunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRoute>(
+        var deserialized = JsonSerializer.Deserialize<UpdateFunctionClassify>(
             json,
             ModelBase.SerializerOptions
         );
@@ -1155,12 +646,9 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new UpdateFunctionRoute
+        var model = new UpdateFunctionClassify
         {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1173,21 +661,21 @@ public class UpdateFunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRoute>(
+        var deserialized = JsonSerializer.Deserialize<UpdateFunctionClassify>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
-        string expectedDescription = "description";
-        string expectedDisplayName = "displayName";
-        string expectedFunctionName = "functionName";
-        List<RouteListItem> expectedRoutes =
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -1200,18 +688,21 @@ public class UpdateFunctionRouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
+        string expectedDescription = "description";
+        string expectedDisplayName = "displayName";
+        string expectedFunctionName = "functionName";
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.NotNull(deserialized.Classifications);
+        Assert.Equal(expectedClassifications.Count, deserialized.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], deserialized.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.NotNull(deserialized.Routes);
-        Assert.Equal(expectedRoutes.Count, deserialized.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], deserialized.Routes[i]);
-        }
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -1223,12 +714,9 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new UpdateFunctionRoute
+        var model = new UpdateFunctionClassify
         {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1241,6 +729,9 @@ public class UpdateFunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
 
@@ -1250,16 +741,16 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new UpdateFunctionRoute { };
+        var model = new UpdateFunctionClassify { };
 
+        Assert.Null(model.Classifications);
+        Assert.False(model.RawData.ContainsKey("classifications"));
         Assert.Null(model.Description);
         Assert.False(model.RawData.ContainsKey("description"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.Routes);
-        Assert.False(model.RawData.ContainsKey("routes"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -1267,7 +758,7 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new UpdateFunctionRoute { };
+        var model = new UpdateFunctionClassify { };
 
         model.Validate();
     }
@@ -1275,24 +766,24 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new UpdateFunctionRoute
+        var model = new UpdateFunctionClassify
         {
             // Null should be interpreted as omitted for these properties
+            Classifications = null,
             Description = null,
             DisplayName = null,
             FunctionName = null,
-            Routes = null,
             Tags = null,
         };
 
+        Assert.Null(model.Classifications);
+        Assert.False(model.RawData.ContainsKey("classifications"));
         Assert.Null(model.Description);
         Assert.False(model.RawData.ContainsKey("description"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
-        Assert.Null(model.Routes);
-        Assert.False(model.RawData.ContainsKey("routes"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -1300,13 +791,13 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new UpdateFunctionRoute
+        var model = new UpdateFunctionClassify
         {
             // Null should be interpreted as omitted for these properties
+            Classifications = null,
             Description = null,
             DisplayName = null,
             FunctionName = null,
-            Routes = null,
             Tags = null,
         };
 
@@ -1316,12 +807,9 @@ public class UpdateFunctionRouteTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new UpdateFunctionRoute
+        var model = new UpdateFunctionClassify
         {
-            Description = "description",
-            DisplayName = "displayName",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1334,10 +822,13 @@ public class UpdateFunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
+            FunctionName = "functionName",
             Tags = ["string"],
         };
 
-        UpdateFunctionRoute copied = new(model);
+        UpdateFunctionClassify copied = new(model);
 
         Assert.Equal(model, copied);
     }

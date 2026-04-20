@@ -29,7 +29,7 @@ BemClient client = new();
 
 FunctionCreateParams parameters = new()
 {
-    CreateFunction = new Transform("functionName")
+    CreateFunction = new Extract("functionName")
 };
 
 var functionResponse = await client.Functions.Create(parameters);
@@ -303,7 +303,7 @@ FunctionCreateParams parameters = new
 {
     // Documented properties can still be added here.
     // In case of conflict, these parameters take precedence over the custom parameters.
-    CreateFunction = new Transform()
+    CreateFunction = new Extract()
     {
         FunctionName = "functionName",
         DisplayName = "displayName",

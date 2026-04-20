@@ -12,7 +12,7 @@ public class FunctionTest : TestBase
     [Fact]
     public void TransformValidationWorks()
     {
-        Function value = new FunctionTransform()
+        Function value = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -127,7 +127,7 @@ public class FunctionTest : TestBase
     [Fact]
     public void AnalyzeValidationWorks()
     {
-        Function value = new FunctionAnalyze()
+        Function value = new Analyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -183,15 +183,11 @@ public class FunctionTest : TestBase
     }
 
     [Fact]
-    public void RouteValidationWorks()
+    public void ClassifyValidationWorks()
     {
-        Function value = new FunctionRoute()
+        Function value = new FunctionClassify()
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -204,6 +200,10 @@ public class FunctionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -565,7 +565,7 @@ public class FunctionTest : TestBase
     [Fact]
     public void TransformSerializationRoundtripWorks()
     {
-        Function value = new FunctionTransform()
+        Function value = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -692,7 +692,7 @@ public class FunctionTest : TestBase
     [Fact]
     public void AnalyzeSerializationRoundtripWorks()
     {
-        Function value = new FunctionAnalyze()
+        Function value = new Analyze()
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -754,15 +754,11 @@ public class FunctionTest : TestBase
     }
 
     [Fact]
-    public void RouteSerializationRoundtripWorks()
+    public void ClassifySerializationRoundtripWorks()
     {
-        Function value = new FunctionRoute()
+        Function value = new FunctionClassify()
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -775,6 +771,10 @@ public class FunctionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -1170,12 +1170,12 @@ public class FunctionTest : TestBase
     }
 }
 
-public class FunctionTransformTest : TestBase
+public class TransformTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1306,7 +1306,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1360,10 +1360,7 @@ public class FunctionTransformTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionTransform>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Transform>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -1371,7 +1368,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1425,7 +1422,7 @@ public class FunctionTransformTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionTransform>(
+        var deserialized = JsonSerializer.Deserialize<Transform>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1509,7 +1506,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1568,7 +1565,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1592,7 +1589,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1609,7 +1606,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1639,7 +1636,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1662,7 +1659,7 @@ public class FunctionTransformTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionTransform
+        var model = new Transform
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -1715,7 +1712,7 @@ public class FunctionTransformTest : TestBase
             ],
         };
 
-        FunctionTransform copied = new(model);
+        Transform copied = new(model);
 
         Assert.Equal(model, copied);
     }
@@ -2259,12 +2256,12 @@ public class FunctionExtractTest : TestBase
     }
 }
 
-public class FunctionAnalyzeTest : TestBase
+public class AnalyzeTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2395,7 +2392,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2449,10 +2446,7 @@ public class FunctionAnalyzeTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionAnalyze>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Analyze>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -2460,7 +2454,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2514,7 +2508,7 @@ public class FunctionAnalyzeTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionAnalyze>(
+        var deserialized = JsonSerializer.Deserialize<Analyze>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2598,7 +2592,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2657,7 +2651,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2681,7 +2675,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2698,7 +2692,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2728,7 +2722,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2751,7 +2745,7 @@ public class FunctionAnalyzeTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionAnalyze
+        var model = new Analyze
         {
             EnableBoundingBoxes = true,
             FunctionID = "functionID",
@@ -2804,24 +2798,20 @@ public class FunctionAnalyzeTest : TestBase
             ],
         };
 
-        FunctionAnalyze copied = new(model);
+        Analyze copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FunctionRouteTest : TestBase
+public class FunctionClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -2834,6 +2824,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -2879,11 +2873,7 @@ public class FunctionRouteTest : TestBase
             ],
         };
 
-        string expectedDescription = "description";
-        string expectedEmailAddress = "emailAddress";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        List<RouteListItem> expectedRoutes =
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -2896,7 +2886,11 @@ public class FunctionRouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
+        string expectedDescription = "description";
+        string expectedEmailAddress = "emailAddress";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
         FunctionAudit expectedAudit = new()
         {
@@ -2941,15 +2935,15 @@ public class FunctionRouteTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedClassifications.Count, model.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], model.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedEmailAddress, model.EmailAddress);
         Assert.Equal(expectedFunctionID, model.FunctionID);
         Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.Equal(expectedRoutes.Count, model.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], model.Routes[i]);
-        }
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
@@ -2971,13 +2965,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -2990,6 +2980,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3036,7 +3030,7 @@ public class FunctionRouteTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionRoute>(
+        var deserialized = JsonSerializer.Deserialize<FunctionClassify>(
             json,
             ModelBase.SerializerOptions
         );
@@ -3047,13 +3041,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3066,6 +3056,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3112,17 +3106,13 @@ public class FunctionRouteTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FunctionRoute>(
+        var deserialized = JsonSerializer.Deserialize<FunctionClassify>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        string expectedDescription = "description";
-        string expectedEmailAddress = "emailAddress";
-        string expectedFunctionID = "functionID";
-        string expectedFunctionName = "functionName";
-        List<RouteListItem> expectedRoutes =
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -3135,7 +3125,11 @@ public class FunctionRouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
+        string expectedDescription = "description";
+        string expectedEmailAddress = "emailAddress";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
         long expectedVersionNum = 0;
         FunctionAudit expectedAudit = new()
         {
@@ -3180,15 +3174,15 @@ public class FunctionRouteTest : TestBase
             },
         ];
 
+        Assert.Equal(expectedClassifications.Count, deserialized.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], deserialized.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedEmailAddress, deserialized.EmailAddress);
         Assert.Equal(expectedFunctionID, deserialized.FunctionID);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.Equal(expectedRoutes.Count, deserialized.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], deserialized.Routes[i]);
-        }
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
@@ -3210,13 +3204,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3229,6 +3219,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3280,13 +3274,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3299,6 +3289,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
         };
 
@@ -3315,13 +3309,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3334,6 +3324,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
         };
 
@@ -3343,13 +3337,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3362,6 +3352,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -3384,13 +3378,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3403,6 +3393,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
 
             // Null should be interpreted as omitted for these properties
@@ -3418,13 +3412,9 @@ public class FunctionRouteTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FunctionRoute
+        var model = new FunctionClassify
         {
-            Description = "description",
-            EmailAddress = "emailAddress",
-            FunctionID = "functionID",
-            FunctionName = "functionName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -3437,6 +3427,10 @@ public class FunctionRouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            EmailAddress = "emailAddress",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
             VersionNum = 0,
             Audit = new()
             {
@@ -3482,7 +3476,7 @@ public class FunctionRouteTest : TestBase
             ],
         };
 
-        FunctionRoute copied = new(model);
+        FunctionClassify copied = new(model);
 
         Assert.Equal(model, copied);
     }

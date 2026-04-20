@@ -15,7 +15,7 @@ public class ListFunctionsResponseTest : TestBase
         {
             Functions =
             [
-                new FunctionTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -73,7 +73,7 @@ public class ListFunctionsResponseTest : TestBase
 
         List<Function> expectedFunctions =
         [
-            new FunctionTransform()
+            new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -144,7 +144,7 @@ public class ListFunctionsResponseTest : TestBase
         {
             Functions =
             [
-                new FunctionTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -216,7 +216,7 @@ public class ListFunctionsResponseTest : TestBase
         {
             Functions =
             [
-                new FunctionTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -281,7 +281,7 @@ public class ListFunctionsResponseTest : TestBase
 
         List<Function> expectedFunctions =
         [
-            new FunctionTransform()
+            new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -352,7 +352,7 @@ public class ListFunctionsResponseTest : TestBase
         {
             Functions =
             [
-                new FunctionTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",
@@ -466,7 +466,7 @@ public class ListFunctionsResponseTest : TestBase
         {
             Functions =
             [
-                new FunctionTransform()
+                new Transform()
                 {
                     EmailAddress = "emailAddress",
                     FunctionID = "functionID",

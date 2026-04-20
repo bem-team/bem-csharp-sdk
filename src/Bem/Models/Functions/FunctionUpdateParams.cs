@@ -23,10 +23,7 @@ public record class FunctionUpdateParams : ParamsBase
     public string? PathFunctionName { get; init; }
 
     /// <summary>
-    /// A function that transforms and customizes input payloads using JMESPath expressions.
-    /// Payload shaping allows you to extract specific data, perform calculations,
-    /// and reshape complex input structures into simplified, standardized output
-    /// formats tailored to your downstream systems or business requirements.
+    /// V3 wire form of the Route (classify) function upsert payload. Mirrors {
     /// </summary>
     public required UpdateFunction UpdateFunction
     {

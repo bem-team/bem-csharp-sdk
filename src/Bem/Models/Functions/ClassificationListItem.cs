@@ -8,8 +8,8 @@ using Bem.Core;
 
 namespace Bem.Models.Functions;
 
-[JsonConverter(typeof(JsonModelConverter<RouteListItem, RouteListItemFromRaw>))]
-public sealed record class RouteListItem : JsonModel
+[JsonConverter(typeof(JsonModelConverter<ClassificationListItem, ClassificationListItemFromRaw>))]
+public sealed record class ClassificationListItem : JsonModel
 {
     public required string Name
     {
@@ -141,46 +141,49 @@ public sealed record class RouteListItem : JsonModel
         this.Regex?.Validate();
     }
 
-    public RouteListItem() { }
+    public ClassificationListItem() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public RouteListItem(RouteListItem routeListItem)
-        : base(routeListItem) { }
+    public ClassificationListItem(ClassificationListItem classificationListItem)
+        : base(classificationListItem) { }
 #pragma warning restore CS8618
 
-    public RouteListItem(IReadOnlyDictionary<string, JsonElement> rawData)
+    public ClassificationListItem(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    RouteListItem(FrozenDictionary<string, JsonElement> rawData)
+    ClassificationListItem(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="RouteListItemFromRaw.FromRawUnchecked"/>
-    public static RouteListItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="ClassificationListItemFromRaw.FromRawUnchecked"/>
+    public static ClassificationListItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 
     [SetsRequiredMembers]
-    public RouteListItem(string name)
+    public ClassificationListItem(string name)
         : this()
     {
         this.Name = name;
     }
 }
 
-class RouteListItemFromRaw : IFromRawJson<RouteListItem>
+class ClassificationListItemFromRaw : IFromRawJson<ClassificationListItem>
 {
     /// <inheritdoc/>
-    public RouteListItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        RouteListItem.FromRawUnchecked(rawData);
+    public ClassificationListItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => ClassificationListItem.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<Origin, OriginFromRaw>))]

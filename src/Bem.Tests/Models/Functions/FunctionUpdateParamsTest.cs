@@ -12,7 +12,7 @@ public class FunctionUpdateParamsTest : TestBase
         var parameters = new FunctionUpdateParams
         {
             PathFunctionName = "functionName",
-            UpdateFunction = new UpdateFunctionTransform()
+            UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
                 FunctionName = "functionName",
@@ -24,7 +24,7 @@ public class FunctionUpdateParamsTest : TestBase
         };
 
         string expectedPathFunctionName = "functionName";
-        UpdateFunction expectedUpdateFunction = new UpdateFunctionTransform()
+        UpdateFunction expectedUpdateFunction = new UpdateFunctionExtract()
         {
             DisplayName = "displayName",
             FunctionName = "functionName",
@@ -44,7 +44,7 @@ public class FunctionUpdateParamsTest : TestBase
         FunctionUpdateParams parameters = new()
         {
             PathFunctionName = "functionName",
-            UpdateFunction = new UpdateFunctionTransform()
+            UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
                 FunctionName = "functionName",
@@ -68,7 +68,7 @@ public class FunctionUpdateParamsTest : TestBase
         var parameters = new FunctionUpdateParams
         {
             PathFunctionName = "functionName",
-            UpdateFunction = new UpdateFunctionTransform()
+            UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
                 FunctionName = "functionName",

@@ -9,21 +9,6 @@ namespace Bem.Tests.Models.Functions;
 public class CreateFunctionTest : TestBase
 {
     [Fact]
-    public void TransformValidationWorks()
-    {
-        CreateFunction value = new Transform()
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-        value.Validate();
-    }
-
-    [Fact]
     public void ExtractValidationWorks()
     {
         CreateFunction value = new Extract()
@@ -39,30 +24,12 @@ public class CreateFunctionTest : TestBase
     }
 
     [Fact]
-    public void AnalyzeValidationWorks()
+    public void ClassifyValidationWorks()
     {
-        CreateFunction value = new Analyze()
+        CreateFunction value = new Classify()
         {
             FunctionName = "functionName",
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-        value.Validate();
-    }
-
-    [Fact]
-    public void RouteValidationWorks()
-    {
-        CreateFunction value = new Route()
-        {
-            FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -75,6 +42,8 @@ public class CreateFunctionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
             Tags = ["string"],
         };
         value.Validate();
@@ -186,27 +155,6 @@ public class CreateFunctionTest : TestBase
     }
 
     [Fact]
-    public void TransformSerializationRoundtripWorks()
-    {
-        CreateFunction value = new Transform()
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CreateFunction>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
     public void ExtractSerializationRoundtripWorks()
     {
         CreateFunction value = new Extract()
@@ -228,36 +176,12 @@ public class CreateFunctionTest : TestBase
     }
 
     [Fact]
-    public void AnalyzeSerializationRoundtripWorks()
+    public void ClassifySerializationRoundtripWorks()
     {
-        CreateFunction value = new Analyze()
+        CreateFunction value = new Classify()
         {
             FunctionName = "functionName",
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CreateFunction>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void RouteSerializationRoundtripWorks()
-    {
-        CreateFunction value = new Route()
-        {
-            FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -270,6 +194,8 @@ public class CreateFunctionTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -414,211 +340,6 @@ public class CreateFunctionTest : TestBase
         );
 
         Assert.Equal(value, deserialized);
-    }
-}
-
-public class TransformTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
-        string expectedDisplayName = "displayName";
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedTabularChunkingEnabled = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
-        Assert.Equal(expectedDisplayName, model.DisplayName);
-        Assert.NotNull(model.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
-        Assert.Equal(expectedTabularChunkingEnabled, model.TabularChunkingEnabled);
-        Assert.NotNull(model.Tags);
-        Assert.Equal(expectedTags.Count, model.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], model.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Transform>(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Transform>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("transform");
-        string expectedDisplayName = "displayName";
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedTabularChunkingEnabled = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
-        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
-        Assert.NotNull(deserialized.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
-        Assert.Equal(expectedTabularChunkingEnabled, deserialized.TabularChunkingEnabled);
-        Assert.NotNull(deserialized.Tags);
-        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Transform { FunctionName = "functionName" };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.TabularChunkingEnabled);
-        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Transform { FunctionName = "functionName" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            TabularChunkingEnabled = null,
-            Tags = null,
-        };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.TabularChunkingEnabled);
-        Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            TabularChunkingEnabled = null,
-            Tags = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Transform
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            TabularChunkingEnabled = true,
-            Tags = ["string"],
-        };
-
-        Transform copied = new(model);
-
-        Assert.Equal(model, copied);
     }
 }
 
@@ -827,39 +548,61 @@ public class ExtractTest : TestBase
     }
 }
 
-public class AnalyzeTest : TestBase
+public class ClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Analyze
+        var model = new Classify
         {
             FunctionName = "functionName",
+            Classifications =
+            [
+                new()
+                {
+                    Name = "name",
+                    Description = "description",
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    IsErrorFallback = true,
+                    Origin = new() { Email = new() { Patterns = ["string"] } },
+                    Regex = new() { Patterns = ["string"] },
+                },
+            ],
+            Description = "description",
             DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
             Tags = ["string"],
         };
 
         string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
+        List<ClassificationListItem> expectedClassifications =
+        [
+            new()
+            {
+                Name = "name",
+                Description = "description",
+                FunctionID = "functionID",
+                FunctionName = "functionName",
+                IsErrorFallback = true,
+                Origin = new() { Email = new() { Patterns = ["string"] } },
+                Regex = new() { Patterns = ["string"] },
+            },
+        ];
+        string expectedDescription = "description";
         string expectedDisplayName = "displayName";
-        bool expectedEnableBoundingBoxes = true;
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedPreCount = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.NotNull(model.Classifications);
+        Assert.Equal(expectedClassifications.Count, model.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], model.Classifications[i]);
+        }
+        Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedDisplayName, model.DisplayName);
-        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
-        Assert.NotNull(model.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
-        Assert.Equal(expectedPreCount, model.PreCount);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -871,19 +614,29 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Analyze
+        var model = new Classify
         {
             FunctionName = "functionName",
+            Classifications =
+            [
+                new()
+                {
+                    Name = "name",
+                    Description = "description",
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    IsErrorFallback = true,
+                    Origin = new() { Email = new() { Patterns = ["string"] } },
+                    Regex = new() { Patterns = ["string"] },
+                },
+            ],
+            Description = "description",
             DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
             Tags = ["string"],
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Analyze>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Classify>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -891,193 +644,37 @@ public class AnalyzeTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Analyze
+        var model = new Classify
         {
             FunctionName = "functionName",
+            Classifications =
+            [
+                new()
+                {
+                    Name = "name",
+                    Description = "description",
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    IsErrorFallback = true,
+                    Origin = new() { Email = new() { Patterns = ["string"] } },
+                    Regex = new() { Patterns = ["string"] },
+                },
+            ],
+            Description = "description",
             DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
             Tags = ["string"],
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Analyze>(
+        var deserialized = JsonSerializer.Deserialize<Classify>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
         string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("analyze");
-        string expectedDisplayName = "displayName";
-        bool expectedEnableBoundingBoxes = true;
-        JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-        string expectedOutputSchemaName = "outputSchemaName";
-        bool expectedPreCount = true;
-        List<string> expectedTags = ["string"];
-
-        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
-        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
-        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
-        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
-        Assert.NotNull(deserialized.OutputSchema);
-        Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
-        Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
-        Assert.Equal(expectedPreCount, deserialized.PreCount);
-        Assert.NotNull(deserialized.Tags);
-        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Analyze
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Analyze { FunctionName = "functionName" };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.EnableBoundingBoxes);
-        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.PreCount);
-        Assert.False(model.RawData.ContainsKey("preCount"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Analyze { FunctionName = "functionName" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Analyze
-        {
-            FunctionName = "functionName",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            EnableBoundingBoxes = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            PreCount = null,
-            Tags = null,
-        };
-
-        Assert.Null(model.DisplayName);
-        Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.EnableBoundingBoxes);
-        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
-        Assert.Null(model.OutputSchema);
-        Assert.False(model.RawData.ContainsKey("outputSchema"));
-        Assert.Null(model.OutputSchemaName);
-        Assert.False(model.RawData.ContainsKey("outputSchemaName"));
-        Assert.Null(model.PreCount);
-        Assert.False(model.RawData.ContainsKey("preCount"));
-        Assert.Null(model.Tags);
-        Assert.False(model.RawData.ContainsKey("tags"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Analyze
-        {
-            FunctionName = "functionName",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayName = null,
-            EnableBoundingBoxes = null,
-            OutputSchema = null,
-            OutputSchemaName = null,
-            PreCount = null,
-            Tags = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Analyze
-        {
-            FunctionName = "functionName",
-            DisplayName = "displayName",
-            EnableBoundingBoxes = true,
-            OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
-            OutputSchemaName = "outputSchemaName",
-            PreCount = true,
-            Tags = ["string"],
-        };
-
-        Analyze copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class RouteTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Route
-        {
-            FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
-            [
-                new()
-                {
-                    Name = "name",
-                    Description = "description",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    IsErrorFallback = true,
-                    Origin = new() { Email = new() { Patterns = ["string"] } },
-                    Regex = new() { Patterns = ["string"] },
-                },
-            ],
-            Tags = ["string"],
-        };
-
-        string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
-        string expectedDescription = "description";
-        string expectedDisplayName = "displayName";
-        List<RouteListItem> expectedRoutes =
+        JsonElement expectedType = JsonSerializer.SerializeToElement("classify");
+        List<ClassificationListItem> expectedClassifications =
         [
             new()
             {
@@ -1090,113 +687,20 @@ public class RouteTest : TestBase
                 Regex = new() { Patterns = ["string"] },
             },
         ];
-        List<string> expectedTags = ["string"];
-
-        Assert.Equal(expectedFunctionName, model.FunctionName);
-        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
-        Assert.Equal(expectedDescription, model.Description);
-        Assert.Equal(expectedDisplayName, model.DisplayName);
-        Assert.NotNull(model.Routes);
-        Assert.Equal(expectedRoutes.Count, model.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], model.Routes[i]);
-        }
-        Assert.NotNull(model.Tags);
-        Assert.Equal(expectedTags.Count, model.Tags.Count);
-        for (int i = 0; i < expectedTags.Count; i++)
-        {
-            Assert.Equal(expectedTags[i], model.Tags[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Route
-        {
-            FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
-            [
-                new()
-                {
-                    Name = "name",
-                    Description = "description",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    IsErrorFallback = true,
-                    Origin = new() { Email = new() { Patterns = ["string"] } },
-                    Regex = new() { Patterns = ["string"] },
-                },
-            ],
-            Tags = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Route
-        {
-            FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
-            [
-                new()
-                {
-                    Name = "name",
-                    Description = "description",
-                    FunctionID = "functionID",
-                    FunctionName = "functionName",
-                    IsErrorFallback = true,
-                    Origin = new() { Email = new() { Patterns = ["string"] } },
-                    Regex = new() { Patterns = ["string"] },
-                },
-            ],
-            Tags = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(element, ModelBase.SerializerOptions);
-        Assert.NotNull(deserialized);
-
-        string expectedFunctionName = "functionName";
-        JsonElement expectedType = JsonSerializer.SerializeToElement("route");
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
-        List<RouteListItem> expectedRoutes =
-        [
-            new()
-            {
-                Name = "name",
-                Description = "description",
-                FunctionID = "functionID",
-                FunctionName = "functionName",
-                IsErrorFallback = true,
-                Origin = new() { Email = new() { Patterns = ["string"] } },
-                Regex = new() { Patterns = ["string"] },
-            },
-        ];
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.NotNull(deserialized.Classifications);
+        Assert.Equal(expectedClassifications.Count, deserialized.Classifications.Count);
+        for (int i = 0; i < expectedClassifications.Count; i++)
+        {
+            Assert.Equal(expectedClassifications[i], deserialized.Classifications[i]);
+        }
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
-        Assert.NotNull(deserialized.Routes);
-        Assert.Equal(expectedRoutes.Count, deserialized.Routes.Count);
-        for (int i = 0; i < expectedRoutes.Count; i++)
-        {
-            Assert.Equal(expectedRoutes[i], deserialized.Routes[i]);
-        }
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -1208,12 +712,10 @@ public class RouteTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
             FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1226,6 +728,8 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
             Tags = ["string"],
         };
 
@@ -1235,14 +739,14 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Route { FunctionName = "functionName" };
+        var model = new Classify { FunctionName = "functionName" };
 
+        Assert.Null(model.Classifications);
+        Assert.False(model.RawData.ContainsKey("classifications"));
         Assert.Null(model.Description);
         Assert.False(model.RawData.ContainsKey("description"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.Routes);
-        Assert.False(model.RawData.ContainsKey("routes"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -1250,7 +754,7 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Route { FunctionName = "functionName" };
+        var model = new Classify { FunctionName = "functionName" };
 
         model.Validate();
     }
@@ -1258,23 +762,23 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
             FunctionName = "functionName",
 
             // Null should be interpreted as omitted for these properties
+            Classifications = null,
             Description = null,
             DisplayName = null,
-            Routes = null,
             Tags = null,
         };
 
+        Assert.Null(model.Classifications);
+        Assert.False(model.RawData.ContainsKey("classifications"));
         Assert.Null(model.Description);
         Assert.False(model.RawData.ContainsKey("description"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
-        Assert.Null(model.Routes);
-        Assert.False(model.RawData.ContainsKey("routes"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -1282,14 +786,14 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
             FunctionName = "functionName",
 
             // Null should be interpreted as omitted for these properties
+            Classifications = null,
             Description = null,
             DisplayName = null,
-            Routes = null,
             Tags = null,
         };
 
@@ -1299,12 +803,10 @@ public class RouteTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Route
+        var model = new Classify
         {
             FunctionName = "functionName",
-            Description = "description",
-            DisplayName = "displayName",
-            Routes =
+            Classifications =
             [
                 new()
                 {
@@ -1317,10 +819,12 @@ public class RouteTest : TestBase
                     Regex = new() { Patterns = ["string"] },
                 },
             ],
+            Description = "description",
+            DisplayName = "displayName",
             Tags = ["string"],
         };
 
-        Route copied = new(model);
+        Classify copied = new(model);
 
         Assert.Equal(model, copied);
     }

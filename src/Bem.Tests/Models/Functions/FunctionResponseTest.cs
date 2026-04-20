@@ -12,7 +12,7 @@ public class FunctionResponseTest : TestBase
     {
         var model = new FunctionResponse
         {
-            Function = new FunctionTransform()
+            Function = new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -66,7 +66,7 @@ public class FunctionResponseTest : TestBase
             },
         };
 
-        Function expectedFunction = new FunctionTransform()
+        Function expectedFunction = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -127,7 +127,7 @@ public class FunctionResponseTest : TestBase
     {
         var model = new FunctionResponse
         {
-            Function = new FunctionTransform()
+            Function = new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -195,7 +195,7 @@ public class FunctionResponseTest : TestBase
     {
         var model = new FunctionResponse
         {
-            Function = new FunctionTransform()
+            Function = new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -256,7 +256,7 @@ public class FunctionResponseTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        Function expectedFunction = new FunctionTransform()
+        Function expectedFunction = new Transform()
         {
             EmailAddress = "emailAddress",
             FunctionID = "functionID",
@@ -317,7 +317,7 @@ public class FunctionResponseTest : TestBase
     {
         var model = new FunctionResponse
         {
-            Function = new FunctionTransform()
+            Function = new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
@@ -379,7 +379,7 @@ public class FunctionResponseTest : TestBase
     {
         var model = new FunctionResponse
         {
-            Function = new FunctionTransform()
+            Function = new Transform()
             {
                 EmailAddress = "emailAddress",
                 FunctionID = "functionID",
