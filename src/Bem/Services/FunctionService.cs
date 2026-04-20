@@ -320,7 +320,7 @@ public sealed class FunctionServiceWithRawResponse : IFunctionServiceWithRawResp
             async (token) =>
             {
                 var page = await response
-                    .Deserialize<ListFunctionsResponse>(token)
+                    .Deserialize<FunctionListPageResponse>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {

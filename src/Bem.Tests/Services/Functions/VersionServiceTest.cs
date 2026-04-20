@@ -18,11 +18,11 @@ public class VersionServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task List_Works()
     {
-        var listFunctionVersionsResponse = await this.client.Functions.Versions.List(
+        var versions = await this.client.Functions.Versions.List(
             "functionName",
             new(),
             TestContext.Current.CancellationToken
         );
-        listFunctionVersionsResponse.Validate();
+        versions.Validate();
     }
 }

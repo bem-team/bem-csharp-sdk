@@ -12,7 +12,7 @@ public class FunctionServiceTest : TestBase
         var functionResponse = await this.client.Functions.Create(
             new()
             {
-                CreateFunction = new Transform()
+                Body = new Extract()
                 {
                     FunctionName = "functionName",
                     DisplayName = "displayName",
@@ -45,7 +45,7 @@ public class FunctionServiceTest : TestBase
             "functionName",
             new()
             {
-                UpdateFunction = new UpdateFunctionTransform()
+                Body = new FunctionUpdateParamsBodyExtract()
                 {
                     DisplayName = "displayName",
                     FunctionName = "functionName",

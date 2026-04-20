@@ -57,7 +57,7 @@ public sealed class VersionService : IVersionService
     }
 
     /// <inheritdoc/>
-    public async Task<ListFunctionVersionsResponse> List(
+    public async Task<VersionListResponse> List(
         VersionListParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -69,7 +69,7 @@ public sealed class VersionService : IVersionService
     }
 
     /// <inheritdoc/>
-    public Task<ListFunctionVersionsResponse> List(
+    public Task<VersionListResponse> List(
         string functionName,
         VersionListParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -141,7 +141,7 @@ public sealed class VersionServiceWithRawResponse : IVersionServiceWithRawRespon
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ListFunctionVersionsResponse>> List(
+    public async Task<HttpResponse<VersionListResponse>> List(
         VersionListParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -161,20 +161,20 @@ public sealed class VersionServiceWithRawResponse : IVersionServiceWithRawRespon
             response,
             async (token) =>
             {
-                var listFunctionVersionsResponse = await response
-                    .Deserialize<ListFunctionVersionsResponse>(token)
+                var versions = await response
+                    .Deserialize<VersionListResponse>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    listFunctionVersionsResponse.Validate();
+                    versions.Validate();
                 }
-                return listFunctionVersionsResponse;
+                return versions;
             }
         );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<ListFunctionVersionsResponse>> List(
+    public Task<HttpResponse<VersionListResponse>> List(
         string functionName,
         VersionListParams? parameters = null,
         CancellationToken cancellationToken = default

@@ -10,13 +10,14 @@ namespace Bem.Services.Functions;
 /// Functions are the core building blocks of data transformation in Bem. Each function
 /// type serves a specific purpose:
 ///
-/// <para>- **Transform**: Extract structured JSON data from unstructured documents
-/// (PDFs, emails, images) - **Analyze**: Perform visual analysis on documents to
-/// extract layout-aware information - **Route**: Direct data to different processing
-/// paths based on conditions - **Split**: Break multi-page documents into individual
-/// pages for parallel processing - **Join**: Combine outputs from multiple function
-/// calls into a single result - **Payload Shaping**: Transform and restructure data
-/// using JMESPath expressions - **Enrich**: Enhance data with semantic search against collections</para>
+/// <para>- **Extract**: Extract structured JSON data from unstructured documents
+/// (PDFs, emails, images, spreadsheets), with optional layout-aware bounding-box
+/// extraction - **Route**: Direct data to different processing paths based on conditions
+/// - **Split**: Break multi-page documents into individual pages for parallel processing
+/// - **Join**: Combine outputs from multiple function calls into a single result
+/// - **Payload Shaping**: Transform and restructure data using JMESPath expressions
+/// - **Enrich**: Enhance data with semantic search against collections - **Send**:
+/// Deliver workflow outputs to downstream destinations</para>
 ///
 /// <para>Use these endpoints to create, update, list, and manage your functions.</para>
 ///
@@ -57,13 +58,13 @@ public interface IVersionService
     /// <summary>
     /// List Function Versions
     /// </summary>
-    Task<ListFunctionVersionsResponse> List(
+    Task<VersionListResponse> List(
         VersionListParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="List(VersionListParams, CancellationToken)"/>
-    Task<ListFunctionVersionsResponse> List(
+    Task<VersionListResponse> List(
         string functionName,
         VersionListParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -103,13 +104,13 @@ public interface IVersionServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/functions/{functionName}/versions</c>, but is otherwise the
     /// same as <see cref="IVersionService.List(VersionListParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ListFunctionVersionsResponse>> List(
+    Task<HttpResponse<VersionListResponse>> List(
         VersionListParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="List(VersionListParams, CancellationToken)"/>
-    Task<HttpResponse<ListFunctionVersionsResponse>> List(
+    Task<HttpResponse<VersionListResponse>> List(
         string functionName,
         VersionListParams? parameters = null,
         CancellationToken cancellationToken = default
