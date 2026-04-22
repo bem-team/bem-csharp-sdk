@@ -31,7 +31,7 @@ public class WorkflowServiceTest : TestBase
             },
             TestContext.Current.CancellationToken
         );
-        workflow.Validate();
+        workflow?.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]
