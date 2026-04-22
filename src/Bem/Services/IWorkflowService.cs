@@ -46,7 +46,7 @@ public interface IWorkflowService
     /// <summary>
     /// Create a Workflow
     /// </summary>
-    Task<WorkflowCreateResponse> Create(
+    Task<Workflow?> Create(
         WorkflowCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -201,7 +201,7 @@ public interface IWorkflowServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/workflows</c>, but is otherwise the
     /// same as <see cref="IWorkflowService.Create(WorkflowCreateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<WorkflowCreateResponse>> Create(
+    Task<HttpResponse<Workflow?>> Create(
         WorkflowCreateParams parameters,
         CancellationToken cancellationToken = default
     );
