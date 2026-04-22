@@ -66,10 +66,6 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Outputs::SortOrder>(),
             new ApiEnumConverter<string, Workflows::WorkflowConnectorType>(),
             new ApiEnumConverter<string, Workflows::Operation>(),
-            new ApiEnumConverter<
-                string,
-                Workflows::WorkflowUpdateResponseConnectorErrorOperation
-            >(),
             new ApiEnumConverter<string, Workflows::Type>(),
             new ApiEnumConverter<string, Workflows::WorkflowUpdateParamsConnectorType>(),
             new ApiEnumConverter<string, Workflows::SortOrder>(),

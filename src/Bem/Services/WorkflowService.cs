@@ -44,7 +44,7 @@ public sealed class WorkflowService : IWorkflowService
     }
 
     /// <inheritdoc/>
-    public async Task<WorkflowCreateResponse> Create(
+    public async Task<Workflow?> Create(
         WorkflowCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -197,7 +197,7 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<WorkflowCreateResponse>> Create(
+    public async Task<HttpResponse<Workflow?>> Create(
         WorkflowCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -212,12 +212,10 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
             response,
             async (token) =>
             {
-                var workflow = await response
-                    .Deserialize<WorkflowCreateResponse>(token)
-                    .ConfigureAwait(false);
+                var workflow = await response.Deserialize<Workflow?>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    workflow.Validate();
+                    workflow?.Validate();
                 }
                 return workflow;
             }

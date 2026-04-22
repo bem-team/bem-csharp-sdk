@@ -17,14 +17,14 @@ public sealed record class WorkflowUpdateResponse : JsonModel
     /// Per-connector failures from the diff/apply phase. Empty or omitted when all
     /// operations succeeded.
     /// </summary>
-    public IReadOnlyList<WorkflowUpdateResponseConnectorError>? ConnectorErrors
+    public IReadOnlyList<ConnectorError>? ConnectorErrors
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<WorkflowUpdateResponseConnectorError>
-            >("connectorErrors");
+            return this._rawData.GetNullableStruct<ImmutableArray<ConnectorError>>(
+                "connectorErrors"
+            );
         }
         init
         {
@@ -33,7 +33,7 @@ public sealed record class WorkflowUpdateResponse : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<WorkflowUpdateResponseConnectorError>?>(
+            this._rawData.Set<ImmutableArray<ConnectorError>?>(
                 "connectorErrors",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -134,13 +134,8 @@ class WorkflowUpdateResponseFromRaw : IFromRawJson<WorkflowUpdateResponse>
 /// <summary>
 /// Per-connector failure surfaced alongside a successful workflow DAG save.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        WorkflowUpdateResponseConnectorError,
-        WorkflowUpdateResponseConnectorErrorFromRaw
-    >)
-)]
-public sealed record class WorkflowUpdateResponseConnectorError : JsonModel
+[JsonConverter(typeof(JsonModelConverter<ConnectorError, ConnectorErrorFromRaw>))]
+public sealed record class ConnectorError : JsonModel
 {
     /// <summary>
     /// Machine-readable error code.
@@ -171,14 +166,12 @@ public sealed record class WorkflowUpdateResponseConnectorError : JsonModel
     /// <summary>
     /// Which diff operation was attempted.
     /// </summary>
-    public required ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation> Operation
+    public required ApiEnum<string, Operation> Operation
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation>
-            >("operation");
+            return this._rawData.GetNotNullClass<ApiEnum<string, Operation>>("operation");
         }
         init { this._rawData.Set("operation", value); }
     }
@@ -235,62 +228,55 @@ public sealed record class WorkflowUpdateResponseConnectorError : JsonModel
         _ = this.Name;
     }
 
-    public WorkflowUpdateResponseConnectorError() { }
+    public ConnectorError() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public WorkflowUpdateResponseConnectorError(
-        WorkflowUpdateResponseConnectorError workflowUpdateResponseConnectorError
-    )
-        : base(workflowUpdateResponseConnectorError) { }
+    public ConnectorError(ConnectorError connectorError)
+        : base(connectorError) { }
 #pragma warning restore CS8618
 
-    public WorkflowUpdateResponseConnectorError(IReadOnlyDictionary<string, JsonElement> rawData)
+    public ConnectorError(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    WorkflowUpdateResponseConnectorError(FrozenDictionary<string, JsonElement> rawData)
+    ConnectorError(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="WorkflowUpdateResponseConnectorErrorFromRaw.FromRawUnchecked"/>
-    public static WorkflowUpdateResponseConnectorError FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ConnectorErrorFromRaw.FromRawUnchecked"/>
+    public static ConnectorError FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class WorkflowUpdateResponseConnectorErrorFromRaw
-    : IFromRawJson<WorkflowUpdateResponseConnectorError>
+class ConnectorErrorFromRaw : IFromRawJson<ConnectorError>
 {
     /// <inheritdoc/>
-    public WorkflowUpdateResponseConnectorError FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => WorkflowUpdateResponseConnectorError.FromRawUnchecked(rawData);
+    public ConnectorError FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ConnectorError.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Which diff operation was attempted.
 /// </summary>
-[JsonConverter(typeof(WorkflowUpdateResponseConnectorErrorOperationConverter))]
-public enum WorkflowUpdateResponseConnectorErrorOperation
+[JsonConverter(typeof(OperationConverter))]
+public enum Operation
 {
     Create,
     Update,
     Delete,
 }
 
-sealed class WorkflowUpdateResponseConnectorErrorOperationConverter
-    : JsonConverter<WorkflowUpdateResponseConnectorErrorOperation>
+sealed class OperationConverter : JsonConverter<Operation>
 {
-    public override WorkflowUpdateResponseConnectorErrorOperation Read(
+    public override Operation Read(
         ref Utf8JsonReader reader,
         System::Type typeToConvert,
         JsonSerializerOptions options
@@ -298,16 +284,16 @@ sealed class WorkflowUpdateResponseConnectorErrorOperationConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "create" => WorkflowUpdateResponseConnectorErrorOperation.Create,
-            "update" => WorkflowUpdateResponseConnectorErrorOperation.Update,
-            "delete" => WorkflowUpdateResponseConnectorErrorOperation.Delete,
-            _ => (WorkflowUpdateResponseConnectorErrorOperation)(-1),
+            "create" => Operation.Create,
+            "update" => Operation.Update,
+            "delete" => Operation.Delete,
+            _ => (Operation)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        WorkflowUpdateResponseConnectorErrorOperation value,
+        Operation value,
         JsonSerializerOptions options
     )
     {
@@ -315,9 +301,9 @@ sealed class WorkflowUpdateResponseConnectorErrorOperationConverter
             writer,
             value switch
             {
-                WorkflowUpdateResponseConnectorErrorOperation.Create => "create",
-                WorkflowUpdateResponseConnectorErrorOperation.Update => "update",
-                WorkflowUpdateResponseConnectorErrorOperation.Delete => "delete",
+                Operation.Create => "create",
+                Operation.Update => "update",
+                Operation.Delete => "delete",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

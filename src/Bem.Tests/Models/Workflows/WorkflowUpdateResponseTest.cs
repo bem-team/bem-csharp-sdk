@@ -20,7 +20,7 @@ public class WorkflowUpdateResponseTest : TestBase
                 {
                     Code = "code",
                     Message = "message",
-                    Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                    Operation = Operation.Create,
                     ConnectorID = "connectorID",
                     Name = "name",
                 },
@@ -109,13 +109,13 @@ public class WorkflowUpdateResponseTest : TestBase
             },
         };
 
-        List<WorkflowUpdateResponseConnectorError> expectedConnectorErrors =
+        List<ConnectorError> expectedConnectorErrors =
         [
             new()
             {
                 Code = "code",
                 Message = "message",
-                Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                Operation = Operation.Create,
                 ConnectorID = "connectorID",
                 Name = "name",
             },
@@ -224,7 +224,7 @@ public class WorkflowUpdateResponseTest : TestBase
                 {
                     Code = "code",
                     Message = "message",
-                    Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                    Operation = Operation.Create,
                     ConnectorID = "connectorID",
                     Name = "name",
                 },
@@ -333,7 +333,7 @@ public class WorkflowUpdateResponseTest : TestBase
                 {
                     Code = "code",
                     Message = "message",
-                    Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                    Operation = Operation.Create,
                     ConnectorID = "connectorID",
                     Name = "name",
                 },
@@ -429,13 +429,13 @@ public class WorkflowUpdateResponseTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        List<WorkflowUpdateResponseConnectorError> expectedConnectorErrors =
+        List<ConnectorError> expectedConnectorErrors =
         [
             new()
             {
                 Code = "code",
                 Message = "message",
-                Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                Operation = Operation.Create,
                 ConnectorID = "connectorID",
                 Name = "name",
             },
@@ -544,7 +544,7 @@ public class WorkflowUpdateResponseTest : TestBase
                 {
                     Code = "code",
                     Message = "message",
-                    Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                    Operation = Operation.Create,
                     ConnectorID = "connectorID",
                     Name = "name",
                 },
@@ -701,7 +701,7 @@ public class WorkflowUpdateResponseTest : TestBase
                 {
                     Code = "code",
                     Message = "message",
-                    Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+                    Operation = Operation.Create,
                     ConnectorID = "connectorID",
                     Name = "name",
                 },
@@ -796,24 +796,23 @@ public class WorkflowUpdateResponseTest : TestBase
     }
 }
 
-public class WorkflowUpdateResponseConnectorErrorTest : TestBase
+public class ConnectorErrorTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
             ConnectorID = "connectorID",
             Name = "name",
         };
 
         string expectedCode = "code";
         string expectedMessage = "message";
-        ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation> expectedOperation =
-            WorkflowUpdateResponseConnectorErrorOperation.Create;
+        ApiEnum<string, Operation> expectedOperation = Operation.Create;
         string expectedConnectorID = "connectorID";
         string expectedName = "name";
 
@@ -827,17 +826,17 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
             ConnectorID = "connectorID",
             Name = "name",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowUpdateResponseConnectorError>(
+        var deserialized = JsonSerializer.Deserialize<ConnectorError>(
             json,
             ModelBase.SerializerOptions
         );
@@ -848,17 +847,17 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
             ConnectorID = "connectorID",
             Name = "name",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowUpdateResponseConnectorError>(
+        var deserialized = JsonSerializer.Deserialize<ConnectorError>(
             element,
             ModelBase.SerializerOptions
         );
@@ -866,8 +865,7 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
 
         string expectedCode = "code";
         string expectedMessage = "message";
-        ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation> expectedOperation =
-            WorkflowUpdateResponseConnectorErrorOperation.Create;
+        ApiEnum<string, Operation> expectedOperation = Operation.Create;
         string expectedConnectorID = "connectorID";
         string expectedName = "name";
 
@@ -881,11 +879,11 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
             ConnectorID = "connectorID",
             Name = "name",
         };
@@ -896,11 +894,11 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
         };
 
         Assert.Null(model.ConnectorID);
@@ -912,11 +910,11 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
         };
 
         model.Validate();
@@ -925,11 +923,11 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
 
             // Null should be interpreted as omitted for these properties
             ConnectorID = null,
@@ -945,11 +943,11 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
 
             // Null should be interpreted as omitted for these properties
             ConnectorID = null,
@@ -962,58 +960,60 @@ public class WorkflowUpdateResponseConnectorErrorTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new WorkflowUpdateResponseConnectorError
+        var model = new ConnectorError
         {
             Code = "code",
             Message = "message",
-            Operation = WorkflowUpdateResponseConnectorErrorOperation.Create,
+            Operation = Operation.Create,
             ConnectorID = "connectorID",
             Name = "name",
         };
 
-        WorkflowUpdateResponseConnectorError copied = new(model);
+        ConnectorError copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class WorkflowUpdateResponseConnectorErrorOperationTest : TestBase
+public class OperationTest : TestBase
 {
     [Theory]
-    [InlineData(WorkflowUpdateResponseConnectorErrorOperation.Create)]
-    [InlineData(WorkflowUpdateResponseConnectorErrorOperation.Update)]
-    [InlineData(WorkflowUpdateResponseConnectorErrorOperation.Delete)]
-    public void Validation_Works(WorkflowUpdateResponseConnectorErrorOperation rawValue)
+    [InlineData(Operation.Create)]
+    [InlineData(Operation.Update)]
+    [InlineData(Operation.Delete)]
+    public void Validation_Works(Operation rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation> value = rawValue;
+        ApiEnum<string, Operation> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(WorkflowUpdateResponseConnectorErrorOperation.Create)]
-    [InlineData(WorkflowUpdateResponseConnectorErrorOperation.Update)]
-    [InlineData(WorkflowUpdateResponseConnectorErrorOperation.Delete)]
-    public void SerializationRoundtrip_Works(WorkflowUpdateResponseConnectorErrorOperation rawValue)
+    [InlineData(Operation.Create)]
+    [InlineData(Operation.Update)]
+    [InlineData(Operation.Delete)]
+    public void SerializationRoundtrip_Works(Operation rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation> value = rawValue;
+        ApiEnum<string, Operation> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -1021,13 +1021,15 @@ public class WorkflowUpdateResponseConnectorErrorOperationTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, WorkflowUpdateResponseConnectorErrorOperation>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
