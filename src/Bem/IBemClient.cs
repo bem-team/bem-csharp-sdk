@@ -65,6 +65,12 @@ public interface IBemClient : IDisposable
     IWorkflowService Workflows { get; }
 
     IInferSchemaService InferSchema { get; }
+
+    ICollectionService Collections { get; }
+
+    IEventService Events { get; }
+
+    IWebhookSecretService WebhookSecret { get; }
 }
 
 /// <summary>
@@ -110,6 +116,12 @@ public interface IBemClientWithRawResponse : IDisposable
     IWorkflowServiceWithRawResponse Workflows { get; }
 
     IInferSchemaServiceWithRawResponse InferSchema { get; }
+
+    ICollectionServiceWithRawResponse Collections { get; }
+
+    IEventServiceWithRawResponse Events { get; }
+
+    IWebhookSecretServiceWithRawResponse WebhookSecret { get; }
 
     /// <summary>
     /// Sends a request to the Bem REST API.

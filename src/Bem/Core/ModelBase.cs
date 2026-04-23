@@ -1,8 +1,10 @@
 using System.Text.Json;
 using Bem.Exceptions;
+using Bem.Models.Collections.Items;
 using Bem.Models.Functions;
 using Calls = Bem.Models.Calls;
 using Errors = Bem.Models.Errors;
+using Events = Bem.Models.Events;
 using Outputs = Bem.Models.Outputs;
 using Versions = Bem.Models.Functions.Versions;
 using Workflows = Bem.Models.Workflows;
@@ -43,6 +45,8 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Versions::SplitType>(),
             new ApiEnumConverter<string, Versions::JoinType>(),
             new ApiEnumConverter<string, Calls::CallStatus>(),
+            new ApiEnumConverter<string, Calls::FunctionCallStatus>(),
+            new ApiEnumConverter<string, Calls::ActivityStatus>(),
             new ApiEnumConverter<string, Calls::SortOrder>(),
             new ApiEnumConverter<string, Calls::Status>(),
             new ApiEnumConverter<string, Errors::EventType>(),
@@ -72,6 +76,9 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Workflows::InputType>(),
             new ApiEnumConverter<string, Workflows::SingleFileInputType>(),
             new ApiEnumConverter<string, WorkflowsVersions::SortOrder>(),
+            new ApiEnumConverter<string, Status>(),
+            new ApiEnumConverter<string, ItemAddResponseStatus>(),
+            new ApiEnumConverter<string, Events::FunctionType>(),
         },
     };
 
