@@ -21,4 +21,15 @@ public class CallServiceTest : TestBase
         var page = await this.client.Calls.List(new(), TestContext.Current.CancellationToken);
         page.Validate();
     }
+
+    [Fact(Skip = "Mock server tests are disabled")]
+    public async Task RetrieveTrace_Works()
+    {
+        var response = await this.client.Calls.RetrieveTrace(
+            "callID",
+            new(),
+            TestContext.Current.CancellationToken
+        );
+        response.Validate();
+    }
 }

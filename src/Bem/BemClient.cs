@@ -108,6 +108,24 @@ public sealed class BemClient : IBemClient
         get { return _inferSchema.Value; }
     }
 
+    readonly Lazy<ICollectionService> _collections;
+    public ICollectionService Collections
+    {
+        get { return _collections.Value; }
+    }
+
+    readonly Lazy<IEventService> _events;
+    public IEventService Events
+    {
+        get { return _events.Value; }
+    }
+
+    readonly Lazy<IWebhookSecretService> _webhookSecret;
+    public IWebhookSecretService WebhookSecret
+    {
+        get { return _webhookSecret.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -121,6 +139,9 @@ public sealed class BemClient : IBemClient
         _outputs = new(() => new OutputService(this));
         _workflows = new(() => new WorkflowService(this));
         _inferSchema = new(() => new InferSchemaService(this));
+        _collections = new(() => new CollectionService(this));
+        _events = new(() => new EventService(this));
+        _webhookSecret = new(() => new WebhookSecretService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -230,6 +251,24 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public IInferSchemaServiceWithRawResponse InferSchema
     {
         get { return _inferSchema.Value; }
+    }
+
+    readonly Lazy<ICollectionServiceWithRawResponse> _collections;
+    public ICollectionServiceWithRawResponse Collections
+    {
+        get { return _collections.Value; }
+    }
+
+    readonly Lazy<IEventServiceWithRawResponse> _events;
+    public IEventServiceWithRawResponse Events
+    {
+        get { return _events.Value; }
+    }
+
+    readonly Lazy<IWebhookSecretServiceWithRawResponse> _webhookSecret;
+    public IWebhookSecretServiceWithRawResponse WebhookSecret
+    {
+        get { return _webhookSecret.Value; }
     }
 
     /// <inheritdoc/>
@@ -436,6 +475,9 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _outputs = new(() => new OutputServiceWithRawResponse(this));
         _workflows = new(() => new WorkflowServiceWithRawResponse(this));
         _inferSchema = new(() => new InferSchemaServiceWithRawResponse(this));
+        _collections = new(() => new CollectionServiceWithRawResponse(this));
+        _events = new(() => new EventServiceWithRawResponse(this));
+        _webhookSecret = new(() => new WebhookSecretServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)

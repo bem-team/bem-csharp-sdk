@@ -87,6 +87,38 @@ public interface ICallService
         CallListParams? parameters = null,
         CancellationToken cancellationToken = default
     );
+
+    /// <summary>
+    /// **Retrieve the full execution trace of a workflow call.**
+    ///
+    /// <para>Returns all function calls and events emitted during the call as flat
+    /// arrays. The DAG can be reconstructed using
+    /// `FunctionCallResponseBase.sourceEventID` (the event that spawned each function
+    /// call) and each event's `functionCallID` (the function call that emitted it).</para>
+    ///
+    /// <para>## Graph structure</para>
+    ///
+    /// <para>- A function call with no `sourceEventID` is the root. - An event's
+    /// `functionCallID` points to the function call that emitted it. - A function
+    /// call's `sourceEventID` points to the event that triggered it. -
+    /// `workflowNodeName` identifies the DAG node; `incomingDestinationName` identifies
+    /// the labelled outlet used to reach this call (absent for unlabelled edges and
+    /// root calls).</para>
+    ///
+    /// <para>The trace is available as soon as the call exists and grows as execution
+    /// proceeds.</para>
+    /// </summary>
+    Task<CallRetrieveTraceResponse> RetrieveTrace(
+        CallRetrieveTraceParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <inheritdoc cref="RetrieveTrace(CallRetrieveTraceParams, CancellationToken)"/>
+    Task<CallRetrieveTraceResponse> RetrieveTrace(
+        string callID,
+        CallRetrieveTraceParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
 }
 
 /// <summary>
@@ -124,6 +156,22 @@ public interface ICallServiceWithRawResponse
     /// </summary>
     Task<HttpResponse<CallListPage>> List(
         CallListParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for <c>get /v3/calls/{callID}/trace</c>, but is otherwise the
+    /// same as <see cref="ICallService.RetrieveTrace(CallRetrieveTraceParams, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<CallRetrieveTraceResponse>> RetrieveTrace(
+        CallRetrieveTraceParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <inheritdoc cref="RetrieveTrace(CallRetrieveTraceParams, CancellationToken)"/>
+    Task<HttpResponse<CallRetrieveTraceResponse>> RetrieveTrace(
+        string callID,
+        CallRetrieveTraceParams? parameters = null,
         CancellationToken cancellationToken = default
     );
 }
