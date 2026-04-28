@@ -16,16 +16,16 @@ public sealed record class OutputListPageResponse : JsonModel
     /// `eventType`. Intermediate events (those that spawned a downstream function
     /// call) are excluded by default; pass `includeIntermediate=true` to include them.
     /// </summary>
-    public required IReadOnlyList<OutputListResponse> Outputs
+    public required IReadOnlyList<Event> Outputs
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<OutputListResponse>>("outputs");
+            return this._rawData.GetNotNullStruct<ImmutableArray<Event>>("outputs");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<OutputListResponse>>(
+            this._rawData.Set<ImmutableArray<Event>>(
                 "outputs",
                 ImmutableArray.ToImmutableArray(value)
             );

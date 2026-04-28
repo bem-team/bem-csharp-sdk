@@ -16,8 +16,8 @@ namespace Bem.Models.Outputs;
 /// shared variant verbatim (backward compatible) and adds the V3-only `extract` and
 /// `classify` variants.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseConverter))]
-public record class OutputListResponse : ModelBase
+[JsonConverter(typeof(EventConverter))]
+public record class Event : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -45,7 +45,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.EventID,
                 splitCollection: (x) => x.EventID,
                 splitItem: (x) => x.EventID,
-                errorEvent: (x) => x.EventID,
+                error: (x) => x.EventID,
                 join: (x) => x.EventID,
                 enrich: (x) => x.EventID,
                 collectionProcessing: (x) => x.EventID,
@@ -65,7 +65,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.FunctionID,
                 splitCollection: (x) => x.FunctionID,
                 splitItem: (x) => x.FunctionID,
-                errorEvent: (x) => x.FunctionID,
+                error: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 enrich: (x) => x.FunctionID,
                 collectionProcessing: (_) => null,
@@ -85,7 +85,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.FunctionName,
                 splitCollection: (x) => x.FunctionName,
                 splitItem: (x) => x.FunctionName,
-                errorEvent: (x) => x.FunctionName,
+                error: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
                 collectionProcessing: (_) => null,
@@ -105,7 +105,7 @@ public record class OutputListResponse : ModelBase
                 classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -125,7 +125,7 @@ public record class OutputListResponse : ModelBase
                 classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -145,7 +145,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.ReferenceID,
                 splitCollection: (x) => x.ReferenceID,
                 splitItem: (x) => x.ReferenceID,
-                errorEvent: (x) => x.ReferenceID,
+                error: (x) => x.ReferenceID,
                 join: (x) => x.ReferenceID,
                 enrich: (x) => x.ReferenceID,
                 collectionProcessing: (x) => x.ReferenceID,
@@ -165,7 +165,7 @@ public record class OutputListResponse : ModelBase
                 classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (x) => x.TransformedContent,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -185,7 +185,7 @@ public record class OutputListResponse : ModelBase
                 classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (x) => x.AvgConfidence,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -205,7 +205,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.CallID,
                 splitCollection: (x) => x.CallID,
                 splitItem: (x) => x.CallID,
-                errorEvent: (x) => x.CallID,
+                error: (x) => x.CallID,
                 join: (x) => x.CallID,
                 enrich: (x) => x.CallID,
                 collectionProcessing: (_) => null,
@@ -225,7 +225,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.CreatedAt,
                 splitCollection: (x) => x.CreatedAt,
                 splitItem: (x) => x.CreatedAt,
-                errorEvent: (x) => x.CreatedAt,
+                error: (x) => x.CreatedAt,
                 join: (x) => x.CreatedAt,
                 enrich: (x) => x.CreatedAt,
                 collectionProcessing: (x) => x.CreatedAt,
@@ -245,7 +245,7 @@ public record class OutputListResponse : ModelBase
                 classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (x) => x.FieldConfidences,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -265,7 +265,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.FunctionCallID,
                 splitCollection: (x) => x.FunctionCallID,
                 splitItem: (x) => x.FunctionCallID,
-                errorEvent: (x) => x.FunctionCallID,
+                error: (x) => x.FunctionCallID,
                 join: (x) => x.FunctionCallID,
                 enrich: (x) => x.FunctionCallID,
                 collectionProcessing: (_) => null,
@@ -285,7 +285,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.FunctionCallTryNumber,
                 splitCollection: (x) => x.FunctionCallTryNumber,
                 splitItem: (x) => x.FunctionCallTryNumber,
-                errorEvent: (x) => x.FunctionCallTryNumber,
+                error: (x) => x.FunctionCallTryNumber,
                 join: (x) => x.FunctionCallTryNumber,
                 enrich: (x) => x.FunctionCallTryNumber,
                 collectionProcessing: (x) => x.FunctionCallTryNumber,
@@ -305,7 +305,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.FunctionVersionNum,
                 splitCollection: (x) => x.FunctionVersionNum,
                 splitItem: (x) => x.FunctionVersionNum,
-                errorEvent: (x) => x.FunctionVersionNum,
+                error: (x) => x.FunctionVersionNum,
                 join: (x) => x.FunctionVersionNum,
                 enrich: (x) => x.FunctionVersionNum,
                 collectionProcessing: (_) => null,
@@ -325,7 +325,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.InboundEmail,
                 splitCollection: (x) => x.InboundEmail,
                 splitItem: (x) => x.InboundEmail,
-                errorEvent: (x) => x.InboundEmail,
+                error: (x) => x.InboundEmail,
                 join: (x) => x.InboundEmail,
                 enrich: (x) => x.InboundEmail,
                 collectionProcessing: (x) => x.InboundEmail,
@@ -345,7 +345,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.S3Url,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -365,7 +365,7 @@ public record class OutputListResponse : ModelBase
                 classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (x) => x.TransformationID,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -385,7 +385,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.WorkflowID,
                 splitCollection: (x) => x.WorkflowID,
                 splitItem: (x) => x.WorkflowID,
-                errorEvent: (x) => x.WorkflowID,
+                error: (x) => x.WorkflowID,
                 join: (x) => x.WorkflowID,
                 enrich: (x) => x.WorkflowID,
                 collectionProcessing: (_) => null,
@@ -405,7 +405,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.WorkflowName,
                 splitCollection: (x) => x.WorkflowName,
                 splitItem: (x) => x.WorkflowName,
-                errorEvent: (x) => x.WorkflowName,
+                error: (x) => x.WorkflowName,
                 join: (x) => x.WorkflowName,
                 enrich: (x) => x.WorkflowName,
                 collectionProcessing: (_) => null,
@@ -425,7 +425,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.WorkflowVersionNum,
                 splitCollection: (x) => x.WorkflowVersionNum,
                 splitItem: (x) => x.WorkflowVersionNum,
-                errorEvent: (x) => x.WorkflowVersionNum,
+                error: (x) => x.WorkflowVersionNum,
                 join: (x) => x.WorkflowVersionNum,
                 enrich: (x) => x.WorkflowVersionNum,
                 collectionProcessing: (_) => null,
@@ -445,7 +445,7 @@ public record class OutputListResponse : ModelBase
                 classify: (x) => x.Choice,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                errorEvent: (_) => null,
+                error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -454,205 +454,200 @@ public record class OutputListResponse : ModelBase
         }
     }
 
-    public OutputListResponse(OutputListResponseTransform value, JsonElement? element = null)
+    public Event(Transform value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseExtract value, JsonElement? element = null)
+    public Event(Extract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseRoute value, JsonElement? element = null)
+    public Event(Route value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseClassify value, JsonElement? element = null)
+    public Event(Classify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseSplitCollection value, JsonElement? element = null)
+    public Event(SplitCollection value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseSplitItem value, JsonElement? element = null)
+    public Event(SplitItem value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(ErrorEvent value, JsonElement? element = null)
+    public Event(ErrorEvent value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseJoin value, JsonElement? element = null)
+    public Event(Join value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseEnrich value, JsonElement? element = null)
+    public Event(Enrich value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(
-        OutputListResponseCollectionProcessing value,
-        JsonElement? element = null
-    )
+    public Event(CollectionProcessing value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(OutputListResponseSend value, JsonElement? element = null)
+    public Event(Send value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponse(JsonElement element)
+    public Event(JsonElement element)
     {
         this._element = element;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseTransform"/>.
+    /// type <see cref="Transform"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `OutputListResponseTransform`
+    ///     // `value` is of type `Transform`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out OutputListResponseTransform? value)
+    public bool TryPickTransform([NotNullWhen(true)] out Transform? value)
     {
-        value = this.Value as OutputListResponseTransform;
+        value = this.Value as Transform;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseExtract"/>.
+    /// type <see cref="Extract"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickExtract(out var value)) {
-    ///     // `value` is of type `OutputListResponseExtract`
+    ///     // `value` is of type `Extract`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickExtract([NotNullWhen(true)] out OutputListResponseExtract? value)
+    public bool TryPickExtract([NotNullWhen(true)] out Extract? value)
     {
-        value = this.Value as OutputListResponseExtract;
+        value = this.Value as Extract;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseRoute"/>.
+    /// type <see cref="Route"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `OutputListResponseRoute`
+    ///     // `value` is of type `Route`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out OutputListResponseRoute? value)
+    public bool TryPickRoute([NotNullWhen(true)] out Route? value)
     {
-        value = this.Value as OutputListResponseRoute;
+        value = this.Value as Route;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseClassify"/>.
+    /// type <see cref="Classify"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickClassify(out var value)) {
-    ///     // `value` is of type `OutputListResponseClassify`
+    ///     // `value` is of type `Classify`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickClassify([NotNullWhen(true)] out OutputListResponseClassify? value)
+    public bool TryPickClassify([NotNullWhen(true)] out Classify? value)
     {
-        value = this.Value as OutputListResponseClassify;
+        value = this.Value as Classify;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseSplitCollection"/>.
+    /// type <see cref="SplitCollection"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSplitCollection(out var value)) {
-    ///     // `value` is of type `OutputListResponseSplitCollection`
+    ///     // `value` is of type `SplitCollection`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSplitCollection(
-        [NotNullWhen(true)] out OutputListResponseSplitCollection? value
-    )
+    public bool TryPickSplitCollection([NotNullWhen(true)] out SplitCollection? value)
     {
-        value = this.Value as OutputListResponseSplitCollection;
+        value = this.Value as SplitCollection;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseSplitItem"/>.
+    /// type <see cref="SplitItem"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSplitItem(out var value)) {
-    ///     // `value` is of type `OutputListResponseSplitItem`
+    ///     // `value` is of type `SplitItem`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSplitItem([NotNullWhen(true)] out OutputListResponseSplitItem? value)
+    public bool TryPickSplitItem([NotNullWhen(true)] out SplitItem? value)
     {
-        value = this.Value as OutputListResponseSplitItem;
+        value = this.Value as SplitItem;
         return value != null;
     }
 
@@ -664,14 +659,14 @@ public record class OutputListResponse : ModelBase
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickErrorEvent(out var value)) {
+    /// if (instance.TryPickError(out var value)) {
     ///     // `value` is of type `ErrorEvent`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickErrorEvent([NotNullWhen(true)] out ErrorEvent? value)
+    public bool TryPickError([NotNullWhen(true)] out ErrorEvent? value)
     {
         value = this.Value as ErrorEvent;
         return value != null;
@@ -679,87 +674,85 @@ public record class OutputListResponse : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseJoin"/>.
+    /// type <see cref="Join"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJoin(out var value)) {
-    ///     // `value` is of type `OutputListResponseJoin`
+    ///     // `value` is of type `Join`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickJoin([NotNullWhen(true)] out OutputListResponseJoin? value)
+    public bool TryPickJoin([NotNullWhen(true)] out Join? value)
     {
-        value = this.Value as OutputListResponseJoin;
+        value = this.Value as Join;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseEnrich"/>.
+    /// type <see cref="Enrich"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickEnrich(out var value)) {
-    ///     // `value` is of type `OutputListResponseEnrich`
+    ///     // `value` is of type `Enrich`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickEnrich([NotNullWhen(true)] out OutputListResponseEnrich? value)
+    public bool TryPickEnrich([NotNullWhen(true)] out Enrich? value)
     {
-        value = this.Value as OutputListResponseEnrich;
+        value = this.Value as Enrich;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseCollectionProcessing"/>.
+    /// type <see cref="CollectionProcessing"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickCollectionProcessing(out var value)) {
-    ///     // `value` is of type `OutputListResponseCollectionProcessing`
+    ///     // `value` is of type `CollectionProcessing`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickCollectionProcessing(
-        [NotNullWhen(true)] out OutputListResponseCollectionProcessing? value
-    )
+    public bool TryPickCollectionProcessing([NotNullWhen(true)] out CollectionProcessing? value)
     {
-        value = this.Value as OutputListResponseCollectionProcessing;
+        value = this.Value as CollectionProcessing;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseSend"/>.
+    /// type <see cref="Send"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSend(out var value)) {
-    ///     // `value` is of type `OutputListResponseSend`
+    ///     // `value` is of type `Send`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSend([NotNullWhen(true)] out OutputListResponseSend? value)
+    public bool TryPickSend([NotNullWhen(true)] out Send? value)
     {
-        value = this.Value as OutputListResponseSend;
+        value = this.Value as Send;
         return value != null;
     }
 
@@ -777,74 +770,72 @@ public record class OutputListResponse : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (OutputListResponseTransform value) =&gt; {...},
-    ///     (OutputListResponseExtract value) =&gt; {...},
-    ///     (OutputListResponseRoute value) =&gt; {...},
-    ///     (OutputListResponseClassify value) =&gt; {...},
-    ///     (OutputListResponseSplitCollection value) =&gt; {...},
-    ///     (OutputListResponseSplitItem value) =&gt; {...},
+    ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
+    ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
+    ///     (SplitCollection value) =&gt; {...},
+    ///     (SplitItem value) =&gt; {...},
     ///     (ErrorEvent value) =&gt; {...},
-    ///     (OutputListResponseJoin value) =&gt; {...},
-    ///     (OutputListResponseEnrich value) =&gt; {...},
-    ///     (OutputListResponseCollectionProcessing value) =&gt; {...},
-    ///     (OutputListResponseSend value) =&gt; {...}
+    ///     (Join value) =&gt; {...},
+    ///     (Enrich value) =&gt; {...},
+    ///     (CollectionProcessing value) =&gt; {...},
+    ///     (Send value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        Action<OutputListResponseTransform> transform,
-        Action<OutputListResponseExtract> extract,
-        Action<OutputListResponseRoute> route,
-        Action<OutputListResponseClassify> classify,
-        Action<OutputListResponseSplitCollection> splitCollection,
-        Action<OutputListResponseSplitItem> splitItem,
-        Action<ErrorEvent> errorEvent,
-        Action<OutputListResponseJoin> join,
-        Action<OutputListResponseEnrich> enrich,
-        Action<OutputListResponseCollectionProcessing> collectionProcessing,
-        Action<OutputListResponseSend> send
+        Action<Transform> transform,
+        Action<Extract> extract,
+        Action<Route> route,
+        Action<Classify> classify,
+        Action<SplitCollection> splitCollection,
+        Action<SplitItem> splitItem,
+        Action<ErrorEvent> error,
+        Action<Join> join,
+        Action<Enrich> enrich,
+        Action<CollectionProcessing> collectionProcessing,
+        Action<Send> send
     )
     {
         switch (this.Value)
         {
-            case OutputListResponseTransform value:
+            case Transform value:
                 transform(value);
                 break;
-            case OutputListResponseExtract value:
+            case Extract value:
                 extract(value);
                 break;
-            case OutputListResponseRoute value:
+            case Route value:
                 route(value);
                 break;
-            case OutputListResponseClassify value:
+            case Classify value:
                 classify(value);
                 break;
-            case OutputListResponseSplitCollection value:
+            case SplitCollection value:
                 splitCollection(value);
                 break;
-            case OutputListResponseSplitItem value:
+            case SplitItem value:
                 splitItem(value);
                 break;
             case ErrorEvent value:
-                errorEvent(value);
+                error(value);
                 break;
-            case OutputListResponseJoin value:
+            case Join value:
                 join(value);
                 break;
-            case OutputListResponseEnrich value:
+            case Enrich value:
                 enrich(value);
                 break;
-            case OutputListResponseCollectionProcessing value:
+            case CollectionProcessing value:
                 collectionProcessing(value);
                 break;
-            case OutputListResponseSend value:
+            case Send value:
                 send(value);
                 break;
             default:
-                throw new BemInvalidDataException(
-                    "Data did not match any variant of OutputListResponse"
-                );
+                throw new BemInvalidDataException("Data did not match any variant of Event");
         }
     }
 
@@ -863,83 +854,73 @@ public record class OutputListResponse : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (OutputListResponseTransform value) =&gt; {...},
-    ///     (OutputListResponseExtract value) =&gt; {...},
-    ///     (OutputListResponseRoute value) =&gt; {...},
-    ///     (OutputListResponseClassify value) =&gt; {...},
-    ///     (OutputListResponseSplitCollection value) =&gt; {...},
-    ///     (OutputListResponseSplitItem value) =&gt; {...},
+    ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
+    ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
+    ///     (SplitCollection value) =&gt; {...},
+    ///     (SplitItem value) =&gt; {...},
     ///     (ErrorEvent value) =&gt; {...},
-    ///     (OutputListResponseJoin value) =&gt; {...},
-    ///     (OutputListResponseEnrich value) =&gt; {...},
-    ///     (OutputListResponseCollectionProcessing value) =&gt; {...},
-    ///     (OutputListResponseSend value) =&gt; {...}
+    ///     (Join value) =&gt; {...},
+    ///     (Enrich value) =&gt; {...},
+    ///     (CollectionProcessing value) =&gt; {...},
+    ///     (Send value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<OutputListResponseTransform, T> transform,
-        Func<OutputListResponseExtract, T> extract,
-        Func<OutputListResponseRoute, T> route,
-        Func<OutputListResponseClassify, T> classify,
-        Func<OutputListResponseSplitCollection, T> splitCollection,
-        Func<OutputListResponseSplitItem, T> splitItem,
-        Func<ErrorEvent, T> errorEvent,
-        Func<OutputListResponseJoin, T> join,
-        Func<OutputListResponseEnrich, T> enrich,
-        Func<OutputListResponseCollectionProcessing, T> collectionProcessing,
-        Func<OutputListResponseSend, T> send
+        Func<Transform, T> transform,
+        Func<Extract, T> extract,
+        Func<Route, T> route,
+        Func<Classify, T> classify,
+        Func<SplitCollection, T> splitCollection,
+        Func<SplitItem, T> splitItem,
+        Func<ErrorEvent, T> error,
+        Func<Join, T> join,
+        Func<Enrich, T> enrich,
+        Func<CollectionProcessing, T> collectionProcessing,
+        Func<Send, T> send
     )
     {
         return this.Value switch
         {
-            OutputListResponseTransform value => transform(value),
-            OutputListResponseExtract value => extract(value),
-            OutputListResponseRoute value => route(value),
-            OutputListResponseClassify value => classify(value),
-            OutputListResponseSplitCollection value => splitCollection(value),
-            OutputListResponseSplitItem value => splitItem(value),
-            ErrorEvent value => errorEvent(value),
-            OutputListResponseJoin value => join(value),
-            OutputListResponseEnrich value => enrich(value),
-            OutputListResponseCollectionProcessing value => collectionProcessing(value),
-            OutputListResponseSend value => send(value),
-            _ => throw new BemInvalidDataException(
-                "Data did not match any variant of OutputListResponse"
-            ),
+            Transform value => transform(value),
+            Extract value => extract(value),
+            Route value => route(value),
+            Classify value => classify(value),
+            SplitCollection value => splitCollection(value),
+            SplitItem value => splitItem(value),
+            ErrorEvent value => error(value),
+            Join value => join(value),
+            Enrich value => enrich(value),
+            CollectionProcessing value => collectionProcessing(value),
+            Send value => send(value),
+            _ => throw new BemInvalidDataException("Data did not match any variant of Event"),
         };
     }
 
-    public static implicit operator OutputListResponse(OutputListResponseTransform value) =>
-        new(value);
+    public static implicit operator Event(Transform value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseExtract value) =>
-        new(value);
+    public static implicit operator Event(Extract value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseRoute value) => new(value);
+    public static implicit operator Event(Route value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseClassify value) =>
-        new(value);
+    public static implicit operator Event(Classify value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseSplitCollection value) =>
-        new(value);
+    public static implicit operator Event(SplitCollection value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseSplitItem value) =>
-        new(value);
+    public static implicit operator Event(SplitItem value) => new(value);
 
-    public static implicit operator OutputListResponse(ErrorEvent value) => new(value);
+    public static implicit operator Event(ErrorEvent value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseJoin value) => new(value);
+    public static implicit operator Event(Join value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseEnrich value) =>
-        new(value);
+    public static implicit operator Event(Enrich value) => new(value);
 
-    public static implicit operator OutputListResponse(
-        OutputListResponseCollectionProcessing value
-    ) => new(value);
+    public static implicit operator Event(CollectionProcessing value) => new(value);
 
-    public static implicit operator OutputListResponse(OutputListResponseSend value) => new(value);
+    public static implicit operator Event(Send value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -955,9 +936,7 @@ public record class OutputListResponse : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException(
-                "Data did not match any variant of OutputListResponse"
-            );
+            throw new BemInvalidDataException("Data did not match any variant of Event");
         }
         this.Switch(
             (transform) => transform.Validate(),
@@ -966,7 +945,7 @@ public record class OutputListResponse : ModelBase
             (classify) => classify.Validate(),
             (splitCollection) => splitCollection.Validate(),
             (splitItem) => splitItem.Validate(),
-            (errorEvent) => errorEvent.Validate(),
+            (error) => error.Validate(),
             (join) => join.Validate(),
             (enrich) => enrich.Validate(),
             (collectionProcessing) => collectionProcessing.Validate(),
@@ -974,7 +953,7 @@ public record class OutputListResponse : ModelBase
         );
     }
 
-    public virtual bool Equals(OutputListResponse? other) =>
+    public virtual bool Equals(Event? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -994,25 +973,25 @@ public record class OutputListResponse : ModelBase
     {
         return this.Value switch
         {
-            OutputListResponseTransform _ => 0,
-            OutputListResponseExtract _ => 1,
-            OutputListResponseRoute _ => 2,
-            OutputListResponseClassify _ => 3,
-            OutputListResponseSplitCollection _ => 4,
-            OutputListResponseSplitItem _ => 5,
+            Transform _ => 0,
+            Extract _ => 1,
+            Route _ => 2,
+            Classify _ => 3,
+            SplitCollection _ => 4,
+            SplitItem _ => 5,
             ErrorEvent _ => 6,
-            OutputListResponseJoin _ => 7,
-            OutputListResponseEnrich _ => 8,
-            OutputListResponseCollectionProcessing _ => 9,
-            OutputListResponseSend _ => 10,
+            Join _ => 7,
+            Enrich _ => 8,
+            CollectionProcessing _ => 9,
+            Send _ => 10,
             _ => -1,
         };
     }
 }
 
-sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
+sealed class EventConverter : JsonConverter<Event>
 {
-    public override OutputListResponse? Read(
+    public override Event? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -1035,10 +1014,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseTransform>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Transform>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1055,10 +1031,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseExtract>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Extract>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1075,10 +1048,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseRoute>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Route>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1095,10 +1065,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseClassify>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Classify>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1115,11 +1082,10 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized =
-                        JsonSerializer.Deserialize<OutputListResponseSplitCollection>(
-                            element,
-                            options
-                        );
+                    var deserialized = JsonSerializer.Deserialize<SplitCollection>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1136,10 +1102,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItem>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<SplitItem>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1173,10 +1136,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseJoin>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Join>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1193,10 +1153,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseEnrich>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Enrich>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1213,11 +1170,10 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized =
-                        JsonSerializer.Deserialize<OutputListResponseCollectionProcessing>(
-                            element,
-                            options
-                        );
+                    var deserialized = JsonSerializer.Deserialize<CollectionProcessing>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1234,10 +1190,7 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<OutputListResponseSend>(
-                        element,
-                        options
-                    );
+                    var deserialized = JsonSerializer.Deserialize<Send>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1252,25 +1205,19 @@ sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
             }
             default:
             {
-                return new OutputListResponse(element);
+                return new Event(element);
             }
         }
     }
 
-    public override void Write(
-        Utf8JsonWriter writer,
-        OutputListResponse value,
-        JsonSerializerOptions options
-    )
+    public override void Write(Utf8JsonWriter writer, Event value, JsonSerializerOptions options)
     {
         JsonSerializer.Serialize(writer, value.Json, options);
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<OutputListResponseTransform, OutputListResponseTransformFromRaw>)
-)]
-public sealed record class OutputListResponseTransform : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Transform, TransformFromRaw>))]
+public sealed record class Transform : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -1404,14 +1351,12 @@ public sealed record class OutputListResponseTransform : JsonModel
     /// <summary>
     /// Corrected feedback provided for fine-tuning purposes.
     /// </summary>
-    public OutputListResponseTransformCorrectedContent? CorrectedContent
+    public CorrectedContent? CorrectedContent
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseTransformCorrectedContent>(
-                "correctedContent"
-            );
+            return this._rawData.GetNullableClass<CorrectedContent>("correctedContent");
         }
         init { this._rawData.Set("correctedContent", value); }
     }
@@ -1437,13 +1382,13 @@ public sealed record class OutputListResponseTransform : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseTransformEventType>? EventType
+    public ApiEnum<string, global::Bem.Models.Outputs.EventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
             return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseTransformEventType>
+                ApiEnum<string, global::Bem.Models.Outputs.EventType>
             >("eventType");
         }
         init
@@ -1567,18 +1512,16 @@ public sealed record class OutputListResponseTransform : JsonModel
     /// <summary>
     /// Array of transformation inputs with their types and S3 URLs.
     /// </summary>
-    public IReadOnlyList<OutputListResponseTransformInput>? Inputs
+    public IReadOnlyList<Input>? Inputs
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<OutputListResponseTransformInput>
-            >("inputs");
+            return this._rawData.GetNullableStruct<ImmutableArray<Input>>("inputs");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<OutputListResponseTransformInput>?>(
+            this._rawData.Set<ImmutableArray<Input>?>(
                 "inputs",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -1588,14 +1531,12 @@ public sealed record class OutputListResponseTransform : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public ApiEnum<string, OutputListResponseTransformInputType>? InputType
+    public ApiEnum<string, InputType>? InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseTransformInputType>
-            >("inputType");
+            return this._rawData.GetNullableClass<ApiEnum<string, InputType>>("inputType");
         }
         init
         {
@@ -1668,12 +1609,12 @@ public sealed record class OutputListResponseTransform : JsonModel
         init { this._rawData.Set("lastPublishErrorAt", value); }
     }
 
-    public OutputListResponseTransformMetadata? Metadata
+    public global::Bem.Models.Outputs.Metadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseTransformMetadata>("metadata");
+            return this._rawData.GetNullableClass<global::Bem.Models.Outputs.Metadata>("metadata");
         }
         init
         {
@@ -1689,12 +1630,12 @@ public sealed record class OutputListResponseTransform : JsonModel
     /// <summary>
     /// Accuracy, precision, recall, and F1 score when corrected JSON is provided.
     /// </summary>
-    public OutputListResponseTransformMetrics? Metrics
+    public Metrics? Metrics
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseTransformMetrics>("metrics");
+            return this._rawData.GetNullableClass<Metrics>("metrics");
         }
         init { this._rawData.Set("metrics", value); }
     }
@@ -1902,49 +1843,46 @@ public sealed record class OutputListResponseTransform : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseTransform() { }
+    public Transform() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransform(OutputListResponseTransform outputListResponseTransform)
-        : base(outputListResponseTransform) { }
+    public Transform(Transform transform)
+        : base(transform) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransform(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Transform(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransform(FrozenDictionary<string, JsonElement> rawData)
+    Transform(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="TransformFromRaw.FromRawUnchecked"/>
+    public static Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseTransformFromRaw : IFromRawJson<OutputListResponseTransform>
+class TransformFromRaw : IFromRawJson<Transform>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransform FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransform.FromRawUnchecked(rawData);
+    public Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Transform.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Corrected feedback provided for fine-tuning purposes.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseTransformCorrectedContentConverter))]
-public record class OutputListResponseTransformCorrectedContent : ModelBase
+[JsonConverter(typeof(CorrectedContentConverter))]
+public record class CorrectedContent : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -1961,43 +1899,37 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
         }
     }
 
-    public OutputListResponseTransformCorrectedContent(
-        OutputListResponseTransformCorrectedContentOutput value,
-        JsonElement? element = null
-    )
+    public CorrectedContent(Output value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseTransformCorrectedContent(
-        IReadOnlyList<JsonElement> value,
-        JsonElement? element = null
-    )
+    public CorrectedContent(IReadOnlyList<JsonElement> value, JsonElement? element = null)
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
         this._element = element;
     }
 
-    public OutputListResponseTransformCorrectedContent(string value, JsonElement? element = null)
+    public CorrectedContent(string value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseTransformCorrectedContent(double value, JsonElement? element = null)
+    public CorrectedContent(double value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseTransformCorrectedContent(bool value, JsonElement? element = null)
+    public CorrectedContent(bool value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseTransformCorrectedContent(JsonElement element)
+    public CorrectedContent(JsonElement element)
     {
         this._element = element;
         this.Value = element;
@@ -2005,24 +1937,22 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseTransformCorrectedContentOutput"/>.
+    /// type <see cref="Output"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickOutputListResponseTransformCorrectedContentOutput(out var value)) {
-    ///     // `value` is of type `OutputListResponseTransformCorrectedContentOutput`
+    /// if (instance.TryPickOutput(out var value)) {
+    ///     // `value` is of type `Output`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickOutputListResponseTransformCorrectedContentOutput(
-        [NotNullWhen(true)] out OutputListResponseTransformCorrectedContentOutput? value
-    )
+    public bool TryPickOutput([NotNullWhen(true)] out Output? value)
     {
-        value = this.Value as OutputListResponseTransformCorrectedContentOutput;
+        value = this.Value as Output;
         return value != null;
     }
 
@@ -2145,7 +2075,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (OutputListResponseTransformCorrectedContentOutput value) =&gt; {...},
+    ///     (Output value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
     ///     (string value) =&gt; {...},
@@ -2156,7 +2086,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     /// </example>
     /// </summary>
     public void Switch(
-        Action<OutputListResponseTransformCorrectedContentOutput> outputListResponseTransformCorrectedContentOutput,
+        Action<Output> output,
         Action<JsonElement> jsonElement,
         Action<IReadOnlyList<JsonElement>> jsonElements,
         Action<string> @string,
@@ -2166,8 +2096,8 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     {
         switch (this.Value)
         {
-            case OutputListResponseTransformCorrectedContentOutput value:
-                outputListResponseTransformCorrectedContentOutput(value);
+            case Output value:
+                output(value);
                 break;
             case JsonElement value:
                 jsonElement(value);
@@ -2186,7 +2116,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
                 break;
             default:
                 throw new BemInvalidDataException(
-                    "Data did not match any variant of OutputListResponseTransformCorrectedContent"
+                    "Data did not match any variant of CorrectedContent"
                 );
         }
     }
@@ -2206,7 +2136,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (OutputListResponseTransformCorrectedContentOutput value) =&gt; {...},
+    ///     (Output value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
     ///     (string value) =&gt; {...},
@@ -2217,10 +2147,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<
-            OutputListResponseTransformCorrectedContentOutput,
-            T
-        > outputListResponseTransformCorrectedContentOutput,
+        Func<Output, T> output,
         Func<JsonElement, T> jsonElement,
         Func<IReadOnlyList<JsonElement>, T> jsonElements,
         Func<string, T> @string,
@@ -2230,39 +2157,30 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     {
         return this.Value switch
         {
-            OutputListResponseTransformCorrectedContentOutput value =>
-                outputListResponseTransformCorrectedContentOutput(value),
+            Output value => output(value),
             JsonElement value => jsonElement(value),
             IReadOnlyList<JsonElement> value => jsonElements(value),
             string value => @string(value),
             double value => @double(value),
             bool value => @bool(value),
             _ => throw new BemInvalidDataException(
-                "Data did not match any variant of OutputListResponseTransformCorrectedContent"
+                "Data did not match any variant of CorrectedContent"
             ),
         };
     }
 
-    public static implicit operator OutputListResponseTransformCorrectedContent(
-        OutputListResponseTransformCorrectedContentOutput value
-    ) => new(value);
+    public static implicit operator CorrectedContent(Output value) => new(value);
 
-    public static implicit operator OutputListResponseTransformCorrectedContent(
-        JsonElement value
-    ) => new(value);
+    public static implicit operator CorrectedContent(JsonElement value) => new(value);
 
-    public static implicit operator OutputListResponseTransformCorrectedContent(
-        List<JsonElement> value
-    ) => new((IReadOnlyList<JsonElement>)value);
+    public static implicit operator CorrectedContent(List<JsonElement> value) =>
+        new((IReadOnlyList<JsonElement>)value);
 
-    public static implicit operator OutputListResponseTransformCorrectedContent(string value) =>
-        new(value);
+    public static implicit operator CorrectedContent(string value) => new(value);
 
-    public static implicit operator OutputListResponseTransformCorrectedContent(double value) =>
-        new(value);
+    public static implicit operator CorrectedContent(double value) => new(value);
 
-    public static implicit operator OutputListResponseTransformCorrectedContent(bool value) =>
-        new(value);
+    public static implicit operator CorrectedContent(bool value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -2278,13 +2196,10 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException(
-                "Data did not match any variant of OutputListResponseTransformCorrectedContent"
-            );
+            throw new BemInvalidDataException("Data did not match any variant of CorrectedContent");
         }
         this.Switch(
-            (outputListResponseTransformCorrectedContentOutput) =>
-                outputListResponseTransformCorrectedContentOutput.Validate(),
+            (output) => output.Validate(),
             (_) => { },
             (_) => { },
             (_) => { },
@@ -2293,7 +2208,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
         );
     }
 
-    public virtual bool Equals(OutputListResponseTransformCorrectedContent? other) =>
+    public virtual bool Equals(CorrectedContent? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -2313,7 +2228,7 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     {
         return this.Value switch
         {
-            OutputListResponseTransformCorrectedContentOutput _ => 0,
+            Output _ => 0,
             JsonElement _ => 1,
             IReadOnlyList<JsonElement> _ => 2,
             string _ => 3,
@@ -2324,10 +2239,9 @@ public record class OutputListResponseTransformCorrectedContent : ModelBase
     }
 }
 
-sealed class OutputListResponseTransformCorrectedContentConverter
-    : JsonConverter<OutputListResponseTransformCorrectedContent?>
+sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
 {
-    public override OutputListResponseTransformCorrectedContent? Read(
+    public override CorrectedContent? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2336,11 +2250,7 @@ sealed class OutputListResponseTransformCorrectedContentConverter
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized =
-                JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContentOutput>(
-                    element,
-                    options
-                );
+            var deserialized = JsonSerializer.Deserialize<Output>(element, options);
             if (deserialized != null)
             {
                 deserialized.Validate();
@@ -2410,7 +2320,7 @@ sealed class OutputListResponseTransformCorrectedContentConverter
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseTransformCorrectedContent? value,
+        CorrectedContent? value,
         JsonSerializerOptions options
     )
     {
@@ -2418,15 +2328,10 @@ sealed class OutputListResponseTransformCorrectedContentConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseTransformCorrectedContentOutput,
-        OutputListResponseTransformCorrectedContentOutputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseTransformCorrectedContentOutput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Output, OutputFromRaw>))]
+public sealed record class Output : JsonModel
 {
-    public IReadOnlyList<AnyType?>? Output
+    public IReadOnlyList<AnyType?>? OutputValue
     {
         get
         {
@@ -2450,65 +2355,56 @@ public sealed record class OutputListResponseTransformCorrectedContentOutput : J
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.Output ?? [])
+        foreach (var item in this.OutputValue ?? [])
         {
             item?.Validate();
         }
     }
 
-    public OutputListResponseTransformCorrectedContentOutput() { }
+    public Output() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransformCorrectedContentOutput(
-        OutputListResponseTransformCorrectedContentOutput outputListResponseTransformCorrectedContentOutput
-    )
-        : base(outputListResponseTransformCorrectedContentOutput) { }
+    public Output(Output output)
+        : base(output) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransformCorrectedContentOutput(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public Output(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransformCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
+    Output(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformCorrectedContentOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransformCorrectedContentOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="OutputFromRaw.FromRawUnchecked"/>
+    public static Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseTransformCorrectedContentOutputFromRaw
-    : IFromRawJson<OutputListResponseTransformCorrectedContentOutput>
+class OutputFromRaw : IFromRawJson<Output>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransformCorrectedContentOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransformCorrectedContentOutput.FromRawUnchecked(rawData);
+    public Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Output.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseTransformEventTypeConverter))]
-public enum OutputListResponseTransformEventType
+[JsonConverter(typeof(global::Bem.Models.Outputs.EventTypeConverter))]
+public enum EventType
 {
     Transform,
 }
 
-sealed class OutputListResponseTransformEventTypeConverter
-    : JsonConverter<OutputListResponseTransformEventType>
+sealed class EventTypeConverter : JsonConverter<global::Bem.Models.Outputs.EventType>
 {
-    public override OutputListResponseTransformEventType Read(
+    public override global::Bem.Models.Outputs.EventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2516,14 +2412,14 @@ sealed class OutputListResponseTransformEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "transform" => OutputListResponseTransformEventType.Transform,
-            _ => (OutputListResponseTransformEventType)(-1),
+            "transform" => global::Bem.Models.Outputs.EventType.Transform,
+            _ => (global::Bem.Models.Outputs.EventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseTransformEventType value,
+        global::Bem.Models.Outputs.EventType value,
         JsonSerializerOptions options
     )
     {
@@ -2531,7 +2427,7 @@ sealed class OutputListResponseTransformEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseTransformEventType.Transform => "transform",
+                global::Bem.Models.Outputs.EventType.Transform => "transform",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2541,13 +2437,8 @@ sealed class OutputListResponseTransformEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseTransformInput,
-        OutputListResponseTransformInputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseTransformInput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Input, InputFromRaw>))]
+public sealed record class Input : JsonModel
 {
     public string? InputContent
     {
@@ -2598,51 +2489,46 @@ public sealed record class OutputListResponseTransformInput : JsonModel
         _ = this.S3Url;
     }
 
-    public OutputListResponseTransformInput() { }
+    public Input() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransformInput(
-        OutputListResponseTransformInput outputListResponseTransformInput
-    )
-        : base(outputListResponseTransformInput) { }
+    public Input(Input input)
+        : base(input) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransformInput(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Input(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransformInput(FrozenDictionary<string, JsonElement> rawData)
+    Input(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformInputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransformInput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="InputFromRaw.FromRawUnchecked"/>
+    public static Input FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseTransformInputFromRaw : IFromRawJson<OutputListResponseTransformInput>
+class InputFromRaw : IFromRawJson<Input>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransformInput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransformInput.FromRawUnchecked(rawData);
+    public Input FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Input.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The input type of the content you're sending for transformation.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseTransformInputTypeConverter))]
-public enum OutputListResponseTransformInputType
+[JsonConverter(typeof(InputTypeConverter))]
+public enum InputType
 {
     Csv,
     Docx,
@@ -2664,10 +2550,9 @@ public enum OutputListResponseTransformInputType
     Xml,
 }
 
-sealed class OutputListResponseTransformInputTypeConverter
-    : JsonConverter<OutputListResponseTransformInputType>
+sealed class InputTypeConverter : JsonConverter<InputType>
 {
-    public override OutputListResponseTransformInputType Read(
+    public override InputType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2675,31 +2560,31 @@ sealed class OutputListResponseTransformInputTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "csv" => OutputListResponseTransformInputType.Csv,
-            "docx" => OutputListResponseTransformInputType.Docx,
-            "email" => OutputListResponseTransformInputType.Email,
-            "heic" => OutputListResponseTransformInputType.Heic,
-            "html" => OutputListResponseTransformInputType.Html,
-            "jpeg" => OutputListResponseTransformInputType.Jpeg,
-            "json" => OutputListResponseTransformInputType.Json,
-            "heif" => OutputListResponseTransformInputType.Heif,
-            "m4a" => OutputListResponseTransformInputType.M4a,
-            "mp3" => OutputListResponseTransformInputType.Mp3,
-            "pdf" => OutputListResponseTransformInputType.Pdf,
-            "png" => OutputListResponseTransformInputType.Png,
-            "text" => OutputListResponseTransformInputType.Text,
-            "wav" => OutputListResponseTransformInputType.Wav,
-            "webp" => OutputListResponseTransformInputType.Webp,
-            "xls" => OutputListResponseTransformInputType.Xls,
-            "xlsx" => OutputListResponseTransformInputType.Xlsx,
-            "xml" => OutputListResponseTransformInputType.Xml,
-            _ => (OutputListResponseTransformInputType)(-1),
+            "csv" => InputType.Csv,
+            "docx" => InputType.Docx,
+            "email" => InputType.Email,
+            "heic" => InputType.Heic,
+            "html" => InputType.Html,
+            "jpeg" => InputType.Jpeg,
+            "json" => InputType.Json,
+            "heif" => InputType.Heif,
+            "m4a" => InputType.M4a,
+            "mp3" => InputType.Mp3,
+            "pdf" => InputType.Pdf,
+            "png" => InputType.Png,
+            "text" => InputType.Text,
+            "wav" => InputType.Wav,
+            "webp" => InputType.Webp,
+            "xls" => InputType.Xls,
+            "xlsx" => InputType.Xlsx,
+            "xml" => InputType.Xml,
+            _ => (InputType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseTransformInputType value,
+        InputType value,
         JsonSerializerOptions options
     )
     {
@@ -2707,24 +2592,24 @@ sealed class OutputListResponseTransformInputTypeConverter
             writer,
             value switch
             {
-                OutputListResponseTransformInputType.Csv => "csv",
-                OutputListResponseTransformInputType.Docx => "docx",
-                OutputListResponseTransformInputType.Email => "email",
-                OutputListResponseTransformInputType.Heic => "heic",
-                OutputListResponseTransformInputType.Html => "html",
-                OutputListResponseTransformInputType.Jpeg => "jpeg",
-                OutputListResponseTransformInputType.Json => "json",
-                OutputListResponseTransformInputType.Heif => "heif",
-                OutputListResponseTransformInputType.M4a => "m4a",
-                OutputListResponseTransformInputType.Mp3 => "mp3",
-                OutputListResponseTransformInputType.Pdf => "pdf",
-                OutputListResponseTransformInputType.Png => "png",
-                OutputListResponseTransformInputType.Text => "text",
-                OutputListResponseTransformInputType.Wav => "wav",
-                OutputListResponseTransformInputType.Webp => "webp",
-                OutputListResponseTransformInputType.Xls => "xls",
-                OutputListResponseTransformInputType.Xlsx => "xlsx",
-                OutputListResponseTransformInputType.Xml => "xml",
+                InputType.Csv => "csv",
+                InputType.Docx => "docx",
+                InputType.Email => "email",
+                InputType.Heic => "heic",
+                InputType.Html => "html",
+                InputType.Jpeg => "jpeg",
+                InputType.Json => "json",
+                InputType.Heif => "heif",
+                InputType.M4a => "m4a",
+                InputType.Mp3 => "mp3",
+                InputType.Pdf => "pdf",
+                InputType.Png => "png",
+                InputType.Text => "text",
+                InputType.Wav => "wav",
+                InputType.Webp => "webp",
+                InputType.Xls => "xls",
+                InputType.Xlsx => "xlsx",
+                InputType.Xml => "xml",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2736,11 +2621,11 @@ sealed class OutputListResponseTransformInputTypeConverter
 
 [JsonConverter(
     typeof(JsonModelConverter<
-        OutputListResponseTransformMetadata,
-        OutputListResponseTransformMetadataFromRaw
+        global::Bem.Models.Outputs.Metadata,
+        global::Bem.Models.Outputs.MetadataFromRaw
     >)
 )]
-public sealed record class OutputListResponseTransformMetadata : JsonModel
+public sealed record class Metadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -2766,31 +2651,29 @@ public sealed record class OutputListResponseTransformMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseTransformMetadata() { }
+    public Metadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransformMetadata(
-        OutputListResponseTransformMetadata outputListResponseTransformMetadata
-    )
-        : base(outputListResponseTransformMetadata) { }
+    public Metadata(global::Bem.Models.Outputs.Metadata metadata)
+        : base(metadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransformMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Metadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransformMetadata(FrozenDictionary<string, JsonElement> rawData)
+    Metadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransformMetadata FromRawUnchecked(
+    /// <inheritdoc cref="global::Bem.Models.Outputs.MetadataFromRaw.FromRawUnchecked"/>
+    public static global::Bem.Models.Outputs.Metadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -2798,33 +2681,26 @@ public sealed record class OutputListResponseTransformMetadata : JsonModel
     }
 }
 
-class OutputListResponseTransformMetadataFromRaw : IFromRawJson<OutputListResponseTransformMetadata>
+class MetadataFromRaw : IFromRawJson<global::Bem.Models.Outputs.Metadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransformMetadata FromRawUnchecked(
+    public global::Bem.Models.Outputs.Metadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransformMetadata.FromRawUnchecked(rawData);
+    ) => global::Bem.Models.Outputs.Metadata.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Accuracy, precision, recall, and F1 score when corrected JSON is provided.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseTransformMetrics,
-        OutputListResponseTransformMetricsFromRaw
-    >)
-)]
-public sealed record class OutputListResponseTransformMetrics : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Metrics, MetricsFromRaw>))]
+public sealed record class Metrics : JsonModel
 {
-    public IReadOnlyList<OutputListResponseTransformMetricsDifference>? Differences
+    public IReadOnlyList<Difference>? Differences
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<OutputListResponseTransformMetricsDifference>
-            >("differences");
+            return this._rawData.GetNullableStruct<ImmutableArray<Difference>>("differences");
         }
         init
         {
@@ -2833,21 +2709,19 @@ public sealed record class OutputListResponseTransformMetrics : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<OutputListResponseTransformMetricsDifference>?>(
+            this._rawData.Set<ImmutableArray<Difference>?>(
                 "differences",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }
     }
 
-    public OutputListResponseTransformMetricsMetrics? Metrics
+    public MetricsMetrics? MetricsValue
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseTransformMetricsMetrics>(
-                "metrics"
-            );
+            return this._rawData.GetNullableClass<MetricsMetrics>("metrics");
         }
         init
         {
@@ -2867,56 +2741,46 @@ public sealed record class OutputListResponseTransformMetrics : JsonModel
         {
             item.Validate();
         }
-        this.Metrics?.Validate();
+        this.MetricsValue?.Validate();
     }
 
-    public OutputListResponseTransformMetrics() { }
+    public Metrics() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransformMetrics(
-        OutputListResponseTransformMetrics outputListResponseTransformMetrics
-    )
-        : base(outputListResponseTransformMetrics) { }
+    public Metrics(Metrics metrics)
+        : base(metrics) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransformMetrics(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Metrics(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransformMetrics(FrozenDictionary<string, JsonElement> rawData)
+    Metrics(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformMetricsFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransformMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="MetricsFromRaw.FromRawUnchecked"/>
+    public static Metrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseTransformMetricsFromRaw : IFromRawJson<OutputListResponseTransformMetrics>
+class MetricsFromRaw : IFromRawJson<Metrics>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransformMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransformMetrics.FromRawUnchecked(rawData);
+    public Metrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Metrics.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseTransformMetricsDifference,
-        OutputListResponseTransformMetricsDifferenceFromRaw
-    >)
-)]
-public sealed record class OutputListResponseTransformMetricsDifference : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Difference, DifferenceFromRaw>))]
+public sealed record class Difference : JsonModel
 {
     public string? Category
     {
@@ -2999,56 +2863,43 @@ public sealed record class OutputListResponseTransformMetricsDifference : JsonMo
         _ = this.JsonPointer;
     }
 
-    public OutputListResponseTransformMetricsDifference() { }
+    public Difference() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransformMetricsDifference(
-        OutputListResponseTransformMetricsDifference outputListResponseTransformMetricsDifference
-    )
-        : base(outputListResponseTransformMetricsDifference) { }
+    public Difference(Difference difference)
+        : base(difference) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransformMetricsDifference(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public Difference(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransformMetricsDifference(FrozenDictionary<string, JsonElement> rawData)
+    Difference(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformMetricsDifferenceFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransformMetricsDifference FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="DifferenceFromRaw.FromRawUnchecked"/>
+    public static Difference FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseTransformMetricsDifferenceFromRaw
-    : IFromRawJson<OutputListResponseTransformMetricsDifference>
+class DifferenceFromRaw : IFromRawJson<Difference>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransformMetricsDifference FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransformMetricsDifference.FromRawUnchecked(rawData);
+    public Difference FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Difference.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseTransformMetricsMetrics,
-        OutputListResponseTransformMetricsMetricsFromRaw
-    >)
-)]
-public sealed record class OutputListResponseTransformMetricsMetrics : JsonModel
+[JsonConverter(typeof(JsonModelConverter<MetricsMetrics, MetricsMetricsFromRaw>))]
+public sealed record class MetricsMetrics : JsonModel
 {
     public double? Accuracy
     {
@@ -3131,47 +2982,39 @@ public sealed record class OutputListResponseTransformMetricsMetrics : JsonModel
         _ = this.Recall;
     }
 
-    public OutputListResponseTransformMetricsMetrics() { }
+    public MetricsMetrics() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseTransformMetricsMetrics(
-        OutputListResponseTransformMetricsMetrics outputListResponseTransformMetricsMetrics
-    )
-        : base(outputListResponseTransformMetricsMetrics) { }
+    public MetricsMetrics(MetricsMetrics metricsMetrics)
+        : base(metricsMetrics) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseTransformMetricsMetrics(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public MetricsMetrics(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseTransformMetricsMetrics(FrozenDictionary<string, JsonElement> rawData)
+    MetricsMetrics(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseTransformMetricsMetricsFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseTransformMetricsMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="MetricsMetricsFromRaw.FromRawUnchecked"/>
+    public static MetricsMetrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseTransformMetricsMetricsFromRaw
-    : IFromRawJson<OutputListResponseTransformMetricsMetrics>
+class MetricsMetricsFromRaw : IFromRawJson<MetricsMetrics>
 {
     /// <inheritdoc/>
-    public OutputListResponseTransformMetricsMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseTransformMetricsMetrics.FromRawUnchecked(rawData);
+    public MetricsMetrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        MetricsMetrics.FromRawUnchecked(rawData);
 }
 
 /// <summary>
@@ -3183,10 +3026,8 @@ class OutputListResponseTransformMetricsMetricsFromRaw
 /// V3 response payloads add the new variants via the `EventV3` union below while
 /// keeping every shared variant intact for backward compatibility.</para>
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<OutputListResponseExtract, OutputListResponseExtractFromRaw>)
-)]
-public sealed record class OutputListResponseExtract : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Extract, ExtractFromRaw>))]
+public sealed record class Extract : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -3320,14 +3161,12 @@ public sealed record class OutputListResponseExtract : JsonModel
     /// <summary>
     /// Corrected feedback provided for fine-tuning purposes.
     /// </summary>
-    public OutputListResponseExtractCorrectedContent? CorrectedContent
+    public ExtractCorrectedContent? CorrectedContent
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseExtractCorrectedContent>(
-                "correctedContent"
-            );
+            return this._rawData.GetNullableClass<ExtractCorrectedContent>("correctedContent");
         }
         init { this._rawData.Set("correctedContent", value); }
     }
@@ -3353,14 +3192,12 @@ public sealed record class OutputListResponseExtract : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseExtractEventType>? EventType
+    public ApiEnum<string, ExtractEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseExtractEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, ExtractEventType>>("eventType");
         }
         init
         {
@@ -3483,18 +3320,16 @@ public sealed record class OutputListResponseExtract : JsonModel
     /// <summary>
     /// Array of transformation inputs with their types and S3 URLs.
     /// </summary>
-    public IReadOnlyList<OutputListResponseExtractInput>? Inputs
+    public IReadOnlyList<ExtractInput>? Inputs
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<OutputListResponseExtractInput>>(
-                "inputs"
-            );
+            return this._rawData.GetNullableStruct<ImmutableArray<ExtractInput>>("inputs");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<OutputListResponseExtractInput>?>(
+            this._rawData.Set<ImmutableArray<ExtractInput>?>(
                 "inputs",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -3504,14 +3339,12 @@ public sealed record class OutputListResponseExtract : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public ApiEnum<string, OutputListResponseExtractInputType>? InputType
+    public ApiEnum<string, ExtractInputType>? InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseExtractInputType>
-            >("inputType");
+            return this._rawData.GetNullableClass<ApiEnum<string, ExtractInputType>>("inputType");
         }
         init
         {
@@ -3548,12 +3381,12 @@ public sealed record class OutputListResponseExtract : JsonModel
         }
     }
 
-    public OutputListResponseExtractMetadata? Metadata
+    public ExtractMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseExtractMetadata>("metadata");
+            return this._rawData.GetNullableClass<ExtractMetadata>("metadata");
         }
         init
         {
@@ -3698,49 +3531,46 @@ public sealed record class OutputListResponseExtract : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseExtract() { }
+    public Extract() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseExtract(OutputListResponseExtract outputListResponseExtract)
-        : base(outputListResponseExtract) { }
+    public Extract(Extract extract)
+        : base(extract) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseExtract(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Extract(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseExtract(FrozenDictionary<string, JsonElement> rawData)
+    Extract(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseExtractFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseExtract FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ExtractFromRaw.FromRawUnchecked"/>
+    public static Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseExtractFromRaw : IFromRawJson<OutputListResponseExtract>
+class ExtractFromRaw : IFromRawJson<Extract>
 {
     /// <inheritdoc/>
-    public OutputListResponseExtract FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseExtract.FromRawUnchecked(rawData);
+    public Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Extract.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Corrected feedback provided for fine-tuning purposes.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseExtractCorrectedContentConverter))]
-public record class OutputListResponseExtractCorrectedContent : ModelBase
+[JsonConverter(typeof(ExtractCorrectedContentConverter))]
+public record class ExtractCorrectedContent : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -3757,43 +3587,37 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
         }
     }
 
-    public OutputListResponseExtractCorrectedContent(
-        OutputListResponseExtractCorrectedContentOutput value,
-        JsonElement? element = null
-    )
+    public ExtractCorrectedContent(ExtractCorrectedContentOutput value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseExtractCorrectedContent(
-        IReadOnlyList<JsonElement> value,
-        JsonElement? element = null
-    )
+    public ExtractCorrectedContent(IReadOnlyList<JsonElement> value, JsonElement? element = null)
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
         this._element = element;
     }
 
-    public OutputListResponseExtractCorrectedContent(string value, JsonElement? element = null)
+    public ExtractCorrectedContent(string value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseExtractCorrectedContent(double value, JsonElement? element = null)
+    public ExtractCorrectedContent(double value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseExtractCorrectedContent(bool value, JsonElement? element = null)
+    public ExtractCorrectedContent(bool value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public OutputListResponseExtractCorrectedContent(JsonElement element)
+    public ExtractCorrectedContent(JsonElement element)
     {
         this._element = element;
         this.Value = element;
@@ -3801,24 +3625,24 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="OutputListResponseExtractCorrectedContentOutput"/>.
+    /// type <see cref="ExtractCorrectedContentOutput"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickOutputListResponseExtractCorrectedContentOutput(out var value)) {
-    ///     // `value` is of type `OutputListResponseExtractCorrectedContentOutput`
+    /// if (instance.TryPickExtractCorrectedContentOutput(out var value)) {
+    ///     // `value` is of type `ExtractCorrectedContentOutput`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickOutputListResponseExtractCorrectedContentOutput(
-        [NotNullWhen(true)] out OutputListResponseExtractCorrectedContentOutput? value
+    public bool TryPickExtractCorrectedContentOutput(
+        [NotNullWhen(true)] out ExtractCorrectedContentOutput? value
     )
     {
-        value = this.Value as OutputListResponseExtractCorrectedContentOutput;
+        value = this.Value as ExtractCorrectedContentOutput;
         return value != null;
     }
 
@@ -3941,7 +3765,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (OutputListResponseExtractCorrectedContentOutput value) =&gt; {...},
+    ///     (ExtractCorrectedContentOutput value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
     ///     (string value) =&gt; {...},
@@ -3952,7 +3776,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     /// </example>
     /// </summary>
     public void Switch(
-        Action<OutputListResponseExtractCorrectedContentOutput> outputListResponseExtractCorrectedContentOutput,
+        Action<ExtractCorrectedContentOutput> extractCorrectedContentOutput,
         Action<JsonElement> jsonElement,
         Action<IReadOnlyList<JsonElement>> jsonElements,
         Action<string> @string,
@@ -3962,8 +3786,8 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     {
         switch (this.Value)
         {
-            case OutputListResponseExtractCorrectedContentOutput value:
-                outputListResponseExtractCorrectedContentOutput(value);
+            case ExtractCorrectedContentOutput value:
+                extractCorrectedContentOutput(value);
                 break;
             case JsonElement value:
                 jsonElement(value);
@@ -3982,7 +3806,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
                 break;
             default:
                 throw new BemInvalidDataException(
-                    "Data did not match any variant of OutputListResponseExtractCorrectedContent"
+                    "Data did not match any variant of ExtractCorrectedContent"
                 );
         }
     }
@@ -4002,7 +3826,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (OutputListResponseExtractCorrectedContentOutput value) =&gt; {...},
+    ///     (ExtractCorrectedContentOutput value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
     ///     (string value) =&gt; {...},
@@ -4013,10 +3837,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<
-            OutputListResponseExtractCorrectedContentOutput,
-            T
-        > outputListResponseExtractCorrectedContentOutput,
+        Func<ExtractCorrectedContentOutput, T> extractCorrectedContentOutput,
         Func<JsonElement, T> jsonElement,
         Func<IReadOnlyList<JsonElement>, T> jsonElements,
         Func<string, T> @string,
@@ -4026,38 +3847,31 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     {
         return this.Value switch
         {
-            OutputListResponseExtractCorrectedContentOutput value =>
-                outputListResponseExtractCorrectedContentOutput(value),
+            ExtractCorrectedContentOutput value => extractCorrectedContentOutput(value),
             JsonElement value => jsonElement(value),
             IReadOnlyList<JsonElement> value => jsonElements(value),
             string value => @string(value),
             double value => @double(value),
             bool value => @bool(value),
             _ => throw new BemInvalidDataException(
-                "Data did not match any variant of OutputListResponseExtractCorrectedContent"
+                "Data did not match any variant of ExtractCorrectedContent"
             ),
         };
     }
 
-    public static implicit operator OutputListResponseExtractCorrectedContent(
-        OutputListResponseExtractCorrectedContentOutput value
-    ) => new(value);
-
-    public static implicit operator OutputListResponseExtractCorrectedContent(JsonElement value) =>
+    public static implicit operator ExtractCorrectedContent(ExtractCorrectedContentOutput value) =>
         new(value);
 
-    public static implicit operator OutputListResponseExtractCorrectedContent(
-        List<JsonElement> value
-    ) => new((IReadOnlyList<JsonElement>)value);
+    public static implicit operator ExtractCorrectedContent(JsonElement value) => new(value);
 
-    public static implicit operator OutputListResponseExtractCorrectedContent(string value) =>
-        new(value);
+    public static implicit operator ExtractCorrectedContent(List<JsonElement> value) =>
+        new((IReadOnlyList<JsonElement>)value);
 
-    public static implicit operator OutputListResponseExtractCorrectedContent(double value) =>
-        new(value);
+    public static implicit operator ExtractCorrectedContent(string value) => new(value);
 
-    public static implicit operator OutputListResponseExtractCorrectedContent(bool value) =>
-        new(value);
+    public static implicit operator ExtractCorrectedContent(double value) => new(value);
+
+    public static implicit operator ExtractCorrectedContent(bool value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -4074,12 +3888,11 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
         if (this.Value == null)
         {
             throw new BemInvalidDataException(
-                "Data did not match any variant of OutputListResponseExtractCorrectedContent"
+                "Data did not match any variant of ExtractCorrectedContent"
             );
         }
         this.Switch(
-            (outputListResponseExtractCorrectedContentOutput) =>
-                outputListResponseExtractCorrectedContentOutput.Validate(),
+            (extractCorrectedContentOutput) => extractCorrectedContentOutput.Validate(),
             (_) => { },
             (_) => { },
             (_) => { },
@@ -4088,7 +3901,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
         );
     }
 
-    public virtual bool Equals(OutputListResponseExtractCorrectedContent? other) =>
+    public virtual bool Equals(ExtractCorrectedContent? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -4108,7 +3921,7 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     {
         return this.Value switch
         {
-            OutputListResponseExtractCorrectedContentOutput _ => 0,
+            ExtractCorrectedContentOutput _ => 0,
             JsonElement _ => 1,
             IReadOnlyList<JsonElement> _ => 2,
             string _ => 3,
@@ -4119,10 +3932,9 @@ public record class OutputListResponseExtractCorrectedContent : ModelBase
     }
 }
 
-sealed class OutputListResponseExtractCorrectedContentConverter
-    : JsonConverter<OutputListResponseExtractCorrectedContent?>
+sealed class ExtractCorrectedContentConverter : JsonConverter<ExtractCorrectedContent?>
 {
-    public override OutputListResponseExtractCorrectedContent? Read(
+    public override ExtractCorrectedContent? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -4131,11 +3943,10 @@ sealed class OutputListResponseExtractCorrectedContentConverter
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized =
-                JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContentOutput>(
-                    element,
-                    options
-                );
+            var deserialized = JsonSerializer.Deserialize<ExtractCorrectedContentOutput>(
+                element,
+                options
+            );
             if (deserialized != null)
             {
                 deserialized.Validate();
@@ -4205,7 +4016,7 @@ sealed class OutputListResponseExtractCorrectedContentConverter
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseExtractCorrectedContent? value,
+        ExtractCorrectedContent? value,
         JsonSerializerOptions options
     )
     {
@@ -4214,12 +4025,9 @@ sealed class OutputListResponseExtractCorrectedContentConverter
 }
 
 [JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseExtractCorrectedContentOutput,
-        OutputListResponseExtractCorrectedContentOutputFromRaw
-    >)
+    typeof(JsonModelConverter<ExtractCorrectedContentOutput, ExtractCorrectedContentOutputFromRaw>)
 )]
-public sealed record class OutputListResponseExtractCorrectedContentOutput : JsonModel
+public sealed record class ExtractCorrectedContentOutput : JsonModel
 {
     public IReadOnlyList<AnyType?>? Output
     {
@@ -4251,33 +4059,31 @@ public sealed record class OutputListResponseExtractCorrectedContentOutput : Jso
         }
     }
 
-    public OutputListResponseExtractCorrectedContentOutput() { }
+    public ExtractCorrectedContentOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseExtractCorrectedContentOutput(
-        OutputListResponseExtractCorrectedContentOutput outputListResponseExtractCorrectedContentOutput
+    public ExtractCorrectedContentOutput(
+        ExtractCorrectedContentOutput extractCorrectedContentOutput
     )
-        : base(outputListResponseExtractCorrectedContentOutput) { }
+        : base(extractCorrectedContentOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseExtractCorrectedContentOutput(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public ExtractCorrectedContentOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseExtractCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
+    ExtractCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseExtractCorrectedContentOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseExtractCorrectedContentOutput FromRawUnchecked(
+    /// <inheritdoc cref="ExtractCorrectedContentOutputFromRaw.FromRawUnchecked"/>
+    public static ExtractCorrectedContentOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -4285,25 +4091,23 @@ public sealed record class OutputListResponseExtractCorrectedContentOutput : Jso
     }
 }
 
-class OutputListResponseExtractCorrectedContentOutputFromRaw
-    : IFromRawJson<OutputListResponseExtractCorrectedContentOutput>
+class ExtractCorrectedContentOutputFromRaw : IFromRawJson<ExtractCorrectedContentOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseExtractCorrectedContentOutput FromRawUnchecked(
+    public ExtractCorrectedContentOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseExtractCorrectedContentOutput.FromRawUnchecked(rawData);
+    ) => ExtractCorrectedContentOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseExtractEventTypeConverter))]
-public enum OutputListResponseExtractEventType
+[JsonConverter(typeof(ExtractEventTypeConverter))]
+public enum ExtractEventType
 {
     Extract,
 }
 
-sealed class OutputListResponseExtractEventTypeConverter
-    : JsonConverter<OutputListResponseExtractEventType>
+sealed class ExtractEventTypeConverter : JsonConverter<ExtractEventType>
 {
-    public override OutputListResponseExtractEventType Read(
+    public override ExtractEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -4311,14 +4115,14 @@ sealed class OutputListResponseExtractEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "extract" => OutputListResponseExtractEventType.Extract,
-            _ => (OutputListResponseExtractEventType)(-1),
+            "extract" => ExtractEventType.Extract,
+            _ => (ExtractEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseExtractEventType value,
+        ExtractEventType value,
         JsonSerializerOptions options
     )
     {
@@ -4326,7 +4130,7 @@ sealed class OutputListResponseExtractEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseExtractEventType.Extract => "extract",
+                ExtractEventType.Extract => "extract",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -4336,13 +4140,8 @@ sealed class OutputListResponseExtractEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseExtractInput,
-        OutputListResponseExtractInputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseExtractInput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<ExtractInput, ExtractInputFromRaw>))]
+public sealed record class ExtractInput : JsonModel
 {
     public string? InputContent
     {
@@ -4393,51 +4192,46 @@ public sealed record class OutputListResponseExtractInput : JsonModel
         _ = this.S3Url;
     }
 
-    public OutputListResponseExtractInput() { }
+    public ExtractInput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseExtractInput(
-        OutputListResponseExtractInput outputListResponseExtractInput
-    )
-        : base(outputListResponseExtractInput) { }
+    public ExtractInput(ExtractInput extractInput)
+        : base(extractInput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseExtractInput(IReadOnlyDictionary<string, JsonElement> rawData)
+    public ExtractInput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseExtractInput(FrozenDictionary<string, JsonElement> rawData)
+    ExtractInput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseExtractInputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseExtractInput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ExtractInputFromRaw.FromRawUnchecked"/>
+    public static ExtractInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseExtractInputFromRaw : IFromRawJson<OutputListResponseExtractInput>
+class ExtractInputFromRaw : IFromRawJson<ExtractInput>
 {
     /// <inheritdoc/>
-    public OutputListResponseExtractInput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseExtractInput.FromRawUnchecked(rawData);
+    public ExtractInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ExtractInput.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The input type of the content you're sending for transformation.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseExtractInputTypeConverter))]
-public enum OutputListResponseExtractInputType
+[JsonConverter(typeof(ExtractInputTypeConverter))]
+public enum ExtractInputType
 {
     Csv,
     Docx,
@@ -4459,10 +4253,9 @@ public enum OutputListResponseExtractInputType
     Xml,
 }
 
-sealed class OutputListResponseExtractInputTypeConverter
-    : JsonConverter<OutputListResponseExtractInputType>
+sealed class ExtractInputTypeConverter : JsonConverter<ExtractInputType>
 {
-    public override OutputListResponseExtractInputType Read(
+    public override ExtractInputType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -4470,31 +4263,31 @@ sealed class OutputListResponseExtractInputTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "csv" => OutputListResponseExtractInputType.Csv,
-            "docx" => OutputListResponseExtractInputType.Docx,
-            "email" => OutputListResponseExtractInputType.Email,
-            "heic" => OutputListResponseExtractInputType.Heic,
-            "html" => OutputListResponseExtractInputType.Html,
-            "jpeg" => OutputListResponseExtractInputType.Jpeg,
-            "json" => OutputListResponseExtractInputType.Json,
-            "heif" => OutputListResponseExtractInputType.Heif,
-            "m4a" => OutputListResponseExtractInputType.M4a,
-            "mp3" => OutputListResponseExtractInputType.Mp3,
-            "pdf" => OutputListResponseExtractInputType.Pdf,
-            "png" => OutputListResponseExtractInputType.Png,
-            "text" => OutputListResponseExtractInputType.Text,
-            "wav" => OutputListResponseExtractInputType.Wav,
-            "webp" => OutputListResponseExtractInputType.Webp,
-            "xls" => OutputListResponseExtractInputType.Xls,
-            "xlsx" => OutputListResponseExtractInputType.Xlsx,
-            "xml" => OutputListResponseExtractInputType.Xml,
-            _ => (OutputListResponseExtractInputType)(-1),
+            "csv" => ExtractInputType.Csv,
+            "docx" => ExtractInputType.Docx,
+            "email" => ExtractInputType.Email,
+            "heic" => ExtractInputType.Heic,
+            "html" => ExtractInputType.Html,
+            "jpeg" => ExtractInputType.Jpeg,
+            "json" => ExtractInputType.Json,
+            "heif" => ExtractInputType.Heif,
+            "m4a" => ExtractInputType.M4a,
+            "mp3" => ExtractInputType.Mp3,
+            "pdf" => ExtractInputType.Pdf,
+            "png" => ExtractInputType.Png,
+            "text" => ExtractInputType.Text,
+            "wav" => ExtractInputType.Wav,
+            "webp" => ExtractInputType.Webp,
+            "xls" => ExtractInputType.Xls,
+            "xlsx" => ExtractInputType.Xlsx,
+            "xml" => ExtractInputType.Xml,
+            _ => (ExtractInputType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseExtractInputType value,
+        ExtractInputType value,
         JsonSerializerOptions options
     )
     {
@@ -4502,24 +4295,24 @@ sealed class OutputListResponseExtractInputTypeConverter
             writer,
             value switch
             {
-                OutputListResponseExtractInputType.Csv => "csv",
-                OutputListResponseExtractInputType.Docx => "docx",
-                OutputListResponseExtractInputType.Email => "email",
-                OutputListResponseExtractInputType.Heic => "heic",
-                OutputListResponseExtractInputType.Html => "html",
-                OutputListResponseExtractInputType.Jpeg => "jpeg",
-                OutputListResponseExtractInputType.Json => "json",
-                OutputListResponseExtractInputType.Heif => "heif",
-                OutputListResponseExtractInputType.M4a => "m4a",
-                OutputListResponseExtractInputType.Mp3 => "mp3",
-                OutputListResponseExtractInputType.Pdf => "pdf",
-                OutputListResponseExtractInputType.Png => "png",
-                OutputListResponseExtractInputType.Text => "text",
-                OutputListResponseExtractInputType.Wav => "wav",
-                OutputListResponseExtractInputType.Webp => "webp",
-                OutputListResponseExtractInputType.Xls => "xls",
-                OutputListResponseExtractInputType.Xlsx => "xlsx",
-                OutputListResponseExtractInputType.Xml => "xml",
+                ExtractInputType.Csv => "csv",
+                ExtractInputType.Docx => "docx",
+                ExtractInputType.Email => "email",
+                ExtractInputType.Heic => "heic",
+                ExtractInputType.Html => "html",
+                ExtractInputType.Jpeg => "jpeg",
+                ExtractInputType.Json => "json",
+                ExtractInputType.Heif => "heif",
+                ExtractInputType.M4a => "m4a",
+                ExtractInputType.Mp3 => "mp3",
+                ExtractInputType.Pdf => "pdf",
+                ExtractInputType.Png => "png",
+                ExtractInputType.Text => "text",
+                ExtractInputType.Wav => "wav",
+                ExtractInputType.Webp => "webp",
+                ExtractInputType.Xls => "xls",
+                ExtractInputType.Xlsx => "xlsx",
+                ExtractInputType.Xml => "xml",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -4529,13 +4322,8 @@ sealed class OutputListResponseExtractInputTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseExtractMetadata,
-        OutputListResponseExtractMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseExtractMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<ExtractMetadata, ExtractMetadataFromRaw>))]
+public sealed record class ExtractMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -4561,48 +4349,43 @@ public sealed record class OutputListResponseExtractMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseExtractMetadata() { }
+    public ExtractMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseExtractMetadata(
-        OutputListResponseExtractMetadata outputListResponseExtractMetadata
-    )
-        : base(outputListResponseExtractMetadata) { }
+    public ExtractMetadata(ExtractMetadata extractMetadata)
+        : base(extractMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseExtractMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public ExtractMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseExtractMetadata(FrozenDictionary<string, JsonElement> rawData)
+    ExtractMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseExtractMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseExtractMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ExtractMetadataFromRaw.FromRawUnchecked"/>
+    public static ExtractMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseExtractMetadataFromRaw : IFromRawJson<OutputListResponseExtractMetadata>
+class ExtractMetadataFromRaw : IFromRawJson<ExtractMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseExtractMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseExtractMetadata.FromRawUnchecked(rawData);
+    public ExtractMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ExtractMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<OutputListResponseRoute, OutputListResponseRouteFromRaw>))]
-public sealed record class OutputListResponseRoute : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Route, RouteFromRaw>))]
+public sealed record class Route : JsonModel
 {
     /// <summary>
     /// The choice made by the router function.
@@ -4712,14 +4495,12 @@ public sealed record class OutputListResponseRoute : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseRouteEventType>? EventType
+    public ApiEnum<string, RouteEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseRouteEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, RouteEventType>>("eventType");
         }
         init
         {
@@ -4816,12 +4597,12 @@ public sealed record class OutputListResponseRoute : JsonModel
         }
     }
 
-    public OutputListResponseRouteMetadata? Metadata
+    public RouteMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseRouteMetadata>("metadata");
+            return this._rawData.GetNullableClass<RouteMetadata>("metadata");
         }
         init
         {
@@ -4940,54 +4721,50 @@ public sealed record class OutputListResponseRoute : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseRoute() { }
+    public Route() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseRoute(OutputListResponseRoute outputListResponseRoute)
-        : base(outputListResponseRoute) { }
+    public Route(Route route)
+        : base(route) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseRoute(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Route(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseRoute(FrozenDictionary<string, JsonElement> rawData)
+    Route(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseRouteFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseRoute FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="RouteFromRaw.FromRawUnchecked"/>
+    public static Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseRouteFromRaw : IFromRawJson<OutputListResponseRoute>
+class RouteFromRaw : IFromRawJson<Route>
 {
     /// <inheritdoc/>
-    public OutputListResponseRoute FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseRoute.FromRawUnchecked(rawData);
+    public Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Route.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseRouteEventTypeConverter))]
-public enum OutputListResponseRouteEventType
+[JsonConverter(typeof(RouteEventTypeConverter))]
+public enum RouteEventType
 {
     Route,
 }
 
-sealed class OutputListResponseRouteEventTypeConverter
-    : JsonConverter<OutputListResponseRouteEventType>
+sealed class RouteEventTypeConverter : JsonConverter<RouteEventType>
 {
-    public override OutputListResponseRouteEventType Read(
+    public override RouteEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -4995,14 +4772,14 @@ sealed class OutputListResponseRouteEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "route" => OutputListResponseRouteEventType.Route,
-            _ => (OutputListResponseRouteEventType)(-1),
+            "route" => RouteEventType.Route,
+            _ => (RouteEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseRouteEventType value,
+        RouteEventType value,
         JsonSerializerOptions options
     )
     {
@@ -5010,7 +4787,7 @@ sealed class OutputListResponseRouteEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseRouteEventType.Route => "route",
+                RouteEventType.Route => "route",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -5020,13 +4797,8 @@ sealed class OutputListResponseRouteEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseRouteMetadata,
-        OutputListResponseRouteMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseRouteMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<RouteMetadata, RouteMetadataFromRaw>))]
+public sealed record class RouteMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -5052,50 +4824,43 @@ public sealed record class OutputListResponseRouteMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseRouteMetadata() { }
+    public RouteMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseRouteMetadata(
-        OutputListResponseRouteMetadata outputListResponseRouteMetadata
-    )
-        : base(outputListResponseRouteMetadata) { }
+    public RouteMetadata(RouteMetadata routeMetadata)
+        : base(routeMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseRouteMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public RouteMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseRouteMetadata(FrozenDictionary<string, JsonElement> rawData)
+    RouteMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseRouteMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseRouteMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="RouteMetadataFromRaw.FromRawUnchecked"/>
+    public static RouteMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseRouteMetadataFromRaw : IFromRawJson<OutputListResponseRouteMetadata>
+class RouteMetadataFromRaw : IFromRawJson<RouteMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseRouteMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseRouteMetadata.FromRawUnchecked(rawData);
+    public RouteMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        RouteMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<OutputListResponseClassify, OutputListResponseClassifyFromRaw>)
-)]
-public sealed record class OutputListResponseClassify : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Classify, ClassifyFromRaw>))]
+public sealed record class Classify : JsonModel
 {
     /// <summary>
     /// The classification chosen by the classify function.
@@ -5205,14 +4970,12 @@ public sealed record class OutputListResponseClassify : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseClassifyEventType>? EventType
+    public ApiEnum<string, ClassifyEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseClassifyEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, ClassifyEventType>>("eventType");
         }
         init
         {
@@ -5309,12 +5072,12 @@ public sealed record class OutputListResponseClassify : JsonModel
         }
     }
 
-    public OutputListResponseClassifyMetadata? Metadata
+    public ClassifyMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseClassifyMetadata>("metadata");
+            return this._rawData.GetNullableClass<ClassifyMetadata>("metadata");
         }
         init
         {
@@ -5433,54 +5196,50 @@ public sealed record class OutputListResponseClassify : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseClassify() { }
+    public Classify() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseClassify(OutputListResponseClassify outputListResponseClassify)
-        : base(outputListResponseClassify) { }
+    public Classify(Classify classify)
+        : base(classify) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseClassify(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Classify(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseClassify(FrozenDictionary<string, JsonElement> rawData)
+    Classify(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseClassifyFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseClassify FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ClassifyFromRaw.FromRawUnchecked"/>
+    public static Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseClassifyFromRaw : IFromRawJson<OutputListResponseClassify>
+class ClassifyFromRaw : IFromRawJson<Classify>
 {
     /// <inheritdoc/>
-    public OutputListResponseClassify FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseClassify.FromRawUnchecked(rawData);
+    public Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Classify.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseClassifyEventTypeConverter))]
-public enum OutputListResponseClassifyEventType
+[JsonConverter(typeof(ClassifyEventTypeConverter))]
+public enum ClassifyEventType
 {
     Classify,
 }
 
-sealed class OutputListResponseClassifyEventTypeConverter
-    : JsonConverter<OutputListResponseClassifyEventType>
+sealed class ClassifyEventTypeConverter : JsonConverter<ClassifyEventType>
 {
-    public override OutputListResponseClassifyEventType Read(
+    public override ClassifyEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -5488,14 +5247,14 @@ sealed class OutputListResponseClassifyEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "classify" => OutputListResponseClassifyEventType.Classify,
-            _ => (OutputListResponseClassifyEventType)(-1),
+            "classify" => ClassifyEventType.Classify,
+            _ => (ClassifyEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseClassifyEventType value,
+        ClassifyEventType value,
         JsonSerializerOptions options
     )
     {
@@ -5503,7 +5262,7 @@ sealed class OutputListResponseClassifyEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseClassifyEventType.Classify => "classify",
+                ClassifyEventType.Classify => "classify",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -5513,13 +5272,8 @@ sealed class OutputListResponseClassifyEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseClassifyMetadata,
-        OutputListResponseClassifyMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseClassifyMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<ClassifyMetadata, ClassifyMetadataFromRaw>))]
+public sealed record class ClassifyMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -5545,31 +5299,29 @@ public sealed record class OutputListResponseClassifyMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseClassifyMetadata() { }
+    public ClassifyMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseClassifyMetadata(
-        OutputListResponseClassifyMetadata outputListResponseClassifyMetadata
-    )
-        : base(outputListResponseClassifyMetadata) { }
+    public ClassifyMetadata(ClassifyMetadata classifyMetadata)
+        : base(classifyMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseClassifyMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public ClassifyMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseClassifyMetadata(FrozenDictionary<string, JsonElement> rawData)
+    ClassifyMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseClassifyMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseClassifyMetadata FromRawUnchecked(
+    /// <inheritdoc cref="ClassifyMetadataFromRaw.FromRawUnchecked"/>
+    public static ClassifyMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -5577,21 +5329,15 @@ public sealed record class OutputListResponseClassifyMetadata : JsonModel
     }
 }
 
-class OutputListResponseClassifyMetadataFromRaw : IFromRawJson<OutputListResponseClassifyMetadata>
+class ClassifyMetadataFromRaw : IFromRawJson<ClassifyMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseClassifyMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseClassifyMetadata.FromRawUnchecked(rawData);
+    public ClassifyMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ClassifyMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitCollection,
-        OutputListResponseSplitCollectionFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitCollection : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SplitCollection, SplitCollectionFromRaw>))]
+public sealed record class SplitCollection : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -5632,26 +5378,22 @@ public sealed record class OutputListResponseSplitCollection : JsonModel
         init { this._rawData.Set("functionName", value); }
     }
 
-    public required ApiEnum<string, OutputListResponseSplitCollectionOutputType> OutputType
+    public required ApiEnum<string, OutputType> OutputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, OutputListResponseSplitCollectionOutputType>
-            >("outputType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, OutputType>>("outputType");
         }
         init { this._rawData.Set("outputType", value); }
     }
 
-    public required OutputListResponseSplitCollectionPrintPageOutput PrintPageOutput
+    public required PrintPageOutput PrintPageOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<OutputListResponseSplitCollectionPrintPageOutput>(
-                "printPageOutput"
-            );
+            return this._rawData.GetNotNullClass<PrintPageOutput>("printPageOutput");
         }
         init { this._rawData.Set("printPageOutput", value); }
     }
@@ -5670,14 +5412,12 @@ public sealed record class OutputListResponseSplitCollection : JsonModel
         init { this._rawData.Set("referenceID", value); }
     }
 
-    public required OutputListResponseSplitCollectionSemanticPageOutput SemanticPageOutput
+    public required SemanticPageOutput SemanticPageOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<OutputListResponseSplitCollectionSemanticPageOutput>(
-                "semanticPageOutput"
-            );
+            return this._rawData.GetNotNullClass<SemanticPageOutput>("semanticPageOutput");
         }
         init { this._rawData.Set("semanticPageOutput", value); }
     }
@@ -5724,14 +5464,14 @@ public sealed record class OutputListResponseSplitCollection : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseSplitCollectionEventType>? EventType
+    public ApiEnum<string, SplitCollectionEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseSplitCollectionEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, SplitCollectionEventType>>(
+                "eventType"
+            );
         }
         init
         {
@@ -5828,14 +5568,12 @@ public sealed record class OutputListResponseSplitCollection : JsonModel
         }
     }
 
-    public OutputListResponseSplitCollectionMetadata? Metadata
+    public SplitCollectionMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSplitCollectionMetadata>(
-                "metadata"
-            );
+            return this._rawData.GetNullableClass<SplitCollectionMetadata>("metadata");
         }
         init
         {
@@ -5934,57 +5672,51 @@ public sealed record class OutputListResponseSplitCollection : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseSplitCollection() { }
+    public SplitCollection() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitCollection(
-        OutputListResponseSplitCollection outputListResponseSplitCollection
-    )
-        : base(outputListResponseSplitCollection) { }
+    public SplitCollection(SplitCollection splitCollection)
+        : base(splitCollection) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitCollection(IReadOnlyDictionary<string, JsonElement> rawData)
+    public SplitCollection(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitCollection(FrozenDictionary<string, JsonElement> rawData)
+    SplitCollection(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitCollectionFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitCollection FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="SplitCollectionFromRaw.FromRawUnchecked"/>
+    public static SplitCollection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSplitCollectionFromRaw : IFromRawJson<OutputListResponseSplitCollection>
+class SplitCollectionFromRaw : IFromRawJson<SplitCollection>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitCollection FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitCollection.FromRawUnchecked(rawData);
+    public SplitCollection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SplitCollection.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseSplitCollectionOutputTypeConverter))]
-public enum OutputListResponseSplitCollectionOutputType
+[JsonConverter(typeof(OutputTypeConverter))]
+public enum OutputType
 {
     PrintPage,
     SemanticPage,
 }
 
-sealed class OutputListResponseSplitCollectionOutputTypeConverter
-    : JsonConverter<OutputListResponseSplitCollectionOutputType>
+sealed class OutputTypeConverter : JsonConverter<OutputType>
 {
-    public override OutputListResponseSplitCollectionOutputType Read(
+    public override OutputType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -5992,15 +5724,15 @@ sealed class OutputListResponseSplitCollectionOutputTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "print_page" => OutputListResponseSplitCollectionOutputType.PrintPage,
-            "semantic_page" => OutputListResponseSplitCollectionOutputType.SemanticPage,
-            _ => (OutputListResponseSplitCollectionOutputType)(-1),
+            "print_page" => OutputType.PrintPage,
+            "semantic_page" => OutputType.SemanticPage,
+            _ => (OutputType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSplitCollectionOutputType value,
+        OutputType value,
         JsonSerializerOptions options
     )
     {
@@ -6008,8 +5740,8 @@ sealed class OutputListResponseSplitCollectionOutputTypeConverter
             writer,
             value switch
             {
-                OutputListResponseSplitCollectionOutputType.PrintPage => "print_page",
-                OutputListResponseSplitCollectionOutputType.SemanticPage => "semantic_page",
+                OutputType.PrintPage => "print_page",
+                OutputType.SemanticPage => "semantic_page",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -6019,13 +5751,8 @@ sealed class OutputListResponseSplitCollectionOutputTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitCollectionPrintPageOutput,
-        OutputListResponseSplitCollectionPrintPageOutputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitCollectionPrintPageOutput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<PrintPageOutput, PrintPageOutputFromRaw>))]
+public sealed record class PrintPageOutput : JsonModel
 {
     public long? ItemCount
     {
@@ -6045,14 +5772,12 @@ public sealed record class OutputListResponseSplitCollectionPrintPageOutput : Js
         }
     }
 
-    public IReadOnlyList<OutputListResponseSplitCollectionPrintPageOutputItem>? Items
+    public IReadOnlyList<Item>? Items
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<OutputListResponseSplitCollectionPrintPageOutputItem>
-            >("items");
+            return this._rawData.GetNullableStruct<ImmutableArray<Item>>("items");
         }
         init
         {
@@ -6061,7 +5786,7 @@ public sealed record class OutputListResponseSplitCollectionPrintPageOutput : Js
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<OutputListResponseSplitCollectionPrintPageOutputItem>?>(
+            this._rawData.Set<ImmutableArray<Item>?>(
                 "items",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -6078,56 +5803,43 @@ public sealed record class OutputListResponseSplitCollectionPrintPageOutput : Js
         }
     }
 
-    public OutputListResponseSplitCollectionPrintPageOutput() { }
+    public PrintPageOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitCollectionPrintPageOutput(
-        OutputListResponseSplitCollectionPrintPageOutput outputListResponseSplitCollectionPrintPageOutput
-    )
-        : base(outputListResponseSplitCollectionPrintPageOutput) { }
+    public PrintPageOutput(PrintPageOutput printPageOutput)
+        : base(printPageOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitCollectionPrintPageOutput(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public PrintPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitCollectionPrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
+    PrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitCollectionPrintPageOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitCollectionPrintPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="PrintPageOutputFromRaw.FromRawUnchecked"/>
+    public static PrintPageOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSplitCollectionPrintPageOutputFromRaw
-    : IFromRawJson<OutputListResponseSplitCollectionPrintPageOutput>
+class PrintPageOutputFromRaw : IFromRawJson<PrintPageOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitCollectionPrintPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitCollectionPrintPageOutput.FromRawUnchecked(rawData);
+    public PrintPageOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        PrintPageOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitCollectionPrintPageOutputItem,
-        OutputListResponseSplitCollectionPrintPageOutputItemFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitCollectionPrintPageOutputItem : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Item, ItemFromRaw>))]
+public sealed record class Item : JsonModel
 {
     public long? ItemOffset
     {
@@ -6191,58 +5903,43 @@ public sealed record class OutputListResponseSplitCollectionPrintPageOutputItem 
         _ = this.S3Url;
     }
 
-    public OutputListResponseSplitCollectionPrintPageOutputItem() { }
+    public Item() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitCollectionPrintPageOutputItem(
-        OutputListResponseSplitCollectionPrintPageOutputItem outputListResponseSplitCollectionPrintPageOutputItem
-    )
-        : base(outputListResponseSplitCollectionPrintPageOutputItem) { }
+    public Item(Item item)
+        : base(item) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitCollectionPrintPageOutputItem(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public Item(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitCollectionPrintPageOutputItem(
-        FrozenDictionary<string, JsonElement> rawData
-    )
+    Item(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitCollectionPrintPageOutputItemFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitCollectionPrintPageOutputItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ItemFromRaw.FromRawUnchecked"/>
+    public static Item FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSplitCollectionPrintPageOutputItemFromRaw
-    : IFromRawJson<OutputListResponseSplitCollectionPrintPageOutputItem>
+class ItemFromRaw : IFromRawJson<Item>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitCollectionPrintPageOutputItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitCollectionPrintPageOutputItem.FromRawUnchecked(rawData);
+    public Item FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Item.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitCollectionSemanticPageOutput,
-        OutputListResponseSplitCollectionSemanticPageOutputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitCollectionSemanticPageOutput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SemanticPageOutput, SemanticPageOutputFromRaw>))]
+public sealed record class SemanticPageOutput : JsonModel
 {
     public long? ItemCount
     {
@@ -6262,14 +5959,12 @@ public sealed record class OutputListResponseSplitCollectionSemanticPageOutput :
         }
     }
 
-    public IReadOnlyList<OutputListResponseSplitCollectionSemanticPageOutputItem>? Items
+    public IReadOnlyList<SemanticPageOutputItem>? Items
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<OutputListResponseSplitCollectionSemanticPageOutputItem>
-            >("items");
+            return this._rawData.GetNullableStruct<ImmutableArray<SemanticPageOutputItem>>("items");
         }
         init
         {
@@ -6278,7 +5973,7 @@ public sealed record class OutputListResponseSplitCollectionSemanticPageOutput :
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<OutputListResponseSplitCollectionSemanticPageOutputItem>?>(
+            this._rawData.Set<ImmutableArray<SemanticPageOutputItem>?>(
                 "items",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -6314,35 +6009,29 @@ public sealed record class OutputListResponseSplitCollectionSemanticPageOutput :
         _ = this.PageCount;
     }
 
-    public OutputListResponseSplitCollectionSemanticPageOutput() { }
+    public SemanticPageOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitCollectionSemanticPageOutput(
-        OutputListResponseSplitCollectionSemanticPageOutput outputListResponseSplitCollectionSemanticPageOutput
-    )
-        : base(outputListResponseSplitCollectionSemanticPageOutput) { }
+    public SemanticPageOutput(SemanticPageOutput semanticPageOutput)
+        : base(semanticPageOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitCollectionSemanticPageOutput(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public SemanticPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitCollectionSemanticPageOutput(
-        FrozenDictionary<string, JsonElement> rawData
-    )
+    SemanticPageOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitCollectionSemanticPageOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitCollectionSemanticPageOutput FromRawUnchecked(
+    /// <inheritdoc cref="SemanticPageOutputFromRaw.FromRawUnchecked"/>
+    public static SemanticPageOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -6350,22 +6039,15 @@ public sealed record class OutputListResponseSplitCollectionSemanticPageOutput :
     }
 }
 
-class OutputListResponseSplitCollectionSemanticPageOutputFromRaw
-    : IFromRawJson<OutputListResponseSplitCollectionSemanticPageOutput>
+class SemanticPageOutputFromRaw : IFromRawJson<SemanticPageOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitCollectionSemanticPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitCollectionSemanticPageOutput.FromRawUnchecked(rawData);
+    public SemanticPageOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SemanticPageOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitCollectionSemanticPageOutputItem,
-        OutputListResponseSplitCollectionSemanticPageOutputItemFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitCollectionSemanticPageOutputItem : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SemanticPageOutputItem, SemanticPageOutputItemFromRaw>))]
+public sealed record class SemanticPageOutputItem : JsonModel
 {
     public string? ItemClass
     {
@@ -6524,35 +6206,29 @@ public sealed record class OutputListResponseSplitCollectionSemanticPageOutputIt
         _ = this.S3Url;
     }
 
-    public OutputListResponseSplitCollectionSemanticPageOutputItem() { }
+    public SemanticPageOutputItem() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitCollectionSemanticPageOutputItem(
-        OutputListResponseSplitCollectionSemanticPageOutputItem outputListResponseSplitCollectionSemanticPageOutputItem
-    )
-        : base(outputListResponseSplitCollectionSemanticPageOutputItem) { }
+    public SemanticPageOutputItem(SemanticPageOutputItem semanticPageOutputItem)
+        : base(semanticPageOutputItem) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitCollectionSemanticPageOutputItem(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public SemanticPageOutputItem(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitCollectionSemanticPageOutputItem(
-        FrozenDictionary<string, JsonElement> rawData
-    )
+    SemanticPageOutputItem(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitCollectionSemanticPageOutputItemFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitCollectionSemanticPageOutputItem FromRawUnchecked(
+    /// <inheritdoc cref="SemanticPageOutputItemFromRaw.FromRawUnchecked"/>
+    public static SemanticPageOutputItem FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -6560,25 +6236,23 @@ public sealed record class OutputListResponseSplitCollectionSemanticPageOutputIt
     }
 }
 
-class OutputListResponseSplitCollectionSemanticPageOutputItemFromRaw
-    : IFromRawJson<OutputListResponseSplitCollectionSemanticPageOutputItem>
+class SemanticPageOutputItemFromRaw : IFromRawJson<SemanticPageOutputItem>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitCollectionSemanticPageOutputItem FromRawUnchecked(
+    public SemanticPageOutputItem FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitCollectionSemanticPageOutputItem.FromRawUnchecked(rawData);
+    ) => SemanticPageOutputItem.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseSplitCollectionEventTypeConverter))]
-public enum OutputListResponseSplitCollectionEventType
+[JsonConverter(typeof(SplitCollectionEventTypeConverter))]
+public enum SplitCollectionEventType
 {
     SplitCollection,
 }
 
-sealed class OutputListResponseSplitCollectionEventTypeConverter
-    : JsonConverter<OutputListResponseSplitCollectionEventType>
+sealed class SplitCollectionEventTypeConverter : JsonConverter<SplitCollectionEventType>
 {
-    public override OutputListResponseSplitCollectionEventType Read(
+    public override SplitCollectionEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -6586,14 +6260,14 @@ sealed class OutputListResponseSplitCollectionEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "split_collection" => OutputListResponseSplitCollectionEventType.SplitCollection,
-            _ => (OutputListResponseSplitCollectionEventType)(-1),
+            "split_collection" => SplitCollectionEventType.SplitCollection,
+            _ => (SplitCollectionEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSplitCollectionEventType value,
+        SplitCollectionEventType value,
         JsonSerializerOptions options
     )
     {
@@ -6601,7 +6275,7 @@ sealed class OutputListResponseSplitCollectionEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseSplitCollectionEventType.SplitCollection => "split_collection",
+                SplitCollectionEventType.SplitCollection => "split_collection",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -6611,13 +6285,8 @@ sealed class OutputListResponseSplitCollectionEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitCollectionMetadata,
-        OutputListResponseSplitCollectionMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitCollectionMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SplitCollectionMetadata, SplitCollectionMetadataFromRaw>))]
+public sealed record class SplitCollectionMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -6643,33 +6312,29 @@ public sealed record class OutputListResponseSplitCollectionMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseSplitCollectionMetadata() { }
+    public SplitCollectionMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitCollectionMetadata(
-        OutputListResponseSplitCollectionMetadata outputListResponseSplitCollectionMetadata
-    )
-        : base(outputListResponseSplitCollectionMetadata) { }
+    public SplitCollectionMetadata(SplitCollectionMetadata splitCollectionMetadata)
+        : base(splitCollectionMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitCollectionMetadata(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public SplitCollectionMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitCollectionMetadata(FrozenDictionary<string, JsonElement> rawData)
+    SplitCollectionMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitCollectionMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitCollectionMetadata FromRawUnchecked(
+    /// <inheritdoc cref="SplitCollectionMetadataFromRaw.FromRawUnchecked"/>
+    public static SplitCollectionMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -6677,19 +6342,16 @@ public sealed record class OutputListResponseSplitCollectionMetadata : JsonModel
     }
 }
 
-class OutputListResponseSplitCollectionMetadataFromRaw
-    : IFromRawJson<OutputListResponseSplitCollectionMetadata>
+class SplitCollectionMetadataFromRaw : IFromRawJson<SplitCollectionMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitCollectionMetadata FromRawUnchecked(
+    public SplitCollectionMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitCollectionMetadata.FromRawUnchecked(rawData);
+    ) => SplitCollectionMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<OutputListResponseSplitItem, OutputListResponseSplitItemFromRaw>)
-)]
-public sealed record class OutputListResponseSplitItem : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SplitItem, SplitItemFromRaw>))]
+public sealed record class SplitItem : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -6730,14 +6392,14 @@ public sealed record class OutputListResponseSplitItem : JsonModel
         init { this._rawData.Set("functionName", value); }
     }
 
-    public required ApiEnum<string, OutputListResponseSplitItemOutputType> OutputType
+    public required ApiEnum<string, SplitItemOutputType> OutputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, OutputListResponseSplitItemOutputType>
-            >("outputType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, SplitItemOutputType>>(
+                "outputType"
+            );
         }
         init { this._rawData.Set("outputType", value); }
     }
@@ -6798,14 +6460,12 @@ public sealed record class OutputListResponseSplitItem : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseSplitItemEventType>? EventType
+    public ApiEnum<string, SplitItemEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseSplitItemEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, SplitItemEventType>>("eventType");
         }
         init
         {
@@ -6902,12 +6562,12 @@ public sealed record class OutputListResponseSplitItem : JsonModel
         }
     }
 
-    public OutputListResponseSplitItemMetadata? Metadata
+    public SplitItemMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSplitItemMetadata>("metadata");
+            return this._rawData.GetNullableClass<SplitItemMetadata>("metadata");
         }
         init
         {
@@ -6920,14 +6580,12 @@ public sealed record class OutputListResponseSplitItem : JsonModel
         }
     }
 
-    public OutputListResponseSplitItemPrintPageOutput? PrintPageOutput
+    public SplitItemPrintPageOutput? PrintPageOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSplitItemPrintPageOutput>(
-                "printPageOutput"
-            );
+            return this._rawData.GetNullableClass<SplitItemPrintPageOutput>("printPageOutput");
         }
         init
         {
@@ -6940,12 +6598,12 @@ public sealed record class OutputListResponseSplitItem : JsonModel
         }
     }
 
-    public OutputListResponseSplitItemSemanticPageOutput? SemanticPageOutput
+    public SplitItemSemanticPageOutput? SemanticPageOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSplitItemSemanticPageOutput>(
+            return this._rawData.GetNullableClass<SplitItemSemanticPageOutput>(
                 "semanticPageOutput"
             );
         }
@@ -7046,55 +6704,51 @@ public sealed record class OutputListResponseSplitItem : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseSplitItem() { }
+    public SplitItem() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitItem(OutputListResponseSplitItem outputListResponseSplitItem)
-        : base(outputListResponseSplitItem) { }
+    public SplitItem(SplitItem splitItem)
+        : base(splitItem) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitItem(IReadOnlyDictionary<string, JsonElement> rawData)
+    public SplitItem(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitItem(FrozenDictionary<string, JsonElement> rawData)
+    SplitItem(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitItemFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="SplitItemFromRaw.FromRawUnchecked"/>
+    public static SplitItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSplitItemFromRaw : IFromRawJson<OutputListResponseSplitItem>
+class SplitItemFromRaw : IFromRawJson<SplitItem>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitItem.FromRawUnchecked(rawData);
+    public SplitItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SplitItem.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseSplitItemOutputTypeConverter))]
-public enum OutputListResponseSplitItemOutputType
+[JsonConverter(typeof(SplitItemOutputTypeConverter))]
+public enum SplitItemOutputType
 {
     PrintPage,
     SemanticPage,
 }
 
-sealed class OutputListResponseSplitItemOutputTypeConverter
-    : JsonConverter<OutputListResponseSplitItemOutputType>
+sealed class SplitItemOutputTypeConverter : JsonConverter<SplitItemOutputType>
 {
-    public override OutputListResponseSplitItemOutputType Read(
+    public override SplitItemOutputType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -7102,15 +6756,15 @@ sealed class OutputListResponseSplitItemOutputTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "print_page" => OutputListResponseSplitItemOutputType.PrintPage,
-            "semantic_page" => OutputListResponseSplitItemOutputType.SemanticPage,
-            _ => (OutputListResponseSplitItemOutputType)(-1),
+            "print_page" => SplitItemOutputType.PrintPage,
+            "semantic_page" => SplitItemOutputType.SemanticPage,
+            _ => (SplitItemOutputType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSplitItemOutputType value,
+        SplitItemOutputType value,
         JsonSerializerOptions options
     )
     {
@@ -7118,8 +6772,8 @@ sealed class OutputListResponseSplitItemOutputTypeConverter
             writer,
             value switch
             {
-                OutputListResponseSplitItemOutputType.PrintPage => "print_page",
-                OutputListResponseSplitItemOutputType.SemanticPage => "semantic_page",
+                SplitItemOutputType.PrintPage => "print_page",
+                SplitItemOutputType.SemanticPage => "semantic_page",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -7129,16 +6783,15 @@ sealed class OutputListResponseSplitItemOutputTypeConverter
     }
 }
 
-[JsonConverter(typeof(OutputListResponseSplitItemEventTypeConverter))]
-public enum OutputListResponseSplitItemEventType
+[JsonConverter(typeof(SplitItemEventTypeConverter))]
+public enum SplitItemEventType
 {
     SplitItem,
 }
 
-sealed class OutputListResponseSplitItemEventTypeConverter
-    : JsonConverter<OutputListResponseSplitItemEventType>
+sealed class SplitItemEventTypeConverter : JsonConverter<SplitItemEventType>
 {
-    public override OutputListResponseSplitItemEventType Read(
+    public override SplitItemEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -7146,14 +6799,14 @@ sealed class OutputListResponseSplitItemEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "split_item" => OutputListResponseSplitItemEventType.SplitItem,
-            _ => (OutputListResponseSplitItemEventType)(-1),
+            "split_item" => SplitItemEventType.SplitItem,
+            _ => (SplitItemEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSplitItemEventType value,
+        SplitItemEventType value,
         JsonSerializerOptions options
     )
     {
@@ -7161,7 +6814,7 @@ sealed class OutputListResponseSplitItemEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseSplitItemEventType.SplitItem => "split_item",
+                SplitItemEventType.SplitItem => "split_item",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -7171,13 +6824,8 @@ sealed class OutputListResponseSplitItemEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitItemMetadata,
-        OutputListResponseSplitItemMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSplitItemMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SplitItemMetadata, SplitItemMetadataFromRaw>))]
+public sealed record class SplitItemMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -7203,31 +6851,29 @@ public sealed record class OutputListResponseSplitItemMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseSplitItemMetadata() { }
+    public SplitItemMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitItemMetadata(
-        OutputListResponseSplitItemMetadata outputListResponseSplitItemMetadata
-    )
-        : base(outputListResponseSplitItemMetadata) { }
+    public SplitItemMetadata(SplitItemMetadata splitItemMetadata)
+        : base(splitItemMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitItemMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public SplitItemMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitItemMetadata(FrozenDictionary<string, JsonElement> rawData)
+    SplitItemMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitItemMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitItemMetadata FromRawUnchecked(
+    /// <inheritdoc cref="SplitItemMetadataFromRaw.FromRawUnchecked"/>
+    public static SplitItemMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -7235,21 +6881,17 @@ public sealed record class OutputListResponseSplitItemMetadata : JsonModel
     }
 }
 
-class OutputListResponseSplitItemMetadataFromRaw : IFromRawJson<OutputListResponseSplitItemMetadata>
+class SplitItemMetadataFromRaw : IFromRawJson<SplitItemMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitItemMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitItemMetadata.FromRawUnchecked(rawData);
+    public SplitItemMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SplitItemMetadata.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitItemPrintPageOutput,
-        OutputListResponseSplitItemPrintPageOutputFromRaw
-    >)
+    typeof(JsonModelConverter<SplitItemPrintPageOutput, SplitItemPrintPageOutputFromRaw>)
 )]
-public sealed record class OutputListResponseSplitItemPrintPageOutput : JsonModel
+public sealed record class SplitItemPrintPageOutput : JsonModel
 {
     public string? CollectionReferenceID
     {
@@ -7332,33 +6974,29 @@ public sealed record class OutputListResponseSplitItemPrintPageOutput : JsonMode
         _ = this.S3Url;
     }
 
-    public OutputListResponseSplitItemPrintPageOutput() { }
+    public SplitItemPrintPageOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitItemPrintPageOutput(
-        OutputListResponseSplitItemPrintPageOutput outputListResponseSplitItemPrintPageOutput
-    )
-        : base(outputListResponseSplitItemPrintPageOutput) { }
+    public SplitItemPrintPageOutput(SplitItemPrintPageOutput splitItemPrintPageOutput)
+        : base(splitItemPrintPageOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitItemPrintPageOutput(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public SplitItemPrintPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitItemPrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
+    SplitItemPrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitItemPrintPageOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitItemPrintPageOutput FromRawUnchecked(
+    /// <inheritdoc cref="SplitItemPrintPageOutputFromRaw.FromRawUnchecked"/>
+    public static SplitItemPrintPageOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -7366,22 +7004,18 @@ public sealed record class OutputListResponseSplitItemPrintPageOutput : JsonMode
     }
 }
 
-class OutputListResponseSplitItemPrintPageOutputFromRaw
-    : IFromRawJson<OutputListResponseSplitItemPrintPageOutput>
+class SplitItemPrintPageOutputFromRaw : IFromRawJson<SplitItemPrintPageOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitItemPrintPageOutput FromRawUnchecked(
+    public SplitItemPrintPageOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitItemPrintPageOutput.FromRawUnchecked(rawData);
+    ) => SplitItemPrintPageOutput.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSplitItemSemanticPageOutput,
-        OutputListResponseSplitItemSemanticPageOutputFromRaw
-    >)
+    typeof(JsonModelConverter<SplitItemSemanticPageOutput, SplitItemSemanticPageOutputFromRaw>)
 )]
-public sealed record class OutputListResponseSplitItemSemanticPageOutput : JsonModel
+public sealed record class SplitItemSemanticPageOutput : JsonModel
 {
     public string? CollectionReferenceID
     {
@@ -7578,33 +7212,29 @@ public sealed record class OutputListResponseSplitItemSemanticPageOutput : JsonM
         _ = this.S3Url;
     }
 
-    public OutputListResponseSplitItemSemanticPageOutput() { }
+    public SplitItemSemanticPageOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSplitItemSemanticPageOutput(
-        OutputListResponseSplitItemSemanticPageOutput outputListResponseSplitItemSemanticPageOutput
-    )
-        : base(outputListResponseSplitItemSemanticPageOutput) { }
+    public SplitItemSemanticPageOutput(SplitItemSemanticPageOutput splitItemSemanticPageOutput)
+        : base(splitItemSemanticPageOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSplitItemSemanticPageOutput(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public SplitItemSemanticPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSplitItemSemanticPageOutput(FrozenDictionary<string, JsonElement> rawData)
+    SplitItemSemanticPageOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSplitItemSemanticPageOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSplitItemSemanticPageOutput FromRawUnchecked(
+    /// <inheritdoc cref="SplitItemSemanticPageOutputFromRaw.FromRawUnchecked"/>
+    public static SplitItemSemanticPageOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -7612,17 +7242,16 @@ public sealed record class OutputListResponseSplitItemSemanticPageOutput : JsonM
     }
 }
 
-class OutputListResponseSplitItemSemanticPageOutputFromRaw
-    : IFromRawJson<OutputListResponseSplitItemSemanticPageOutput>
+class SplitItemSemanticPageOutputFromRaw : IFromRawJson<SplitItemSemanticPageOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseSplitItemSemanticPageOutput FromRawUnchecked(
+    public SplitItemSemanticPageOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSplitItemSemanticPageOutput.FromRawUnchecked(rawData);
+    ) => SplitItemSemanticPageOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<OutputListResponseJoin, OutputListResponseJoinFromRaw>))]
-public sealed record class OutputListResponseJoin : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Join, JoinFromRaw>))]
+public sealed record class Join : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -7685,18 +7314,16 @@ public sealed record class OutputListResponseJoin : JsonModel
     /// <summary>
     /// The items that were joined.
     /// </summary>
-    public required IReadOnlyList<OutputListResponseJoinItem> Items
+    public required IReadOnlyList<JoinItem> Items
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<OutputListResponseJoinItem>>(
-                "items"
-            );
+            return this._rawData.GetNotNullStruct<ImmutableArray<JoinItem>>("items");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<OutputListResponseJoinItem>>(
+            this._rawData.Set<ImmutableArray<JoinItem>>(
                 "items",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -7706,14 +7333,12 @@ public sealed record class OutputListResponseJoin : JsonModel
     /// <summary>
     /// The type of join that was performed.
     /// </summary>
-    public required ApiEnum<string, OutputListResponseJoinJoinType> JoinType
+    public required ApiEnum<string, JoinType> JoinType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, OutputListResponseJoinJoinType>>(
-                "joinType"
-            );
+            return this._rawData.GetNotNullClass<ApiEnum<string, JoinType>>("joinType");
         }
         init { this._rawData.Set("joinType", value); }
     }
@@ -7801,14 +7426,12 @@ public sealed record class OutputListResponseJoin : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseJoinEventType>? EventType
+    public ApiEnum<string, JoinEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, OutputListResponseJoinEventType>>(
-                "eventType"
-            );
+            return this._rawData.GetNullableClass<ApiEnum<string, JoinEventType>>("eventType");
         }
         init
         {
@@ -7928,12 +7551,12 @@ public sealed record class OutputListResponseJoin : JsonModel
         }
     }
 
-    public OutputListResponseJoinMetadata? Metadata
+    public JoinMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseJoinMetadata>("metadata");
+            return this._rawData.GetNullableClass<JoinMetadata>("metadata");
         }
         init
         {
@@ -8061,48 +7684,43 @@ public sealed record class OutputListResponseJoin : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseJoin() { }
+    public Join() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseJoin(OutputListResponseJoin outputListResponseJoin)
-        : base(outputListResponseJoin) { }
+    public Join(Join join)
+        : base(join) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseJoin(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Join(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseJoin(FrozenDictionary<string, JsonElement> rawData)
+    Join(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseJoinFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseJoin FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="JoinFromRaw.FromRawUnchecked"/>
+    public static Join FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseJoinFromRaw : IFromRawJson<OutputListResponseJoin>
+class JoinFromRaw : IFromRawJson<Join>
 {
     /// <inheritdoc/>
-    public OutputListResponseJoin FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseJoin.FromRawUnchecked(rawData);
+    public Join FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Join.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<OutputListResponseJoinItem, OutputListResponseJoinItemFromRaw>)
-)]
-public sealed record class OutputListResponseJoinItem : JsonModel
+[JsonConverter(typeof(JsonModelConverter<JoinItem, JoinItemFromRaw>))]
+public sealed record class JoinItem : JsonModel
 {
     /// <summary>
     /// The number of items that were transformed.
@@ -8174,56 +7792,53 @@ public sealed record class OutputListResponseJoinItem : JsonModel
         _ = this.S3Url;
     }
 
-    public OutputListResponseJoinItem() { }
+    public JoinItem() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseJoinItem(OutputListResponseJoinItem outputListResponseJoinItem)
-        : base(outputListResponseJoinItem) { }
+    public JoinItem(JoinItem joinItem)
+        : base(joinItem) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseJoinItem(IReadOnlyDictionary<string, JsonElement> rawData)
+    public JoinItem(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseJoinItem(FrozenDictionary<string, JsonElement> rawData)
+    JoinItem(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseJoinItemFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseJoinItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="JoinItemFromRaw.FromRawUnchecked"/>
+    public static JoinItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseJoinItemFromRaw : IFromRawJson<OutputListResponseJoinItem>
+class JoinItemFromRaw : IFromRawJson<JoinItem>
 {
     /// <inheritdoc/>
-    public OutputListResponseJoinItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseJoinItem.FromRawUnchecked(rawData);
+    public JoinItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        JoinItem.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The type of join that was performed.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseJoinJoinTypeConverter))]
-public enum OutputListResponseJoinJoinType
+[JsonConverter(typeof(JoinTypeConverter))]
+public enum JoinType
 {
     Standard,
 }
 
-sealed class OutputListResponseJoinJoinTypeConverter : JsonConverter<OutputListResponseJoinJoinType>
+sealed class JoinTypeConverter : JsonConverter<JoinType>
 {
-    public override OutputListResponseJoinJoinType Read(
+    public override JoinType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -8231,22 +7846,18 @@ sealed class OutputListResponseJoinJoinTypeConverter : JsonConverter<OutputListR
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "standard" => OutputListResponseJoinJoinType.Standard,
-            _ => (OutputListResponseJoinJoinType)(-1),
+            "standard" => JoinType.Standard,
+            _ => (JoinType)(-1),
         };
     }
 
-    public override void Write(
-        Utf8JsonWriter writer,
-        OutputListResponseJoinJoinType value,
-        JsonSerializerOptions options
-    )
+    public override void Write(Utf8JsonWriter writer, JoinType value, JsonSerializerOptions options)
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                OutputListResponseJoinJoinType.Standard => "standard",
+                JoinType.Standard => "standard",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -8256,16 +7867,15 @@ sealed class OutputListResponseJoinJoinTypeConverter : JsonConverter<OutputListR
     }
 }
 
-[JsonConverter(typeof(OutputListResponseJoinEventTypeConverter))]
-public enum OutputListResponseJoinEventType
+[JsonConverter(typeof(JoinEventTypeConverter))]
+public enum JoinEventType
 {
     Join,
 }
 
-sealed class OutputListResponseJoinEventTypeConverter
-    : JsonConverter<OutputListResponseJoinEventType>
+sealed class JoinEventTypeConverter : JsonConverter<JoinEventType>
 {
-    public override OutputListResponseJoinEventType Read(
+    public override JoinEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -8273,14 +7883,14 @@ sealed class OutputListResponseJoinEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "join" => OutputListResponseJoinEventType.Join,
-            _ => (OutputListResponseJoinEventType)(-1),
+            "join" => JoinEventType.Join,
+            _ => (JoinEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseJoinEventType value,
+        JoinEventType value,
         JsonSerializerOptions options
     )
     {
@@ -8288,7 +7898,7 @@ sealed class OutputListResponseJoinEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseJoinEventType.Join => "join",
+                JoinEventType.Join => "join",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -8298,13 +7908,8 @@ sealed class OutputListResponseJoinEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseJoinMetadata,
-        OutputListResponseJoinMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseJoinMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<JoinMetadata, JoinMetadataFromRaw>))]
+public sealed record class JoinMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -8330,50 +7935,43 @@ public sealed record class OutputListResponseJoinMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseJoinMetadata() { }
+    public JoinMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseJoinMetadata(
-        OutputListResponseJoinMetadata outputListResponseJoinMetadata
-    )
-        : base(outputListResponseJoinMetadata) { }
+    public JoinMetadata(JoinMetadata joinMetadata)
+        : base(joinMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseJoinMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public JoinMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseJoinMetadata(FrozenDictionary<string, JsonElement> rawData)
+    JoinMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseJoinMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseJoinMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="JoinMetadataFromRaw.FromRawUnchecked"/>
+    public static JoinMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseJoinMetadataFromRaw : IFromRawJson<OutputListResponseJoinMetadata>
+class JoinMetadataFromRaw : IFromRawJson<JoinMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseJoinMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseJoinMetadata.FromRawUnchecked(rawData);
+    public JoinMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        JoinMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<OutputListResponseEnrich, OutputListResponseEnrichFromRaw>)
-)]
-public sealed record class OutputListResponseEnrich : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Enrich, EnrichFromRaw>))]
+public sealed record class Enrich : JsonModel
 {
     /// <summary>
     /// The enriched content produced by the enrich function. Contains the input data
@@ -8484,14 +8082,12 @@ public sealed record class OutputListResponseEnrich : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseEnrichEventType>? EventType
+    public ApiEnum<string, EnrichEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseEnrichEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, EnrichEventType>>("eventType");
         }
         init
         {
@@ -8588,12 +8184,12 @@ public sealed record class OutputListResponseEnrich : JsonModel
         }
     }
 
-    public OutputListResponseEnrichMetadata? Metadata
+    public EnrichMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseEnrichMetadata>("metadata");
+            return this._rawData.GetNullableClass<EnrichMetadata>("metadata");
         }
         init
         {
@@ -8690,54 +8286,50 @@ public sealed record class OutputListResponseEnrich : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseEnrich() { }
+    public Enrich() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseEnrich(OutputListResponseEnrich outputListResponseEnrich)
-        : base(outputListResponseEnrich) { }
+    public Enrich(Enrich enrich)
+        : base(enrich) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseEnrich(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Enrich(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseEnrich(FrozenDictionary<string, JsonElement> rawData)
+    Enrich(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseEnrichFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseEnrich FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="EnrichFromRaw.FromRawUnchecked"/>
+    public static Enrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseEnrichFromRaw : IFromRawJson<OutputListResponseEnrich>
+class EnrichFromRaw : IFromRawJson<Enrich>
 {
     /// <inheritdoc/>
-    public OutputListResponseEnrich FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseEnrich.FromRawUnchecked(rawData);
+    public Enrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Enrich.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(OutputListResponseEnrichEventTypeConverter))]
-public enum OutputListResponseEnrichEventType
+[JsonConverter(typeof(EnrichEventTypeConverter))]
+public enum EnrichEventType
 {
     Enrich,
 }
 
-sealed class OutputListResponseEnrichEventTypeConverter
-    : JsonConverter<OutputListResponseEnrichEventType>
+sealed class EnrichEventTypeConverter : JsonConverter<EnrichEventType>
 {
-    public override OutputListResponseEnrichEventType Read(
+    public override EnrichEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -8745,14 +8337,14 @@ sealed class OutputListResponseEnrichEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "enrich" => OutputListResponseEnrichEventType.Enrich,
-            _ => (OutputListResponseEnrichEventType)(-1),
+            "enrich" => EnrichEventType.Enrich,
+            _ => (EnrichEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseEnrichEventType value,
+        EnrichEventType value,
         JsonSerializerOptions options
     )
     {
@@ -8760,7 +8352,7 @@ sealed class OutputListResponseEnrichEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseEnrichEventType.Enrich => "enrich",
+                EnrichEventType.Enrich => "enrich",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -8770,13 +8362,8 @@ sealed class OutputListResponseEnrichEventTypeConverter
     }
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseEnrichMetadata,
-        OutputListResponseEnrichMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseEnrichMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<EnrichMetadata, EnrichMetadataFromRaw>))]
+public sealed record class EnrichMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -8802,53 +8389,43 @@ public sealed record class OutputListResponseEnrichMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseEnrichMetadata() { }
+    public EnrichMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseEnrichMetadata(
-        OutputListResponseEnrichMetadata outputListResponseEnrichMetadata
-    )
-        : base(outputListResponseEnrichMetadata) { }
+    public EnrichMetadata(EnrichMetadata enrichMetadata)
+        : base(enrichMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseEnrichMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public EnrichMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseEnrichMetadata(FrozenDictionary<string, JsonElement> rawData)
+    EnrichMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseEnrichMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseEnrichMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="EnrichMetadataFromRaw.FromRawUnchecked"/>
+    public static EnrichMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseEnrichMetadataFromRaw : IFromRawJson<OutputListResponseEnrichMetadata>
+class EnrichMetadataFromRaw : IFromRawJson<EnrichMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseEnrichMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseEnrichMetadata.FromRawUnchecked(rawData);
+    public EnrichMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        EnrichMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseCollectionProcessing,
-        OutputListResponseCollectionProcessingFromRaw
-    >)
-)]
-public sealed record class OutputListResponseCollectionProcessing : JsonModel
+[JsonConverter(typeof(JsonModelConverter<CollectionProcessing, CollectionProcessingFromRaw>))]
+public sealed record class CollectionProcessing : JsonModel
 {
     /// <summary>
     /// Unique identifier of the collection.
@@ -8892,14 +8469,12 @@ public sealed record class OutputListResponseCollectionProcessing : JsonModel
     /// <summary>
     /// The operation performed (add or update).
     /// </summary>
-    public required ApiEnum<string, OutputListResponseCollectionProcessingOperation> Operation
+    public required ApiEnum<string, Operation> Operation
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, OutputListResponseCollectionProcessingOperation>
-            >("operation");
+            return this._rawData.GetNotNullClass<ApiEnum<string, Operation>>("operation");
         }
         init { this._rawData.Set("operation", value); }
     }
@@ -8934,14 +8509,12 @@ public sealed record class OutputListResponseCollectionProcessing : JsonModel
     /// <summary>
     /// Processing status (success or failed).
     /// </summary>
-    public required ApiEnum<string, OutputListResponseCollectionProcessingStatus> Status
+    public required ApiEnum<string, Status> Status
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, OutputListResponseCollectionProcessingStatus>
-            >("status");
+            return this._rawData.GetNotNullClass<ApiEnum<string, Status>>("status");
         }
         init { this._rawData.Set("status", value); }
     }
@@ -9012,14 +8585,14 @@ public sealed record class OutputListResponseCollectionProcessing : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseCollectionProcessingEventType>? EventType
+    public ApiEnum<string, CollectionProcessingEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, OutputListResponseCollectionProcessingEventType>
-            >("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, CollectionProcessingEventType>>(
+                "eventType"
+            );
         }
         init
         {
@@ -9074,14 +8647,12 @@ public sealed record class OutputListResponseCollectionProcessing : JsonModel
         }
     }
 
-    public OutputListResponseCollectionProcessingMetadata? Metadata
+    public CollectionProcessingMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseCollectionProcessingMetadata>(
-                "metadata"
-            );
+            return this._rawData.GetNullableClass<CollectionProcessingMetadata>("metadata");
         }
         init
         {
@@ -9113,31 +8684,29 @@ public sealed record class OutputListResponseCollectionProcessing : JsonModel
         this.Metadata?.Validate();
     }
 
-    public OutputListResponseCollectionProcessing() { }
+    public CollectionProcessing() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseCollectionProcessing(
-        OutputListResponseCollectionProcessing outputListResponseCollectionProcessing
-    )
-        : base(outputListResponseCollectionProcessing) { }
+    public CollectionProcessing(CollectionProcessing collectionProcessing)
+        : base(collectionProcessing) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseCollectionProcessing(IReadOnlyDictionary<string, JsonElement> rawData)
+    public CollectionProcessing(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseCollectionProcessing(FrozenDictionary<string, JsonElement> rawData)
+    CollectionProcessing(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseCollectionProcessingFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseCollectionProcessing FromRawUnchecked(
+    /// <inheritdoc cref="CollectionProcessingFromRaw.FromRawUnchecked"/>
+    public static CollectionProcessing FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -9145,29 +8714,27 @@ public sealed record class OutputListResponseCollectionProcessing : JsonModel
     }
 }
 
-class OutputListResponseCollectionProcessingFromRaw
-    : IFromRawJson<OutputListResponseCollectionProcessing>
+class CollectionProcessingFromRaw : IFromRawJson<CollectionProcessing>
 {
     /// <inheritdoc/>
-    public OutputListResponseCollectionProcessing FromRawUnchecked(
+    public CollectionProcessing FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseCollectionProcessing.FromRawUnchecked(rawData);
+    ) => CollectionProcessing.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The operation performed (add or update).
 /// </summary>
-[JsonConverter(typeof(OutputListResponseCollectionProcessingOperationConverter))]
-public enum OutputListResponseCollectionProcessingOperation
+[JsonConverter(typeof(OperationConverter))]
+public enum Operation
 {
     Add,
     Update,
 }
 
-sealed class OutputListResponseCollectionProcessingOperationConverter
-    : JsonConverter<OutputListResponseCollectionProcessingOperation>
+sealed class OperationConverter : JsonConverter<Operation>
 {
-    public override OutputListResponseCollectionProcessingOperation Read(
+    public override Operation Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -9175,15 +8742,15 @@ sealed class OutputListResponseCollectionProcessingOperationConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "add" => OutputListResponseCollectionProcessingOperation.Add,
-            "update" => OutputListResponseCollectionProcessingOperation.Update,
-            _ => (OutputListResponseCollectionProcessingOperation)(-1),
+            "add" => Operation.Add,
+            "update" => Operation.Update,
+            _ => (Operation)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseCollectionProcessingOperation value,
+        Operation value,
         JsonSerializerOptions options
     )
     {
@@ -9191,8 +8758,8 @@ sealed class OutputListResponseCollectionProcessingOperationConverter
             writer,
             value switch
             {
-                OutputListResponseCollectionProcessingOperation.Add => "add",
-                OutputListResponseCollectionProcessingOperation.Update => "update",
+                Operation.Add => "add",
+                Operation.Update => "update",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -9205,17 +8772,16 @@ sealed class OutputListResponseCollectionProcessingOperationConverter
 /// <summary>
 /// Processing status (success or failed).
 /// </summary>
-[JsonConverter(typeof(OutputListResponseCollectionProcessingStatusConverter))]
-public enum OutputListResponseCollectionProcessingStatus
+[JsonConverter(typeof(StatusConverter))]
+public enum Status
 {
     Success,
     Failed,
 }
 
-sealed class OutputListResponseCollectionProcessingStatusConverter
-    : JsonConverter<OutputListResponseCollectionProcessingStatus>
+sealed class StatusConverter : JsonConverter<Status>
 {
-    public override OutputListResponseCollectionProcessingStatus Read(
+    public override Status Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -9223,24 +8789,20 @@ sealed class OutputListResponseCollectionProcessingStatusConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "success" => OutputListResponseCollectionProcessingStatus.Success,
-            "failed" => OutputListResponseCollectionProcessingStatus.Failed,
-            _ => (OutputListResponseCollectionProcessingStatus)(-1),
+            "success" => Status.Success,
+            "failed" => Status.Failed,
+            _ => (Status)(-1),
         };
     }
 
-    public override void Write(
-        Utf8JsonWriter writer,
-        OutputListResponseCollectionProcessingStatus value,
-        JsonSerializerOptions options
-    )
+    public override void Write(Utf8JsonWriter writer, Status value, JsonSerializerOptions options)
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                OutputListResponseCollectionProcessingStatus.Success => "success",
-                OutputListResponseCollectionProcessingStatus.Failed => "failed",
+                Status.Success => "success",
+                Status.Failed => "failed",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -9250,16 +8812,15 @@ sealed class OutputListResponseCollectionProcessingStatusConverter
     }
 }
 
-[JsonConverter(typeof(OutputListResponseCollectionProcessingEventTypeConverter))]
-public enum OutputListResponseCollectionProcessingEventType
+[JsonConverter(typeof(CollectionProcessingEventTypeConverter))]
+public enum CollectionProcessingEventType
 {
     CollectionProcessing,
 }
 
-sealed class OutputListResponseCollectionProcessingEventTypeConverter
-    : JsonConverter<OutputListResponseCollectionProcessingEventType>
+sealed class CollectionProcessingEventTypeConverter : JsonConverter<CollectionProcessingEventType>
 {
-    public override OutputListResponseCollectionProcessingEventType Read(
+    public override CollectionProcessingEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -9267,15 +8828,14 @@ sealed class OutputListResponseCollectionProcessingEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "collection_processing" =>
-                OutputListResponseCollectionProcessingEventType.CollectionProcessing,
-            _ => (OutputListResponseCollectionProcessingEventType)(-1),
+            "collection_processing" => CollectionProcessingEventType.CollectionProcessing,
+            _ => (CollectionProcessingEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseCollectionProcessingEventType value,
+        CollectionProcessingEventType value,
         JsonSerializerOptions options
     )
     {
@@ -9283,8 +8843,7 @@ sealed class OutputListResponseCollectionProcessingEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseCollectionProcessingEventType.CollectionProcessing =>
-                    "collection_processing",
+                CollectionProcessingEventType.CollectionProcessing => "collection_processing",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -9295,12 +8854,9 @@ sealed class OutputListResponseCollectionProcessingEventTypeConverter
 }
 
 [JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseCollectionProcessingMetadata,
-        OutputListResponseCollectionProcessingMetadataFromRaw
-    >)
+    typeof(JsonModelConverter<CollectionProcessingMetadata, CollectionProcessingMetadataFromRaw>)
 )]
-public sealed record class OutputListResponseCollectionProcessingMetadata : JsonModel
+public sealed record class CollectionProcessingMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -9326,33 +8882,29 @@ public sealed record class OutputListResponseCollectionProcessingMetadata : Json
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseCollectionProcessingMetadata() { }
+    public CollectionProcessingMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseCollectionProcessingMetadata(
-        OutputListResponseCollectionProcessingMetadata outputListResponseCollectionProcessingMetadata
-    )
-        : base(outputListResponseCollectionProcessingMetadata) { }
+    public CollectionProcessingMetadata(CollectionProcessingMetadata collectionProcessingMetadata)
+        : base(collectionProcessingMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseCollectionProcessingMetadata(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public CollectionProcessingMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseCollectionProcessingMetadata(FrozenDictionary<string, JsonElement> rawData)
+    CollectionProcessingMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseCollectionProcessingMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseCollectionProcessingMetadata FromRawUnchecked(
+    /// <inheritdoc cref="CollectionProcessingMetadataFromRaw.FromRawUnchecked"/>
+    public static CollectionProcessingMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -9360,29 +8912,26 @@ public sealed record class OutputListResponseCollectionProcessingMetadata : Json
     }
 }
 
-class OutputListResponseCollectionProcessingMetadataFromRaw
-    : IFromRawJson<OutputListResponseCollectionProcessingMetadata>
+class CollectionProcessingMetadataFromRaw : IFromRawJson<CollectionProcessingMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseCollectionProcessingMetadata FromRawUnchecked(
+    public CollectionProcessingMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseCollectionProcessingMetadata.FromRawUnchecked(rawData);
+    ) => CollectionProcessingMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<OutputListResponseSend, OutputListResponseSendFromRaw>))]
-public sealed record class OutputListResponseSend : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]
+public sealed record class Send : JsonModel
 {
     /// <summary>
     /// Outcome of a Send function's delivery attempt.
     /// </summary>
-    public required ApiEnum<string, OutputListResponseSendDeliveryStatus> DeliveryStatus
+    public required ApiEnum<string, DeliveryStatus> DeliveryStatus
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, OutputListResponseSendDeliveryStatus>
-            >("deliveryStatus");
+            return this._rawData.GetNotNullClass<ApiEnum<string, DeliveryStatus>>("deliveryStatus");
         }
         init { this._rawData.Set("deliveryStatus", value); }
     }
@@ -9390,14 +8939,14 @@ public sealed record class OutputListResponseSend : JsonModel
     /// <summary>
     /// Destination type for a Send function.
     /// </summary>
-    public required ApiEnum<string, OutputListResponseSendDestinationType> DestinationType
+    public required ApiEnum<string, DestinationType> DestinationType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, OutputListResponseSendDestinationType>
-            >("destinationType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
+                "destinationType"
+            );
         }
         init { this._rawData.Set("destinationType", value); }
     }
@@ -9521,14 +9070,12 @@ public sealed record class OutputListResponseSend : JsonModel
         }
     }
 
-    public ApiEnum<string, OutputListResponseSendEventType>? EventType
+    public ApiEnum<string, SendEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, OutputListResponseSendEventType>>(
-                "eventType"
-            );
+            return this._rawData.GetNullableClass<ApiEnum<string, SendEventType>>("eventType");
         }
         init
         {
@@ -9607,14 +9154,12 @@ public sealed record class OutputListResponseSend : JsonModel
     /// <summary>
     /// Metadata returned when a Send function delivers to Google Drive.
     /// </summary>
-    public OutputListResponseSendGoogleDriveOutput? GoogleDriveOutput
+    public GoogleDriveOutput? GoogleDriveOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSendGoogleDriveOutput>(
-                "googleDriveOutput"
-            );
+            return this._rawData.GetNullableClass<GoogleDriveOutput>("googleDriveOutput");
         }
         init
         {
@@ -9648,12 +9193,12 @@ public sealed record class OutputListResponseSend : JsonModel
         }
     }
 
-    public OutputListResponseSendMetadata? Metadata
+    public SendMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSendMetadata>("metadata");
+            return this._rawData.GetNullableClass<SendMetadata>("metadata");
         }
         init
         {
@@ -9669,12 +9214,12 @@ public sealed record class OutputListResponseSend : JsonModel
     /// <summary>
     /// Metadata returned when a Send function delivers to an S3 bucket.
     /// </summary>
-    public OutputListResponseSendS3Output? S3Output
+    public S3Output? S3Output
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSendS3Output>("s3Output");
+            return this._rawData.GetNullableClass<S3Output>("s3Output");
         }
         init
         {
@@ -9690,14 +9235,12 @@ public sealed record class OutputListResponseSend : JsonModel
     /// <summary>
     /// Metadata returned when a Send function delivers to a webhook.
     /// </summary>
-    public OutputListResponseSendWebhookOutput? WebhookOutput
+    public WebhookOutput? WebhookOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<OutputListResponseSendWebhookOutput>(
-                "webhookOutput"
-            );
+            return this._rawData.GetNullableClass<WebhookOutput>("webhookOutput");
         }
         init
         {
@@ -9799,58 +9342,54 @@ public sealed record class OutputListResponseSend : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public OutputListResponseSend() { }
+    public Send() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSend(OutputListResponseSend outputListResponseSend)
-        : base(outputListResponseSend) { }
+    public Send(Send send)
+        : base(send) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSend(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Send(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSend(FrozenDictionary<string, JsonElement> rawData)
+    Send(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSendFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSend FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="SendFromRaw.FromRawUnchecked"/>
+    public static Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSendFromRaw : IFromRawJson<OutputListResponseSend>
+class SendFromRaw : IFromRawJson<Send>
 {
     /// <inheritdoc/>
-    public OutputListResponseSend FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSend.FromRawUnchecked(rawData);
+    public Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Send.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Outcome of a Send function's delivery attempt.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseSendDeliveryStatusConverter))]
-public enum OutputListResponseSendDeliveryStatus
+[JsonConverter(typeof(DeliveryStatusConverter))]
+public enum DeliveryStatus
 {
     Success,
     Skip,
 }
 
-sealed class OutputListResponseSendDeliveryStatusConverter
-    : JsonConverter<OutputListResponseSendDeliveryStatus>
+sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
 {
-    public override OutputListResponseSendDeliveryStatus Read(
+    public override DeliveryStatus Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -9858,15 +9397,15 @@ sealed class OutputListResponseSendDeliveryStatusConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "success" => OutputListResponseSendDeliveryStatus.Success,
-            "skip" => OutputListResponseSendDeliveryStatus.Skip,
-            _ => (OutputListResponseSendDeliveryStatus)(-1),
+            "success" => DeliveryStatus.Success,
+            "skip" => DeliveryStatus.Skip,
+            _ => (DeliveryStatus)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSendDeliveryStatus value,
+        DeliveryStatus value,
         JsonSerializerOptions options
     )
     {
@@ -9874,8 +9413,8 @@ sealed class OutputListResponseSendDeliveryStatusConverter
             writer,
             value switch
             {
-                OutputListResponseSendDeliveryStatus.Success => "success",
-                OutputListResponseSendDeliveryStatus.Skip => "skip",
+                DeliveryStatus.Success => "success",
+                DeliveryStatus.Skip => "skip",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -9888,18 +9427,17 @@ sealed class OutputListResponseSendDeliveryStatusConverter
 /// <summary>
 /// Destination type for a Send function.
 /// </summary>
-[JsonConverter(typeof(OutputListResponseSendDestinationTypeConverter))]
-public enum OutputListResponseSendDestinationType
+[JsonConverter(typeof(DestinationTypeConverter))]
+public enum DestinationType
 {
     Webhook,
     S3,
     GoogleDrive,
 }
 
-sealed class OutputListResponseSendDestinationTypeConverter
-    : JsonConverter<OutputListResponseSendDestinationType>
+sealed class DestinationTypeConverter : JsonConverter<DestinationType>
 {
-    public override OutputListResponseSendDestinationType Read(
+    public override DestinationType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -9907,16 +9445,16 @@ sealed class OutputListResponseSendDestinationTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "webhook" => OutputListResponseSendDestinationType.Webhook,
-            "s3" => OutputListResponseSendDestinationType.S3,
-            "google_drive" => OutputListResponseSendDestinationType.GoogleDrive,
-            _ => (OutputListResponseSendDestinationType)(-1),
+            "webhook" => DestinationType.Webhook,
+            "s3" => DestinationType.S3,
+            "google_drive" => DestinationType.GoogleDrive,
+            _ => (DestinationType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSendDestinationType value,
+        DestinationType value,
         JsonSerializerOptions options
     )
     {
@@ -9924,9 +9462,9 @@ sealed class OutputListResponseSendDestinationTypeConverter
             writer,
             value switch
             {
-                OutputListResponseSendDestinationType.Webhook => "webhook",
-                OutputListResponseSendDestinationType.S3 => "s3",
-                OutputListResponseSendDestinationType.GoogleDrive => "google_drive",
+                DestinationType.Webhook => "webhook",
+                DestinationType.S3 => "s3",
+                DestinationType.GoogleDrive => "google_drive",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -9936,16 +9474,15 @@ sealed class OutputListResponseSendDestinationTypeConverter
     }
 }
 
-[JsonConverter(typeof(OutputListResponseSendEventTypeConverter))]
-public enum OutputListResponseSendEventType
+[JsonConverter(typeof(SendEventTypeConverter))]
+public enum SendEventType
 {
     Send,
 }
 
-sealed class OutputListResponseSendEventTypeConverter
-    : JsonConverter<OutputListResponseSendEventType>
+sealed class SendEventTypeConverter : JsonConverter<SendEventType>
 {
-    public override OutputListResponseSendEventType Read(
+    public override SendEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -9953,14 +9490,14 @@ sealed class OutputListResponseSendEventTypeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "send" => OutputListResponseSendEventType.Send,
-            _ => (OutputListResponseSendEventType)(-1),
+            "send" => SendEventType.Send,
+            _ => (SendEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        OutputListResponseSendEventType value,
+        SendEventType value,
         JsonSerializerOptions options
     )
     {
@@ -9968,7 +9505,7 @@ sealed class OutputListResponseSendEventTypeConverter
             writer,
             value switch
             {
-                OutputListResponseSendEventType.Send => "send",
+                SendEventType.Send => "send",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -9981,13 +9518,8 @@ sealed class OutputListResponseSendEventTypeConverter
 /// <summary>
 /// Metadata returned when a Send function delivers to Google Drive.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSendGoogleDriveOutput,
-        OutputListResponseSendGoogleDriveOutputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSendGoogleDriveOutput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<GoogleDriveOutput, GoogleDriveOutputFromRaw>))]
+public sealed record class GoogleDriveOutput : JsonModel
 {
     /// <summary>
     /// Name of the file created in Google Drive.
@@ -10022,31 +9554,29 @@ public sealed record class OutputListResponseSendGoogleDriveOutput : JsonModel
         _ = this.FolderID;
     }
 
-    public OutputListResponseSendGoogleDriveOutput() { }
+    public GoogleDriveOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSendGoogleDriveOutput(
-        OutputListResponseSendGoogleDriveOutput outputListResponseSendGoogleDriveOutput
-    )
-        : base(outputListResponseSendGoogleDriveOutput) { }
+    public GoogleDriveOutput(GoogleDriveOutput googleDriveOutput)
+        : base(googleDriveOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSendGoogleDriveOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    public GoogleDriveOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSendGoogleDriveOutput(FrozenDictionary<string, JsonElement> rawData)
+    GoogleDriveOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSendGoogleDriveOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSendGoogleDriveOutput FromRawUnchecked(
+    /// <inheritdoc cref="GoogleDriveOutputFromRaw.FromRawUnchecked"/>
+    public static GoogleDriveOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -10054,22 +9584,15 @@ public sealed record class OutputListResponseSendGoogleDriveOutput : JsonModel
     }
 }
 
-class OutputListResponseSendGoogleDriveOutputFromRaw
-    : IFromRawJson<OutputListResponseSendGoogleDriveOutput>
+class GoogleDriveOutputFromRaw : IFromRawJson<GoogleDriveOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseSendGoogleDriveOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSendGoogleDriveOutput.FromRawUnchecked(rawData);
+    public GoogleDriveOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        GoogleDriveOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSendMetadata,
-        OutputListResponseSendMetadataFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSendMetadata : JsonModel
+[JsonConverter(typeof(JsonModelConverter<SendMetadata, SendMetadataFromRaw>))]
+public sealed record class SendMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -10095,56 +9618,46 @@ public sealed record class OutputListResponseSendMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public OutputListResponseSendMetadata() { }
+    public SendMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSendMetadata(
-        OutputListResponseSendMetadata outputListResponseSendMetadata
-    )
-        : base(outputListResponseSendMetadata) { }
+    public SendMetadata(SendMetadata sendMetadata)
+        : base(sendMetadata) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSendMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public SendMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSendMetadata(FrozenDictionary<string, JsonElement> rawData)
+    SendMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSendMetadataFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSendMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="SendMetadataFromRaw.FromRawUnchecked"/>
+    public static SendMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSendMetadataFromRaw : IFromRawJson<OutputListResponseSendMetadata>
+class SendMetadataFromRaw : IFromRawJson<SendMetadata>
 {
     /// <inheritdoc/>
-    public OutputListResponseSendMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSendMetadata.FromRawUnchecked(rawData);
+    public SendMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        SendMetadata.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Metadata returned when a Send function delivers to an S3 bucket.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSendS3Output,
-        OutputListResponseSendS3OutputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSendS3Output : JsonModel
+[JsonConverter(typeof(JsonModelConverter<S3Output, S3OutputFromRaw>))]
+public sealed record class S3Output : JsonModel
 {
     /// <summary>
     /// Name of the S3 bucket the payload was written to.
@@ -10179,56 +9692,46 @@ public sealed record class OutputListResponseSendS3Output : JsonModel
         _ = this.Key;
     }
 
-    public OutputListResponseSendS3Output() { }
+    public S3Output() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSendS3Output(
-        OutputListResponseSendS3Output outputListResponseSendS3Output
-    )
-        : base(outputListResponseSendS3Output) { }
+    public S3Output(S3Output s3Output)
+        : base(s3Output) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSendS3Output(IReadOnlyDictionary<string, JsonElement> rawData)
+    public S3Output(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSendS3Output(FrozenDictionary<string, JsonElement> rawData)
+    S3Output(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSendS3OutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSendS3Output FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="S3OutputFromRaw.FromRawUnchecked"/>
+    public static S3Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSendS3OutputFromRaw : IFromRawJson<OutputListResponseSendS3Output>
+class S3OutputFromRaw : IFromRawJson<S3Output>
 {
     /// <inheritdoc/>
-    public OutputListResponseSendS3Output FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSendS3Output.FromRawUnchecked(rawData);
+    public S3Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        S3Output.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Metadata returned when a Send function delivers to a webhook.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        OutputListResponseSendWebhookOutput,
-        OutputListResponseSendWebhookOutputFromRaw
-    >)
-)]
-public sealed record class OutputListResponseSendWebhookOutput : JsonModel
+[JsonConverter(typeof(JsonModelConverter<WebhookOutput, WebhookOutputFromRaw>))]
+public sealed record class WebhookOutput : JsonModel
 {
     /// <summary>
     /// Raw HTTP response body returned by the webhook endpoint.
@@ -10263,42 +9766,37 @@ public sealed record class OutputListResponseSendWebhookOutput : JsonModel
         _ = this.HttpStatusCode;
     }
 
-    public OutputListResponseSendWebhookOutput() { }
+    public WebhookOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public OutputListResponseSendWebhookOutput(
-        OutputListResponseSendWebhookOutput outputListResponseSendWebhookOutput
-    )
-        : base(outputListResponseSendWebhookOutput) { }
+    public WebhookOutput(WebhookOutput webhookOutput)
+        : base(webhookOutput) { }
 #pragma warning restore CS8618
 
-    public OutputListResponseSendWebhookOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    public WebhookOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    OutputListResponseSendWebhookOutput(FrozenDictionary<string, JsonElement> rawData)
+    WebhookOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputListResponseSendWebhookOutputFromRaw.FromRawUnchecked"/>
-    public static OutputListResponseSendWebhookOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="WebhookOutputFromRaw.FromRawUnchecked"/>
+    public static WebhookOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputListResponseSendWebhookOutputFromRaw : IFromRawJson<OutputListResponseSendWebhookOutput>
+class WebhookOutputFromRaw : IFromRawJson<WebhookOutput>
 {
     /// <inheritdoc/>
-    public OutputListResponseSendWebhookOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => OutputListResponseSendWebhookOutput.FromRawUnchecked(rawData);
+    public WebhookOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        WebhookOutput.FromRawUnchecked(rawData);
 }

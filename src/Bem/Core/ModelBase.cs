@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Bem.Exceptions;
 using Bem.Models.Collections.Items;
+using Bem.Models.Fs;
 using Bem.Models.Functions;
 using Calls = Bem.Models.Calls;
 using Errors = Bem.Models.Errors;
@@ -44,25 +45,6 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Versions::DestinationType>(),
             new ApiEnumConverter<string, Versions::SplitType>(),
             new ApiEnumConverter<string, Versions::JoinType>(),
-            new ApiEnumConverter<string, Calls::EventType>(),
-            new ApiEnumConverter<string, Calls::InputType>(),
-            new ApiEnumConverter<string, Calls::ExtractEventType>(),
-            new ApiEnumConverter<string, Calls::ExtractInputType>(),
-            new ApiEnumConverter<string, Calls::RouteEventType>(),
-            new ApiEnumConverter<string, Calls::ClassifyEventType>(),
-            new ApiEnumConverter<string, Calls::OutputType>(),
-            new ApiEnumConverter<string, Calls::SplitCollectionEventType>(),
-            new ApiEnumConverter<string, Calls::SplitItemOutputType>(),
-            new ApiEnumConverter<string, Calls::SplitItemEventType>(),
-            new ApiEnumConverter<string, Calls::JoinType>(),
-            new ApiEnumConverter<string, Calls::JoinEventType>(),
-            new ApiEnumConverter<string, Calls::EnrichEventType>(),
-            new ApiEnumConverter<string, Calls::Operation>(),
-            new ApiEnumConverter<string, Calls::CollectionProcessingStatus>(),
-            new ApiEnumConverter<string, Calls::CollectionProcessingEventType>(),
-            new ApiEnumConverter<string, Calls::DeliveryStatus>(),
-            new ApiEnumConverter<string, Calls::DestinationType>(),
-            new ApiEnumConverter<string, Calls::SendEventType>(),
             new ApiEnumConverter<string, Calls::CallStatus>(),
             new ApiEnumConverter<string, Calls::FunctionCallStatus>(),
             new ApiEnumConverter<string, Calls::ActivityStatus>(),
@@ -89,31 +71,6 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Outputs::DeliveryStatus>(),
             new ApiEnumConverter<string, Outputs::DestinationType>(),
             new ApiEnumConverter<string, Outputs::SendEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseTransformEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseTransformInputType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseExtractEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseExtractInputType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseRouteEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseClassifyEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSplitCollectionOutputType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSplitCollectionEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSplitItemOutputType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSplitItemEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseJoinJoinType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseJoinEventType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseEnrichEventType>(),
-            new ApiEnumConverter<
-                string,
-                Outputs::OutputListResponseCollectionProcessingOperation
-            >(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseCollectionProcessingStatus>(),
-            new ApiEnumConverter<
-                string,
-                Outputs::OutputListResponseCollectionProcessingEventType
-            >(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSendDeliveryStatus>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSendDestinationType>(),
-            new ApiEnumConverter<string, Outputs::OutputListResponseSendEventType>(),
             new ApiEnumConverter<string, Outputs::SortOrder>(),
             new ApiEnumConverter<string, Workflows::WorkflowConnectorType>(),
             new ApiEnumConverter<string, Workflows::Operation>(),
@@ -126,6 +83,8 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Status>(),
             new ApiEnumConverter<string, ItemAddResponseStatus>(),
             new ApiEnumConverter<string, Events::FunctionType>(),
+            new ApiEnumConverter<string, FNavigateResponseOp>(),
+            new ApiEnumConverter<string, Op>(),
         },
     };
 
