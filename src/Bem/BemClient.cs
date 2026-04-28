@@ -126,6 +126,18 @@ public sealed class BemClient : IBemClient
         get { return _webhookSecret.Value; }
     }
 
+    readonly Lazy<IEvalService> _eval;
+    public IEvalService Eval
+    {
+        get { return _eval.Value; }
+    }
+
+    readonly Lazy<IFService> _fs;
+    public IFService Fs
+    {
+        get { return _fs.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -142,6 +154,8 @@ public sealed class BemClient : IBemClient
         _collections = new(() => new CollectionService(this));
         _events = new(() => new EventService(this));
         _webhookSecret = new(() => new WebhookSecretService(this));
+        _eval = new(() => new EvalService(this));
+        _fs = new(() => new FService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -269,6 +283,18 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public IWebhookSecretServiceWithRawResponse WebhookSecret
     {
         get { return _webhookSecret.Value; }
+    }
+
+    readonly Lazy<IEvalServiceWithRawResponse> _eval;
+    public IEvalServiceWithRawResponse Eval
+    {
+        get { return _eval.Value; }
+    }
+
+    readonly Lazy<IFServiceWithRawResponse> _fs;
+    public IFServiceWithRawResponse Fs
+    {
+        get { return _fs.Value; }
     }
 
     /// <inheritdoc/>
@@ -478,6 +504,8 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _collections = new(() => new CollectionServiceWithRawResponse(this));
         _events = new(() => new EventServiceWithRawResponse(this));
         _webhookSecret = new(() => new WebhookSecretServiceWithRawResponse(this));
+        _eval = new(() => new EvalServiceWithRawResponse(this));
+        _fs = new(() => new FServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)

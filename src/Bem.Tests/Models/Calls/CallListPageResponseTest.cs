@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
 using Bem.Models.Calls;
-using Errors = Bem.Models.Errors;
+using Bem.Models.Errors;
+using Outputs = Bem.Models.Outputs;
 
 namespace Bem.Tests.Models.Calls;
 
@@ -31,7 +32,7 @@ public class CallListPageResponseTest : TestBase
                             ReferenceID = "referenceID",
                             CallID = "callID",
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = Errors::EventType.Error,
+                            EventType = EventType.Error,
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
                             FunctionVersionNum = 0,
@@ -50,7 +51,7 @@ public class CallListPageResponseTest : TestBase
                     ],
                     Outputs =
                     [
-                        new Transform()
+                        new Outputs::Transform()
                         {
                             EventID = "eventID",
                             FunctionID = "functionID",
@@ -61,12 +62,12 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new CorrectedContentOutput()
+                            CorrectedContent = new Outputs::Output()
                             {
-                                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                             },
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = EventType.Transform,
+                            EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
@@ -90,7 +91,7 @@ public class CallListPageResponseTest : TestBase
                                     S3Url = "s3URL",
                                 },
                             ],
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             InvalidProperties = ["string"],
                             IsRegression = true,
                             LastPublishErrorAt = "lastPublishErrorAt",
@@ -176,7 +177,7 @@ public class CallListPageResponseTest : TestBase
                         ReferenceID = "referenceID",
                         CallID = "callID",
                         CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        EventType = Errors::EventType.Error,
+                        EventType = EventType.Error,
                         FunctionCallID = "functionCallID",
                         FunctionCallTryNumber = 0,
                         FunctionVersionNum = 0,
@@ -195,7 +196,7 @@ public class CallListPageResponseTest : TestBase
                 ],
                 Outputs =
                 [
-                    new Transform()
+                    new Outputs::Transform()
                     {
                         EventID = "eventID",
                         FunctionID = "functionID",
@@ -206,12 +207,12 @@ public class CallListPageResponseTest : TestBase
                         TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                         AvgConfidence = 0,
                         CallID = "callID",
-                        CorrectedContent = new CorrectedContentOutput()
+                        CorrectedContent = new Outputs::Output()
                         {
-                            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                         },
                         CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        EventType = EventType.Transform,
+                        EventType = Outputs::EventType.Transform,
                         FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                         FunctionCallID = "functionCallID",
                         FunctionCallTryNumber = 0,
@@ -233,7 +234,7 @@ public class CallListPageResponseTest : TestBase
                                 S3Url = "s3URL",
                             },
                         ],
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         InvalidProperties = ["string"],
                         IsRegression = true,
                         LastPublishErrorAt = "lastPublishErrorAt",
@@ -329,7 +330,7 @@ public class CallListPageResponseTest : TestBase
                             ReferenceID = "referenceID",
                             CallID = "callID",
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = Errors::EventType.Error,
+                            EventType = EventType.Error,
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
                             FunctionVersionNum = 0,
@@ -348,7 +349,7 @@ public class CallListPageResponseTest : TestBase
                     ],
                     Outputs =
                     [
-                        new Transform()
+                        new Outputs::Transform()
                         {
                             EventID = "eventID",
                             FunctionID = "functionID",
@@ -359,12 +360,12 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new CorrectedContentOutput()
+                            CorrectedContent = new Outputs::Output()
                             {
-                                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                             },
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = EventType.Transform,
+                            EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
@@ -388,7 +389,7 @@ public class CallListPageResponseTest : TestBase
                                     S3Url = "s3URL",
                                 },
                             ],
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             InvalidProperties = ["string"],
                             IsRegression = true,
                             LastPublishErrorAt = "lastPublishErrorAt",
@@ -488,7 +489,7 @@ public class CallListPageResponseTest : TestBase
                             ReferenceID = "referenceID",
                             CallID = "callID",
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = Errors::EventType.Error,
+                            EventType = EventType.Error,
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
                             FunctionVersionNum = 0,
@@ -507,7 +508,7 @@ public class CallListPageResponseTest : TestBase
                     ],
                     Outputs =
                     [
-                        new Transform()
+                        new Outputs::Transform()
                         {
                             EventID = "eventID",
                             FunctionID = "functionID",
@@ -518,12 +519,12 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new CorrectedContentOutput()
+                            CorrectedContent = new Outputs::Output()
                             {
-                                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                             },
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = EventType.Transform,
+                            EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
@@ -547,7 +548,7 @@ public class CallListPageResponseTest : TestBase
                                     S3Url = "s3URL",
                                 },
                             ],
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             InvalidProperties = ["string"],
                             IsRegression = true,
                             LastPublishErrorAt = "lastPublishErrorAt",
@@ -640,7 +641,7 @@ public class CallListPageResponseTest : TestBase
                         ReferenceID = "referenceID",
                         CallID = "callID",
                         CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        EventType = Errors::EventType.Error,
+                        EventType = EventType.Error,
                         FunctionCallID = "functionCallID",
                         FunctionCallTryNumber = 0,
                         FunctionVersionNum = 0,
@@ -659,7 +660,7 @@ public class CallListPageResponseTest : TestBase
                 ],
                 Outputs =
                 [
-                    new Transform()
+                    new Outputs::Transform()
                     {
                         EventID = "eventID",
                         FunctionID = "functionID",
@@ -670,12 +671,12 @@ public class CallListPageResponseTest : TestBase
                         TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                         AvgConfidence = 0,
                         CallID = "callID",
-                        CorrectedContent = new CorrectedContentOutput()
+                        CorrectedContent = new Outputs::Output()
                         {
-                            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                         },
                         CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                        EventType = EventType.Transform,
+                        EventType = Outputs::EventType.Transform,
                         FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                         FunctionCallID = "functionCallID",
                         FunctionCallTryNumber = 0,
@@ -697,7 +698,7 @@ public class CallListPageResponseTest : TestBase
                                 S3Url = "s3URL",
                             },
                         ],
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         InvalidProperties = ["string"],
                         IsRegression = true,
                         LastPublishErrorAt = "lastPublishErrorAt",
@@ -793,7 +794,7 @@ public class CallListPageResponseTest : TestBase
                             ReferenceID = "referenceID",
                             CallID = "callID",
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = Errors::EventType.Error,
+                            EventType = EventType.Error,
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
                             FunctionVersionNum = 0,
@@ -812,7 +813,7 @@ public class CallListPageResponseTest : TestBase
                     ],
                     Outputs =
                     [
-                        new Transform()
+                        new Outputs::Transform()
                         {
                             EventID = "eventID",
                             FunctionID = "functionID",
@@ -823,12 +824,12 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new CorrectedContentOutput()
+                            CorrectedContent = new Outputs::Output()
                             {
-                                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                             },
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = EventType.Transform,
+                            EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
@@ -852,7 +853,7 @@ public class CallListPageResponseTest : TestBase
                                     S3Url = "s3URL",
                                 },
                             ],
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             InvalidProperties = ["string"],
                             IsRegression = true,
                             LastPublishErrorAt = "lastPublishErrorAt",
@@ -1000,7 +1001,7 @@ public class CallListPageResponseTest : TestBase
                             ReferenceID = "referenceID",
                             CallID = "callID",
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = Errors::EventType.Error,
+                            EventType = EventType.Error,
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
                             FunctionVersionNum = 0,
@@ -1019,7 +1020,7 @@ public class CallListPageResponseTest : TestBase
                     ],
                     Outputs =
                     [
-                        new Transform()
+                        new Outputs::Transform()
                         {
                             EventID = "eventID",
                             FunctionID = "functionID",
@@ -1030,12 +1031,12 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new CorrectedContentOutput()
+                            CorrectedContent = new Outputs::Output()
                             {
-                                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
                             },
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                            EventType = EventType.Transform,
+                            EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                             FunctionCallID = "functionCallID",
                             FunctionCallTryNumber = 0,
@@ -1059,7 +1060,7 @@ public class CallListPageResponseTest : TestBase
                                     S3Url = "s3URL",
                                 },
                             ],
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             InvalidProperties = ["string"],
                             IsRegression = true,
                             LastPublishErrorAt = "lastPublishErrorAt",

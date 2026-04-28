@@ -16,10 +16,10 @@ public sealed class OutputListPage(
     IOutputServiceWithRawResponse service,
     OutputListParams parameters,
     OutputListPageResponse response
-) : IPage<OutputListResponse>
+) : IPage<Event>
 {
     /// <inheritdoc/>
-    public IReadOnlyList<OutputListResponse> Items
+    public IReadOnlyList<Event> Items
     {
         get { return response.Outputs; }
     }
@@ -31,9 +31,8 @@ public sealed class OutputListPage(
     }
 
     /// <inheritdoc/>
-    async Task<IPage<OutputListResponse>> IPage<OutputListResponse>.Next(
-        CancellationToken cancellationToken
-    ) => await this.Next(cancellationToken).ConfigureAwait(false);
+    async Task<IPage<Event>> IPage<Event>.Next(CancellationToken cancellationToken) =>
+        await this.Next(cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc cref="IPage{T}.Next"/>
     public async Task<OutputListPage> Next(CancellationToken cancellationToken = default)

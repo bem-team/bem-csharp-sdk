@@ -71,6 +71,10 @@ public interface IBemClient : IDisposable
     IEventService Events { get; }
 
     IWebhookSecretService WebhookSecret { get; }
+
+    IEvalService Eval { get; }
+
+    IFService Fs { get; }
 }
 
 /// <summary>
@@ -122,6 +126,10 @@ public interface IBemClientWithRawResponse : IDisposable
     IEventServiceWithRawResponse Events { get; }
 
     IWebhookSecretServiceWithRawResponse WebhookSecret { get; }
+
+    IEvalServiceWithRawResponse Eval { get; }
+
+    IFServiceWithRawResponse Fs { get; }
 
     /// <summary>
     /// Sends a request to the Bem REST API.
