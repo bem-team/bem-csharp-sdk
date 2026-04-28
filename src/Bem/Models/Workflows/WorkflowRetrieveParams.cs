@@ -9,7 +9,11 @@ using Bem.Core;
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// Get a Workflow
+/// **Retrieve a workflow's current version by name.**
+///
+/// <para>Returns the full workflow record: `currentVersionNum`, `mainNodeName`, the
+/// `nodes` array (with each node's function reference and pinned `versionNum` if
+/// any), and the `edges` array. To inspect a historical version, use `GET /v3/workflows/{workflowName}/versions/{versionNum}`.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

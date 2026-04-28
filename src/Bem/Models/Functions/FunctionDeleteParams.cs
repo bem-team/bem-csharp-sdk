@@ -9,7 +9,21 @@ using Bem.Core;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// Delete a Function
+/// **Delete a function and every one of its versions.**
+///
+/// <para>Permanent. Running and queued calls that reference this function continue
+/// to completion against the version they captured at call time, but no new calls
+/// can target it.</para>
+///
+/// <para>## Before deleting</para>
+///
+/// <para>Workflow nodes that reference this function will fail at call time after
+/// deletion. List workflows that reference it first:</para>
+///
+/// <para>``` GET /v3/workflows?functionNames=my-function ```</para>
+///
+/// <para>Update or remove those workflows, or create a replacement function and re-point
+/// the workflow nodes, before deleting.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

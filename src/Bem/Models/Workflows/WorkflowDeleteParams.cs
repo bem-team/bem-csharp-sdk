@@ -9,7 +9,14 @@ using Bem.Core;
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// Delete a Workflow
+/// **Delete a workflow and every one of its versions.**
+///
+/// <para>Permanent. Running and queued calls against this workflow continue to completion
+/// against the version they captured at call time; subsequent attempts to call the
+/// workflow return `404 Not Found`.</para>
+///
+/// <para>Functions referenced by the deleted workflow are not removed — they remain
+/// available to other workflows or for direct reference.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

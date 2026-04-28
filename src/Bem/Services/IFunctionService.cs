@@ -46,7 +46,27 @@ public interface IFunctionService
     IVersionService Versions { get; }
 
     /// <summary>
-    /// Create a Function
+    /// **Create a function.**
+    ///
+    /// <para>The function type (`extract`, `classify`, `split`, `join`, `enrich`, or
+    /// `payload_shaping`) determines which configuration fields are required — see
+    /// [Function types overview](/guide/function-types/overview) for the per-type
+    /// contract.</para>
+    ///
+    /// <para>The response contains both `functionID` and `functionName`. Either is a
+    /// stable handle you can use elsewhere; most workflows reference functions by
+    /// `functionName` because it's human-readable.</para>
+    ///
+    /// <para>## Naming rules</para>
+    ///
+    /// <para>- `functionName` must be unique per environment. - Allowed characters:
+    /// letters, digits, hyphens, and underscores. - Names cannot be reused after
+    /// deletion within the same environment for at least the retention window of the
+    /// previous record.</para>
+    ///
+    /// <para>The new function is created at `versionNum: 1`. Subsequent `PATCH
+    /// /v3/functions/{functionName}` calls produce new versions — the version-1
+    /// configuration remains immutable and addressable.</para>
     /// </summary>
     Task<FunctionResponse> Create(
         FunctionCreateParams parameters,
@@ -54,7 +74,11 @@ public interface IFunctionService
     );
 
     /// <summary>
-    /// Get a Function
+    /// **Retrieve a function's current version by name.**
+    ///
+    /// <para>Returns the function record with its `currentVersionNum` and the
+    /// configuration of that version. To inspect a historical version, use `GET
+    /// /v3/functions/{functionName}/versions/{versionNum}`.</para>
     /// </summary>
     Task<FunctionResponse> Retrieve(
         FunctionRetrieveParams parameters,
@@ -69,7 +93,26 @@ public interface IFunctionService
     );
 
     /// <summary>
-    /// Update a Function
+    /// **Update a function. Updates create a new version.**
+    ///
+    /// <para>The previous version remains addressable and immutable. Workflow nodes
+    /// that pinned the function with a `versionNum` continue to use the pinned version;
+    /// nodes that reference the function by name with no version automatically pick up
+    /// the new version on their next call.</para>
+    ///
+    /// <para>## What you can change</para>
+    ///
+    /// <para>Any field allowed by the function's type. Most commonly: `outputSchema`
+    /// (for `extract`/`join`), `classifications` (for `classify`), `displayName`, and
+    /// `tags`.</para>
+    ///
+    /// <para>## Versioning behaviour</para>
+    ///
+    /// <para>- Each successful update increments `currentVersionNum` by 1. -
+    /// `displayName`, `tags`, and `functionName` updates also create a new version, so
+    /// the version history is a complete record of every change. - To revert, fetch the
+    /// previous version and re-submit its configuration as a new update — versions
+    /// themselves are immutable.</para>
     /// </summary>
     Task<FunctionResponse> Update(
         FunctionUpdateParams parameters,
@@ -84,7 +127,25 @@ public interface IFunctionService
     );
 
     /// <summary>
-    /// List Functions
+    /// **List functions in the current environment.**
+    ///
+    /// <para>Returns each function's current version. Combine filters freely — they AND
+    /// together.</para>
+    ///
+    /// <para>## Filtering</para>
+    ///
+    /// <para>- `functionIDs` / `functionNames`: exact-match identity filters. -
+    /// `displayName`: case-insensitive substring match. - `types`: one or more of
+    /// `extract`, `classify`, `split`, `join`, `enrich`, `payload_shaping`. Legacy
+    /// `transform`, `analyze`, `route`, and `send` types remain readable via this
+    /// filter. - `tags`: returns functions tagged with any of the supplied tags. -
+    /// `workflowIDs` / `workflowNames`: returns only functions referenced by the named
+    /// workflows. Useful for "what functions does this workflow depend on?" lookups.</para>
+    ///
+    /// <para>## Pagination</para>
+    ///
+    /// <para>Cursor-based with `startingAfter` and `endingBefore` (functionIDs).
+    /// Default limit 50, maximum 100.</para>
     /// </summary>
     Task<FunctionListPage> List(
         FunctionListParams? parameters = null,
@@ -92,7 +153,21 @@ public interface IFunctionService
     );
 
     /// <summary>
-    /// Delete a Function
+    /// **Delete a function and every one of its versions.**
+    ///
+    /// <para>Permanent. Running and queued calls that reference this function continue
+    /// to completion against the version they captured at call time, but no new calls
+    /// can target it.</para>
+    ///
+    /// <para>## Before deleting</para>
+    ///
+    /// <para>Workflow nodes that reference this function will fail at call time after
+    /// deletion. List workflows that reference it first:</para>
+    ///
+    /// <para>``` GET /v3/workflows?functionNames=my-function ```</para>
+    ///
+    /// <para>Update or remove those workflows, or create a replacement function and
+    /// re-point the workflow nodes, before deleting.</para>
     /// </summary>
     Task Delete(FunctionDeleteParams parameters, CancellationToken cancellationToken = default);
 

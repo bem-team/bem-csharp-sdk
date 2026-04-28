@@ -12,7 +12,23 @@ using System = System;
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// List Workflows
+/// **List workflows in the current environment.**
+///
+/// <para>Returns each workflow's current version, including its node graph and main
+/// node. Combine filters freely — they AND together.</para>
+///
+/// <para>## Filtering</para>
+///
+/// <para>- `workflowIDs` / `workflowNames`: exact-match identity filters. - `displayName`:
+/// case-insensitive substring match. - `tags`: returns workflows tagged with any
+/// of the supplied tags. - `functionIDs` / `functionNames`: returns only workflows
+/// that reference the named functions in any node. Useful for "which workflows depend
+/// on this function?" lookups before changing or deleting a function.</para>
+///
+/// <para>## Pagination</para>
+///
+/// <para>Cursor-based with `startingAfter` and `endingBefore` (workflowIDs). Default
+/// limit 50, maximum 100.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

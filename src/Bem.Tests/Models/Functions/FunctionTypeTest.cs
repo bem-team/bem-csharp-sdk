@@ -11,12 +11,14 @@ public class FunctionTypeTest : TestBase
     [InlineData(FunctionType.Transform)]
     [InlineData(FunctionType.Extract)]
     [InlineData(FunctionType.Route)]
+    [InlineData(FunctionType.Classify)]
     [InlineData(FunctionType.Send)]
     [InlineData(FunctionType.Split)]
     [InlineData(FunctionType.Join)]
     [InlineData(FunctionType.Analyze)]
     [InlineData(FunctionType.PayloadShaping)]
     [InlineData(FunctionType.Enrich)]
+    [InlineData(FunctionType.Parse)]
     public void Validation_Works(FunctionType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -40,12 +42,14 @@ public class FunctionTypeTest : TestBase
     [InlineData(FunctionType.Transform)]
     [InlineData(FunctionType.Extract)]
     [InlineData(FunctionType.Route)]
+    [InlineData(FunctionType.Classify)]
     [InlineData(FunctionType.Send)]
     [InlineData(FunctionType.Split)]
     [InlineData(FunctionType.Join)]
     [InlineData(FunctionType.Analyze)]
     [InlineData(FunctionType.PayloadShaping)]
     [InlineData(FunctionType.Enrich)]
+    [InlineData(FunctionType.Parse)]
     public void SerializationRoundtrip_Works(FunctionType rawValue)
     {
         // force implicit conversion because Theory can't do that for us

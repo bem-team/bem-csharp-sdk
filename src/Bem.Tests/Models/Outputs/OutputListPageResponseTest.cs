@@ -15,7 +15,7 @@ public class OutputListPageResponseTest : TestBase
         {
             Outputs =
             [
-                new Transform()
+                new OutputListResponseTransform()
                 {
                     EventID = "eventID",
                     FunctionID = "functionID",
@@ -26,12 +26,12 @@ public class OutputListPageResponseTest : TestBase
                     TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                     AvgConfidence = 0,
                     CallID = "callID",
-                    CorrectedContent = new Output()
+                    CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                     {
-                        OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                        Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                     },
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    EventType = EventType.Transform,
+                    EventType = OutputListResponseTransformEventType.Transform,
                     FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                     FunctionCallID = "functionCallID",
                     FunctionCallTryNumber = 0,
@@ -53,7 +53,7 @@ public class OutputListPageResponseTest : TestBase
                             S3Url = "s3URL",
                         },
                     ],
-                    InputType = InputType.Csv,
+                    InputType = OutputListResponseTransformInputType.Csv,
                     InvalidProperties = ["string"],
                     IsRegression = true,
                     LastPublishErrorAt = "lastPublishErrorAt",
@@ -70,7 +70,7 @@ public class OutputListPageResponseTest : TestBase
                                 JsonPointer = "jsonPointer",
                             },
                         ],
-                        MetricsValue = new()
+                        Metrics = new()
                         {
                             Accuracy = 0,
                             F1Score = 0,
@@ -91,9 +91,9 @@ public class OutputListPageResponseTest : TestBase
             TotalCount = 0,
         };
 
-        List<Event> expectedOutputs =
+        List<OutputListResponse> expectedOutputs =
         [
-            new Transform()
+            new OutputListResponseTransform()
             {
                 EventID = "eventID",
                 FunctionID = "functionID",
@@ -104,12 +104,12 @@ public class OutputListPageResponseTest : TestBase
                 TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                 AvgConfidence = 0,
                 CallID = "callID",
-                CorrectedContent = new Output()
+                CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                 {
-                    OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                    Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                 },
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                EventType = EventType.Transform,
+                EventType = OutputListResponseTransformEventType.Transform,
                 FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                 FunctionCallID = "functionCallID",
                 FunctionCallTryNumber = 0,
@@ -131,7 +131,7 @@ public class OutputListPageResponseTest : TestBase
                         S3Url = "s3URL",
                     },
                 ],
-                InputType = InputType.Csv,
+                InputType = OutputListResponseTransformInputType.Csv,
                 InvalidProperties = ["string"],
                 IsRegression = true,
                 LastPublishErrorAt = "lastPublishErrorAt",
@@ -148,7 +148,7 @@ public class OutputListPageResponseTest : TestBase
                             JsonPointer = "jsonPointer",
                         },
                     ],
-                    MetricsValue = new()
+                    Metrics = new()
                     {
                         Accuracy = 0,
                         F1Score = 0,
@@ -183,7 +183,7 @@ public class OutputListPageResponseTest : TestBase
         {
             Outputs =
             [
-                new Transform()
+                new OutputListResponseTransform()
                 {
                     EventID = "eventID",
                     FunctionID = "functionID",
@@ -194,12 +194,12 @@ public class OutputListPageResponseTest : TestBase
                     TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                     AvgConfidence = 0,
                     CallID = "callID",
-                    CorrectedContent = new Output()
+                    CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                     {
-                        OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                        Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                     },
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    EventType = EventType.Transform,
+                    EventType = OutputListResponseTransformEventType.Transform,
                     FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                     FunctionCallID = "functionCallID",
                     FunctionCallTryNumber = 0,
@@ -221,7 +221,7 @@ public class OutputListPageResponseTest : TestBase
                             S3Url = "s3URL",
                         },
                     ],
-                    InputType = InputType.Csv,
+                    InputType = OutputListResponseTransformInputType.Csv,
                     InvalidProperties = ["string"],
                     IsRegression = true,
                     LastPublishErrorAt = "lastPublishErrorAt",
@@ -238,7 +238,7 @@ public class OutputListPageResponseTest : TestBase
                                 JsonPointer = "jsonPointer",
                             },
                         ],
-                        MetricsValue = new()
+                        Metrics = new()
                         {
                             Accuracy = 0,
                             F1Score = 0,
@@ -275,7 +275,7 @@ public class OutputListPageResponseTest : TestBase
         {
             Outputs =
             [
-                new Transform()
+                new OutputListResponseTransform()
                 {
                     EventID = "eventID",
                     FunctionID = "functionID",
@@ -286,12 +286,12 @@ public class OutputListPageResponseTest : TestBase
                     TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                     AvgConfidence = 0,
                     CallID = "callID",
-                    CorrectedContent = new Output()
+                    CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                     {
-                        OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                        Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                     },
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    EventType = EventType.Transform,
+                    EventType = OutputListResponseTransformEventType.Transform,
                     FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                     FunctionCallID = "functionCallID",
                     FunctionCallTryNumber = 0,
@@ -313,7 +313,7 @@ public class OutputListPageResponseTest : TestBase
                             S3Url = "s3URL",
                         },
                     ],
-                    InputType = InputType.Csv,
+                    InputType = OutputListResponseTransformInputType.Csv,
                     InvalidProperties = ["string"],
                     IsRegression = true,
                     LastPublishErrorAt = "lastPublishErrorAt",
@@ -330,7 +330,7 @@ public class OutputListPageResponseTest : TestBase
                                 JsonPointer = "jsonPointer",
                             },
                         ],
-                        MetricsValue = new()
+                        Metrics = new()
                         {
                             Accuracy = 0,
                             F1Score = 0,
@@ -358,9 +358,9 @@ public class OutputListPageResponseTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        List<Event> expectedOutputs =
+        List<OutputListResponse> expectedOutputs =
         [
-            new Transform()
+            new OutputListResponseTransform()
             {
                 EventID = "eventID",
                 FunctionID = "functionID",
@@ -371,12 +371,12 @@ public class OutputListPageResponseTest : TestBase
                 TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                 AvgConfidence = 0,
                 CallID = "callID",
-                CorrectedContent = new Output()
+                CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                 {
-                    OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                    Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                 },
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                EventType = EventType.Transform,
+                EventType = OutputListResponseTransformEventType.Transform,
                 FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                 FunctionCallID = "functionCallID",
                 FunctionCallTryNumber = 0,
@@ -398,7 +398,7 @@ public class OutputListPageResponseTest : TestBase
                         S3Url = "s3URL",
                     },
                 ],
-                InputType = InputType.Csv,
+                InputType = OutputListResponseTransformInputType.Csv,
                 InvalidProperties = ["string"],
                 IsRegression = true,
                 LastPublishErrorAt = "lastPublishErrorAt",
@@ -415,7 +415,7 @@ public class OutputListPageResponseTest : TestBase
                             JsonPointer = "jsonPointer",
                         },
                     ],
-                    MetricsValue = new()
+                    Metrics = new()
                     {
                         Accuracy = 0,
                         F1Score = 0,
@@ -450,7 +450,7 @@ public class OutputListPageResponseTest : TestBase
         {
             Outputs =
             [
-                new Transform()
+                new OutputListResponseTransform()
                 {
                     EventID = "eventID",
                     FunctionID = "functionID",
@@ -461,12 +461,12 @@ public class OutputListPageResponseTest : TestBase
                     TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                     AvgConfidence = 0,
                     CallID = "callID",
-                    CorrectedContent = new Output()
+                    CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                     {
-                        OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                        Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                     },
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    EventType = EventType.Transform,
+                    EventType = OutputListResponseTransformEventType.Transform,
                     FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                     FunctionCallID = "functionCallID",
                     FunctionCallTryNumber = 0,
@@ -488,7 +488,7 @@ public class OutputListPageResponseTest : TestBase
                             S3Url = "s3URL",
                         },
                     ],
-                    InputType = InputType.Csv,
+                    InputType = OutputListResponseTransformInputType.Csv,
                     InvalidProperties = ["string"],
                     IsRegression = true,
                     LastPublishErrorAt = "lastPublishErrorAt",
@@ -505,7 +505,7 @@ public class OutputListPageResponseTest : TestBase
                                 JsonPointer = "jsonPointer",
                             },
                         ],
-                        MetricsValue = new()
+                        Metrics = new()
                         {
                             Accuracy = 0,
                             F1Score = 0,
@@ -536,7 +536,7 @@ public class OutputListPageResponseTest : TestBase
         {
             Outputs =
             [
-                new Transform()
+                new OutputListResponseTransform()
                 {
                     EventID = "eventID",
                     FunctionID = "functionID",
@@ -547,12 +547,12 @@ public class OutputListPageResponseTest : TestBase
                     TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                     AvgConfidence = 0,
                     CallID = "callID",
-                    CorrectedContent = new Output()
+                    CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
                     {
-                        OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                        Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
                     },
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    EventType = EventType.Transform,
+                    EventType = OutputListResponseTransformEventType.Transform,
                     FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
                     FunctionCallID = "functionCallID",
                     FunctionCallTryNumber = 0,
@@ -574,7 +574,7 @@ public class OutputListPageResponseTest : TestBase
                             S3Url = "s3URL",
                         },
                     ],
-                    InputType = InputType.Csv,
+                    InputType = OutputListResponseTransformInputType.Csv,
                     InvalidProperties = ["string"],
                     IsRegression = true,
                     LastPublishErrorAt = "lastPublishErrorAt",
@@ -591,7 +591,7 @@ public class OutputListPageResponseTest : TestBase
                                 JsonPointer = "jsonPointer",
                             },
                         ],
-                        MetricsValue = new()
+                        Metrics = new()
                         {
                             Accuracy = 0,
                             F1Score = 0,

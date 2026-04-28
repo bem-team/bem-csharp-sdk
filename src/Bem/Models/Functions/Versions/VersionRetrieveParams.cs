@@ -9,7 +9,11 @@ using Bem.Core;
 namespace Bem.Models.Functions.Versions;
 
 /// <summary>
-/// Get a Function Version
+/// **Retrieve a specific historical version of a function.**
+///
+/// <para>Versions are immutable. Use this endpoint to inspect what a function looked
+/// like at the moment a particular call was made — every event and transformation
+/// records the function version it ran against.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

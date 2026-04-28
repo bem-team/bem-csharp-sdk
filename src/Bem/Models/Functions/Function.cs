@@ -46,7 +46,8 @@ public record class Function : ModelBase
                 split: (_) => null,
                 join: (_) => null,
                 payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                parse: (_) => null
             );
         }
     }
@@ -64,7 +65,8 @@ public record class Function : ModelBase
                 split: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 payloadShaping: (x) => x.FunctionID,
-                enrich: (x) => x.FunctionID
+                enrich: (x) => x.FunctionID,
+                parse: (x) => x.FunctionID
             );
         }
     }
@@ -82,7 +84,8 @@ public record class Function : ModelBase
                 split: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 payloadShaping: (x) => x.FunctionName,
-                enrich: (x) => x.FunctionName
+                enrich: (x) => x.FunctionName,
+                parse: (x) => x.FunctionName
             );
         }
     }
@@ -100,7 +103,8 @@ public record class Function : ModelBase
                 split: (_) => null,
                 join: (x) => x.OutputSchema,
                 payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                parse: (_) => null
             );
         }
     }
@@ -118,25 +122,8 @@ public record class Function : ModelBase
                 split: (_) => null,
                 join: (x) => x.OutputSchemaName,
                 payloadShaping: (_) => null,
-                enrich: (_) => null
-            );
-        }
-    }
-
-    public bool? TabularChunkingEnabled
-    {
-        get
-        {
-            return Match<bool?>(
-                transform: (x) => x.TabularChunkingEnabled,
-                extract: (x) => x.TabularChunkingEnabled,
-                analyze: (_) => null,
-                classify: (_) => null,
-                send: (_) => null,
-                split: (_) => null,
-                join: (_) => null,
-                payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                parse: (_) => null
             );
         }
     }
@@ -154,7 +141,8 @@ public record class Function : ModelBase
                 split: (x) => x.Type,
                 join: (x) => x.Type,
                 payloadShaping: (x) => x.Type,
-                enrich: (x) => x.Type
+                enrich: (x) => x.Type,
+                parse: (x) => x.Type
             );
         }
     }
@@ -172,7 +160,8 @@ public record class Function : ModelBase
                 split: (x) => x.VersionNum,
                 join: (x) => x.VersionNum,
                 payloadShaping: (x) => x.VersionNum,
-                enrich: (x) => x.VersionNum
+                enrich: (x) => x.VersionNum,
+                parse: (x) => x.VersionNum
             );
         }
     }
@@ -190,7 +179,8 @@ public record class Function : ModelBase
                 split: (x) => x.Audit,
                 join: (x) => x.Audit,
                 payloadShaping: (x) => x.Audit,
-                enrich: (x) => x.Audit
+                enrich: (x) => x.Audit,
+                parse: (x) => x.Audit
             );
         }
     }
@@ -208,7 +198,46 @@ public record class Function : ModelBase
                 split: (x) => x.DisplayName,
                 join: (x) => x.DisplayName,
                 payloadShaping: (x) => x.DisplayName,
-                enrich: (x) => x.DisplayName
+                enrich: (x) => x.DisplayName,
+                parse: (x) => x.DisplayName
+            );
+        }
+    }
+
+    public bool? EnableBoundingBoxes
+    {
+        get
+        {
+            return Match<bool?>(
+                transform: (_) => null,
+                extract: (x) => x.EnableBoundingBoxes,
+                analyze: (x) => x.EnableBoundingBoxes,
+                classify: (_) => null,
+                send: (_) => null,
+                split: (_) => null,
+                join: (_) => null,
+                payloadShaping: (_) => null,
+                enrich: (_) => null,
+                parse: (_) => null
+            );
+        }
+    }
+
+    public bool? PreCount
+    {
+        get
+        {
+            return Match<bool?>(
+                transform: (_) => null,
+                extract: (x) => x.PreCount,
+                analyze: (x) => x.PreCount,
+                classify: (_) => null,
+                send: (_) => null,
+                split: (_) => null,
+                join: (_) => null,
+                payloadShaping: (_) => null,
+                enrich: (_) => null,
+                parse: (_) => null
             );
         }
     }
@@ -226,7 +255,8 @@ public record class Function : ModelBase
                 split: (_) => null,
                 join: (x) => x.Description,
                 payloadShaping: (_) => null,
-                enrich: (_) => null
+                enrich: (_) => null,
+                parse: (_) => null
             );
         }
     }
@@ -280,6 +310,12 @@ public record class Function : ModelBase
     }
 
     public Function(FunctionEnrich value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Function(FunctionParse value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -480,6 +516,27 @@ public record class Function : ModelBase
     }
 
     /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="FunctionParse"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickParse(out var value)) {
+    ///     // `value` is of type `FunctionParse`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickParse([NotNullWhen(true)] out FunctionParse? value)
+    {
+        value = this.Value as FunctionParse;
+        return value != null;
+    }
+
+    /// <summary>
     /// Calls the function parameter corresponding to the variant the instance was constructed with.
     ///
     /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
@@ -501,7 +558,8 @@ public record class Function : ModelBase
     ///     (FunctionSplit value) =&gt; {...},
     ///     (FunctionJoin value) =&gt; {...},
     ///     (FunctionPayloadShaping value) =&gt; {...},
-    ///     (FunctionEnrich value) =&gt; {...}
+    ///     (FunctionEnrich value) =&gt; {...},
+    ///     (FunctionParse value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -515,7 +573,8 @@ public record class Function : ModelBase
         Action<FunctionSplit> split,
         Action<FunctionJoin> join,
         Action<FunctionPayloadShaping> payloadShaping,
-        Action<FunctionEnrich> enrich
+        Action<FunctionEnrich> enrich,
+        Action<FunctionParse> parse
     )
     {
         switch (this.Value)
@@ -547,6 +606,9 @@ public record class Function : ModelBase
             case FunctionEnrich value:
                 enrich(value);
                 break;
+            case FunctionParse value:
+                parse(value);
+                break;
             default:
                 throw new BemInvalidDataException("Data did not match any variant of Function");
         }
@@ -575,7 +637,8 @@ public record class Function : ModelBase
     ///     (FunctionSplit value) =&gt; {...},
     ///     (FunctionJoin value) =&gt; {...},
     ///     (FunctionPayloadShaping value) =&gt; {...},
-    ///     (FunctionEnrich value) =&gt; {...}
+    ///     (FunctionEnrich value) =&gt; {...},
+    ///     (FunctionParse value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -589,7 +652,8 @@ public record class Function : ModelBase
         Func<FunctionSplit, T> split,
         Func<FunctionJoin, T> join,
         Func<FunctionPayloadShaping, T> payloadShaping,
-        Func<FunctionEnrich, T> enrich
+        Func<FunctionEnrich, T> enrich,
+        Func<FunctionParse, T> parse
     )
     {
         return this.Value switch
@@ -603,6 +667,7 @@ public record class Function : ModelBase
             FunctionJoin value => join(value),
             FunctionPayloadShaping value => payloadShaping(value),
             FunctionEnrich value => enrich(value),
+            FunctionParse value => parse(value),
             _ => throw new BemInvalidDataException("Data did not match any variant of Function"),
         };
     }
@@ -624,6 +689,8 @@ public record class Function : ModelBase
     public static implicit operator Function(FunctionPayloadShaping value) => new(value);
 
     public static implicit operator Function(FunctionEnrich value) => new(value);
+
+    public static implicit operator Function(FunctionParse value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -650,7 +717,8 @@ public record class Function : ModelBase
             (split) => split.Validate(),
             (join) => join.Validate(),
             (payloadShaping) => payloadShaping.Validate(),
-            (enrich) => enrich.Validate()
+            (enrich) => enrich.Validate(),
+            (parse) => parse.Validate()
         );
     }
 
@@ -683,6 +751,7 @@ public record class Function : ModelBase
             FunctionJoin _ => 6,
             FunctionPayloadShaping _ => 7,
             FunctionEnrich _ => 8,
+            FunctionParse _ => 9,
             _ => -1,
         };
     }
@@ -859,6 +928,23 @@ sealed class FunctionConverter : JsonConverter<Function>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<FunctionEnrich>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "parse":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<FunctionParse>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1153,6 +1239,22 @@ class TransformFromRaw : IFromRawJson<Transform>
 public sealed record class FunctionExtract : JsonModel
 {
     /// <summary>
+    /// Whether bounding box extraction is enabled. Applies to vision input types
+    /// (pdf, png, jpeg, heic, heif, webp) that dispatch through the analyze path.
+    /// When true, the function returns the document regions (page, coordinates) from
+    /// which each field was extracted.
+    /// </summary>
+    public required bool EnableBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("enableBoundingBoxes");
+        }
+        init { this._rawData.Set("enableBoundingBoxes", value); }
+    }
+
+    /// <summary>
     /// Unique identifier of function.
     /// </summary>
     public required string FunctionID
@@ -1205,17 +1307,17 @@ public sealed record class FunctionExtract : JsonModel
     }
 
     /// <summary>
-    /// Whether tabular chunking is enabled. When true, tables in CSV/Excel files
-    /// are processed in row batches rather than all at once.
+    /// Reducing the risk of the model stopping early on long documents. Trade-off:
+    /// Increases total latency.
     /// </summary>
-    public required bool TabularChunkingEnabled
+    public required bool PreCount
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<bool>("tabularChunkingEnabled");
+            return this._rawData.GetNotNullStruct<bool>("preCount");
         }
-        init { this._rawData.Set("tabularChunkingEnabled", value); }
+        init { this._rawData.Set("preCount", value); }
     }
 
     public JsonElement Type
@@ -1336,11 +1438,12 @@ public sealed record class FunctionExtract : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
+        _ = this.EnableBoundingBoxes;
         _ = this.FunctionID;
         _ = this.FunctionName;
         _ = this.OutputSchema;
         _ = this.OutputSchemaName;
-        _ = this.TabularChunkingEnabled;
+        _ = this.PreCount;
         if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("extract")))
         {
             throw new BemInvalidDataException("Invalid value given for constant");
@@ -1657,26 +1760,12 @@ class AnalyzeFromRaw : IFromRawJson<Analyze>
         Analyze.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// V3 read-side shape of a Classify (internally Route) function. Mirrors {
-/// </summary>
 [JsonConverter(typeof(JsonModelConverter<FunctionClassify, FunctionClassifyFromRaw>))]
 public sealed record class FunctionClassify : JsonModel
 {
     /// <summary>
-    /// V3 create/update variants of the shared function payloads.
-    ///
-    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
-    /// function types when creating new functions or updating existing ones — both
-    /// have been unified under `extract`. Existing functions of those types remain
-    /// readable and callable via V3, so the V3 read-side unions still include `transform`
-    /// and `analyze` variants.</para>
-    ///
-    /// <para>The V3 API also renames the internal `route` function type to `classify`
-    /// on the wire, and the associated `routes` field to `classifications` (type
-    /// `ClassificationList`). Platform-internal storage and processing still use
-    /// `route` / `routes`; the rename is applied only at the V3 API boundary.V3-facing
-    /// name for the list of classifications a classify function can produce.</para>
+    /// List of classifications a classify function can produce. Shares the underlying
+    /// route list shape.
     /// </summary>
     public required IReadOnlyList<ClassificationListItem> Classifications
     {
@@ -3558,4 +3647,363 @@ class FunctionEnrichFromRaw : IFromRawJson<FunctionEnrich>
     /// <inheritdoc/>
     public FunctionEnrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         FunctionEnrich.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<FunctionParse, FunctionParseFromRaw>))]
+public sealed record class FunctionParse : JsonModel
+{
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-version configuration for a Parse function.
+    ///
+    /// <para>Parse renders document pages (PDF, image) via vision LLM and emits structured
+    /// JSON. The two toggles below independently control entity extraction (a per-call
+    /// output concern) and cross-document memory linking (an environment-wide concern).</para>
+    /// </summary>
+    public FunctionParseParseConfig? ParseConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionParseParseConfig>("parseConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("parseConfig", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("parse")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.DisplayName;
+        this.ParseConfig?.Validate();
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public FunctionParse()
+    {
+        this.Type = JsonSerializer.SerializeToElement("parse");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public FunctionParse(FunctionParse functionParse)
+        : base(functionParse) { }
+#pragma warning restore CS8618
+
+    public FunctionParse(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("parse");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    FunctionParse(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="FunctionParseFromRaw.FromRawUnchecked"/>
+    public static FunctionParse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class FunctionParseFromRaw : IFromRawJson<FunctionParse>
+{
+    /// <inheritdoc/>
+    public FunctionParse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        FunctionParse.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Per-version configuration for a Parse function.
+///
+/// <para>Parse renders document pages (PDF, image) via vision LLM and emits structured
+/// JSON. The two toggles below independently control entity extraction (a per-call
+/// output concern) and cross-document memory linking (an environment-wide concern).</para>
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<FunctionParseParseConfig, FunctionParseParseConfigFromRaw>)
+)]
+public sealed record class FunctionParseParseConfig : JsonModel
+{
+    /// <summary>
+    /// When true, extract named entities (people, organizations, products, studies,
+    /// identifiers, etc.) and the relationships between them, and dedupe by canonical
+    /// name within the document. When false, only `sections[]` is extracted; `entities[]`
+    /// and `relationships[]` come back empty in the parse output. Defaults to true.
+    /// </summary>
+    public bool? ExtractEntities
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("extractEntities");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("extractEntities", value);
+        }
+    }
+
+    /// <summary>
+    /// When true, link this document's entities to entities seen in earlier documents
+    /// in this environment, building one canonical record per real-world thing across
+    /// the corpus. Visible in the Memory tab and queryable via `POST /v3/fs` (op=find
+    /// / open / xref). Doesn't change this call's parse output. Requires `extractEntities=true`.
+    /// Defaults to true.
+    /// </summary>
+    public bool? LinkAcrossDocuments
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("linkAcrossDocuments");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("linkAcrossDocuments", value);
+        }
+    }
+
+    /// <summary>
+    /// Optional JSONSchema. When provided, each chunk performs schema-guided extraction.
+    /// When absent, chunks perform open-ended discovery and return sections, entities,
+    /// and relationships per the discovery schema.
+    /// </summary>
+    public JsonElement? Schema
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("schema");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("schema", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.ExtractEntities;
+        _ = this.LinkAcrossDocuments;
+        _ = this.Schema;
+    }
+
+    public FunctionParseParseConfig() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public FunctionParseParseConfig(FunctionParseParseConfig functionParseParseConfig)
+        : base(functionParseParseConfig) { }
+#pragma warning restore CS8618
+
+    public FunctionParseParseConfig(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    FunctionParseParseConfig(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="FunctionParseParseConfigFromRaw.FromRawUnchecked"/>
+    public static FunctionParseParseConfig FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class FunctionParseParseConfigFromRaw : IFromRawJson<FunctionParseParseConfig>
+{
+    /// <inheritdoc/>
+    public FunctionParseParseConfig FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => FunctionParseParseConfig.FromRawUnchecked(rawData);
 }

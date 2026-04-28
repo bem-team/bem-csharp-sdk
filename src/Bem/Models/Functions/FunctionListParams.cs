@@ -12,7 +12,25 @@ using Bem.Exceptions;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// List Functions
+/// **List functions in the current environment.**
+///
+/// <para>Returns each function's current version. Combine filters freely — they
+/// AND together.</para>
+///
+/// <para>## Filtering</para>
+///
+/// <para>- `functionIDs` / `functionNames`: exact-match identity filters. - `displayName`:
+/// case-insensitive substring match. - `types`: one or more of `extract`, `classify`,
+/// `split`, `join`, `enrich`, `payload_shaping`. Legacy `transform`, `analyze`, `route`,
+/// and `send` types remain readable via this filter. - `tags`: returns functions
+/// tagged with any of the supplied tags. - `workflowIDs` / `workflowNames`: returns
+/// only functions referenced by the named workflows. Useful for "what functions does
+/// this workflow depend on?" lookups.</para>
+///
+/// <para>## Pagination</para>
+///
+/// <para>Cursor-based with `startingAfter` and `endingBefore` (functionIDs). Default
+/// limit 50, maximum 100.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
