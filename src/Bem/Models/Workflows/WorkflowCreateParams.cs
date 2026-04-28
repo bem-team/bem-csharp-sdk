@@ -13,7 +13,33 @@ using System = System;
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// Create a Workflow
+/// **Create a workflow.**
+///
+/// <para>A workflow is a directed acyclic graph of nodes (each pointing at a function)
+/// with one entry point (`mainNodeName`). The graph runs end-to-end on every call.</para>
+///
+/// <para>## Required structure</para>
+///
+/// <para>- `name`: unique within the environment, alphanumeric plus hyphens and
+/// underscores. - `mainNodeName`: must match one of the `nodes[].name` values, and
+/// must not be the destination of any edge. - `nodes`: at least one. Each node has
+/// a unique `name` and a `function` reference (by `functionName` or `functionID`,
+/// optionally pinned to a `versionNum`). - `edges`: optional for single-node workflows.
+/// For branching sources (Classify, semantic Split), each edge carries a `destinationName`
+/// matching a `classifications[].name` or `itemClasses[].name` on the source function.</para>
+///
+/// <para>The created workflow is at `versionNum: 1`. Subsequent `PATCH /v3/workflows/{workflowName}`
+/// calls produce new versions.</para>
+///
+/// <para>## Common patterns</para>
+///
+/// <para>- **Single-node**: one extract/classify function, no edges. - **Sequential**:
+/// extract → enrich → payload_shaping (linear edges). - **Branching**: classify →
+/// multiple extracts (one edge per classification name). - **Split-then-process**:
+/// split → multiple extracts (one edge per item class).</para>
+///
+/// <para>See [Workflows explained](/guide/workflows-explained) for end-to-end examples
+/// of each pattern.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

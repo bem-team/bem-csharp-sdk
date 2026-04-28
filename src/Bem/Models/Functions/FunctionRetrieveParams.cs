@@ -9,7 +9,10 @@ using Bem.Core;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// Get a Function
+/// **Retrieve a function's current version by name.**
+///
+/// <para>Returns the function record with its `currentVersionNum` and the configuration
+/// of that version. To inspect a historical version, use `GET /v3/functions/{functionName}/versions/{versionNum}`.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

@@ -13,7 +13,27 @@ using System = System;
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// Update a Workflow
+/// **Update a workflow. Updates create a new version.**
+///
+/// <para>The previous version remains addressable and immutable. Pending and running
+/// calls captured at the old version continue against it; new calls run against the
+/// new version.</para>
+///
+/// <para>## Topology updates</para>
+///
+/// <para>To change the graph you must provide `mainNodeName`, `nodes`, AND `edges`
+/// together — partial topology updates are rejected. The full graph is replaced atomically.</para>
+///
+/// <para>## Metadata-only updates</para>
+///
+/// <para>Omit all three fields to update only `displayName`, `tags`, or `name` while
+/// keeping the topology of the current version.</para>
+///
+/// <para>## Reverting</para>
+///
+/// <para>To roll back, fetch the desired prior version and resubmit its `mainNodeName`/`nodes`/`edges`
+/// as a new update. Versions themselves are immutable — there is no "pin to version
+/// N" operation at the workflow level (use `nodes[].function.versionNum` to pin individual functions).</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

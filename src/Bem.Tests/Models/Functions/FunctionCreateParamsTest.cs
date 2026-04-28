@@ -15,8 +15,10 @@ public class FunctionCreateParamsTest : TestBase
             {
                 FunctionName = "functionName",
                 DisplayName = "displayName",
+                EnableBoundingBoxes = true,
                 OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                 OutputSchemaName = "outputSchemaName",
+                PreCount = true,
                 TabularChunkingEnabled = true,
                 Tags = ["string"],
             },
@@ -26,8 +28,10 @@ public class FunctionCreateParamsTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -44,8 +48,10 @@ public class FunctionCreateParamsTest : TestBase
             {
                 FunctionName = "functionName",
                 DisplayName = "displayName",
+                EnableBoundingBoxes = true,
                 OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                 OutputSchemaName = "outputSchemaName",
+                PreCount = true,
                 TabularChunkingEnabled = true,
                 Tags = ["string"],
             },
@@ -65,8 +71,10 @@ public class FunctionCreateParamsTest : TestBase
             {
                 FunctionName = "functionName",
                 DisplayName = "displayName",
+                EnableBoundingBoxes = true,
                 OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                 OutputSchemaName = "outputSchemaName",
+                PreCount = true,
                 TabularChunkingEnabled = true,
                 Tags = ["string"],
             },

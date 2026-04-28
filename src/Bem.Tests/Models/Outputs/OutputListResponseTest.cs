@@ -8,12 +8,12 @@ using Errors = Bem.Models.Errors;
 
 namespace Bem.Tests.Models.Outputs;
 
-public class EventTest : TestBase
+public class OutputListResponseTest : TestBase
 {
     [Fact]
     public void TransformValidationWorks()
     {
-        Event value = new Transform()
+        OutputListResponse value = new OutputListResponseTransform()
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -24,12 +24,12 @@ public class EventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -51,7 +51,7 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -68,7 +68,7 @@ public class EventTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -89,9 +89,62 @@ public class EventTest : TestBase
     }
 
     [Fact]
+    public void ExtractValidationWorks()
+    {
+        OutputListResponse value = new OutputListResponseExtract()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void RouteValidationWorks()
     {
-        Event value = new Route()
+        OutputListResponse value = new OutputListResponseRoute()
         {
             Choice = "choice",
             EventID = "eventID",
@@ -100,7 +153,39 @@ public class EventTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void ClassifyValidationWorks()
+    {
+        OutputListResponse value = new OutputListResponseClassify()
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -123,12 +208,12 @@ public class EventTest : TestBase
     [Fact]
     public void SplitCollectionValidationWorks()
     {
-        Event value = new SplitCollection()
+        OutputListResponse value = new OutputListResponseSplitCollection()
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -164,7 +249,7 @@ public class EventTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -186,16 +271,16 @@ public class EventTest : TestBase
     [Fact]
     public void SplitItemValidationWorks()
     {
-        Event value = new SplitItem()
+        OutputListResponse value = new OutputListResponseSplitItem()
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -235,9 +320,9 @@ public class EventTest : TestBase
     }
 
     [Fact]
-    public void ErrorValidationWorks()
+    public void ErrorEventValidationWorks()
     {
-        Event value = new Errors::ErrorEvent()
+        OutputListResponse value = new Errors::ErrorEvent()
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -268,7 +353,7 @@ public class EventTest : TestBase
     [Fact]
     public void JoinValidationWorks()
     {
-        Event value = new Join()
+        OutputListResponse value = new OutputListResponseJoin()
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -284,13 +369,13 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -314,7 +399,7 @@ public class EventTest : TestBase
     [Fact]
     public void EnrichValidationWorks()
     {
-        Event value = new Enrich()
+        OutputListResponse value = new OutputListResponseEnrich()
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -323,7 +408,7 @@ public class EventTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -345,19 +430,19 @@ public class EventTest : TestBase
     [Fact]
     public void CollectionProcessingValidationWorks()
     {
-        Event value = new CollectionProcessing()
+        OutputListResponse value = new OutputListResponseCollectionProcessing()
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -374,10 +459,10 @@ public class EventTest : TestBase
     [Fact]
     public void SendValidationWorks()
     {
-        Event value = new Send()
+        OutputListResponse value = new OutputListResponseSend()
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -385,7 +470,7 @@ public class EventTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -410,7 +495,7 @@ public class EventTest : TestBase
     [Fact]
     public void TransformSerializationRoundtripWorks()
     {
-        Event value = new Transform()
+        OutputListResponse value = new OutputListResponseTransform()
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -421,12 +506,12 @@ public class EventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -448,7 +533,7 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -465,7 +550,7 @@ public class EventTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -483,7 +568,69 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void ExtractSerializationRoundtripWorks()
+    {
+        OutputListResponse value = new OutputListResponseExtract()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -491,7 +638,7 @@ public class EventTest : TestBase
     [Fact]
     public void RouteSerializationRoundtripWorks()
     {
-        Event value = new Route()
+        OutputListResponse value = new OutputListResponseRoute()
         {
             Choice = "choice",
             EventID = "eventID",
@@ -500,7 +647,7 @@ public class EventTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -518,7 +665,48 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void ClassifySerializationRoundtripWorks()
+    {
+        OutputListResponse value = new OutputListResponseClassify()
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -526,12 +714,12 @@ public class EventTest : TestBase
     [Fact]
     public void SplitCollectionSerializationRoundtripWorks()
     {
-        Event value = new SplitCollection()
+        OutputListResponse value = new OutputListResponseSplitCollection()
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -567,7 +755,7 @@ public class EventTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -584,7 +772,10 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -592,16 +783,16 @@ public class EventTest : TestBase
     [Fact]
     public void SplitItemSerializationRoundtripWorks()
     {
-        Event value = new SplitItem()
+        OutputListResponse value = new OutputListResponseSplitItem()
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -638,15 +829,18 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 
     [Fact]
-    public void ErrorSerializationRoundtripWorks()
+    public void ErrorEventSerializationRoundtripWorks()
     {
-        Event value = new Errors::ErrorEvent()
+        OutputListResponse value = new Errors::ErrorEvent()
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -672,7 +866,10 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -680,7 +877,7 @@ public class EventTest : TestBase
     [Fact]
     public void JoinSerializationRoundtripWorks()
     {
-        Event value = new Join()
+        OutputListResponse value = new OutputListResponseJoin()
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -696,13 +893,13 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -721,7 +918,10 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -729,7 +929,7 @@ public class EventTest : TestBase
     [Fact]
     public void EnrichSerializationRoundtripWorks()
     {
-        Event value = new Enrich()
+        OutputListResponse value = new OutputListResponseEnrich()
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -738,7 +938,7 @@ public class EventTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -755,7 +955,10 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -763,19 +966,19 @@ public class EventTest : TestBase
     [Fact]
     public void CollectionProcessingSerializationRoundtripWorks()
     {
-        Event value = new CollectionProcessing()
+        OutputListResponse value = new OutputListResponseCollectionProcessing()
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -787,7 +990,10 @@ public class EventTest : TestBase
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -795,10 +1001,10 @@ public class EventTest : TestBase
     [Fact]
     public void SendSerializationRoundtripWorks()
     {
-        Event value = new Send()
+        OutputListResponse value = new OutputListResponseSend()
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -806,7 +1012,7 @@ public class EventTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -826,18 +1032,21 @@ public class EventTest : TestBase
             WorkflowVersionNum = 0,
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponse>(
+            element,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class TransformTest : TestBase
+public class OutputListResponseTransformTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -848,12 +1057,12 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -875,7 +1084,7 @@ public class TransformTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -892,7 +1101,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -919,12 +1128,14 @@ public class TransformTest : TestBase
         JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
-        CorrectedContent expectedCorrectedContent = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        OutputListResponseTransformCorrectedContent expectedCorrectedContent =
+            new OutputListResponseTransformCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, EventType> expectedEventType = EventType.Transform;
+        ApiEnum<string, OutputListResponseTransformEventType> expectedEventType =
+            OutputListResponseTransformEventType.Transform;
         JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
@@ -936,7 +1147,7 @@ public class TransformTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        List<Input> expectedInputs =
+        List<OutputListResponseTransformInput> expectedInputs =
         [
             new()
             {
@@ -946,12 +1157,16 @@ public class TransformTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
+        ApiEnum<string, OutputListResponseTransformInputType> expectedInputType =
+            OutputListResponseTransformInputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         bool expectedIsRegression = true;
         string expectedLastPublishErrorAt = "lastPublishErrorAt";
-        Metadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
-        Metrics expectedMetrics = new()
+        OutputListResponseTransformMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        OutputListResponseTransformMetrics expectedMetrics = new()
         {
             Differences =
             [
@@ -963,7 +1178,7 @@ public class TransformTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -1028,7 +1243,7 @@ public class TransformTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1039,12 +1254,12 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1066,7 +1281,7 @@ public class TransformTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -1083,7 +1298,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1102,7 +1317,10 @@ public class TransformTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Transform>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransform>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -1110,7 +1328,7 @@ public class TransformTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1121,12 +1339,12 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1148,7 +1366,7 @@ public class TransformTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -1165,7 +1383,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1184,7 +1402,7 @@ public class TransformTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Transform>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransform>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1199,12 +1417,14 @@ public class TransformTest : TestBase
         JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
-        CorrectedContent expectedCorrectedContent = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        OutputListResponseTransformCorrectedContent expectedCorrectedContent =
+            new OutputListResponseTransformCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, EventType> expectedEventType = EventType.Transform;
+        ApiEnum<string, OutputListResponseTransformEventType> expectedEventType =
+            OutputListResponseTransformEventType.Transform;
         JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
@@ -1216,7 +1436,7 @@ public class TransformTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        List<Input> expectedInputs =
+        List<OutputListResponseTransformInput> expectedInputs =
         [
             new()
             {
@@ -1226,12 +1446,16 @@ public class TransformTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
+        ApiEnum<string, OutputListResponseTransformInputType> expectedInputType =
+            OutputListResponseTransformInputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         bool expectedIsRegression = true;
         string expectedLastPublishErrorAt = "lastPublishErrorAt";
-        Metadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
-        Metrics expectedMetrics = new()
+        OutputListResponseTransformMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        OutputListResponseTransformMetrics expectedMetrics = new()
         {
             Differences =
             [
@@ -1243,7 +1467,7 @@ public class TransformTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -1312,7 +1536,7 @@ public class TransformTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1323,12 +1547,12 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1350,7 +1574,7 @@ public class TransformTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -1367,7 +1591,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1391,7 +1615,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1401,9 +1625,9 @@ public class TransformTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             Inputs =
             [
@@ -1428,7 +1652,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1482,7 +1706,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1492,9 +1716,9 @@ public class TransformTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             Inputs =
             [
@@ -1519,7 +1743,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1536,7 +1760,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1546,9 +1770,9 @@ public class TransformTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             Inputs =
             [
@@ -1573,7 +1797,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1648,7 +1872,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1658,9 +1882,9 @@ public class TransformTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             Inputs =
             [
@@ -1685,7 +1909,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -1723,7 +1947,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1734,7 +1958,7 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1746,7 +1970,7 @@ public class TransformTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
@@ -1776,7 +2000,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1787,7 +2011,7 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1799,7 +2023,7 @@ public class TransformTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
@@ -1818,7 +2042,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1829,7 +2053,7 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1841,7 +2065,7 @@ public class TransformTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
@@ -1878,7 +2102,7 @@ public class TransformTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1889,7 +2113,7 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1901,7 +2125,7 @@ public class TransformTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
@@ -1927,7 +2151,7 @@ public class TransformTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Transform
+        var model = new OutputListResponseTransform
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -1938,12 +2162,12 @@ public class TransformTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
+            CorrectedContent = new OutputListResponseTransformCorrectedContentOutput()
             {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EventType.Transform,
+            EventType = OutputListResponseTransformEventType.Transform,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -1965,7 +2189,7 @@ public class TransformTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = InputType.Csv,
+            InputType = OutputListResponseTransformInputType.Csv,
             InvalidProperties = ["string"],
             IsRegression = true,
             LastPublishErrorAt = "lastPublishErrorAt",
@@ -1982,7 +2206,7 @@ public class TransformTest : TestBase
                         JsonPointer = "jsonPointer",
                     },
                 ],
-                MetricsValue = new()
+                Metrics = new()
                 {
                     Accuracy = 0,
                     F1Score = 0,
@@ -2000,68 +2224,74 @@ public class TransformTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        Transform copied = new(model);
+        OutputListResponseTransform copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class CorrectedContentTest : TestBase
+public class OutputListResponseTransformCorrectedContentTest : TestBase
 {
     [Fact]
-    public void OutputValidationWorks()
+    public void OutputListResponseTransformCorrectedContentOutputValidationWorks()
     {
-        CorrectedContent value = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        OutputListResponseTransformCorrectedContent value =
+            new OutputListResponseTransformCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
         value.Validate();
     }
 
     [Fact]
     public void JsonElementValidationWorks()
     {
-        CorrectedContent value = JsonSerializer.Deserialize<JsonElement>("{}");
+        OutputListResponseTransformCorrectedContent value = JsonSerializer.Deserialize<JsonElement>(
+            "{}"
+        );
         value.Validate();
     }
 
     [Fact]
     public void JsonElementsValidationWorks()
     {
-        CorrectedContent value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
+        OutputListResponseTransformCorrectedContent value = new(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
         value.Validate();
     }
 
     [Fact]
     public void StringValidationWorks()
     {
-        CorrectedContent value = "string";
+        OutputListResponseTransformCorrectedContent value = "string";
         value.Validate();
     }
 
     [Fact]
     public void DoubleValidationWorks()
     {
-        CorrectedContent value = 0;
+        OutputListResponseTransformCorrectedContent value = 0;
         value.Validate();
     }
 
     [Fact]
     public void BoolValidationWorks()
     {
-        CorrectedContent value = true;
+        OutputListResponseTransformCorrectedContent value = true;
         value.Validate();
     }
 
     [Fact]
-    public void OutputSerializationRoundtripWorks()
+    public void OutputListResponseTransformCorrectedContentOutputSerializationRoundtripWorks()
     {
-        CorrectedContent value = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        OutputListResponseTransformCorrectedContent value =
+            new OutputListResponseTransformCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContent>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2072,9 +2302,11 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void JsonElementSerializationRoundtripWorks()
     {
-        CorrectedContent value = JsonSerializer.Deserialize<JsonElement>("{}");
+        OutputListResponseTransformCorrectedContent value = JsonSerializer.Deserialize<JsonElement>(
+            "{}"
+        );
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContent>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2085,9 +2317,11 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void JsonElementsSerializationRoundtripWorks()
     {
-        CorrectedContent value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
+        OutputListResponseTransformCorrectedContent value = new(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContent>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2098,9 +2332,9 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void StringSerializationRoundtripWorks()
     {
-        CorrectedContent value = "string";
+        OutputListResponseTransformCorrectedContent value = "string";
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContent>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2111,9 +2345,9 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void DoubleSerializationRoundtripWorks()
     {
-        CorrectedContent value = 0;
+        OutputListResponseTransformCorrectedContent value = 0;
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContent>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2124,9 +2358,9 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void BoolSerializationRoundtripWorks()
     {
-        CorrectedContent value = true;
+        OutputListResponseTransformCorrectedContent value = true;
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContent>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2135,30 +2369,40 @@ public class CorrectedContentTest : TestBase
     }
 }
 
-public class OutputTest : TestBase
+public class OutputListResponseTransformCorrectedContentOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Output { OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")] };
-
-        List<AnyType?> expectedOutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")];
-
-        Assert.NotNull(model.OutputValue);
-        Assert.Equal(expectedOutputValue.Count, model.OutputValue.Count);
-        for (int i = 0; i < expectedOutputValue.Count; i++)
+        var model = new OutputListResponseTransformCorrectedContentOutput
         {
-            Assert.Equal(expectedOutputValue[i], model.OutputValue[i]);
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
+
+        Assert.NotNull(model.Output);
+        Assert.Equal(expectedOutput.Count, model.Output.Count);
+        for (int i = 0; i < expectedOutput.Count; i++)
+        {
+            Assert.Equal(expectedOutput[i], model.Output[i]);
         }
     }
 
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Output { OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")] };
+        var model = new OutputListResponseTransformCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Output>(json, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContentOutput>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -2166,26 +2410,36 @@ public class OutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Output { OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")] };
+        var model = new OutputListResponseTransformCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Output>(element, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContentOutput>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
-        List<AnyType?> expectedOutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")];
+        List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
 
-        Assert.NotNull(deserialized.OutputValue);
-        Assert.Equal(expectedOutputValue.Count, deserialized.OutputValue.Count);
-        for (int i = 0; i < expectedOutputValue.Count; i++)
+        Assert.NotNull(deserialized.Output);
+        Assert.Equal(expectedOutput.Count, deserialized.Output.Count);
+        for (int i = 0; i < expectedOutput.Count; i++)
         {
-            Assert.Equal(expectedOutputValue[i], deserialized.OutputValue[i]);
+            Assert.Equal(expectedOutput[i], deserialized.Output[i]);
         }
     }
 
     [Fact]
     public void Validation_Works()
     {
-        var model = new Output { OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")] };
+        var model = new OutputListResponseTransformCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
 
         model.Validate();
     }
@@ -2193,16 +2447,16 @@ public class OutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Output { };
+        var model = new OutputListResponseTransformCorrectedContentOutput { };
 
-        Assert.Null(model.OutputValue);
+        Assert.Null(model.Output);
         Assert.False(model.RawData.ContainsKey("output"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Output { };
+        var model = new OutputListResponseTransformCorrectedContentOutput { };
 
         model.Validate();
     }
@@ -2210,23 +2464,23 @@ public class OutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Output
+        var model = new OutputListResponseTransformCorrectedContentOutput
         {
             // Null should be interpreted as omitted for these properties
-            OutputValue = null,
+            Output = null,
         };
 
-        Assert.Null(model.OutputValue);
+        Assert.Null(model.Output);
         Assert.False(model.RawData.ContainsKey("output"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Output
+        var model = new OutputListResponseTransformCorrectedContentOutput
         {
             // Null should be interpreted as omitted for these properties
-            OutputValue = null,
+            Output = null,
         };
 
         model.Validate();
@@ -2235,49 +2489,50 @@ public class OutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Output { OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")] };
+        var model = new OutputListResponseTransformCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
 
-        Output copied = new(model);
+        OutputListResponseTransformCorrectedContentOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class EventTypeTest : TestBase
+public class OutputListResponseTransformEventTypeTest : TestBase
 {
     [Theory]
-    [InlineData(EventType.Transform)]
-    public void Validation_Works(EventType rawValue)
+    [InlineData(OutputListResponseTransformEventType.Transform)]
+    public void Validation_Works(OutputListResponseTransformEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EventType> value = rawValue;
+        ApiEnum<string, OutputListResponseTransformEventType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, EventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(EventType.Transform)]
-    public void SerializationRoundtrip_Works(EventType rawValue)
+    [InlineData(OutputListResponseTransformEventType.Transform)]
+    public void SerializationRoundtrip_Works(OutputListResponseTransformEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EventType> value = rawValue;
+        ApiEnum<string, OutputListResponseTransformEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -2285,26 +2540,24 @@ public class EventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, EventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class InputTest : TestBase
+public class OutputListResponseTransformInputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = "inputContent",
             InputType = "inputType",
@@ -2327,7 +2580,7 @@ public class InputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = "inputContent",
             InputType = "inputType",
@@ -2336,7 +2589,10 @@ public class InputTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Input>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformInput>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -2344,7 +2600,7 @@ public class InputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = "inputContent",
             InputType = "inputType",
@@ -2353,7 +2609,10 @@ public class InputTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Input>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformInput>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedInputContent = "inputContent";
@@ -2373,7 +2632,7 @@ public class InputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = "inputContent",
             InputType = "inputType",
@@ -2387,7 +2646,7 @@ public class InputTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Input { };
+        var model = new OutputListResponseTransformInput { };
 
         Assert.Null(model.InputContent);
         Assert.False(model.RawData.ContainsKey("inputContent"));
@@ -2402,7 +2661,7 @@ public class InputTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Input { };
+        var model = new OutputListResponseTransformInput { };
 
         model.Validate();
     }
@@ -2410,7 +2669,7 @@ public class InputTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = null,
             InputType = null,
@@ -2431,7 +2690,7 @@ public class InputTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = null,
             InputType = null,
@@ -2445,7 +2704,7 @@ public class InputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Input
+        var model = new OutputListResponseTransformInput
         {
             InputContent = "inputContent",
             InputType = "inputType",
@@ -2453,81 +2712,79 @@ public class InputTest : TestBase
             S3Url = "s3URL",
         };
 
-        Input copied = new(model);
+        OutputListResponseTransformInput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class InputTypeTest : TestBase
+public class OutputListResponseTransformInputTypeTest : TestBase
 {
     [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void Validation_Works(InputType rawValue)
+    [InlineData(OutputListResponseTransformInputType.Csv)]
+    [InlineData(OutputListResponseTransformInputType.Docx)]
+    [InlineData(OutputListResponseTransformInputType.Email)]
+    [InlineData(OutputListResponseTransformInputType.Heic)]
+    [InlineData(OutputListResponseTransformInputType.Html)]
+    [InlineData(OutputListResponseTransformInputType.Jpeg)]
+    [InlineData(OutputListResponseTransformInputType.Json)]
+    [InlineData(OutputListResponseTransformInputType.Heif)]
+    [InlineData(OutputListResponseTransformInputType.M4a)]
+    [InlineData(OutputListResponseTransformInputType.Mp3)]
+    [InlineData(OutputListResponseTransformInputType.Pdf)]
+    [InlineData(OutputListResponseTransformInputType.Png)]
+    [InlineData(OutputListResponseTransformInputType.Text)]
+    [InlineData(OutputListResponseTransformInputType.Wav)]
+    [InlineData(OutputListResponseTransformInputType.Webp)]
+    [InlineData(OutputListResponseTransformInputType.Xls)]
+    [InlineData(OutputListResponseTransformInputType.Xlsx)]
+    [InlineData(OutputListResponseTransformInputType.Xml)]
+    public void Validation_Works(OutputListResponseTransformInputType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
+        ApiEnum<string, OutputListResponseTransformInputType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformInputType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void SerializationRoundtrip_Works(InputType rawValue)
+    [InlineData(OutputListResponseTransformInputType.Csv)]
+    [InlineData(OutputListResponseTransformInputType.Docx)]
+    [InlineData(OutputListResponseTransformInputType.Email)]
+    [InlineData(OutputListResponseTransformInputType.Heic)]
+    [InlineData(OutputListResponseTransformInputType.Html)]
+    [InlineData(OutputListResponseTransformInputType.Jpeg)]
+    [InlineData(OutputListResponseTransformInputType.Json)]
+    [InlineData(OutputListResponseTransformInputType.Heif)]
+    [InlineData(OutputListResponseTransformInputType.M4a)]
+    [InlineData(OutputListResponseTransformInputType.Mp3)]
+    [InlineData(OutputListResponseTransformInputType.Pdf)]
+    [InlineData(OutputListResponseTransformInputType.Png)]
+    [InlineData(OutputListResponseTransformInputType.Text)]
+    [InlineData(OutputListResponseTransformInputType.Wav)]
+    [InlineData(OutputListResponseTransformInputType.Webp)]
+    [InlineData(OutputListResponseTransformInputType.Xls)]
+    [InlineData(OutputListResponseTransformInputType.Xlsx)]
+    [InlineData(OutputListResponseTransformInputType.Xml)]
+    public void SerializationRoundtrip_Works(OutputListResponseTransformInputType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
+        ApiEnum<string, OutputListResponseTransformInputType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformInputType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -2535,26 +2792,24 @@ public class InputTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformInputType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseTransformInputType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class MetadataTest : TestBase
+public class OutputListResponseTransformMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Metadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseTransformMetadata { DurationFunctionToEventSeconds = 0 };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -2564,10 +2819,13 @@ public class MetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Metadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseTransformMetadata { DurationFunctionToEventSeconds = 0 };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Metadata>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -2575,10 +2833,10 @@ public class MetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Metadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseTransformMetadata { DurationFunctionToEventSeconds = 0 };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Metadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2595,7 +2853,7 @@ public class MetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Metadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseTransformMetadata { DurationFunctionToEventSeconds = 0 };
 
         model.Validate();
     }
@@ -2603,7 +2861,7 @@ public class MetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Metadata { };
+        var model = new OutputListResponseTransformMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -2612,7 +2870,7 @@ public class MetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Metadata { };
+        var model = new OutputListResponseTransformMetadata { };
 
         model.Validate();
     }
@@ -2620,7 +2878,7 @@ public class MetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Metadata
+        var model = new OutputListResponseTransformMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -2633,7 +2891,7 @@ public class MetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Metadata
+        var model = new OutputListResponseTransformMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -2645,20 +2903,20 @@ public class MetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Metadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseTransformMetadata { DurationFunctionToEventSeconds = 0 };
 
-        Metadata copied = new(model);
+        OutputListResponseTransformMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class MetricsTest : TestBase
+public class OutputListResponseTransformMetricsTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             Differences =
             [
@@ -2670,7 +2928,7 @@ public class MetricsTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -2679,7 +2937,7 @@ public class MetricsTest : TestBase
             },
         };
 
-        List<Difference> expectedDifferences =
+        List<OutputListResponseTransformMetricsDifference> expectedDifferences =
         [
             new()
             {
@@ -2689,7 +2947,7 @@ public class MetricsTest : TestBase
                 JsonPointer = "jsonPointer",
             },
         ];
-        MetricsMetrics expectedMetricsValue = new()
+        OutputListResponseTransformMetricsMetrics expectedMetrics = new()
         {
             Accuracy = 0,
             F1Score = 0,
@@ -2703,13 +2961,13 @@ public class MetricsTest : TestBase
         {
             Assert.Equal(expectedDifferences[i], model.Differences[i]);
         }
-        Assert.Equal(expectedMetricsValue, model.MetricsValue);
+        Assert.Equal(expectedMetrics, model.Metrics);
     }
 
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             Differences =
             [
@@ -2721,7 +2979,7 @@ public class MetricsTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -2731,7 +2989,10 @@ public class MetricsTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Metrics>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetrics>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -2739,7 +3000,7 @@ public class MetricsTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             Differences =
             [
@@ -2751,7 +3012,7 @@ public class MetricsTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -2761,13 +3022,13 @@ public class MetricsTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Metrics>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetrics>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        List<Difference> expectedDifferences =
+        List<OutputListResponseTransformMetricsDifference> expectedDifferences =
         [
             new()
             {
@@ -2777,7 +3038,7 @@ public class MetricsTest : TestBase
                 JsonPointer = "jsonPointer",
             },
         ];
-        MetricsMetrics expectedMetricsValue = new()
+        OutputListResponseTransformMetricsMetrics expectedMetrics = new()
         {
             Accuracy = 0,
             F1Score = 0,
@@ -2791,13 +3052,13 @@ public class MetricsTest : TestBase
         {
             Assert.Equal(expectedDifferences[i], deserialized.Differences[i]);
         }
-        Assert.Equal(expectedMetricsValue, deserialized.MetricsValue);
+        Assert.Equal(expectedMetrics, deserialized.Metrics);
     }
 
     [Fact]
     public void Validation_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             Differences =
             [
@@ -2809,7 +3070,7 @@ public class MetricsTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -2824,18 +3085,18 @@ public class MetricsTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Metrics { };
+        var model = new OutputListResponseTransformMetrics { };
 
         Assert.Null(model.Differences);
         Assert.False(model.RawData.ContainsKey("differences"));
-        Assert.Null(model.MetricsValue);
+        Assert.Null(model.Metrics);
         Assert.False(model.RawData.ContainsKey("metrics"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Metrics { };
+        var model = new OutputListResponseTransformMetrics { };
 
         model.Validate();
     }
@@ -2843,27 +3104,27 @@ public class MetricsTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             // Null should be interpreted as omitted for these properties
             Differences = null,
-            MetricsValue = null,
+            Metrics = null,
         };
 
         Assert.Null(model.Differences);
         Assert.False(model.RawData.ContainsKey("differences"));
-        Assert.Null(model.MetricsValue);
+        Assert.Null(model.Metrics);
         Assert.False(model.RawData.ContainsKey("metrics"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             // Null should be interpreted as omitted for these properties
             Differences = null,
-            MetricsValue = null,
+            Metrics = null,
         };
 
         model.Validate();
@@ -2872,7 +3133,7 @@ public class MetricsTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Metrics
+        var model = new OutputListResponseTransformMetrics
         {
             Differences =
             [
@@ -2884,7 +3145,7 @@ public class MetricsTest : TestBase
                     JsonPointer = "jsonPointer",
                 },
             ],
-            MetricsValue = new()
+            Metrics = new()
             {
                 Accuracy = 0,
                 F1Score = 0,
@@ -2893,18 +3154,18 @@ public class MetricsTest : TestBase
             },
         };
 
-        Metrics copied = new(model);
+        OutputListResponseTransformMetrics copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class DifferenceTest : TestBase
+public class OutputListResponseTransformMetricsDifferenceTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             Category = "category",
             CorrectedVal = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2928,7 +3189,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             Category = "category",
             CorrectedVal = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2937,7 +3198,7 @@ public class DifferenceTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Difference>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetricsDifference>(
             json,
             ModelBase.SerializerOptions
         );
@@ -2948,7 +3209,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             Category = "category",
             CorrectedVal = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2957,7 +3218,7 @@ public class DifferenceTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Difference>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetricsDifference>(
             element,
             ModelBase.SerializerOptions
         );
@@ -2979,7 +3240,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             Category = "category",
             CorrectedVal = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2993,7 +3254,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Difference { };
+        var model = new OutputListResponseTransformMetricsDifference { };
 
         Assert.Null(model.Category);
         Assert.False(model.RawData.ContainsKey("category"));
@@ -3008,7 +3269,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Difference { };
+        var model = new OutputListResponseTransformMetricsDifference { };
 
         model.Validate();
     }
@@ -3016,7 +3277,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             // Null should be interpreted as omitted for these properties
             Category = null,
@@ -3038,7 +3299,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             // Null should be interpreted as omitted for these properties
             Category = null,
@@ -3053,7 +3314,7 @@ public class DifferenceTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Difference
+        var model = new OutputListResponseTransformMetricsDifference
         {
             Category = "category",
             CorrectedVal = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -3061,18 +3322,18 @@ public class DifferenceTest : TestBase
             JsonPointer = "jsonPointer",
         };
 
-        Difference copied = new(model);
+        OutputListResponseTransformMetricsDifference copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class MetricsMetricsTest : TestBase
+public class OutputListResponseTransformMetricsMetricsTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             Accuracy = 0,
             F1Score = 0,
@@ -3094,7 +3355,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             Accuracy = 0,
             F1Score = 0,
@@ -3103,7 +3364,7 @@ public class MetricsMetricsTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<MetricsMetrics>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetricsMetrics>(
             json,
             ModelBase.SerializerOptions
         );
@@ -3114,7 +3375,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             Accuracy = 0,
             F1Score = 0,
@@ -3123,7 +3384,7 @@ public class MetricsMetricsTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<MetricsMetrics>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseTransformMetricsMetrics>(
             element,
             ModelBase.SerializerOptions
         );
@@ -3143,7 +3404,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             Accuracy = 0,
             F1Score = 0,
@@ -3157,7 +3418,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new MetricsMetrics { };
+        var model = new OutputListResponseTransformMetricsMetrics { };
 
         Assert.Null(model.Accuracy);
         Assert.False(model.RawData.ContainsKey("accuracy"));
@@ -3172,7 +3433,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new MetricsMetrics { };
+        var model = new OutputListResponseTransformMetricsMetrics { };
 
         model.Validate();
     }
@@ -3180,7 +3441,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             // Null should be interpreted as omitted for these properties
             Accuracy = null,
@@ -3202,7 +3463,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             // Null should be interpreted as omitted for these properties
             Accuracy = null,
@@ -3217,7 +3478,7 @@ public class MetricsMetricsTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new MetricsMetrics
+        var model = new OutputListResponseTransformMetricsMetrics
         {
             Accuracy = 0,
             F1Score = 0,
@@ -3225,18 +3486,1569 @@ public class MetricsMetricsTest : TestBase
             Recall = 0,
         };
 
-        MetricsMetrics copied = new(model);
+        OutputListResponseTransformMetricsMetrics copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class RouteTest : TestBase
+public class OutputListResponseExtractTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        long expectedItemCount = 0;
+        long expectedItemOffset = 0;
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        float expectedAvgConfidence = 0;
+        string expectedCallID = "callID";
+        OutputListResponseExtractCorrectedContent expectedCorrectedContent =
+            new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, OutputListResponseExtractEventType> expectedEventType =
+            OutputListResponseExtractEventType.Extract;
+        JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        List<OutputListResponseExtractInput> expectedInputs =
+        [
+            new()
+            {
+                InputContent = "inputContent",
+                InputType = "inputType",
+                JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                S3Url = "s3URL",
+            },
+        ];
+        ApiEnum<string, OutputListResponseExtractInputType> expectedInputType =
+            OutputListResponseExtractInputType.Csv;
+        List<string> expectedInvalidProperties = ["string"];
+        OutputListResponseExtractMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        string expectedS3Url = "s3URL";
+        string expectedTransformationID = "transformationID";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedItemCount, model.ItemCount);
+        Assert.Equal(expectedItemOffset, model.ItemOffset);
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.True(JsonElement.DeepEquals(expectedTransformedContent, model.TransformedContent));
+        Assert.Equal(expectedAvgConfidence, model.AvgConfidence);
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCorrectedContent, model.CorrectedContent);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.NotNull(model.FieldConfidences);
+        Assert.True(JsonElement.DeepEquals(expectedFieldConfidences, model.FieldConfidences.Value));
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.NotNull(model.Inputs);
+        Assert.Equal(expectedInputs.Count, model.Inputs.Count);
+        for (int i = 0; i < expectedInputs.Count; i++)
+        {
+            Assert.Equal(expectedInputs[i], model.Inputs[i]);
+        }
+        Assert.Equal(expectedInputType, model.InputType);
+        Assert.NotNull(model.InvalidProperties);
+        Assert.Equal(expectedInvalidProperties.Count, model.InvalidProperties.Count);
+        for (int i = 0; i < expectedInvalidProperties.Count; i++)
+        {
+            Assert.Equal(expectedInvalidProperties[i], model.InvalidProperties[i]);
+        }
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedS3Url, model.S3Url);
+        Assert.Equal(expectedTransformationID, model.TransformationID);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtract>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtract>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        long expectedItemCount = 0;
+        long expectedItemOffset = 0;
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        float expectedAvgConfidence = 0;
+        string expectedCallID = "callID";
+        OutputListResponseExtractCorrectedContent expectedCorrectedContent =
+            new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, OutputListResponseExtractEventType> expectedEventType =
+            OutputListResponseExtractEventType.Extract;
+        JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        List<OutputListResponseExtractInput> expectedInputs =
+        [
+            new()
+            {
+                InputContent = "inputContent",
+                InputType = "inputType",
+                JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                S3Url = "s3URL",
+            },
+        ];
+        ApiEnum<string, OutputListResponseExtractInputType> expectedInputType =
+            OutputListResponseExtractInputType.Csv;
+        List<string> expectedInvalidProperties = ["string"];
+        OutputListResponseExtractMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        string expectedS3Url = "s3URL";
+        string expectedTransformationID = "transformationID";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedItemCount, deserialized.ItemCount);
+        Assert.Equal(expectedItemOffset, deserialized.ItemOffset);
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.True(
+            JsonElement.DeepEquals(expectedTransformedContent, deserialized.TransformedContent)
+        );
+        Assert.Equal(expectedAvgConfidence, deserialized.AvgConfidence);
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCorrectedContent, deserialized.CorrectedContent);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.NotNull(deserialized.FieldConfidences);
+        Assert.True(
+            JsonElement.DeepEquals(expectedFieldConfidences, deserialized.FieldConfidences.Value)
+        );
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.NotNull(deserialized.Inputs);
+        Assert.Equal(expectedInputs.Count, deserialized.Inputs.Count);
+        for (int i = 0; i < expectedInputs.Count; i++)
+        {
+            Assert.Equal(expectedInputs[i], deserialized.Inputs[i]);
+        }
+        Assert.Equal(expectedInputType, deserialized.InputType);
+        Assert.NotNull(deserialized.InvalidProperties);
+        Assert.Equal(expectedInvalidProperties.Count, deserialized.InvalidProperties.Count);
+        for (int i = 0; i < expectedInvalidProperties.Count; i++)
+        {
+            Assert.Equal(expectedInvalidProperties[i], deserialized.InvalidProperties[i]);
+        }
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedS3Url, deserialized.S3Url);
+        Assert.Equal(expectedTransformationID, deserialized.TransformationID);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldConfidences);
+        Assert.False(model.RawData.ContainsKey("fieldConfidences"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.InputType);
+        Assert.False(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.InvalidProperties);
+        Assert.False(model.RawData.ContainsKey("invalidProperties"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.TransformationID);
+        Assert.False(model.RawData.ContainsKey("transformationID"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FieldConfidences = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            InputType = null,
+            InvalidProperties = null,
+            Metadata = null,
+            TransformationID = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldConfidences);
+        Assert.False(model.RawData.ContainsKey("fieldConfidences"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.InputType);
+        Assert.False(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.InvalidProperties);
+        Assert.False(model.RawData.ContainsKey("invalidProperties"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.TransformationID);
+        Assert.False(model.RawData.ContainsKey("transformationID"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FieldConfidences = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            InputType = null,
+            InvalidProperties = null,
+            Metadata = null,
+            TransformationID = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Assert.Null(model.AvgConfidence);
+        Assert.False(model.RawData.ContainsKey("avgConfidence"));
+        Assert.Null(model.CorrectedContent);
+        Assert.False(model.RawData.ContainsKey("correctedContent"));
+        Assert.Null(model.Inputs);
+        Assert.False(model.RawData.ContainsKey("inputs"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+
+            AvgConfidence = null,
+            CorrectedContent = null,
+            Inputs = null,
+            S3Url = null,
+        };
+
+        Assert.Null(model.AvgConfidence);
+        Assert.True(model.RawData.ContainsKey("avgConfidence"));
+        Assert.Null(model.CorrectedContent);
+        Assert.True(model.RawData.ContainsKey("correctedContent"));
+        Assert.Null(model.Inputs);
+        Assert.True(model.RawData.ContainsKey("inputs"));
+        Assert.Null(model.S3Url);
+        Assert.True(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+
+            AvgConfidence = null,
+            CorrectedContent = null,
+            Inputs = null,
+            S3Url = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new OutputListResponseExtract
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseExtractEventType.Extract,
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = OutputListResponseExtractInputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        OutputListResponseExtract copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class OutputListResponseExtractCorrectedContentTest : TestBase
+{
+    [Fact]
+    public void OutputListResponseExtractCorrectedContentOutputValidationWorks()
+    {
+        OutputListResponseExtractCorrectedContent value =
+            new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementValidationWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = JsonSerializer.Deserialize<JsonElement>(
+            "{}"
+        );
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementsValidationWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = new(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
+        value.Validate();
+    }
+
+    [Fact]
+    public void StringValidationWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = "string";
+        value.Validate();
+    }
+
+    [Fact]
+    public void DoubleValidationWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = 0;
+        value.Validate();
+    }
+
+    [Fact]
+    public void BoolValidationWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = true;
+        value.Validate();
+    }
+
+    [Fact]
+    public void OutputListResponseExtractCorrectedContentOutputSerializationRoundtripWorks()
+    {
+        OutputListResponseExtractCorrectedContent value =
+            new OutputListResponseExtractCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void JsonElementSerializationRoundtripWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = JsonSerializer.Deserialize<JsonElement>(
+            "{}"
+        );
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void JsonElementsSerializationRoundtripWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = new(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void StringSerializationRoundtripWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = "string";
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void DoubleSerializationRoundtripWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = 0;
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BoolSerializationRoundtripWorks()
+    {
+        OutputListResponseExtractCorrectedContent value = true;
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseExtractCorrectedContentOutputTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
+
+        Assert.NotNull(model.Output);
+        Assert.Equal(expectedOutput.Count, model.Output.Count);
+        for (int i = 0; i < expectedOutput.Count; i++)
+        {
+            Assert.Equal(expectedOutput[i], model.Output[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContentOutput>(
+                json,
+                ModelBase.SerializerOptions
+            );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContentOutput>(
+                element,
+                ModelBase.SerializerOptions
+            );
+        Assert.NotNull(deserialized);
+
+        List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
+
+        Assert.NotNull(deserialized.Output);
+        Assert.Equal(expectedOutput.Count, deserialized.Output.Count);
+        for (int i = 0; i < expectedOutput.Count; i++)
+        {
+            Assert.Equal(expectedOutput[i], deserialized.Output[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput { };
+
+        Assert.Null(model.Output);
+        Assert.False(model.RawData.ContainsKey("output"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            // Null should be interpreted as omitted for these properties
+            Output = null,
+        };
+
+        Assert.Null(model.Output);
+        Assert.False(model.RawData.ContainsKey("output"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            // Null should be interpreted as omitted for these properties
+            Output = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new OutputListResponseExtractCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        OutputListResponseExtractCorrectedContentOutput copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class OutputListResponseExtractEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseExtractEventType.Extract)]
+    public void Validation_Works(OutputListResponseExtractEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseExtractEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseExtractEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseExtractEventType.Extract)]
+    public void SerializationRoundtrip_Works(OutputListResponseExtractEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseExtractEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseExtractEventType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseExtractEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseExtractEventType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseExtractInputTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        string expectedInputContent = "inputContent";
+        string expectedInputType = "inputType";
+        JsonElement expectedJsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedS3Url = "s3URL";
+
+        Assert.Equal(expectedInputContent, model.InputContent);
+        Assert.Equal(expectedInputType, model.InputType);
+        Assert.NotNull(model.JsonInputContent);
+        Assert.True(JsonElement.DeepEquals(expectedJsonInputContent, model.JsonInputContent.Value));
+        Assert.Equal(expectedS3Url, model.S3Url);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractInput>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractInput>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedInputContent = "inputContent";
+        string expectedInputType = "inputType";
+        JsonElement expectedJsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedS3Url = "s3URL";
+
+        Assert.Equal(expectedInputContent, deserialized.InputContent);
+        Assert.Equal(expectedInputType, deserialized.InputType);
+        Assert.NotNull(deserialized.JsonInputContent);
+        Assert.True(
+            JsonElement.DeepEquals(expectedJsonInputContent, deserialized.JsonInputContent.Value)
+        );
+        Assert.Equal(expectedS3Url, deserialized.S3Url);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtractInput { };
+
+        Assert.Null(model.InputContent);
+        Assert.False(model.RawData.ContainsKey("inputContent"));
+        Assert.Null(model.InputType);
+        Assert.False(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.JsonInputContent);
+        Assert.False(model.RawData.ContainsKey("jsonInputContent"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseExtractInput { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = null,
+            InputType = null,
+            JsonInputContent = null,
+            S3Url = null,
+        };
+
+        Assert.Null(model.InputContent);
+        Assert.True(model.RawData.ContainsKey("inputContent"));
+        Assert.Null(model.InputType);
+        Assert.True(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.JsonInputContent);
+        Assert.True(model.RawData.ContainsKey("jsonInputContent"));
+        Assert.Null(model.S3Url);
+        Assert.True(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = null,
+            InputType = null,
+            JsonInputContent = null,
+            S3Url = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new OutputListResponseExtractInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        OutputListResponseExtractInput copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class OutputListResponseExtractInputTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseExtractInputType.Csv)]
+    [InlineData(OutputListResponseExtractInputType.Docx)]
+    [InlineData(OutputListResponseExtractInputType.Email)]
+    [InlineData(OutputListResponseExtractInputType.Heic)]
+    [InlineData(OutputListResponseExtractInputType.Html)]
+    [InlineData(OutputListResponseExtractInputType.Jpeg)]
+    [InlineData(OutputListResponseExtractInputType.Json)]
+    [InlineData(OutputListResponseExtractInputType.Heif)]
+    [InlineData(OutputListResponseExtractInputType.M4a)]
+    [InlineData(OutputListResponseExtractInputType.Mp3)]
+    [InlineData(OutputListResponseExtractInputType.Pdf)]
+    [InlineData(OutputListResponseExtractInputType.Png)]
+    [InlineData(OutputListResponseExtractInputType.Text)]
+    [InlineData(OutputListResponseExtractInputType.Wav)]
+    [InlineData(OutputListResponseExtractInputType.Webp)]
+    [InlineData(OutputListResponseExtractInputType.Xls)]
+    [InlineData(OutputListResponseExtractInputType.Xlsx)]
+    [InlineData(OutputListResponseExtractInputType.Xml)]
+    public void Validation_Works(OutputListResponseExtractInputType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseExtractInputType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseExtractInputType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseExtractInputType.Csv)]
+    [InlineData(OutputListResponseExtractInputType.Docx)]
+    [InlineData(OutputListResponseExtractInputType.Email)]
+    [InlineData(OutputListResponseExtractInputType.Heic)]
+    [InlineData(OutputListResponseExtractInputType.Html)]
+    [InlineData(OutputListResponseExtractInputType.Jpeg)]
+    [InlineData(OutputListResponseExtractInputType.Json)]
+    [InlineData(OutputListResponseExtractInputType.Heif)]
+    [InlineData(OutputListResponseExtractInputType.M4a)]
+    [InlineData(OutputListResponseExtractInputType.Mp3)]
+    [InlineData(OutputListResponseExtractInputType.Pdf)]
+    [InlineData(OutputListResponseExtractInputType.Png)]
+    [InlineData(OutputListResponseExtractInputType.Text)]
+    [InlineData(OutputListResponseExtractInputType.Wav)]
+    [InlineData(OutputListResponseExtractInputType.Webp)]
+    [InlineData(OutputListResponseExtractInputType.Xls)]
+    [InlineData(OutputListResponseExtractInputType.Xlsx)]
+    [InlineData(OutputListResponseExtractInputType.Xml)]
+    public void SerializationRoundtrip_Works(OutputListResponseExtractInputType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseExtractInputType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseExtractInputType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseExtractInputType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseExtractInputType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseExtractMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseExtractMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new OutputListResponseExtractMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseExtractMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new OutputListResponseExtractMetadata { DurationFunctionToEventSeconds = 0 };
+
+        OutputListResponseExtractMetadata copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class OutputListResponseRouteTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3245,7 +5057,7 @@ public class RouteTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3270,7 +5082,8 @@ public class RouteTest : TestBase
         string expectedReferenceID = "referenceID";
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, RouteEventType> expectedEventType = RouteEventType.Route;
+        ApiEnum<string, OutputListResponseRouteEventType> expectedEventType =
+            OutputListResponseRouteEventType.Route;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -3281,7 +5094,10 @@ public class RouteTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        RouteMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseRouteMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedS3Url = "s3URL";
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
@@ -3309,7 +5125,7 @@ public class RouteTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3318,7 +5134,7 @@ public class RouteTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3337,7 +5153,10 @@ public class RouteTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseRoute>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -3345,7 +5164,7 @@ public class RouteTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3354,7 +5173,7 @@ public class RouteTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3373,7 +5192,10 @@ public class RouteTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Route>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseRoute>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedChoice = "choice";
@@ -3383,7 +5205,8 @@ public class RouteTest : TestBase
         string expectedReferenceID = "referenceID";
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, RouteEventType> expectedEventType = RouteEventType.Route;
+        ApiEnum<string, OutputListResponseRouteEventType> expectedEventType =
+            OutputListResponseRouteEventType.Route;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -3394,7 +5217,10 @@ public class RouteTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        RouteMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseRouteMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedS3Url = "s3URL";
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
@@ -3422,7 +5248,7 @@ public class RouteTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3431,7 +5257,7 @@ public class RouteTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3455,7 +5281,7 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3493,7 +5319,7 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3508,7 +5334,7 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3560,7 +5386,7 @@ public class RouteTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3589,7 +5415,7 @@ public class RouteTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Route
+        var model = new OutputListResponseRoute
         {
             Choice = "choice",
             EventID = "eventID",
@@ -3598,7 +5424,7 @@ public class RouteTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = RouteEventType.Route,
+            EventType = OutputListResponseRouteEventType.Route,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3616,27 +5442,27 @@ public class RouteTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        Route copied = new(model);
+        OutputListResponseRoute copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class RouteEventTypeTest : TestBase
+public class OutputListResponseRouteEventTypeTest : TestBase
 {
     [Theory]
-    [InlineData(RouteEventType.Route)]
-    public void Validation_Works(RouteEventType rawValue)
+    [InlineData(OutputListResponseRouteEventType.Route)]
+    public void Validation_Works(OutputListResponseRouteEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, RouteEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseRouteEventType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, RouteEventType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseRouteEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -3646,17 +5472,16 @@ public class RouteEventTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(RouteEventType.Route)]
-    public void SerializationRoundtrip_Works(RouteEventType rawValue)
+    [InlineData(OutputListResponseRouteEventType.Route)]
+    public void SerializationRoundtrip_Works(OutputListResponseRouteEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, RouteEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseRouteEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, RouteEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseRouteEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -3664,26 +5489,25 @@ public class RouteEventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, RouteEventType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseRouteEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, RouteEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseRouteEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class RouteMetadataTest : TestBase
+public class OutputListResponseRouteMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new RouteMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseRouteMetadata { DurationFunctionToEventSeconds = 0 };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -3693,10 +5517,10 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new RouteMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseRouteMetadata { DurationFunctionToEventSeconds = 0 };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RouteMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseRouteMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -3707,10 +5531,10 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new RouteMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseRouteMetadata { DurationFunctionToEventSeconds = 0 };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RouteMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseRouteMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -3727,7 +5551,7 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new RouteMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseRouteMetadata { DurationFunctionToEventSeconds = 0 };
 
         model.Validate();
     }
@@ -3735,7 +5559,7 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new RouteMetadata { };
+        var model = new OutputListResponseRouteMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -3744,7 +5568,7 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new RouteMetadata { };
+        var model = new OutputListResponseRouteMetadata { };
 
         model.Validate();
     }
@@ -3752,7 +5576,7 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new RouteMetadata
+        var model = new OutputListResponseRouteMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -3765,7 +5589,7 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new RouteMetadata
+        var model = new OutputListResponseRouteMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -3777,25 +5601,589 @@ public class RouteMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new RouteMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseRouteMetadata { DurationFunctionToEventSeconds = 0 };
 
-        RouteMetadata copied = new(model);
+        OutputListResponseRouteMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitCollectionTest : TestBase
+public class OutputListResponseClassifyTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string expectedChoice = "choice";
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedReferenceID = "referenceID";
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, OutputListResponseClassifyEventType> expectedEventType =
+            OutputListResponseClassifyEventType.Classify;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        OutputListResponseClassifyMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        string expectedS3Url = "s3URL";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedChoice, model.Choice);
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedS3Url, model.S3Url);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseClassify>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseClassify>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedChoice = "choice";
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedReferenceID = "referenceID";
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, OutputListResponseClassifyEventType> expectedEventType =
+            OutputListResponseClassifyEventType.Classify;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        OutputListResponseClassifyMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        string expectedS3Url = "s3URL";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedChoice, deserialized.Choice);
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedS3Url, deserialized.S3Url);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            S3Url = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            S3Url = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new OutputListResponseClassify
+        {
+            Choice = "choice",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = OutputListResponseClassifyEventType.Classify,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        OutputListResponseClassify copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class OutputListResponseClassifyEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseClassifyEventType.Classify)]
+    public void Validation_Works(OutputListResponseClassifyEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseClassifyEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseClassifyEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseClassifyEventType.Classify)]
+    public void SerializationRoundtrip_Works(OutputListResponseClassifyEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseClassifyEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseClassifyEventType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseClassifyEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseClassifyEventType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseClassifyMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseClassifyMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseClassifyMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new OutputListResponseClassifyMetadata { DurationFunctionToEventSeconds = 0 };
+
+        OutputListResponseClassifyMetadata copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class OutputListResponseSplitCollectionTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -3831,7 +6219,7 @@ public class SplitCollectionTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3851,8 +6239,9 @@ public class SplitCollectionTest : TestBase
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, OutputType> expectedOutputType = OutputType.PrintPage;
-        PrintPageOutput expectedPrintPageOutput = new()
+        ApiEnum<string, OutputListResponseSplitCollectionOutputType> expectedOutputType =
+            OutputListResponseSplitCollectionOutputType.PrintPage;
+        OutputListResponseSplitCollectionPrintPageOutput expectedPrintPageOutput = new()
         {
             ItemCount = 0,
             Items =
@@ -3866,7 +6255,7 @@ public class SplitCollectionTest : TestBase
             ],
         };
         string expectedReferenceID = "referenceID";
-        SemanticPageOutput expectedSemanticPageOutput = new()
+        OutputListResponseSplitCollectionSemanticPageOutput expectedSemanticPageOutput = new()
         {
             ItemCount = 0,
             Items =
@@ -3887,8 +6276,8 @@ public class SplitCollectionTest : TestBase
         };
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, SplitCollectionEventType> expectedEventType =
-            SplitCollectionEventType.SplitCollection;
+        ApiEnum<string, OutputListResponseSplitCollectionEventType> expectedEventType =
+            OutputListResponseSplitCollectionEventType.SplitCollection;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -3899,7 +6288,10 @@ public class SplitCollectionTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        SplitCollectionMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseSplitCollectionMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
         long expectedWorkflowVersionNum = 0;
@@ -3927,12 +6319,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -3968,7 +6360,7 @@ public class SplitCollectionTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -3986,7 +6378,7 @@ public class SplitCollectionTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitCollection>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitCollection>(
             json,
             ModelBase.SerializerOptions
         );
@@ -3997,12 +6389,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4038,7 +6430,7 @@ public class SplitCollectionTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -4056,7 +6448,7 @@ public class SplitCollectionTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitCollection>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitCollection>(
             element,
             ModelBase.SerializerOptions
         );
@@ -4065,8 +6457,9 @@ public class SplitCollectionTest : TestBase
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, OutputType> expectedOutputType = OutputType.PrintPage;
-        PrintPageOutput expectedPrintPageOutput = new()
+        ApiEnum<string, OutputListResponseSplitCollectionOutputType> expectedOutputType =
+            OutputListResponseSplitCollectionOutputType.PrintPage;
+        OutputListResponseSplitCollectionPrintPageOutput expectedPrintPageOutput = new()
         {
             ItemCount = 0,
             Items =
@@ -4080,7 +6473,7 @@ public class SplitCollectionTest : TestBase
             ],
         };
         string expectedReferenceID = "referenceID";
-        SemanticPageOutput expectedSemanticPageOutput = new()
+        OutputListResponseSplitCollectionSemanticPageOutput expectedSemanticPageOutput = new()
         {
             ItemCount = 0,
             Items =
@@ -4101,8 +6494,8 @@ public class SplitCollectionTest : TestBase
         };
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, SplitCollectionEventType> expectedEventType =
-            SplitCollectionEventType.SplitCollection;
+        ApiEnum<string, OutputListResponseSplitCollectionEventType> expectedEventType =
+            OutputListResponseSplitCollectionEventType.SplitCollection;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -4113,7 +6506,10 @@ public class SplitCollectionTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        SplitCollectionMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseSplitCollectionMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
         long expectedWorkflowVersionNum = 0;
@@ -4141,12 +6537,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4182,7 +6578,7 @@ public class SplitCollectionTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -4205,12 +6601,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4273,12 +6669,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4320,12 +6716,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4401,12 +6797,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4461,12 +6857,12 @@ public class SplitCollectionTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SplitCollection
+        var model = new OutputListResponseSplitCollection
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = OutputType.PrintPage,
+            OutputType = OutputListResponseSplitCollectionOutputType.PrintPage,
             PrintPageOutput = new()
             {
                 ItemCount = 0,
@@ -4502,7 +6898,7 @@ public class SplitCollectionTest : TestBase
             },
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitCollectionEventType.SplitCollection,
+            EventType = OutputListResponseSplitCollectionEventType.SplitCollection,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -4519,49 +6915,47 @@ public class SplitCollectionTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        SplitCollection copied = new(model);
+        OutputListResponseSplitCollection copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class OutputTypeTest : TestBase
+public class OutputListResponseSplitCollectionOutputTypeTest : TestBase
 {
     [Theory]
-    [InlineData(OutputType.PrintPage)]
-    [InlineData(OutputType.SemanticPage)]
-    public void Validation_Works(OutputType rawValue)
+    [InlineData(OutputListResponseSplitCollectionOutputType.PrintPage)]
+    [InlineData(OutputListResponseSplitCollectionOutputType.SemanticPage)]
+    public void Validation_Works(OutputListResponseSplitCollectionOutputType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, OutputType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitCollectionOutputType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionOutputType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(OutputType.PrintPage)]
-    [InlineData(OutputType.SemanticPage)]
-    public void SerializationRoundtrip_Works(OutputType rawValue)
+    [InlineData(OutputListResponseSplitCollectionOutputType.PrintPage)]
+    [InlineData(OutputListResponseSplitCollectionOutputType.SemanticPage)]
+    public void SerializationRoundtrip_Works(OutputListResponseSplitCollectionOutputType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, OutputType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitCollectionOutputType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, OutputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionOutputType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -4569,26 +6963,24 @@ public class OutputTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionOutputType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, OutputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionOutputType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class PrintPageOutputTest : TestBase
+public class OutputListResponseSplitCollectionPrintPageOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             ItemCount = 0,
             Items =
@@ -4603,7 +6995,7 @@ public class PrintPageOutputTest : TestBase
         };
 
         long expectedItemCount = 0;
-        List<Item> expectedItems =
+        List<OutputListResponseSplitCollectionPrintPageOutputItem> expectedItems =
         [
             new()
             {
@@ -4625,7 +7017,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             ItemCount = 0,
             Items =
@@ -4640,10 +7032,11 @@ public class PrintPageOutputTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PrintPageOutput>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionPrintPageOutput>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -4651,7 +7044,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             ItemCount = 0,
             Items =
@@ -4666,14 +7059,15 @@ public class PrintPageOutputTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<PrintPageOutput>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionPrintPageOutput>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         long expectedItemCount = 0;
-        List<Item> expectedItems =
+        List<OutputListResponseSplitCollectionPrintPageOutputItem> expectedItems =
         [
             new()
             {
@@ -4695,7 +7089,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             ItemCount = 0,
             Items =
@@ -4715,7 +7109,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new PrintPageOutput { };
+        var model = new OutputListResponseSplitCollectionPrintPageOutput { };
 
         Assert.Null(model.ItemCount);
         Assert.False(model.RawData.ContainsKey("itemCount"));
@@ -4726,7 +7120,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new PrintPageOutput { };
+        var model = new OutputListResponseSplitCollectionPrintPageOutput { };
 
         model.Validate();
     }
@@ -4734,7 +7128,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             // Null should be interpreted as omitted for these properties
             ItemCount = null,
@@ -4750,7 +7144,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             // Null should be interpreted as omitted for these properties
             ItemCount = null,
@@ -4763,7 +7157,7 @@ public class PrintPageOutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new PrintPageOutput
+        var model = new OutputListResponseSplitCollectionPrintPageOutput
         {
             ItemCount = 0,
             Items =
@@ -4777,18 +7171,18 @@ public class PrintPageOutputTest : TestBase
             ],
         };
 
-        PrintPageOutput copied = new(model);
+        OutputListResponseSplitCollectionPrintPageOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class ItemTest : TestBase
+public class OutputListResponseSplitCollectionPrintPageOutputItemTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             ItemOffset = 0,
             ItemReferenceID = "itemReferenceID",
@@ -4807,7 +7201,7 @@ public class ItemTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             ItemOffset = 0,
             ItemReferenceID = "itemReferenceID",
@@ -4815,7 +7209,11 @@ public class ItemTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Item>(json, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionPrintPageOutputItem>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -4823,7 +7221,7 @@ public class ItemTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             ItemOffset = 0,
             ItemReferenceID = "itemReferenceID",
@@ -4831,7 +7229,11 @@ public class ItemTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Item>(element, ModelBase.SerializerOptions);
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionPrintPageOutputItem>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         long expectedItemOffset = 0;
@@ -4846,7 +7248,7 @@ public class ItemTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             ItemOffset = 0,
             ItemReferenceID = "itemReferenceID",
@@ -4859,7 +7261,7 @@ public class ItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Item { };
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem { };
 
         Assert.Null(model.ItemOffset);
         Assert.False(model.RawData.ContainsKey("itemOffset"));
@@ -4872,7 +7274,7 @@ public class ItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Item { };
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem { };
 
         model.Validate();
     }
@@ -4880,7 +7282,7 @@ public class ItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             // Null should be interpreted as omitted for these properties
             ItemOffset = null,
@@ -4899,7 +7301,7 @@ public class ItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             // Null should be interpreted as omitted for these properties
             ItemOffset = null,
@@ -4913,25 +7315,25 @@ public class ItemTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Item
+        var model = new OutputListResponseSplitCollectionPrintPageOutputItem
         {
             ItemOffset = 0,
             ItemReferenceID = "itemReferenceID",
             S3Url = "s3URL",
         };
 
-        Item copied = new(model);
+        OutputListResponseSplitCollectionPrintPageOutputItem copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SemanticPageOutputTest : TestBase
+public class OutputListResponseSplitCollectionSemanticPageOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             ItemCount = 0,
             Items =
@@ -4952,7 +7354,7 @@ public class SemanticPageOutputTest : TestBase
         };
 
         long expectedItemCount = 0;
-        List<SemanticPageOutputItem> expectedItems =
+        List<OutputListResponseSplitCollectionSemanticPageOutputItem> expectedItems =
         [
             new()
             {
@@ -4981,7 +7383,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             ItemCount = 0,
             Items =
@@ -5002,10 +7404,11 @@ public class SemanticPageOutputTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SemanticPageOutput>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionSemanticPageOutput>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -5013,7 +7416,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             ItemCount = 0,
             Items =
@@ -5034,14 +7437,15 @@ public class SemanticPageOutputTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SemanticPageOutput>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionSemanticPageOutput>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         long expectedItemCount = 0;
-        List<SemanticPageOutputItem> expectedItems =
+        List<OutputListResponseSplitCollectionSemanticPageOutputItem> expectedItems =
         [
             new()
             {
@@ -5070,7 +7474,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             ItemCount = 0,
             Items =
@@ -5096,7 +7500,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SemanticPageOutput { };
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput { };
 
         Assert.Null(model.ItemCount);
         Assert.False(model.RawData.ContainsKey("itemCount"));
@@ -5109,7 +7513,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SemanticPageOutput { };
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput { };
 
         model.Validate();
     }
@@ -5117,7 +7521,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             // Null should be interpreted as omitted for these properties
             ItemCount = null,
@@ -5136,7 +7540,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             // Null should be interpreted as omitted for these properties
             ItemCount = null,
@@ -5150,7 +7554,7 @@ public class SemanticPageOutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SemanticPageOutput
+        var model = new OutputListResponseSplitCollectionSemanticPageOutput
         {
             ItemCount = 0,
             Items =
@@ -5170,18 +7574,18 @@ public class SemanticPageOutputTest : TestBase
             PageCount = 0,
         };
 
-        SemanticPageOutput copied = new(model);
+        OutputListResponseSplitCollectionSemanticPageOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SemanticPageOutputItemTest : TestBase
+public class OutputListResponseSplitCollectionSemanticPageOutputItemTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             ItemClass = "itemClass",
             ItemClassCount = 0,
@@ -5215,7 +7619,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             ItemClass = "itemClass",
             ItemClassCount = 0,
@@ -5228,10 +7632,11 @@ public class SemanticPageOutputItemTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SemanticPageOutputItem>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionSemanticPageOutputItem>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -5239,7 +7644,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             ItemClass = "itemClass",
             ItemClassCount = 0,
@@ -5252,10 +7657,11 @@ public class SemanticPageOutputItemTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SemanticPageOutputItem>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitCollectionSemanticPageOutputItem>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         string expectedItemClass = "itemClass";
@@ -5280,7 +7686,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             ItemClass = "itemClass",
             ItemClassCount = 0,
@@ -5298,7 +7704,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SemanticPageOutputItem { };
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem { };
 
         Assert.Null(model.ItemClass);
         Assert.False(model.RawData.ContainsKey("itemClass"));
@@ -5321,7 +7727,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SemanticPageOutputItem { };
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem { };
 
         model.Validate();
     }
@@ -5329,7 +7735,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             // Null should be interpreted as omitted for these properties
             ItemClass = null,
@@ -5363,7 +7769,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             // Null should be interpreted as omitted for these properties
             ItemClass = null,
@@ -5382,7 +7788,7 @@ public class SemanticPageOutputItemTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SemanticPageOutputItem
+        var model = new OutputListResponseSplitCollectionSemanticPageOutputItem
         {
             ItemClass = "itemClass",
             ItemClassCount = 0,
@@ -5394,47 +7800,45 @@ public class SemanticPageOutputItemTest : TestBase
             S3Url = "s3URL",
         };
 
-        SemanticPageOutputItem copied = new(model);
+        OutputListResponseSplitCollectionSemanticPageOutputItem copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitCollectionEventTypeTest : TestBase
+public class OutputListResponseSplitCollectionEventTypeTest : TestBase
 {
     [Theory]
-    [InlineData(SplitCollectionEventType.SplitCollection)]
-    public void Validation_Works(SplitCollectionEventType rawValue)
+    [InlineData(OutputListResponseSplitCollectionEventType.SplitCollection)]
+    public void Validation_Works(OutputListResponseSplitCollectionEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitCollectionEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitCollectionEventType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitCollectionEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(SplitCollectionEventType.SplitCollection)]
-    public void SerializationRoundtrip_Works(SplitCollectionEventType rawValue)
+    [InlineData(OutputListResponseSplitCollectionEventType.SplitCollection)]
+    public void SerializationRoundtrip_Works(OutputListResponseSplitCollectionEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitCollectionEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitCollectionEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitCollectionEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -5442,26 +7846,27 @@ public class SplitCollectionEventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitCollectionEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitCollectionEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitCollectionEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class SplitCollectionMetadataTest : TestBase
+public class OutputListResponseSplitCollectionMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SplitCollectionMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitCollectionMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -5471,10 +7876,13 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SplitCollectionMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitCollectionMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitCollectionMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitCollectionMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -5485,10 +7893,13 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SplitCollectionMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitCollectionMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitCollectionMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitCollectionMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -5505,7 +7916,10 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SplitCollectionMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitCollectionMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         model.Validate();
     }
@@ -5513,7 +7927,7 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SplitCollectionMetadata { };
+        var model = new OutputListResponseSplitCollectionMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -5522,7 +7936,7 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SplitCollectionMetadata { };
+        var model = new OutputListResponseSplitCollectionMetadata { };
 
         model.Validate();
     }
@@ -5530,7 +7944,7 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SplitCollectionMetadata
+        var model = new OutputListResponseSplitCollectionMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -5543,7 +7957,7 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SplitCollectionMetadata
+        var model = new OutputListResponseSplitCollectionMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -5555,29 +7969,32 @@ public class SplitCollectionMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SplitCollectionMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitCollectionMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
-        SplitCollectionMetadata copied = new(model);
+        OutputListResponseSplitCollectionMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitItemTest : TestBase
+public class OutputListResponseSplitItemTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -5617,11 +8034,13 @@ public class SplitItemTest : TestBase
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, SplitItemOutputType> expectedOutputType = SplitItemOutputType.PrintPage;
+        ApiEnum<string, OutputListResponseSplitItemOutputType> expectedOutputType =
+            OutputListResponseSplitItemOutputType.PrintPage;
         string expectedReferenceID = "referenceID";
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, SplitItemEventType> expectedEventType = SplitItemEventType.SplitItem;
+        ApiEnum<string, OutputListResponseSplitItemEventType> expectedEventType =
+            OutputListResponseSplitItemEventType.SplitItem;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -5632,15 +8051,18 @@ public class SplitItemTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        SplitItemMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
-        SplitItemPrintPageOutput expectedPrintPageOutput = new()
+        OutputListResponseSplitItemMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        OutputListResponseSplitItemPrintPageOutput expectedPrintPageOutput = new()
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
             ItemOffset = 0,
             S3Url = "s3URL",
         };
-        SplitItemSemanticPageOutput expectedSemanticPageOutput = new()
+        OutputListResponseSplitItemSemanticPageOutput expectedSemanticPageOutput = new()
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -5680,16 +8102,16 @@ public class SplitItemTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -5727,7 +8149,10 @@ public class SplitItemTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItem>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItem>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -5735,16 +8160,16 @@ public class SplitItemTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -5782,7 +8207,7 @@ public class SplitItemTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItem>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItem>(
             element,
             ModelBase.SerializerOptions
         );
@@ -5791,11 +8216,13 @@ public class SplitItemTest : TestBase
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
-        ApiEnum<string, SplitItemOutputType> expectedOutputType = SplitItemOutputType.PrintPage;
+        ApiEnum<string, OutputListResponseSplitItemOutputType> expectedOutputType =
+            OutputListResponseSplitItemOutputType.PrintPage;
         string expectedReferenceID = "referenceID";
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, SplitItemEventType> expectedEventType = SplitItemEventType.SplitItem;
+        ApiEnum<string, OutputListResponseSplitItemEventType> expectedEventType =
+            OutputListResponseSplitItemEventType.SplitItem;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -5806,15 +8233,18 @@ public class SplitItemTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        SplitItemMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
-        SplitItemPrintPageOutput expectedPrintPageOutput = new()
+        OutputListResponseSplitItemMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        OutputListResponseSplitItemPrintPageOutput expectedPrintPageOutput = new()
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
             ItemOffset = 0,
             S3Url = "s3URL",
         };
-        SplitItemSemanticPageOutput expectedSemanticPageOutput = new()
+        OutputListResponseSplitItemSemanticPageOutput expectedSemanticPageOutput = new()
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -5854,16 +8284,16 @@ public class SplitItemTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -5906,12 +8336,12 @@ public class SplitItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
         };
 
@@ -5946,12 +8376,12 @@ public class SplitItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
         };
 
@@ -5961,12 +8391,12 @@ public class SplitItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
 
             // Null should be interpreted as omitted for these properties
@@ -6016,12 +8446,12 @@ public class SplitItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
 
             // Null should be interpreted as omitted for these properties
@@ -6046,16 +8476,16 @@ public class SplitItemTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SplitItem
+        var model = new OutputListResponseSplitItem
         {
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
-            OutputType = SplitItemOutputType.PrintPage,
+            OutputType = OutputListResponseSplitItemOutputType.PrintPage,
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = SplitItemEventType.SplitItem,
+            EventType = OutputListResponseSplitItemEventType.SplitItem,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -6092,49 +8522,47 @@ public class SplitItemTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        SplitItem copied = new(model);
+        OutputListResponseSplitItem copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitItemOutputTypeTest : TestBase
+public class OutputListResponseSplitItemOutputTypeTest : TestBase
 {
     [Theory]
-    [InlineData(SplitItemOutputType.PrintPage)]
-    [InlineData(SplitItemOutputType.SemanticPage)]
-    public void Validation_Works(SplitItemOutputType rawValue)
+    [InlineData(OutputListResponseSplitItemOutputType.PrintPage)]
+    [InlineData(OutputListResponseSplitItemOutputType.SemanticPage)]
+    public void Validation_Works(OutputListResponseSplitItemOutputType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitItemOutputType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitItemOutputType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitItemOutputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemOutputType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(SplitItemOutputType.PrintPage)]
-    [InlineData(SplitItemOutputType.SemanticPage)]
-    public void SerializationRoundtrip_Works(SplitItemOutputType rawValue)
+    [InlineData(OutputListResponseSplitItemOutputType.PrintPage)]
+    [InlineData(OutputListResponseSplitItemOutputType.SemanticPage)]
+    public void SerializationRoundtrip_Works(OutputListResponseSplitItemOutputType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitItemOutputType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitItemOutputType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitItemOutputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemOutputType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -6142,55 +8570,51 @@ public class SplitItemOutputTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitItemOutputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemOutputType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitItemOutputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemOutputType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class SplitItemEventTypeTest : TestBase
+public class OutputListResponseSplitItemEventTypeTest : TestBase
 {
     [Theory]
-    [InlineData(SplitItemEventType.SplitItem)]
-    public void Validation_Works(SplitItemEventType rawValue)
+    [InlineData(OutputListResponseSplitItemEventType.SplitItem)]
+    public void Validation_Works(OutputListResponseSplitItemEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitItemEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitItemEventType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitItemEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(SplitItemEventType.SplitItem)]
-    public void SerializationRoundtrip_Works(SplitItemEventType rawValue)
+    [InlineData(OutputListResponseSplitItemEventType.SplitItem)]
+    public void SerializationRoundtrip_Works(OutputListResponseSplitItemEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SplitItemEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseSplitItemEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitItemEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -6198,26 +8622,24 @@ public class SplitItemEventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SplitItemEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SplitItemEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSplitItemEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class SplitItemMetadataTest : TestBase
+public class OutputListResponseSplitItemMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SplitItemMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitItemMetadata { DurationFunctionToEventSeconds = 0 };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -6227,10 +8649,10 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SplitItemMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitItemMetadata { DurationFunctionToEventSeconds = 0 };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItemMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItemMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -6241,10 +8663,10 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SplitItemMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitItemMetadata { DurationFunctionToEventSeconds = 0 };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItemMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItemMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -6261,7 +8683,7 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SplitItemMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitItemMetadata { DurationFunctionToEventSeconds = 0 };
 
         model.Validate();
     }
@@ -6269,7 +8691,7 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SplitItemMetadata { };
+        var model = new OutputListResponseSplitItemMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -6278,7 +8700,7 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SplitItemMetadata { };
+        var model = new OutputListResponseSplitItemMetadata { };
 
         model.Validate();
     }
@@ -6286,7 +8708,7 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SplitItemMetadata
+        var model = new OutputListResponseSplitItemMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -6299,7 +8721,7 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SplitItemMetadata
+        var model = new OutputListResponseSplitItemMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -6311,20 +8733,20 @@ public class SplitItemMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SplitItemMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSplitItemMetadata { DurationFunctionToEventSeconds = 0 };
 
-        SplitItemMetadata copied = new(model);
+        OutputListResponseSplitItemMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitItemPrintPageOutputTest : TestBase
+public class OutputListResponseSplitItemPrintPageOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
@@ -6346,7 +8768,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
@@ -6355,7 +8777,7 @@ public class SplitItemPrintPageOutputTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItemPrintPageOutput>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItemPrintPageOutput>(
             json,
             ModelBase.SerializerOptions
         );
@@ -6366,7 +8788,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
@@ -6375,7 +8797,7 @@ public class SplitItemPrintPageOutputTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItemPrintPageOutput>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItemPrintPageOutput>(
             element,
             ModelBase.SerializerOptions
         );
@@ -6395,7 +8817,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
@@ -6409,7 +8831,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SplitItemPrintPageOutput { };
+        var model = new OutputListResponseSplitItemPrintPageOutput { };
 
         Assert.Null(model.CollectionReferenceID);
         Assert.False(model.RawData.ContainsKey("collectionReferenceID"));
@@ -6424,7 +8846,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SplitItemPrintPageOutput { };
+        var model = new OutputListResponseSplitItemPrintPageOutput { };
 
         model.Validate();
     }
@@ -6432,7 +8854,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             // Null should be interpreted as omitted for these properties
             CollectionReferenceID = null,
@@ -6454,7 +8876,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             // Null should be interpreted as omitted for these properties
             CollectionReferenceID = null,
@@ -6469,7 +8891,7 @@ public class SplitItemPrintPageOutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SplitItemPrintPageOutput
+        var model = new OutputListResponseSplitItemPrintPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemCount = 0,
@@ -6477,18 +8899,18 @@ public class SplitItemPrintPageOutputTest : TestBase
             S3Url = "s3URL",
         };
 
-        SplitItemPrintPageOutput copied = new(model);
+        OutputListResponseSplitItemPrintPageOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SplitItemSemanticPageOutputTest : TestBase
+public class OutputListResponseSplitItemSemanticPageOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -6528,7 +8950,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -6543,10 +8965,11 @@ public class SplitItemSemanticPageOutputTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItemSemanticPageOutput>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitItemSemanticPageOutput>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -6554,7 +8977,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -6569,10 +8992,11 @@ public class SplitItemSemanticPageOutputTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SplitItemSemanticPageOutput>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseSplitItemSemanticPageOutput>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         string expectedCollectionReferenceID = "collectionReferenceID";
@@ -6601,7 +9025,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -6621,7 +9045,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SplitItemSemanticPageOutput { };
+        var model = new OutputListResponseSplitItemSemanticPageOutput { };
 
         Assert.Null(model.CollectionReferenceID);
         Assert.False(model.RawData.ContainsKey("collectionReferenceID"));
@@ -6648,7 +9072,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SplitItemSemanticPageOutput { };
+        var model = new OutputListResponseSplitItemSemanticPageOutput { };
 
         model.Validate();
     }
@@ -6656,7 +9080,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             // Null should be interpreted as omitted for these properties
             CollectionReferenceID = null,
@@ -6696,7 +9120,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             // Null should be interpreted as omitted for these properties
             CollectionReferenceID = null,
@@ -6717,7 +9141,7 @@ public class SplitItemSemanticPageOutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SplitItemSemanticPageOutput
+        var model = new OutputListResponseSplitItemSemanticPageOutput
         {
             CollectionReferenceID = "collectionReferenceID",
             ItemClass = "itemClass",
@@ -6731,18 +9155,18 @@ public class SplitItemSemanticPageOutputTest : TestBase
             S3Url = "s3URL",
         };
 
-        SplitItemSemanticPageOutput copied = new(model);
+        OutputListResponseSplitItemSemanticPageOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class JoinTest : TestBase
+public class OutputListResponseJoinTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -6758,13 +9182,13 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -6787,7 +9211,7 @@ public class JoinTest : TestBase
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         List<string> expectedInvalidProperties = ["string"];
-        List<JoinItem> expectedItems =
+        List<OutputListResponseJoinItem> expectedItems =
         [
             new()
             {
@@ -6797,13 +9221,15 @@ public class JoinTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, JoinType> expectedJoinType = JoinType.Standard;
+        ApiEnum<string, OutputListResponseJoinJoinType> expectedJoinType =
+            OutputListResponseJoinJoinType.Standard;
         string expectedReferenceID = "referenceID";
         JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, JoinEventType> expectedEventType = JoinEventType.Join;
+        ApiEnum<string, OutputListResponseJoinEventType> expectedEventType =
+            OutputListResponseJoinEventType.Join;
         JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
@@ -6815,7 +9241,10 @@ public class JoinTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        JoinMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseJoinMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedTransformationID = "transformationID";
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
@@ -6857,7 +9286,7 @@ public class JoinTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -6873,13 +9302,13 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -6899,7 +9328,10 @@ public class JoinTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Join>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseJoin>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -6907,7 +9339,7 @@ public class JoinTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -6923,13 +9355,13 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -6949,14 +9381,17 @@ public class JoinTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Join>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseJoin>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         List<string> expectedInvalidProperties = ["string"];
-        List<JoinItem> expectedItems =
+        List<OutputListResponseJoinItem> expectedItems =
         [
             new()
             {
@@ -6966,13 +9401,15 @@ public class JoinTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, JoinType> expectedJoinType = JoinType.Standard;
+        ApiEnum<string, OutputListResponseJoinJoinType> expectedJoinType =
+            OutputListResponseJoinJoinType.Standard;
         string expectedReferenceID = "referenceID";
         JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, JoinEventType> expectedEventType = JoinEventType.Join;
+        ApiEnum<string, OutputListResponseJoinEventType> expectedEventType =
+            OutputListResponseJoinEventType.Join;
         JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
@@ -6984,7 +9421,10 @@ public class JoinTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        JoinMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseJoinMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedTransformationID = "transformationID";
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
@@ -7030,7 +9470,7 @@ public class JoinTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7046,13 +9486,13 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -7077,7 +9517,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7093,7 +9533,7 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
@@ -7130,7 +9570,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7146,7 +9586,7 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
@@ -7158,7 +9598,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7174,7 +9614,7 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
@@ -7226,7 +9666,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7242,7 +9682,7 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
@@ -7269,7 +9709,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7285,12 +9725,12 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -7316,7 +9756,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7332,12 +9772,12 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -7362,7 +9802,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7378,12 +9818,12 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -7411,7 +9851,7 @@ public class JoinTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7427,12 +9867,12 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -7459,7 +9899,7 @@ public class JoinTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Join
+        var model = new OutputListResponseJoin
         {
             EventID = "eventID",
             FunctionID = "functionID",
@@ -7475,13 +9915,13 @@ public class JoinTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            JoinType = JoinType.Standard,
+            JoinType = OutputListResponseJoinJoinType.Standard,
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = JoinEventType.Join,
+            EventType = OutputListResponseJoinEventType.Join,
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -7500,18 +9940,18 @@ public class JoinTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        Join copied = new(model);
+        OutputListResponseJoin copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class JoinItemTest : TestBase
+public class OutputListResponseJoinItemTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7533,7 +9973,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7542,7 +9982,10 @@ public class JoinItemTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<JoinItem>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseJoinItem>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -7550,7 +9993,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7559,7 +10002,7 @@ public class JoinItemTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<JoinItem>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseJoinItem>(
             element,
             ModelBase.SerializerOptions
         );
@@ -7579,7 +10022,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7593,7 +10036,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7607,7 +10050,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7620,7 +10063,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7637,7 +10080,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7653,7 +10096,7 @@ public class JoinItemTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new JoinItem
+        var model = new OutputListResponseJoinItem
         {
             ItemCount = 0,
             ItemOffset = 0,
@@ -7661,27 +10104,27 @@ public class JoinItemTest : TestBase
             S3Url = "s3URL",
         };
 
-        JoinItem copied = new(model);
+        OutputListResponseJoinItem copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class JoinTypeTest : TestBase
+public class OutputListResponseJoinJoinTypeTest : TestBase
 {
     [Theory]
-    [InlineData(JoinType.Standard)]
-    public void Validation_Works(JoinType rawValue)
+    [InlineData(OutputListResponseJoinJoinType.Standard)]
+    public void Validation_Works(OutputListResponseJoinJoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, JoinType> value = rawValue;
+        ApiEnum<string, OutputListResponseJoinJoinType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseJoinJoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -7691,17 +10134,16 @@ public class JoinTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(JoinType.Standard)]
-    public void SerializationRoundtrip_Works(JoinType rawValue)
+    [InlineData(OutputListResponseJoinJoinType.Standard)]
+    public void SerializationRoundtrip_Works(OutputListResponseJoinJoinType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, JoinType> value = rawValue;
+        ApiEnum<string, OutputListResponseJoinJoinType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseJoinJoinType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -7709,35 +10151,34 @@ public class JoinTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseJoinJoinType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseJoinJoinType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class JoinEventTypeTest : TestBase
+public class OutputListResponseJoinEventTypeTest : TestBase
 {
     [Theory]
-    [InlineData(JoinEventType.Join)]
-    public void Validation_Works(JoinEventType rawValue)
+    [InlineData(OutputListResponseJoinEventType.Join)]
+    public void Validation_Works(OutputListResponseJoinEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, JoinEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseJoinEventType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinEventType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseJoinEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -7747,17 +10188,16 @@ public class JoinEventTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(JoinEventType.Join)]
-    public void SerializationRoundtrip_Works(JoinEventType rawValue)
+    [InlineData(OutputListResponseJoinEventType.Join)]
+    public void SerializationRoundtrip_Works(OutputListResponseJoinEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, JoinEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseJoinEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseJoinEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -7765,26 +10205,25 @@ public class JoinEventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, JoinEventType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseJoinEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, JoinEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseJoinEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class JoinMetadataTest : TestBase
+public class OutputListResponseJoinMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new JoinMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseJoinMetadata { DurationFunctionToEventSeconds = 0 };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -7794,10 +10233,10 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new JoinMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseJoinMetadata { DurationFunctionToEventSeconds = 0 };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<JoinMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseJoinMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -7808,10 +10247,10 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new JoinMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseJoinMetadata { DurationFunctionToEventSeconds = 0 };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<JoinMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseJoinMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -7828,7 +10267,7 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new JoinMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseJoinMetadata { DurationFunctionToEventSeconds = 0 };
 
         model.Validate();
     }
@@ -7836,7 +10275,7 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new JoinMetadata { };
+        var model = new OutputListResponseJoinMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -7845,7 +10284,7 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new JoinMetadata { };
+        var model = new OutputListResponseJoinMetadata { };
 
         model.Validate();
     }
@@ -7853,7 +10292,7 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new JoinMetadata
+        var model = new OutputListResponseJoinMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -7866,7 +10305,7 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new JoinMetadata
+        var model = new OutputListResponseJoinMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -7878,20 +10317,20 @@ public class JoinMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new JoinMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseJoinMetadata { DurationFunctionToEventSeconds = 0 };
 
-        JoinMetadata copied = new(model);
+        OutputListResponseJoinMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class EnrichTest : TestBase
+public class OutputListResponseEnrichTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -7900,7 +10339,7 @@ public class EnrichTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -7924,7 +10363,8 @@ public class EnrichTest : TestBase
         string expectedReferenceID = "referenceID";
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, EnrichEventType> expectedEventType = EnrichEventType.Enrich;
+        ApiEnum<string, OutputListResponseEnrichEventType> expectedEventType =
+            OutputListResponseEnrichEventType.Enrich;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -7935,7 +10375,10 @@ public class EnrichTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        EnrichMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseEnrichMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
         long expectedWorkflowVersionNum = 0;
@@ -7961,7 +10404,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -7970,7 +10413,7 @@ public class EnrichTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -7988,7 +10431,10 @@ public class EnrichTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Enrich>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseEnrich>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -7996,7 +10442,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8005,7 +10451,7 @@ public class EnrichTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -8023,7 +10469,10 @@ public class EnrichTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Enrich>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseEnrich>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         JsonElement expectedEnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}");
@@ -8033,7 +10482,8 @@ public class EnrichTest : TestBase
         string expectedReferenceID = "referenceID";
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ApiEnum<string, EnrichEventType> expectedEventType = EnrichEventType.Enrich;
+        ApiEnum<string, OutputListResponseEnrichEventType> expectedEventType =
+            OutputListResponseEnrichEventType.Enrich;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
@@ -8044,7 +10494,10 @@ public class EnrichTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        EnrichMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        OutputListResponseEnrichMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
         long expectedWorkflowVersionNum = 0;
@@ -8070,7 +10523,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8079,7 +10532,7 @@ public class EnrichTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -8102,7 +10555,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8138,7 +10591,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8153,7 +10606,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8202,7 +10655,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8230,7 +10683,7 @@ public class EnrichTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Enrich
+        var model = new OutputListResponseEnrich
         {
             EnrichedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             EventID = "eventID",
@@ -8239,7 +10692,7 @@ public class EnrichTest : TestBase
             ReferenceID = "referenceID",
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            EventType = EnrichEventType.Enrich,
+            EventType = OutputListResponseEnrichEventType.Enrich,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -8256,27 +10709,27 @@ public class EnrichTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        Enrich copied = new(model);
+        OutputListResponseEnrich copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class EnrichEventTypeTest : TestBase
+public class OutputListResponseEnrichEventTypeTest : TestBase
 {
     [Theory]
-    [InlineData(EnrichEventType.Enrich)]
-    public void Validation_Works(EnrichEventType rawValue)
+    [InlineData(OutputListResponseEnrichEventType.Enrich)]
+    public void Validation_Works(OutputListResponseEnrichEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EnrichEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseEnrichEventType> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, EnrichEventType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseEnrichEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -8286,17 +10739,16 @@ public class EnrichEventTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(EnrichEventType.Enrich)]
-    public void SerializationRoundtrip_Works(EnrichEventType rawValue)
+    [InlineData(OutputListResponseEnrichEventType.Enrich)]
+    public void SerializationRoundtrip_Works(OutputListResponseEnrichEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EnrichEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseEnrichEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EnrichEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseEnrichEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -8304,26 +10756,25 @@ public class EnrichEventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, EnrichEventType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseEnrichEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EnrichEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseEnrichEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class EnrichMetadataTest : TestBase
+public class OutputListResponseEnrichMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new EnrichMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseEnrichMetadata { DurationFunctionToEventSeconds = 0 };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -8333,10 +10784,10 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new EnrichMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseEnrichMetadata { DurationFunctionToEventSeconds = 0 };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<EnrichMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseEnrichMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -8347,10 +10798,10 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new EnrichMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseEnrichMetadata { DurationFunctionToEventSeconds = 0 };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<EnrichMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseEnrichMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -8367,7 +10818,7 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new EnrichMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseEnrichMetadata { DurationFunctionToEventSeconds = 0 };
 
         model.Validate();
     }
@@ -8375,7 +10826,7 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new EnrichMetadata { };
+        var model = new OutputListResponseEnrichMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -8384,7 +10835,7 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new EnrichMetadata { };
+        var model = new OutputListResponseEnrichMetadata { };
 
         model.Validate();
     }
@@ -8392,7 +10843,7 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new EnrichMetadata
+        var model = new OutputListResponseEnrichMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -8405,7 +10856,7 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new EnrichMetadata
+        var model = new OutputListResponseEnrichMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -8417,32 +10868,32 @@ public class EnrichMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new EnrichMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseEnrichMetadata { DurationFunctionToEventSeconds = 0 };
 
-        EnrichMetadata copied = new(model);
+        OutputListResponseEnrichMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class CollectionProcessingTest : TestBase
+public class OutputListResponseCollectionProcessingTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -8457,15 +10908,17 @@ public class CollectionProcessingTest : TestBase
         string expectedCollectionID = "collectionID";
         string expectedCollectionName = "collectionName";
         string expectedEventID = "eventID";
-        ApiEnum<string, Operation> expectedOperation = Operation.Add;
+        ApiEnum<string, OutputListResponseCollectionProcessingOperation> expectedOperation =
+            OutputListResponseCollectionProcessingOperation.Add;
         long expectedProcessedCount = 0;
         string expectedReferenceID = "referenceID";
-        ApiEnum<string, Status> expectedStatus = Status.Success;
+        ApiEnum<string, OutputListResponseCollectionProcessingStatus> expectedStatus =
+            OutputListResponseCollectionProcessingStatus.Success;
         List<string> expectedCollectionItemIds = ["string"];
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedErrorMessage = "errorMessage";
-        ApiEnum<string, CollectionProcessingEventType> expectedEventType =
-            CollectionProcessingEventType.CollectionProcessing;
+        ApiEnum<string, OutputListResponseCollectionProcessingEventType> expectedEventType =
+            OutputListResponseCollectionProcessingEventType.CollectionProcessing;
         long expectedFunctionCallTryNumber = 0;
         Errors::InboundEmailEvent expectedInboundEmail = new()
         {
@@ -8474,7 +10927,7 @@ public class CollectionProcessingTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        CollectionProcessingMetadata expectedMetadata = new()
+        OutputListResponseCollectionProcessingMetadata expectedMetadata = new()
         {
             DurationFunctionToEventSeconds = 0,
         };
@@ -8503,19 +10956,19 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -8528,7 +10981,7 @@ public class CollectionProcessingTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CollectionProcessing>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseCollectionProcessing>(
             json,
             ModelBase.SerializerOptions
         );
@@ -8539,19 +10992,19 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -8564,7 +11017,7 @@ public class CollectionProcessingTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CollectionProcessing>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseCollectionProcessing>(
             element,
             ModelBase.SerializerOptions
         );
@@ -8573,15 +11026,17 @@ public class CollectionProcessingTest : TestBase
         string expectedCollectionID = "collectionID";
         string expectedCollectionName = "collectionName";
         string expectedEventID = "eventID";
-        ApiEnum<string, Operation> expectedOperation = Operation.Add;
+        ApiEnum<string, OutputListResponseCollectionProcessingOperation> expectedOperation =
+            OutputListResponseCollectionProcessingOperation.Add;
         long expectedProcessedCount = 0;
         string expectedReferenceID = "referenceID";
-        ApiEnum<string, Status> expectedStatus = Status.Success;
+        ApiEnum<string, OutputListResponseCollectionProcessingStatus> expectedStatus =
+            OutputListResponseCollectionProcessingStatus.Success;
         List<string> expectedCollectionItemIds = ["string"];
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedErrorMessage = "errorMessage";
-        ApiEnum<string, CollectionProcessingEventType> expectedEventType =
-            CollectionProcessingEventType.CollectionProcessing;
+        ApiEnum<string, OutputListResponseCollectionProcessingEventType> expectedEventType =
+            OutputListResponseCollectionProcessingEventType.CollectionProcessing;
         long expectedFunctionCallTryNumber = 0;
         Errors::InboundEmailEvent expectedInboundEmail = new()
         {
@@ -8590,7 +11045,7 @@ public class CollectionProcessingTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        CollectionProcessingMetadata expectedMetadata = new()
+        OutputListResponseCollectionProcessingMetadata expectedMetadata = new()
         {
             DurationFunctionToEventSeconds = 0,
         };
@@ -8619,19 +11074,19 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -8649,15 +11104,15 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
         };
 
         Assert.Null(model.CollectionItemIds);
@@ -8679,15 +11134,15 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
         };
 
         model.Validate();
@@ -8696,15 +11151,15 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
 
             // Null should be interpreted as omitted for these properties
             CollectionItemIds = null,
@@ -8735,15 +11190,15 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
 
             // Null should be interpreted as omitted for these properties
             CollectionItemIds = null,
@@ -8761,19 +11216,19 @@ public class CollectionProcessingTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new CollectionProcessing
+        var model = new OutputListResponseCollectionProcessing
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
             EventID = "eventID",
-            Operation = Operation.Add,
+            Operation = OutputListResponseCollectionProcessingOperation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = OutputListResponseCollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            EventType = CollectionProcessingEventType.CollectionProcessing,
+            EventType = OutputListResponseCollectionProcessingEventType.CollectionProcessing,
             FunctionCallTryNumber = 0,
             InboundEmail = new()
             {
@@ -8785,161 +11240,48 @@ public class CollectionProcessingTest : TestBase
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
         };
 
-        CollectionProcessing copied = new(model);
+        OutputListResponseCollectionProcessing copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class OperationTest : TestBase
+public class OutputListResponseCollectionProcessingOperationTest : TestBase
 {
     [Theory]
-    [InlineData(Operation.Add)]
-    [InlineData(Operation.Update)]
-    public void Validation_Works(Operation rawValue)
+    [InlineData(OutputListResponseCollectionProcessingOperation.Add)]
+    [InlineData(OutputListResponseCollectionProcessingOperation.Update)]
+    public void Validation_Works(OutputListResponseCollectionProcessingOperation rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Operation> value = rawValue;
+        ApiEnum<string, OutputListResponseCollectionProcessingOperation> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingOperation>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(Operation.Add)]
-    [InlineData(Operation.Update)]
-    public void SerializationRoundtrip_Works(Operation rawValue)
+    [InlineData(OutputListResponseCollectionProcessingOperation.Add)]
+    [InlineData(OutputListResponseCollectionProcessingOperation.Update)]
+    public void SerializationRoundtrip_Works(
+        OutputListResponseCollectionProcessingOperation rawValue
+    )
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Operation> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Operation>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class StatusTest : TestBase
-{
-    [Theory]
-    [InlineData(Status.Success)]
-    [InlineData(Status.Failed)]
-    public void Validation_Works(Status rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Status> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(Status.Success)]
-    [InlineData(Status.Failed)]
-    public void SerializationRoundtrip_Works(Status rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Status> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class CollectionProcessingEventTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(CollectionProcessingEventType.CollectionProcessing)]
-    public void Validation_Works(CollectionProcessingEventType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, CollectionProcessingEventType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, CollectionProcessingEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(CollectionProcessingEventType.CollectionProcessing)]
-    public void SerializationRoundtrip_Works(CollectionProcessingEventType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, CollectionProcessingEventType> value = rawValue;
+        ApiEnum<string, OutputListResponseCollectionProcessingOperation> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, CollectionProcessingEventType>
+            ApiEnum<string, OutputListResponseCollectionProcessingOperation>
         >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
@@ -8948,25 +11290,135 @@ public class CollectionProcessingEventTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, CollectionProcessingEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingOperation>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, CollectionProcessingEventType>
+            ApiEnum<string, OutputListResponseCollectionProcessingOperation>
         >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class CollectionProcessingMetadataTest : TestBase
+public class OutputListResponseCollectionProcessingStatusTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseCollectionProcessingStatus.Success)]
+    [InlineData(OutputListResponseCollectionProcessingStatus.Failed)]
+    public void Validation_Works(OutputListResponseCollectionProcessingStatus rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseCollectionProcessingStatus> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingStatus>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseCollectionProcessingStatus.Success)]
+    [InlineData(OutputListResponseCollectionProcessingStatus.Failed)]
+    public void SerializationRoundtrip_Works(OutputListResponseCollectionProcessingStatus rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseCollectionProcessingStatus> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingStatus>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingStatus>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingStatus>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseCollectionProcessingEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseCollectionProcessingEventType.CollectionProcessing)]
+    public void Validation_Works(OutputListResponseCollectionProcessingEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseCollectionProcessingEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseCollectionProcessingEventType.CollectionProcessing)]
+    public void SerializationRoundtrip_Works(
+        OutputListResponseCollectionProcessingEventType rawValue
+    )
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseCollectionProcessingEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingEventType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingEventType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseCollectionProcessingEventType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseCollectionProcessingMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new CollectionProcessingMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseCollectionProcessingMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -8976,13 +11428,17 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new CollectionProcessingMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseCollectionProcessingMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CollectionProcessingMetadata>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseCollectionProcessingMetadata>(
+                json,
+                ModelBase.SerializerOptions
+            );
 
         Assert.Equal(model, deserialized);
     }
@@ -8990,13 +11446,17 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new CollectionProcessingMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseCollectionProcessingMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<CollectionProcessingMetadata>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized =
+            JsonSerializer.Deserialize<OutputListResponseCollectionProcessingMetadata>(
+                element,
+                ModelBase.SerializerOptions
+            );
         Assert.NotNull(deserialized);
 
         double expectedDurationFunctionToEventSeconds = 0;
@@ -9010,7 +11470,10 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new CollectionProcessingMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseCollectionProcessingMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
         model.Validate();
     }
@@ -9018,7 +11481,7 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new CollectionProcessingMetadata { };
+        var model = new OutputListResponseCollectionProcessingMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -9027,7 +11490,7 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new CollectionProcessingMetadata { };
+        var model = new OutputListResponseCollectionProcessingMetadata { };
 
         model.Validate();
     }
@@ -9035,7 +11498,7 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new CollectionProcessingMetadata
+        var model = new OutputListResponseCollectionProcessingMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -9048,7 +11511,7 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new CollectionProcessingMetadata
+        var model = new OutputListResponseCollectionProcessingMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -9060,23 +11523,26 @@ public class CollectionProcessingMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new CollectionProcessingMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseCollectionProcessingMetadata
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
 
-        CollectionProcessingMetadata copied = new(model);
+        OutputListResponseCollectionProcessingMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SendTest : TestBase
+public class OutputListResponseSendTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9084,7 +11550,7 @@ public class SendTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -9104,8 +11570,10 @@ public class SendTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        ApiEnum<string, DeliveryStatus> expectedDeliveryStatus = DeliveryStatus.Success;
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, OutputListResponseSendDeliveryStatus> expectedDeliveryStatus =
+            OutputListResponseSendDeliveryStatus.Success;
+        ApiEnum<string, OutputListResponseSendDestinationType> expectedDestinationType =
+            OutputListResponseSendDestinationType.Webhook;
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
@@ -9113,11 +11581,12 @@ public class SendTest : TestBase
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         JsonElement expectedDeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}");
-        ApiEnum<string, SendEventType> expectedEventType = SendEventType.Send;
+        ApiEnum<string, OutputListResponseSendEventType> expectedEventType =
+            OutputListResponseSendEventType.Send;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
-        GoogleDriveOutput expectedGoogleDriveOutput = new()
+        OutputListResponseSendGoogleDriveOutput expectedGoogleDriveOutput = new()
         {
             FileName = "fileName",
             FolderID = "folderID",
@@ -9129,9 +11598,16 @@ public class SendTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        SendMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
-        S3Output expectedS3Output = new() { BucketName = "bucketName", Key = "key" };
-        WebhookOutput expectedWebhookOutput = new()
+        OutputListResponseSendMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        OutputListResponseSendS3Output expectedS3Output = new()
+        {
+            BucketName = "bucketName",
+            Key = "key",
+        };
+        OutputListResponseSendWebhookOutput expectedWebhookOutput = new()
         {
             HttpResponseBody = "httpResponseBody",
             HttpStatusCode = 0,
@@ -9167,10 +11643,10 @@ public class SendTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9178,7 +11654,7 @@ public class SendTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -9199,7 +11675,10 @@ public class SendTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Send>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSend>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -9207,10 +11686,10 @@ public class SendTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9218,7 +11697,7 @@ public class SendTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -9239,11 +11718,16 @@ public class SendTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Send>(element, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSend>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
-        ApiEnum<string, DeliveryStatus> expectedDeliveryStatus = DeliveryStatus.Success;
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, OutputListResponseSendDeliveryStatus> expectedDeliveryStatus =
+            OutputListResponseSendDeliveryStatus.Success;
+        ApiEnum<string, OutputListResponseSendDestinationType> expectedDestinationType =
+            OutputListResponseSendDestinationType.Webhook;
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
@@ -9251,11 +11735,12 @@ public class SendTest : TestBase
         string expectedCallID = "callID";
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         JsonElement expectedDeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}");
-        ApiEnum<string, SendEventType> expectedEventType = SendEventType.Send;
+        ApiEnum<string, OutputListResponseSendEventType> expectedEventType =
+            OutputListResponseSendEventType.Send;
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
-        GoogleDriveOutput expectedGoogleDriveOutput = new()
+        OutputListResponseSendGoogleDriveOutput expectedGoogleDriveOutput = new()
         {
             FileName = "fileName",
             FolderID = "folderID",
@@ -9267,9 +11752,16 @@ public class SendTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
-        SendMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
-        S3Output expectedS3Output = new() { BucketName = "bucketName", Key = "key" };
-        WebhookOutput expectedWebhookOutput = new()
+        OutputListResponseSendMetadata expectedMetadata = new()
+        {
+            DurationFunctionToEventSeconds = 0,
+        };
+        OutputListResponseSendS3Output expectedS3Output = new()
+        {
+            BucketName = "bucketName",
+            Key = "key",
+        };
+        OutputListResponseSendWebhookOutput expectedWebhookOutput = new()
         {
             HttpResponseBody = "httpResponseBody",
             HttpStatusCode = 0,
@@ -9307,10 +11799,10 @@ public class SendTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9318,7 +11810,7 @@ public class SendTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -9344,10 +11836,10 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9389,10 +11881,10 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9405,10 +11897,10 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9467,10 +11959,10 @@ public class SendTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9500,10 +11992,10 @@ public class SendTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Send
+        var model = new OutputListResponseSend
         {
-            DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DeliveryStatus = OutputListResponseSendDeliveryStatus.Success,
+            DestinationType = OutputListResponseSendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -9511,7 +12003,7 @@ public class SendTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DeliveredContent = JsonSerializer.Deserialize<JsonElement>("{}"),
-            EventType = SendEventType.Send,
+            EventType = OutputListResponseSendEventType.Send,
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
@@ -9531,28 +12023,137 @@ public class SendTest : TestBase
             WorkflowVersionNum = 0,
         };
 
-        Send copied = new(model);
+        OutputListResponseSend copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class DeliveryStatusTest : TestBase
+public class OutputListResponseSendDeliveryStatusTest : TestBase
 {
     [Theory]
-    [InlineData(DeliveryStatus.Success)]
-    [InlineData(DeliveryStatus.Skip)]
-    public void Validation_Works(DeliveryStatus rawValue)
+    [InlineData(OutputListResponseSendDeliveryStatus.Success)]
+    [InlineData(OutputListResponseSendDeliveryStatus.Skip)]
+    public void Validation_Works(OutputListResponseSendDeliveryStatus rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DeliveryStatus> value = rawValue;
+        ApiEnum<string, OutputListResponseSendDeliveryStatus> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DeliveryStatus>>(
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDeliveryStatus>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseSendDeliveryStatus.Success)]
+    [InlineData(OutputListResponseSendDeliveryStatus.Skip)]
+    public void SerializationRoundtrip_Works(OutputListResponseSendDeliveryStatus rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseSendDeliveryStatus> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDeliveryStatus>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDeliveryStatus>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDeliveryStatus>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseSendDestinationTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseSendDestinationType.Webhook)]
+    [InlineData(OutputListResponseSendDestinationType.S3)]
+    [InlineData(OutputListResponseSendDestinationType.GoogleDrive)]
+    public void Validation_Works(OutputListResponseSendDestinationType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseSendDestinationType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDestinationType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(OutputListResponseSendDestinationType.Webhook)]
+    [InlineData(OutputListResponseSendDestinationType.S3)]
+    [InlineData(OutputListResponseSendDestinationType.GoogleDrive)]
+    public void SerializationRoundtrip_Works(OutputListResponseSendDestinationType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseSendDestinationType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDestinationType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDestinationType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendDestinationType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class OutputListResponseSendEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(OutputListResponseSendEventType.Send)]
+    public void Validation_Works(OutputListResponseSendEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, OutputListResponseSendEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseSendEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -9562,18 +12163,16 @@ public class DeliveryStatusTest : TestBase
     }
 
     [Theory]
-    [InlineData(DeliveryStatus.Success)]
-    [InlineData(DeliveryStatus.Skip)]
-    public void SerializationRoundtrip_Works(DeliveryStatus rawValue)
+    [InlineData(OutputListResponseSendEventType.Send)]
+    public void SerializationRoundtrip_Works(OutputListResponseSendEventType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DeliveryStatus> value = rawValue;
+        ApiEnum<string, OutputListResponseSendEventType> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DeliveryStatus>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -9581,142 +12180,29 @@ public class DeliveryStatusTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DeliveryStatus>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, OutputListResponseSendEventType>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DeliveryStatus>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, OutputListResponseSendEventType>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
 }
 
-public class DestinationTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void Validation_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class SendEventTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(SendEventType.Send)]
-    public void Validation_Works(SendEventType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SendEventType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SendEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(SendEventType.Send)]
-    public void SerializationRoundtrip_Works(SendEventType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SendEventType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SendEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SendEventType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SendEventType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class GoogleDriveOutputTest : TestBase
+public class OutputListResponseSendGoogleDriveOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new GoogleDriveOutput { FileName = "fileName", FolderID = "folderID" };
+        var model = new OutputListResponseSendGoogleDriveOutput
+        {
+            FileName = "fileName",
+            FolderID = "folderID",
+        };
 
         string expectedFileName = "fileName";
         string expectedFolderID = "folderID";
@@ -9728,10 +12214,14 @@ public class GoogleDriveOutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new GoogleDriveOutput { FileName = "fileName", FolderID = "folderID" };
+        var model = new OutputListResponseSendGoogleDriveOutput
+        {
+            FileName = "fileName",
+            FolderID = "folderID",
+        };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<GoogleDriveOutput>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendGoogleDriveOutput>(
             json,
             ModelBase.SerializerOptions
         );
@@ -9742,10 +12232,14 @@ public class GoogleDriveOutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new GoogleDriveOutput { FileName = "fileName", FolderID = "folderID" };
+        var model = new OutputListResponseSendGoogleDriveOutput
+        {
+            FileName = "fileName",
+            FolderID = "folderID",
+        };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<GoogleDriveOutput>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendGoogleDriveOutput>(
             element,
             ModelBase.SerializerOptions
         );
@@ -9761,7 +12255,11 @@ public class GoogleDriveOutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new GoogleDriveOutput { FileName = "fileName", FolderID = "folderID" };
+        var model = new OutputListResponseSendGoogleDriveOutput
+        {
+            FileName = "fileName",
+            FolderID = "folderID",
+        };
 
         model.Validate();
     }
@@ -9769,20 +12267,24 @@ public class GoogleDriveOutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new GoogleDriveOutput { FileName = "fileName", FolderID = "folderID" };
+        var model = new OutputListResponseSendGoogleDriveOutput
+        {
+            FileName = "fileName",
+            FolderID = "folderID",
+        };
 
-        GoogleDriveOutput copied = new(model);
+        OutputListResponseSendGoogleDriveOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class SendMetadataTest : TestBase
+public class OutputListResponseSendMetadataTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new SendMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSendMetadata { DurationFunctionToEventSeconds = 0 };
 
         double expectedDurationFunctionToEventSeconds = 0;
 
@@ -9792,10 +12294,10 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new SendMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSendMetadata { DurationFunctionToEventSeconds = 0 };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SendMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -9806,10 +12308,10 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new SendMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSendMetadata { DurationFunctionToEventSeconds = 0 };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SendMetadata>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -9826,7 +12328,7 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new SendMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSendMetadata { DurationFunctionToEventSeconds = 0 };
 
         model.Validate();
     }
@@ -9834,7 +12336,7 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new SendMetadata { };
+        var model = new OutputListResponseSendMetadata { };
 
         Assert.Null(model.DurationFunctionToEventSeconds);
         Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
@@ -9843,7 +12345,7 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new SendMetadata { };
+        var model = new OutputListResponseSendMetadata { };
 
         model.Validate();
     }
@@ -9851,7 +12353,7 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new SendMetadata
+        var model = new OutputListResponseSendMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -9864,7 +12366,7 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new SendMetadata
+        var model = new OutputListResponseSendMetadata
         {
             // Null should be interpreted as omitted for these properties
             DurationFunctionToEventSeconds = null,
@@ -9876,20 +12378,20 @@ public class SendMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new SendMetadata { DurationFunctionToEventSeconds = 0 };
+        var model = new OutputListResponseSendMetadata { DurationFunctionToEventSeconds = 0 };
 
-        SendMetadata copied = new(model);
+        OutputListResponseSendMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class S3OutputTest : TestBase
+public class OutputListResponseSendS3OutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new S3Output { BucketName = "bucketName", Key = "key" };
+        var model = new OutputListResponseSendS3Output { BucketName = "bucketName", Key = "key" };
 
         string expectedBucketName = "bucketName";
         string expectedKey = "key";
@@ -9901,10 +12403,13 @@ public class S3OutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new S3Output { BucketName = "bucketName", Key = "key" };
+        var model = new OutputListResponseSendS3Output { BucketName = "bucketName", Key = "key" };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<S3Output>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendS3Output>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -9912,10 +12417,10 @@ public class S3OutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new S3Output { BucketName = "bucketName", Key = "key" };
+        var model = new OutputListResponseSendS3Output { BucketName = "bucketName", Key = "key" };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<S3Output>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendS3Output>(
             element,
             ModelBase.SerializerOptions
         );
@@ -9931,7 +12436,7 @@ public class S3OutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new S3Output { BucketName = "bucketName", Key = "key" };
+        var model = new OutputListResponseSendS3Output { BucketName = "bucketName", Key = "key" };
 
         model.Validate();
     }
@@ -9939,20 +12444,24 @@ public class S3OutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new S3Output { BucketName = "bucketName", Key = "key" };
+        var model = new OutputListResponseSendS3Output { BucketName = "bucketName", Key = "key" };
 
-        S3Output copied = new(model);
+        OutputListResponseSendS3Output copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class WebhookOutputTest : TestBase
+public class OutputListResponseSendWebhookOutputTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new WebhookOutput { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 };
+        var model = new OutputListResponseSendWebhookOutput
+        {
+            HttpResponseBody = "httpResponseBody",
+            HttpStatusCode = 0,
+        };
 
         string expectedHttpResponseBody = "httpResponseBody";
         long expectedHttpStatusCode = 0;
@@ -9964,10 +12473,14 @@ public class WebhookOutputTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new WebhookOutput { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 };
+        var model = new OutputListResponseSendWebhookOutput
+        {
+            HttpResponseBody = "httpResponseBody",
+            HttpStatusCode = 0,
+        };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WebhookOutput>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendWebhookOutput>(
             json,
             ModelBase.SerializerOptions
         );
@@ -9978,10 +12491,14 @@ public class WebhookOutputTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new WebhookOutput { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 };
+        var model = new OutputListResponseSendWebhookOutput
+        {
+            HttpResponseBody = "httpResponseBody",
+            HttpStatusCode = 0,
+        };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WebhookOutput>(
+        var deserialized = JsonSerializer.Deserialize<OutputListResponseSendWebhookOutput>(
             element,
             ModelBase.SerializerOptions
         );
@@ -9997,7 +12514,11 @@ public class WebhookOutputTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new WebhookOutput { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 };
+        var model = new OutputListResponseSendWebhookOutput
+        {
+            HttpResponseBody = "httpResponseBody",
+            HttpStatusCode = 0,
+        };
 
         model.Validate();
     }
@@ -10005,9 +12526,13 @@ public class WebhookOutputTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new WebhookOutput { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 };
+        var model = new OutputListResponseSendWebhookOutput
+        {
+            HttpResponseBody = "httpResponseBody",
+            HttpStatusCode = 0,
+        };
 
-        WebhookOutput copied = new(model);
+        OutputListResponseSendWebhookOutput copied = new(model);
 
         Assert.Equal(model, copied);
     }

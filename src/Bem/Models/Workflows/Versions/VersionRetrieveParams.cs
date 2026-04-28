@@ -9,7 +9,11 @@ using Bem.Core;
 namespace Bem.Models.Workflows.Versions;
 
 /// <summary>
-/// Get a Workflow Version
+/// **Retrieve a specific historical version of a workflow.**
+///
+/// <para>Versions are immutable. Use this endpoint to see what a workflow looked
+/// like at the moment a particular call was made — every call record carries the
+/// workflow `versionNum` it ran against.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

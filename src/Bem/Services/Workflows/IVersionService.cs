@@ -40,7 +40,11 @@ public interface IVersionService
     IVersionService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
-    /// Get a Workflow Version
+    /// **Retrieve a specific historical version of a workflow.**
+    ///
+    /// <para>Versions are immutable. Use this endpoint to see what a workflow looked
+    /// like at the moment a particular call was made — every call record carries the
+    /// workflow `versionNum` it ran against.</para>
     /// </summary>
     Task<VersionRetrieveResponse> Retrieve(
         VersionRetrieveParams parameters,
@@ -55,7 +59,12 @@ public interface IVersionService
     );
 
     /// <summary>
-    /// List Workflow Versions
+    /// **List every version of a workflow.**
+    ///
+    /// <para>Versions are immutable. Each row captures what the workflow looked like
+    /// between updates: graph topology, metadata, and timestamps. Returns newest-first
+    /// by default. Cursor pagination via `startingAfter` / `endingBefore` over
+    /// `versionNum`.</para>
     /// </summary>
     Task<VersionListPage> List(
         VersionListParams parameters,

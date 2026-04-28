@@ -16,28 +16,38 @@ public class OutputListParamsTest : TestBase
         {
             CallIds = ["string"],
             EndingBefore = "endingBefore",
+            EventIds = ["string"],
             FunctionIds = ["string"],
             FunctionNames = ["string"],
+            FunctionVersionNums = [0],
             IncludeIntermediate = true,
+            IsLabelled = true,
+            IsRegression = true,
             Limit = 1,
             ReferenceIds = ["string"],
             ReferenceIDSubstring = "referenceIDSubstring",
             SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
+            TransformationIds = ["string"],
             WorkflowIds = ["string"],
             WorkflowNames = ["string"],
         };
 
         List<string> expectedCallIds = ["string"];
         string expectedEndingBefore = "endingBefore";
+        List<string> expectedEventIds = ["string"];
         List<string> expectedFunctionIds = ["string"];
         List<string> expectedFunctionNames = ["string"];
+        List<long> expectedFunctionVersionNums = [0];
         bool expectedIncludeIntermediate = true;
+        bool expectedIsLabelled = true;
+        bool expectedIsRegression = true;
         long expectedLimit = 1;
         List<string> expectedReferenceIds = ["string"];
         string expectedReferenceIDSubstring = "referenceIDSubstring";
         ApiEnum<string, SortOrder> expectedSortOrder = SortOrder.Asc;
         string expectedStartingAfter = "startingAfter";
+        List<string> expectedTransformationIds = ["string"];
         List<string> expectedWorkflowIds = ["string"];
         List<string> expectedWorkflowNames = ["string"];
 
@@ -48,6 +58,12 @@ public class OutputListParamsTest : TestBase
             Assert.Equal(expectedCallIds[i], parameters.CallIds[i]);
         }
         Assert.Equal(expectedEndingBefore, parameters.EndingBefore);
+        Assert.NotNull(parameters.EventIds);
+        Assert.Equal(expectedEventIds.Count, parameters.EventIds.Count);
+        for (int i = 0; i < expectedEventIds.Count; i++)
+        {
+            Assert.Equal(expectedEventIds[i], parameters.EventIds[i]);
+        }
         Assert.NotNull(parameters.FunctionIds);
         Assert.Equal(expectedFunctionIds.Count, parameters.FunctionIds.Count);
         for (int i = 0; i < expectedFunctionIds.Count; i++)
@@ -60,7 +76,15 @@ public class OutputListParamsTest : TestBase
         {
             Assert.Equal(expectedFunctionNames[i], parameters.FunctionNames[i]);
         }
+        Assert.NotNull(parameters.FunctionVersionNums);
+        Assert.Equal(expectedFunctionVersionNums.Count, parameters.FunctionVersionNums.Count);
+        for (int i = 0; i < expectedFunctionVersionNums.Count; i++)
+        {
+            Assert.Equal(expectedFunctionVersionNums[i], parameters.FunctionVersionNums[i]);
+        }
         Assert.Equal(expectedIncludeIntermediate, parameters.IncludeIntermediate);
+        Assert.Equal(expectedIsLabelled, parameters.IsLabelled);
+        Assert.Equal(expectedIsRegression, parameters.IsRegression);
         Assert.Equal(expectedLimit, parameters.Limit);
         Assert.NotNull(parameters.ReferenceIds);
         Assert.Equal(expectedReferenceIds.Count, parameters.ReferenceIds.Count);
@@ -71,6 +95,12 @@ public class OutputListParamsTest : TestBase
         Assert.Equal(expectedReferenceIDSubstring, parameters.ReferenceIDSubstring);
         Assert.Equal(expectedSortOrder, parameters.SortOrder);
         Assert.Equal(expectedStartingAfter, parameters.StartingAfter);
+        Assert.NotNull(parameters.TransformationIds);
+        Assert.Equal(expectedTransformationIds.Count, parameters.TransformationIds.Count);
+        for (int i = 0; i < expectedTransformationIds.Count; i++)
+        {
+            Assert.Equal(expectedTransformationIds[i], parameters.TransformationIds[i]);
+        }
         Assert.NotNull(parameters.WorkflowIds);
         Assert.Equal(expectedWorkflowIds.Count, parameters.WorkflowIds.Count);
         for (int i = 0; i < expectedWorkflowIds.Count; i++)
@@ -94,12 +124,20 @@ public class OutputListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("callIDs"));
         Assert.Null(parameters.EndingBefore);
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
+        Assert.Null(parameters.EventIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("eventIDs"));
         Assert.Null(parameters.FunctionIds);
         Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
         Assert.Null(parameters.FunctionNames);
         Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
+        Assert.Null(parameters.FunctionVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("functionVersionNums"));
         Assert.Null(parameters.IncludeIntermediate);
         Assert.False(parameters.RawQueryData.ContainsKey("includeIntermediate"));
+        Assert.Null(parameters.IsLabelled);
+        Assert.False(parameters.RawQueryData.ContainsKey("isLabelled"));
+        Assert.Null(parameters.IsRegression);
+        Assert.False(parameters.RawQueryData.ContainsKey("isRegression"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
         Assert.Null(parameters.ReferenceIds);
@@ -110,6 +148,8 @@ public class OutputListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("sortOrder"));
         Assert.Null(parameters.StartingAfter);
         Assert.False(parameters.RawQueryData.ContainsKey("startingAfter"));
+        Assert.Null(parameters.TransformationIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("transformationIDs"));
         Assert.Null(parameters.WorkflowIds);
         Assert.False(parameters.RawQueryData.ContainsKey("workflowIDs"));
         Assert.Null(parameters.WorkflowNames);
@@ -124,14 +164,19 @@ public class OutputListParamsTest : TestBase
             // Null should be interpreted as omitted for these properties
             CallIds = null,
             EndingBefore = null,
+            EventIds = null,
             FunctionIds = null,
             FunctionNames = null,
+            FunctionVersionNums = null,
             IncludeIntermediate = null,
+            IsLabelled = null,
+            IsRegression = null,
             Limit = null,
             ReferenceIds = null,
             ReferenceIDSubstring = null,
             SortOrder = null,
             StartingAfter = null,
+            TransformationIds = null,
             WorkflowIds = null,
             WorkflowNames = null,
         };
@@ -140,12 +185,20 @@ public class OutputListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("callIDs"));
         Assert.Null(parameters.EndingBefore);
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
+        Assert.Null(parameters.EventIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("eventIDs"));
         Assert.Null(parameters.FunctionIds);
         Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
         Assert.Null(parameters.FunctionNames);
         Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
+        Assert.Null(parameters.FunctionVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("functionVersionNums"));
         Assert.Null(parameters.IncludeIntermediate);
         Assert.False(parameters.RawQueryData.ContainsKey("includeIntermediate"));
+        Assert.Null(parameters.IsLabelled);
+        Assert.False(parameters.RawQueryData.ContainsKey("isLabelled"));
+        Assert.Null(parameters.IsRegression);
+        Assert.False(parameters.RawQueryData.ContainsKey("isRegression"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
         Assert.Null(parameters.ReferenceIds);
@@ -156,6 +209,8 @@ public class OutputListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("sortOrder"));
         Assert.Null(parameters.StartingAfter);
         Assert.False(parameters.RawQueryData.ContainsKey("startingAfter"));
+        Assert.Null(parameters.TransformationIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("transformationIDs"));
         Assert.Null(parameters.WorkflowIds);
         Assert.False(parameters.RawQueryData.ContainsKey("workflowIDs"));
         Assert.Null(parameters.WorkflowNames);
@@ -169,14 +224,19 @@ public class OutputListParamsTest : TestBase
         {
             CallIds = ["string"],
             EndingBefore = "endingBefore",
+            EventIds = ["string"],
             FunctionIds = ["string"],
             FunctionNames = ["string"],
+            FunctionVersionNums = [0],
             IncludeIntermediate = true,
+            IsLabelled = true,
+            IsRegression = true,
             Limit = 1,
             ReferenceIds = ["string"],
             ReferenceIDSubstring = "referenceIDSubstring",
             SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
+            TransformationIds = ["string"],
             WorkflowIds = ["string"],
             WorkflowNames = ["string"],
         };
@@ -186,7 +246,7 @@ public class OutputListParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/outputs?callIDs=string&endingBefore=endingBefore&functionIDs=string&functionNames=string&includeIntermediate=true&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&workflowIDs=string&workflowNames=string"
+                    "https://api.bem.ai/v3/outputs?callIDs=string&endingBefore=endingBefore&eventIDs=string&functionIDs=string&functionNames=string&functionVersionNums=0&includeIntermediate=true&isLabelled=true&isRegression=true&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&transformationIDs=string&workflowIDs=string&workflowNames=string"
                 ),
                 url
             )
@@ -200,14 +260,19 @@ public class OutputListParamsTest : TestBase
         {
             CallIds = ["string"],
             EndingBefore = "endingBefore",
+            EventIds = ["string"],
             FunctionIds = ["string"],
             FunctionNames = ["string"],
+            FunctionVersionNums = [0],
             IncludeIntermediate = true,
+            IsLabelled = true,
+            IsRegression = true,
             Limit = 1,
             ReferenceIds = ["string"],
             ReferenceIDSubstring = "referenceIDSubstring",
             SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
+            TransformationIds = ["string"],
             WorkflowIds = ["string"],
             WorkflowNames = ["string"],
         };

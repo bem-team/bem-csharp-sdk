@@ -16,8 +16,10 @@ public class FunctionServiceTest : TestBase
                 {
                     FunctionName = "functionName",
                     DisplayName = "displayName",
+                    EnableBoundingBoxes = true,
                     OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                     OutputSchemaName = "outputSchemaName",
+                    PreCount = true,
                     TabularChunkingEnabled = true,
                     Tags = ["string"],
                 },
@@ -48,9 +50,11 @@ public class FunctionServiceTest : TestBase
                 UpdateFunction = new UpdateFunctionExtract()
                 {
                     DisplayName = "displayName",
+                    EnableBoundingBoxes = true,
                     FunctionName = "functionName",
                     OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                     OutputSchemaName = "outputSchemaName",
+                    PreCount = true,
                     TabularChunkingEnabled = true,
                     Tags = ["string"],
                 },

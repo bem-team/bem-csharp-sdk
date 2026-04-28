@@ -10,7 +10,25 @@ using Bem.Core;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// Update a Function
+/// **Update a function. Updates create a new version.**
+///
+/// <para>The previous version remains addressable and immutable. Workflow nodes that
+/// pinned the function with a `versionNum` continue to use the pinned version; nodes
+/// that reference the function by name with no version automatically pick up the
+/// new version on their next call.</para>
+///
+/// <para>## What you can change</para>
+///
+/// <para>Any field allowed by the function's type. Most commonly: `outputSchema`
+/// (for `extract`/`join`), `classifications` (for `classify`), `displayName`, and `tags`.</para>
+///
+/// <para>## Versioning behaviour</para>
+///
+/// <para>- Each successful update increments `currentVersionNum` by 1. - `displayName`,
+/// `tags`, and `functionName` updates also create a new version, so the version
+/// history is a complete record of every change. - To revert, fetch the previous
+/// version and re-submit its configuration as a new update — versions themselves
+/// are immutable.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -23,7 +41,20 @@ public record class FunctionUpdateParams : ParamsBase
     public string? PathFunctionName { get; init; }
 
     /// <summary>
-    /// V3 wire form of the Route (classify) function upsert payload. Mirrors {
+    /// V3 create/update variants of the shared function payloads.
+    ///
+    /// <para>The V3 Functions API no longer accepts the legacy `transform` or `analyze`
+    /// function types when creating new functions or updating existing ones — both
+    /// have been unified under `extract`. Existing functions of those types remain
+    /// readable and callable via V3, so the V3 read-side unions still include `transform`
+    /// and `analyze` variants.</para>
+    ///
+    /// <para>The V3 API also exposes `classify` in place of the legacy `route` type
+    /// on create/update, with `classifications` in place of `routes`. Read-side
+    /// `ClassifyFunction` / `ClassifyFunctionVersion` / `ClassificationList` are
+    /// defined in the shared functions models and used by both the V2 and V3 response
+    /// unions (existing classify functions are returned from V2 GET endpoints verbatim).V3
+    /// wire form of the classify function upsert payload.</para>
     /// </summary>
     public required UpdateFunction UpdateFunction
     {

@@ -11,8 +11,13 @@ using Bem.Models.Errors;
 
 namespace Bem.Models.Outputs;
 
-[JsonConverter(typeof(EventConverter))]
-public record class Event : ModelBase
+/// <summary>
+/// V3 read-side event union. Superset of the shared `Event` union: it contains every
+/// shared variant verbatim (backward compatible) and adds the V3-only `extract` and
+/// `classify` variants.
+/// </summary>
+[JsonConverter(typeof(OutputListResponseConverter))]
+public record class OutputListResponse : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -35,10 +40,12 @@ public record class Event : ModelBase
         {
             return Match(
                 transform: (x) => x.EventID,
+                extract: (x) => x.EventID,
                 route: (x) => x.EventID,
+                classify: (x) => x.EventID,
                 splitCollection: (x) => x.EventID,
                 splitItem: (x) => x.EventID,
-                error: (x) => x.EventID,
+                errorEvent: (x) => x.EventID,
                 join: (x) => x.EventID,
                 enrich: (x) => x.EventID,
                 collectionProcessing: (x) => x.EventID,
@@ -53,10 +60,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionID,
+                extract: (x) => x.FunctionID,
                 route: (x) => x.FunctionID,
+                classify: (x) => x.FunctionID,
                 splitCollection: (x) => x.FunctionID,
                 splitItem: (x) => x.FunctionID,
-                error: (x) => x.FunctionID,
+                errorEvent: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 enrich: (x) => x.FunctionID,
                 collectionProcessing: (_) => null,
@@ -71,14 +80,56 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionName,
+                extract: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 splitCollection: (x) => x.FunctionName,
                 splitItem: (x) => x.FunctionName,
-                error: (x) => x.FunctionName,
+                errorEvent: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
                 collectionProcessing: (_) => null,
                 send: (x) => x.FunctionName
+            );
+        }
+    }
+
+    public long? ItemCount
+    {
+        get
+        {
+            return Match<long?>(
+                transform: (x) => x.ItemCount,
+                extract: (x) => x.ItemCount,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                errorEvent: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
+            );
+        }
+    }
+
+    public long? ItemOffset
+    {
+        get
+        {
+            return Match<long?>(
+                transform: (x) => x.ItemOffset,
+                extract: (x) => x.ItemOffset,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                errorEvent: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -89,10 +140,12 @@ public record class Event : ModelBase
         {
             return Match(
                 transform: (x) => x.ReferenceID,
+                extract: (x) => x.ReferenceID,
                 route: (x) => x.ReferenceID,
+                classify: (x) => x.ReferenceID,
                 splitCollection: (x) => x.ReferenceID,
                 splitItem: (x) => x.ReferenceID,
-                error: (x) => x.ReferenceID,
+                errorEvent: (x) => x.ReferenceID,
                 join: (x) => x.ReferenceID,
                 enrich: (x) => x.ReferenceID,
                 collectionProcessing: (x) => x.ReferenceID,
@@ -107,10 +160,12 @@ public record class Event : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.TransformedContent,
+                extract: (x) => x.TransformedContent,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                error: (_) => null,
+                errorEvent: (_) => null,
                 join: (x) => x.TransformedContent,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -125,10 +180,12 @@ public record class Event : ModelBase
         {
             return Match<float?>(
                 transform: (x) => x.AvgConfidence,
+                extract: (x) => x.AvgConfidence,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                error: (_) => null,
+                errorEvent: (_) => null,
                 join: (x) => x.AvgConfidence,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -143,10 +200,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.CallID,
+                extract: (x) => x.CallID,
                 route: (x) => x.CallID,
+                classify: (x) => x.CallID,
                 splitCollection: (x) => x.CallID,
                 splitItem: (x) => x.CallID,
-                error: (x) => x.CallID,
+                errorEvent: (x) => x.CallID,
                 join: (x) => x.CallID,
                 enrich: (x) => x.CallID,
                 collectionProcessing: (_) => null,
@@ -161,10 +220,12 @@ public record class Event : ModelBase
         {
             return Match<DateTimeOffset?>(
                 transform: (x) => x.CreatedAt,
+                extract: (x) => x.CreatedAt,
                 route: (x) => x.CreatedAt,
+                classify: (x) => x.CreatedAt,
                 splitCollection: (x) => x.CreatedAt,
                 splitItem: (x) => x.CreatedAt,
-                error: (x) => x.CreatedAt,
+                errorEvent: (x) => x.CreatedAt,
                 join: (x) => x.CreatedAt,
                 enrich: (x) => x.CreatedAt,
                 collectionProcessing: (x) => x.CreatedAt,
@@ -179,10 +240,12 @@ public record class Event : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.FieldConfidences,
+                extract: (x) => x.FieldConfidences,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                error: (_) => null,
+                errorEvent: (_) => null,
                 join: (x) => x.FieldConfidences,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -197,10 +260,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionCallID,
+                extract: (x) => x.FunctionCallID,
                 route: (x) => x.FunctionCallID,
+                classify: (x) => x.FunctionCallID,
                 splitCollection: (x) => x.FunctionCallID,
                 splitItem: (x) => x.FunctionCallID,
-                error: (x) => x.FunctionCallID,
+                errorEvent: (x) => x.FunctionCallID,
                 join: (x) => x.FunctionCallID,
                 enrich: (x) => x.FunctionCallID,
                 collectionProcessing: (_) => null,
@@ -215,10 +280,12 @@ public record class Event : ModelBase
         {
             return Match<long?>(
                 transform: (x) => x.FunctionCallTryNumber,
+                extract: (x) => x.FunctionCallTryNumber,
                 route: (x) => x.FunctionCallTryNumber,
+                classify: (x) => x.FunctionCallTryNumber,
                 splitCollection: (x) => x.FunctionCallTryNumber,
                 splitItem: (x) => x.FunctionCallTryNumber,
-                error: (x) => x.FunctionCallTryNumber,
+                errorEvent: (x) => x.FunctionCallTryNumber,
                 join: (x) => x.FunctionCallTryNumber,
                 enrich: (x) => x.FunctionCallTryNumber,
                 collectionProcessing: (x) => x.FunctionCallTryNumber,
@@ -233,10 +300,12 @@ public record class Event : ModelBase
         {
             return Match<long?>(
                 transform: (x) => x.FunctionVersionNum,
+                extract: (x) => x.FunctionVersionNum,
                 route: (x) => x.FunctionVersionNum,
+                classify: (x) => x.FunctionVersionNum,
                 splitCollection: (x) => x.FunctionVersionNum,
                 splitItem: (x) => x.FunctionVersionNum,
-                error: (x) => x.FunctionVersionNum,
+                errorEvent: (x) => x.FunctionVersionNum,
                 join: (x) => x.FunctionVersionNum,
                 enrich: (x) => x.FunctionVersionNum,
                 collectionProcessing: (_) => null,
@@ -251,10 +320,12 @@ public record class Event : ModelBase
         {
             return Match<InboundEmailEvent?>(
                 transform: (x) => x.InboundEmail,
+                extract: (x) => x.InboundEmail,
                 route: (x) => x.InboundEmail,
+                classify: (x) => x.InboundEmail,
                 splitCollection: (x) => x.InboundEmail,
                 splitItem: (x) => x.InboundEmail,
-                error: (x) => x.InboundEmail,
+                errorEvent: (x) => x.InboundEmail,
                 join: (x) => x.InboundEmail,
                 enrich: (x) => x.InboundEmail,
                 collectionProcessing: (x) => x.InboundEmail,
@@ -269,10 +340,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.S3Url,
+                extract: (x) => x.S3Url,
                 route: (x) => x.S3Url,
+                classify: (x) => x.S3Url,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                error: (_) => null,
+                errorEvent: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -287,10 +360,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.TransformationID,
+                extract: (x) => x.TransformationID,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
-                error: (_) => null,
+                errorEvent: (_) => null,
                 join: (x) => x.TransformationID,
                 enrich: (_) => null,
                 collectionProcessing: (_) => null,
@@ -305,10 +380,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.WorkflowID,
+                extract: (x) => x.WorkflowID,
                 route: (x) => x.WorkflowID,
+                classify: (x) => x.WorkflowID,
                 splitCollection: (x) => x.WorkflowID,
                 splitItem: (x) => x.WorkflowID,
-                error: (x) => x.WorkflowID,
+                errorEvent: (x) => x.WorkflowID,
                 join: (x) => x.WorkflowID,
                 enrich: (x) => x.WorkflowID,
                 collectionProcessing: (_) => null,
@@ -323,10 +400,12 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.WorkflowName,
+                extract: (x) => x.WorkflowName,
                 route: (x) => x.WorkflowName,
+                classify: (x) => x.WorkflowName,
                 splitCollection: (x) => x.WorkflowName,
                 splitItem: (x) => x.WorkflowName,
-                error: (x) => x.WorkflowName,
+                errorEvent: (x) => x.WorkflowName,
                 join: (x) => x.WorkflowName,
                 enrich: (x) => x.WorkflowName,
                 collectionProcessing: (_) => null,
@@ -341,10 +420,12 @@ public record class Event : ModelBase
         {
             return Match<long?>(
                 transform: (x) => x.WorkflowVersionNum,
+                extract: (x) => x.WorkflowVersionNum,
                 route: (x) => x.WorkflowVersionNum,
+                classify: (x) => x.WorkflowVersionNum,
                 splitCollection: (x) => x.WorkflowVersionNum,
                 splitItem: (x) => x.WorkflowVersionNum,
-                error: (x) => x.WorkflowVersionNum,
+                errorEvent: (x) => x.WorkflowVersionNum,
                 join: (x) => x.WorkflowVersionNum,
                 enrich: (x) => x.WorkflowVersionNum,
                 collectionProcessing: (_) => null,
@@ -353,146 +434,225 @@ public record class Event : ModelBase
         }
     }
 
-    public Event(Transform value, JsonElement? element = null)
+    public string? Choice
+    {
+        get
+        {
+            return Match<string?>(
+                transform: (_) => null,
+                extract: (_) => null,
+                route: (x) => x.Choice,
+                classify: (x) => x.Choice,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                errorEvent: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
+            );
+        }
+    }
+
+    public OutputListResponse(OutputListResponseTransform value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(Route value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseExtract value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(SplitCollection value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseRoute value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(SplitItem value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseClassify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(ErrorEvent value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseSplitCollection value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(Join value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseSplitItem value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(Enrich value, JsonElement? element = null)
+    public OutputListResponse(ErrorEvent value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(CollectionProcessing value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseJoin value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(Send value, JsonElement? element = null)
+    public OutputListResponse(OutputListResponseEnrich value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public Event(JsonElement element)
+    public OutputListResponse(
+        OutputListResponseCollectionProcessing value,
+        JsonElement? element = null
+    )
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public OutputListResponse(OutputListResponseSend value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public OutputListResponse(JsonElement element)
     {
         this._element = element;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Transform"/>.
+    /// type <see cref="OutputListResponseTransform"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickTransform(out var value)) {
-    ///     // `value` is of type `Transform`
+    ///     // `value` is of type `OutputListResponseTransform`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickTransform([NotNullWhen(true)] out Transform? value)
+    public bool TryPickTransform([NotNullWhen(true)] out OutputListResponseTransform? value)
     {
-        value = this.Value as Transform;
+        value = this.Value as OutputListResponseTransform;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Route"/>.
+    /// type <see cref="OutputListResponseExtract"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickExtract(out var value)) {
+    ///     // `value` is of type `OutputListResponseExtract`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickExtract([NotNullWhen(true)] out OutputListResponseExtract? value)
+    {
+        value = this.Value as OutputListResponseExtract;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="OutputListResponseRoute"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickRoute(out var value)) {
-    ///     // `value` is of type `Route`
+    ///     // `value` is of type `OutputListResponseRoute`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickRoute([NotNullWhen(true)] out Route? value)
+    public bool TryPickRoute([NotNullWhen(true)] out OutputListResponseRoute? value)
     {
-        value = this.Value as Route;
+        value = this.Value as OutputListResponseRoute;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="SplitCollection"/>.
+    /// type <see cref="OutputListResponseClassify"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `OutputListResponseClassify`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickClassify([NotNullWhen(true)] out OutputListResponseClassify? value)
+    {
+        value = this.Value as OutputListResponseClassify;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="OutputListResponseSplitCollection"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSplitCollection(out var value)) {
-    ///     // `value` is of type `SplitCollection`
+    ///     // `value` is of type `OutputListResponseSplitCollection`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSplitCollection([NotNullWhen(true)] out SplitCollection? value)
+    public bool TryPickSplitCollection(
+        [NotNullWhen(true)] out OutputListResponseSplitCollection? value
+    )
     {
-        value = this.Value as SplitCollection;
+        value = this.Value as OutputListResponseSplitCollection;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="SplitItem"/>.
+    /// type <see cref="OutputListResponseSplitItem"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSplitItem(out var value)) {
-    ///     // `value` is of type `SplitItem`
+    ///     // `value` is of type `OutputListResponseSplitItem`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSplitItem([NotNullWhen(true)] out SplitItem? value)
+    public bool TryPickSplitItem([NotNullWhen(true)] out OutputListResponseSplitItem? value)
     {
-        value = this.Value as SplitItem;
+        value = this.Value as OutputListResponseSplitItem;
         return value != null;
     }
 
@@ -504,14 +664,14 @@ public record class Event : ModelBase
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickError(out var value)) {
+    /// if (instance.TryPickErrorEvent(out var value)) {
     ///     // `value` is of type `ErrorEvent`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickError([NotNullWhen(true)] out ErrorEvent? value)
+    public bool TryPickErrorEvent([NotNullWhen(true)] out ErrorEvent? value)
     {
         value = this.Value as ErrorEvent;
         return value != null;
@@ -519,85 +679,87 @@ public record class Event : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Join"/>.
+    /// type <see cref="OutputListResponseJoin"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickJoin(out var value)) {
-    ///     // `value` is of type `Join`
+    ///     // `value` is of type `OutputListResponseJoin`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickJoin([NotNullWhen(true)] out Join? value)
+    public bool TryPickJoin([NotNullWhen(true)] out OutputListResponseJoin? value)
     {
-        value = this.Value as Join;
+        value = this.Value as OutputListResponseJoin;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Enrich"/>.
+    /// type <see cref="OutputListResponseEnrich"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickEnrich(out var value)) {
-    ///     // `value` is of type `Enrich`
+    ///     // `value` is of type `OutputListResponseEnrich`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickEnrich([NotNullWhen(true)] out Enrich? value)
+    public bool TryPickEnrich([NotNullWhen(true)] out OutputListResponseEnrich? value)
     {
-        value = this.Value as Enrich;
+        value = this.Value as OutputListResponseEnrich;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="CollectionProcessing"/>.
+    /// type <see cref="OutputListResponseCollectionProcessing"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickCollectionProcessing(out var value)) {
-    ///     // `value` is of type `CollectionProcessing`
+    ///     // `value` is of type `OutputListResponseCollectionProcessing`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickCollectionProcessing([NotNullWhen(true)] out CollectionProcessing? value)
+    public bool TryPickCollectionProcessing(
+        [NotNullWhen(true)] out OutputListResponseCollectionProcessing? value
+    )
     {
-        value = this.Value as CollectionProcessing;
+        value = this.Value as OutputListResponseCollectionProcessing;
         return value != null;
     }
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Send"/>.
+    /// type <see cref="OutputListResponseSend"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
     /// if (instance.TryPickSend(out var value)) {
-    ///     // `value` is of type `Send`
+    ///     // `value` is of type `OutputListResponseSend`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickSend([NotNullWhen(true)] out Send? value)
+    public bool TryPickSend([NotNullWhen(true)] out OutputListResponseSend? value)
     {
-        value = this.Value as Send;
+        value = this.Value as OutputListResponseSend;
         return value != null;
     }
 
@@ -615,62 +777,74 @@ public record class Event : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (Transform value) =&gt; {...},
-    ///     (Route value) =&gt; {...},
-    ///     (SplitCollection value) =&gt; {...},
-    ///     (SplitItem value) =&gt; {...},
+    ///     (OutputListResponseTransform value) =&gt; {...},
+    ///     (OutputListResponseExtract value) =&gt; {...},
+    ///     (OutputListResponseRoute value) =&gt; {...},
+    ///     (OutputListResponseClassify value) =&gt; {...},
+    ///     (OutputListResponseSplitCollection value) =&gt; {...},
+    ///     (OutputListResponseSplitItem value) =&gt; {...},
     ///     (ErrorEvent value) =&gt; {...},
-    ///     (Join value) =&gt; {...},
-    ///     (Enrich value) =&gt; {...},
-    ///     (CollectionProcessing value) =&gt; {...},
-    ///     (Send value) =&gt; {...}
+    ///     (OutputListResponseJoin value) =&gt; {...},
+    ///     (OutputListResponseEnrich value) =&gt; {...},
+    ///     (OutputListResponseCollectionProcessing value) =&gt; {...},
+    ///     (OutputListResponseSend value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public void Switch(
-        Action<Transform> transform,
-        Action<Route> route,
-        Action<SplitCollection> splitCollection,
-        Action<SplitItem> splitItem,
-        Action<ErrorEvent> error,
-        Action<Join> join,
-        Action<Enrich> enrich,
-        Action<CollectionProcessing> collectionProcessing,
-        Action<Send> send
+        Action<OutputListResponseTransform> transform,
+        Action<OutputListResponseExtract> extract,
+        Action<OutputListResponseRoute> route,
+        Action<OutputListResponseClassify> classify,
+        Action<OutputListResponseSplitCollection> splitCollection,
+        Action<OutputListResponseSplitItem> splitItem,
+        Action<ErrorEvent> errorEvent,
+        Action<OutputListResponseJoin> join,
+        Action<OutputListResponseEnrich> enrich,
+        Action<OutputListResponseCollectionProcessing> collectionProcessing,
+        Action<OutputListResponseSend> send
     )
     {
         switch (this.Value)
         {
-            case Transform value:
+            case OutputListResponseTransform value:
                 transform(value);
                 break;
-            case Route value:
+            case OutputListResponseExtract value:
+                extract(value);
+                break;
+            case OutputListResponseRoute value:
                 route(value);
                 break;
-            case SplitCollection value:
+            case OutputListResponseClassify value:
+                classify(value);
+                break;
+            case OutputListResponseSplitCollection value:
                 splitCollection(value);
                 break;
-            case SplitItem value:
+            case OutputListResponseSplitItem value:
                 splitItem(value);
                 break;
             case ErrorEvent value:
-                error(value);
+                errorEvent(value);
                 break;
-            case Join value:
+            case OutputListResponseJoin value:
                 join(value);
                 break;
-            case Enrich value:
+            case OutputListResponseEnrich value:
                 enrich(value);
                 break;
-            case CollectionProcessing value:
+            case OutputListResponseCollectionProcessing value:
                 collectionProcessing(value);
                 break;
-            case Send value:
+            case OutputListResponseSend value:
                 send(value);
                 break;
             default:
-                throw new BemInvalidDataException("Data did not match any variant of Event");
+                throw new BemInvalidDataException(
+                    "Data did not match any variant of OutputListResponse"
+                );
         }
     }
 
@@ -689,63 +863,83 @@ public record class Event : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (Transform value) =&gt; {...},
-    ///     (Route value) =&gt; {...},
-    ///     (SplitCollection value) =&gt; {...},
-    ///     (SplitItem value) =&gt; {...},
+    ///     (OutputListResponseTransform value) =&gt; {...},
+    ///     (OutputListResponseExtract value) =&gt; {...},
+    ///     (OutputListResponseRoute value) =&gt; {...},
+    ///     (OutputListResponseClassify value) =&gt; {...},
+    ///     (OutputListResponseSplitCollection value) =&gt; {...},
+    ///     (OutputListResponseSplitItem value) =&gt; {...},
     ///     (ErrorEvent value) =&gt; {...},
-    ///     (Join value) =&gt; {...},
-    ///     (Enrich value) =&gt; {...},
-    ///     (CollectionProcessing value) =&gt; {...},
-    ///     (Send value) =&gt; {...}
+    ///     (OutputListResponseJoin value) =&gt; {...},
+    ///     (OutputListResponseEnrich value) =&gt; {...},
+    ///     (OutputListResponseCollectionProcessing value) =&gt; {...},
+    ///     (OutputListResponseSend value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<Transform, T> transform,
-        Func<Route, T> route,
-        Func<SplitCollection, T> splitCollection,
-        Func<SplitItem, T> splitItem,
-        Func<ErrorEvent, T> error,
-        Func<Join, T> join,
-        Func<Enrich, T> enrich,
-        Func<CollectionProcessing, T> collectionProcessing,
-        Func<Send, T> send
+        Func<OutputListResponseTransform, T> transform,
+        Func<OutputListResponseExtract, T> extract,
+        Func<OutputListResponseRoute, T> route,
+        Func<OutputListResponseClassify, T> classify,
+        Func<OutputListResponseSplitCollection, T> splitCollection,
+        Func<OutputListResponseSplitItem, T> splitItem,
+        Func<ErrorEvent, T> errorEvent,
+        Func<OutputListResponseJoin, T> join,
+        Func<OutputListResponseEnrich, T> enrich,
+        Func<OutputListResponseCollectionProcessing, T> collectionProcessing,
+        Func<OutputListResponseSend, T> send
     )
     {
         return this.Value switch
         {
-            Transform value => transform(value),
-            Route value => route(value),
-            SplitCollection value => splitCollection(value),
-            SplitItem value => splitItem(value),
-            ErrorEvent value => error(value),
-            Join value => join(value),
-            Enrich value => enrich(value),
-            CollectionProcessing value => collectionProcessing(value),
-            Send value => send(value),
-            _ => throw new BemInvalidDataException("Data did not match any variant of Event"),
+            OutputListResponseTransform value => transform(value),
+            OutputListResponseExtract value => extract(value),
+            OutputListResponseRoute value => route(value),
+            OutputListResponseClassify value => classify(value),
+            OutputListResponseSplitCollection value => splitCollection(value),
+            OutputListResponseSplitItem value => splitItem(value),
+            ErrorEvent value => errorEvent(value),
+            OutputListResponseJoin value => join(value),
+            OutputListResponseEnrich value => enrich(value),
+            OutputListResponseCollectionProcessing value => collectionProcessing(value),
+            OutputListResponseSend value => send(value),
+            _ => throw new BemInvalidDataException(
+                "Data did not match any variant of OutputListResponse"
+            ),
         };
     }
 
-    public static implicit operator Event(Transform value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseTransform value) =>
+        new(value);
 
-    public static implicit operator Event(Route value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseExtract value) =>
+        new(value);
 
-    public static implicit operator Event(SplitCollection value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseRoute value) => new(value);
 
-    public static implicit operator Event(SplitItem value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseClassify value) =>
+        new(value);
 
-    public static implicit operator Event(ErrorEvent value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseSplitCollection value) =>
+        new(value);
 
-    public static implicit operator Event(Join value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseSplitItem value) =>
+        new(value);
 
-    public static implicit operator Event(Enrich value) => new(value);
+    public static implicit operator OutputListResponse(ErrorEvent value) => new(value);
 
-    public static implicit operator Event(CollectionProcessing value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseJoin value) => new(value);
 
-    public static implicit operator Event(Send value) => new(value);
+    public static implicit operator OutputListResponse(OutputListResponseEnrich value) =>
+        new(value);
+
+    public static implicit operator OutputListResponse(
+        OutputListResponseCollectionProcessing value
+    ) => new(value);
+
+    public static implicit operator OutputListResponse(OutputListResponseSend value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -761,14 +955,18 @@ public record class Event : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException("Data did not match any variant of Event");
+            throw new BemInvalidDataException(
+                "Data did not match any variant of OutputListResponse"
+            );
         }
         this.Switch(
             (transform) => transform.Validate(),
+            (extract) => extract.Validate(),
             (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (splitCollection) => splitCollection.Validate(),
             (splitItem) => splitItem.Validate(),
-            (error) => error.Validate(),
+            (errorEvent) => errorEvent.Validate(),
             (join) => join.Validate(),
             (enrich) => enrich.Validate(),
             (collectionProcessing) => collectionProcessing.Validate(),
@@ -776,7 +974,7 @@ public record class Event : ModelBase
         );
     }
 
-    public virtual bool Equals(Event? other) =>
+    public virtual bool Equals(OutputListResponse? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -796,23 +994,25 @@ public record class Event : ModelBase
     {
         return this.Value switch
         {
-            Transform _ => 0,
-            Route _ => 1,
-            SplitCollection _ => 2,
-            SplitItem _ => 3,
-            ErrorEvent _ => 4,
-            Join _ => 5,
-            Enrich _ => 6,
-            CollectionProcessing _ => 7,
-            Send _ => 8,
+            OutputListResponseTransform _ => 0,
+            OutputListResponseExtract _ => 1,
+            OutputListResponseRoute _ => 2,
+            OutputListResponseClassify _ => 3,
+            OutputListResponseSplitCollection _ => 4,
+            OutputListResponseSplitItem _ => 5,
+            ErrorEvent _ => 6,
+            OutputListResponseJoin _ => 7,
+            OutputListResponseEnrich _ => 8,
+            OutputListResponseCollectionProcessing _ => 9,
+            OutputListResponseSend _ => 10,
             _ => -1,
         };
     }
 }
 
-sealed class EventConverter : JsonConverter<Event>
+sealed class OutputListResponseConverter : JsonConverter<OutputListResponse>
 {
-    public override Event? Read(
+    public override OutputListResponse? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -835,7 +1035,30 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Transform>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseTransform>(
+                        element,
+                        options
+                    );
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "extract":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseExtract>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -852,7 +1075,30 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Route>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseRoute>(
+                        element,
+                        options
+                    );
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "classify":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseClassify>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -869,10 +1115,11 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<SplitCollection>(
-                        element,
-                        options
-                    );
+                    var deserialized =
+                        JsonSerializer.Deserialize<OutputListResponseSplitCollection>(
+                            element,
+                            options
+                        );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -889,7 +1136,10 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<SplitItem>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseSplitItem>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -923,7 +1173,10 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Join>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseJoin>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -940,7 +1193,10 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Enrich>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseEnrich>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -957,10 +1213,11 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<CollectionProcessing>(
-                        element,
-                        options
-                    );
+                    var deserialized =
+                        JsonSerializer.Deserialize<OutputListResponseCollectionProcessing>(
+                            element,
+                            options
+                        );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -977,7 +1234,10 @@ sealed class EventConverter : JsonConverter<Event>
             {
                 try
                 {
-                    var deserialized = JsonSerializer.Deserialize<Send>(element, options);
+                    var deserialized = JsonSerializer.Deserialize<OutputListResponseSend>(
+                        element,
+                        options
+                    );
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -992,19 +1252,25 @@ sealed class EventConverter : JsonConverter<Event>
             }
             default:
             {
-                return new Event(element);
+                return new OutputListResponse(element);
             }
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, Event value, JsonSerializerOptions options)
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponse value,
+        JsonSerializerOptions options
+    )
     {
         JsonSerializer.Serialize(writer, value.Json, options);
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<Transform, TransformFromRaw>))]
-public sealed record class Transform : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<OutputListResponseTransform, OutputListResponseTransformFromRaw>)
+)]
+public sealed record class OutputListResponseTransform : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -1138,12 +1404,14 @@ public sealed record class Transform : JsonModel
     /// <summary>
     /// Corrected feedback provided for fine-tuning purposes.
     /// </summary>
-    public CorrectedContent? CorrectedContent
+    public OutputListResponseTransformCorrectedContent? CorrectedContent
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<CorrectedContent>("correctedContent");
+            return this._rawData.GetNullableClass<OutputListResponseTransformCorrectedContent>(
+                "correctedContent"
+            );
         }
         init { this._rawData.Set("correctedContent", value); }
     }
@@ -1169,13 +1437,13 @@ public sealed record class Transform : JsonModel
         }
     }
 
-    public ApiEnum<string, global::Bem.Models.Outputs.EventType>? EventType
+    public ApiEnum<string, OutputListResponseTransformEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
             return this._rawData.GetNullableClass<
-                ApiEnum<string, global::Bem.Models.Outputs.EventType>
+                ApiEnum<string, OutputListResponseTransformEventType>
             >("eventType");
         }
         init
@@ -1299,16 +1567,18 @@ public sealed record class Transform : JsonModel
     /// <summary>
     /// Array of transformation inputs with their types and S3 URLs.
     /// </summary>
-    public IReadOnlyList<Input>? Inputs
+    public IReadOnlyList<OutputListResponseTransformInput>? Inputs
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<Input>>("inputs");
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<OutputListResponseTransformInput>
+            >("inputs");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<Input>?>(
+            this._rawData.Set<ImmutableArray<OutputListResponseTransformInput>?>(
                 "inputs",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -1318,12 +1588,14 @@ public sealed record class Transform : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public ApiEnum<string, InputType>? InputType
+    public ApiEnum<string, OutputListResponseTransformInputType>? InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, InputType>>("inputType");
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseTransformInputType>
+            >("inputType");
         }
         init
         {
@@ -1396,12 +1668,12 @@ public sealed record class Transform : JsonModel
         init { this._rawData.Set("lastPublishErrorAt", value); }
     }
 
-    public global::Bem.Models.Outputs.Metadata? Metadata
+    public OutputListResponseTransformMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<global::Bem.Models.Outputs.Metadata>("metadata");
+            return this._rawData.GetNullableClass<OutputListResponseTransformMetadata>("metadata");
         }
         init
         {
@@ -1417,12 +1689,12 @@ public sealed record class Transform : JsonModel
     /// <summary>
     /// Accuracy, precision, recall, and F1 score when corrected JSON is provided.
     /// </summary>
-    public Metrics? Metrics
+    public OutputListResponseTransformMetrics? Metrics
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<Metrics>("metrics");
+            return this._rawData.GetNullableClass<OutputListResponseTransformMetrics>("metrics");
         }
         init { this._rawData.Set("metrics", value); }
     }
@@ -1630,46 +1902,49 @@ public sealed record class Transform : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public Transform() { }
+    public OutputListResponseTransform() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Transform(Transform transform)
-        : base(transform) { }
+    public OutputListResponseTransform(OutputListResponseTransform outputListResponseTransform)
+        : base(outputListResponseTransform) { }
 #pragma warning restore CS8618
 
-    public Transform(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseTransform(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Transform(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransform(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="TransformFromRaw.FromRawUnchecked"/>
-    public static Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseTransformFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransform FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class TransformFromRaw : IFromRawJson<Transform>
+class OutputListResponseTransformFromRaw : IFromRawJson<OutputListResponseTransform>
 {
     /// <inheritdoc/>
-    public Transform FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Transform.FromRawUnchecked(rawData);
+    public OutputListResponseTransform FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseTransform.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Corrected feedback provided for fine-tuning purposes.
 /// </summary>
-[JsonConverter(typeof(CorrectedContentConverter))]
-public record class CorrectedContent : ModelBase
+[JsonConverter(typeof(OutputListResponseTransformCorrectedContentConverter))]
+public record class OutputListResponseTransformCorrectedContent : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -1686,37 +1961,43 @@ public record class CorrectedContent : ModelBase
         }
     }
 
-    public CorrectedContent(Output value, JsonElement? element = null)
+    public OutputListResponseTransformCorrectedContent(
+        OutputListResponseTransformCorrectedContentOutput value,
+        JsonElement? element = null
+    )
     {
         this.Value = value;
         this._element = element;
     }
 
-    public CorrectedContent(IReadOnlyList<JsonElement> value, JsonElement? element = null)
+    public OutputListResponseTransformCorrectedContent(
+        IReadOnlyList<JsonElement> value,
+        JsonElement? element = null
+    )
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
         this._element = element;
     }
 
-    public CorrectedContent(string value, JsonElement? element = null)
+    public OutputListResponseTransformCorrectedContent(string value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public CorrectedContent(double value, JsonElement? element = null)
+    public OutputListResponseTransformCorrectedContent(double value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public CorrectedContent(bool value, JsonElement? element = null)
+    public OutputListResponseTransformCorrectedContent(bool value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public CorrectedContent(JsonElement element)
+    public OutputListResponseTransformCorrectedContent(JsonElement element)
     {
         this._element = element;
         this.Value = element;
@@ -1724,22 +2005,24 @@ public record class CorrectedContent : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="Output"/>.
+    /// type <see cref="OutputListResponseTransformCorrectedContentOutput"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
     ///
     /// <example>
     /// <code>
-    /// if (instance.TryPickOutput(out var value)) {
-    ///     // `value` is of type `Output`
+    /// if (instance.TryPickOutputListResponseTransformCorrectedContentOutput(out var value)) {
+    ///     // `value` is of type `OutputListResponseTransformCorrectedContentOutput`
     ///     Console.WriteLine(value);
     /// }
     /// </code>
     /// </example>
     /// </summary>
-    public bool TryPickOutput([NotNullWhen(true)] out Output? value)
+    public bool TryPickOutputListResponseTransformCorrectedContentOutput(
+        [NotNullWhen(true)] out OutputListResponseTransformCorrectedContentOutput? value
+    )
     {
-        value = this.Value as Output;
+        value = this.Value as OutputListResponseTransformCorrectedContentOutput;
         return value != null;
     }
 
@@ -1862,7 +2145,7 @@ public record class CorrectedContent : ModelBase
     /// <example>
     /// <code>
     /// instance.Switch(
-    ///     (Output value) =&gt; {...},
+    ///     (OutputListResponseTransformCorrectedContentOutput value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
     ///     (string value) =&gt; {...},
@@ -1873,7 +2156,7 @@ public record class CorrectedContent : ModelBase
     /// </example>
     /// </summary>
     public void Switch(
-        Action<Output> output,
+        Action<OutputListResponseTransformCorrectedContentOutput> outputListResponseTransformCorrectedContentOutput,
         Action<JsonElement> jsonElement,
         Action<IReadOnlyList<JsonElement>> jsonElements,
         Action<string> @string,
@@ -1883,8 +2166,8 @@ public record class CorrectedContent : ModelBase
     {
         switch (this.Value)
         {
-            case Output value:
-                output(value);
+            case OutputListResponseTransformCorrectedContentOutput value:
+                outputListResponseTransformCorrectedContentOutput(value);
                 break;
             case JsonElement value:
                 jsonElement(value);
@@ -1903,7 +2186,7 @@ public record class CorrectedContent : ModelBase
                 break;
             default:
                 throw new BemInvalidDataException(
-                    "Data did not match any variant of CorrectedContent"
+                    "Data did not match any variant of OutputListResponseTransformCorrectedContent"
                 );
         }
     }
@@ -1923,7 +2206,7 @@ public record class CorrectedContent : ModelBase
     /// <example>
     /// <code>
     /// var result = instance.Match(
-    ///     (Output value) =&gt; {...},
+    ///     (OutputListResponseTransformCorrectedContentOutput value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
     ///     (string value) =&gt; {...},
@@ -1934,7 +2217,10 @@ public record class CorrectedContent : ModelBase
     /// </example>
     /// </summary>
     public T Match<T>(
-        Func<Output, T> output,
+        Func<
+            OutputListResponseTransformCorrectedContentOutput,
+            T
+        > outputListResponseTransformCorrectedContentOutput,
         Func<JsonElement, T> jsonElement,
         Func<IReadOnlyList<JsonElement>, T> jsonElements,
         Func<string, T> @string,
@@ -1944,30 +2230,39 @@ public record class CorrectedContent : ModelBase
     {
         return this.Value switch
         {
-            Output value => output(value),
+            OutputListResponseTransformCorrectedContentOutput value =>
+                outputListResponseTransformCorrectedContentOutput(value),
             JsonElement value => jsonElement(value),
             IReadOnlyList<JsonElement> value => jsonElements(value),
             string value => @string(value),
             double value => @double(value),
             bool value => @bool(value),
             _ => throw new BemInvalidDataException(
-                "Data did not match any variant of CorrectedContent"
+                "Data did not match any variant of OutputListResponseTransformCorrectedContent"
             ),
         };
     }
 
-    public static implicit operator CorrectedContent(Output value) => new(value);
+    public static implicit operator OutputListResponseTransformCorrectedContent(
+        OutputListResponseTransformCorrectedContentOutput value
+    ) => new(value);
 
-    public static implicit operator CorrectedContent(JsonElement value) => new(value);
+    public static implicit operator OutputListResponseTransformCorrectedContent(
+        JsonElement value
+    ) => new(value);
 
-    public static implicit operator CorrectedContent(List<JsonElement> value) =>
-        new((IReadOnlyList<JsonElement>)value);
+    public static implicit operator OutputListResponseTransformCorrectedContent(
+        List<JsonElement> value
+    ) => new((IReadOnlyList<JsonElement>)value);
 
-    public static implicit operator CorrectedContent(string value) => new(value);
+    public static implicit operator OutputListResponseTransformCorrectedContent(string value) =>
+        new(value);
 
-    public static implicit operator CorrectedContent(double value) => new(value);
+    public static implicit operator OutputListResponseTransformCorrectedContent(double value) =>
+        new(value);
 
-    public static implicit operator CorrectedContent(bool value) => new(value);
+    public static implicit operator OutputListResponseTransformCorrectedContent(bool value) =>
+        new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -1983,10 +2278,13 @@ public record class CorrectedContent : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException("Data did not match any variant of CorrectedContent");
+            throw new BemInvalidDataException(
+                "Data did not match any variant of OutputListResponseTransformCorrectedContent"
+            );
         }
         this.Switch(
-            (output) => output.Validate(),
+            (outputListResponseTransformCorrectedContentOutput) =>
+                outputListResponseTransformCorrectedContentOutput.Validate(),
             (_) => { },
             (_) => { },
             (_) => { },
@@ -1995,7 +2293,7 @@ public record class CorrectedContent : ModelBase
         );
     }
 
-    public virtual bool Equals(CorrectedContent? other) =>
+    public virtual bool Equals(OutputListResponseTransformCorrectedContent? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -2015,7 +2313,7 @@ public record class CorrectedContent : ModelBase
     {
         return this.Value switch
         {
-            Output _ => 0,
+            OutputListResponseTransformCorrectedContentOutput _ => 0,
             JsonElement _ => 1,
             IReadOnlyList<JsonElement> _ => 2,
             string _ => 3,
@@ -2026,9 +2324,10 @@ public record class CorrectedContent : ModelBase
     }
 }
 
-sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
+sealed class OutputListResponseTransformCorrectedContentConverter
+    : JsonConverter<OutputListResponseTransformCorrectedContent?>
 {
-    public override CorrectedContent? Read(
+    public override OutputListResponseTransformCorrectedContent? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2037,7 +2336,11 @@ sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
         var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
         try
         {
-            var deserialized = JsonSerializer.Deserialize<Output>(element, options);
+            var deserialized =
+                JsonSerializer.Deserialize<OutputListResponseTransformCorrectedContentOutput>(
+                    element,
+                    options
+                );
             if (deserialized != null)
             {
                 deserialized.Validate();
@@ -2107,7 +2410,7 @@ sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
 
     public override void Write(
         Utf8JsonWriter writer,
-        CorrectedContent? value,
+        OutputListResponseTransformCorrectedContent? value,
         JsonSerializerOptions options
     )
     {
@@ -2115,10 +2418,15 @@ sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<Output, OutputFromRaw>))]
-public sealed record class Output : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseTransformCorrectedContentOutput,
+        OutputListResponseTransformCorrectedContentOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseTransformCorrectedContentOutput : JsonModel
 {
-    public IReadOnlyList<AnyType?>? OutputValue
+    public IReadOnlyList<AnyType?>? Output
     {
         get
         {
@@ -2142,56 +2450,65 @@ public sealed record class Output : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.OutputValue ?? [])
+        foreach (var item in this.Output ?? [])
         {
             item?.Validate();
         }
     }
 
-    public Output() { }
+    public OutputListResponseTransformCorrectedContentOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Output(Output output)
-        : base(output) { }
+    public OutputListResponseTransformCorrectedContentOutput(
+        OutputListResponseTransformCorrectedContentOutput outputListResponseTransformCorrectedContentOutput
+    )
+        : base(outputListResponseTransformCorrectedContentOutput) { }
 #pragma warning restore CS8618
 
-    public Output(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseTransformCorrectedContentOutput(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Output(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransformCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="OutputFromRaw.FromRawUnchecked"/>
-    public static Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseTransformCorrectedContentOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransformCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class OutputFromRaw : IFromRawJson<Output>
+class OutputListResponseTransformCorrectedContentOutputFromRaw
+    : IFromRawJson<OutputListResponseTransformCorrectedContentOutput>
 {
     /// <inheritdoc/>
-    public Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Output.FromRawUnchecked(rawData);
+    public OutputListResponseTransformCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseTransformCorrectedContentOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(global::Bem.Models.Outputs.EventTypeConverter))]
-public enum EventType
+[JsonConverter(typeof(OutputListResponseTransformEventTypeConverter))]
+public enum OutputListResponseTransformEventType
 {
     Transform,
 }
 
-sealed class EventTypeConverter : JsonConverter<global::Bem.Models.Outputs.EventType>
+sealed class OutputListResponseTransformEventTypeConverter
+    : JsonConverter<OutputListResponseTransformEventType>
 {
-    public override global::Bem.Models.Outputs.EventType Read(
+    public override OutputListResponseTransformEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2199,14 +2516,14 @@ sealed class EventTypeConverter : JsonConverter<global::Bem.Models.Outputs.Event
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "transform" => global::Bem.Models.Outputs.EventType.Transform,
-            _ => (global::Bem.Models.Outputs.EventType)(-1),
+            "transform" => OutputListResponseTransformEventType.Transform,
+            _ => (OutputListResponseTransformEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        global::Bem.Models.Outputs.EventType value,
+        OutputListResponseTransformEventType value,
         JsonSerializerOptions options
     )
     {
@@ -2214,7 +2531,7 @@ sealed class EventTypeConverter : JsonConverter<global::Bem.Models.Outputs.Event
             writer,
             value switch
             {
-                global::Bem.Models.Outputs.EventType.Transform => "transform",
+                OutputListResponseTransformEventType.Transform => "transform",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2224,8 +2541,13 @@ sealed class EventTypeConverter : JsonConverter<global::Bem.Models.Outputs.Event
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<Input, InputFromRaw>))]
-public sealed record class Input : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseTransformInput,
+        OutputListResponseTransformInputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseTransformInput : JsonModel
 {
     public string? InputContent
     {
@@ -2276,46 +2598,51 @@ public sealed record class Input : JsonModel
         _ = this.S3Url;
     }
 
-    public Input() { }
+    public OutputListResponseTransformInput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Input(Input input)
-        : base(input) { }
+    public OutputListResponseTransformInput(
+        OutputListResponseTransformInput outputListResponseTransformInput
+    )
+        : base(outputListResponseTransformInput) { }
 #pragma warning restore CS8618
 
-    public Input(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseTransformInput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Input(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransformInput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="InputFromRaw.FromRawUnchecked"/>
-    public static Input FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseTransformInputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransformInput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class InputFromRaw : IFromRawJson<Input>
+class OutputListResponseTransformInputFromRaw : IFromRawJson<OutputListResponseTransformInput>
 {
     /// <inheritdoc/>
-    public Input FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Input.FromRawUnchecked(rawData);
+    public OutputListResponseTransformInput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseTransformInput.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The input type of the content you're sending for transformation.
 /// </summary>
-[JsonConverter(typeof(InputTypeConverter))]
-public enum InputType
+[JsonConverter(typeof(OutputListResponseTransformInputTypeConverter))]
+public enum OutputListResponseTransformInputType
 {
     Csv,
     Docx,
@@ -2337,9 +2664,10 @@ public enum InputType
     Xml,
 }
 
-sealed class InputTypeConverter : JsonConverter<InputType>
+sealed class OutputListResponseTransformInputTypeConverter
+    : JsonConverter<OutputListResponseTransformInputType>
 {
-    public override InputType Read(
+    public override OutputListResponseTransformInputType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -2347,31 +2675,31 @@ sealed class InputTypeConverter : JsonConverter<InputType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "csv" => InputType.Csv,
-            "docx" => InputType.Docx,
-            "email" => InputType.Email,
-            "heic" => InputType.Heic,
-            "html" => InputType.Html,
-            "jpeg" => InputType.Jpeg,
-            "json" => InputType.Json,
-            "heif" => InputType.Heif,
-            "m4a" => InputType.M4a,
-            "mp3" => InputType.Mp3,
-            "pdf" => InputType.Pdf,
-            "png" => InputType.Png,
-            "text" => InputType.Text,
-            "wav" => InputType.Wav,
-            "webp" => InputType.Webp,
-            "xls" => InputType.Xls,
-            "xlsx" => InputType.Xlsx,
-            "xml" => InputType.Xml,
-            _ => (InputType)(-1),
+            "csv" => OutputListResponseTransformInputType.Csv,
+            "docx" => OutputListResponseTransformInputType.Docx,
+            "email" => OutputListResponseTransformInputType.Email,
+            "heic" => OutputListResponseTransformInputType.Heic,
+            "html" => OutputListResponseTransformInputType.Html,
+            "jpeg" => OutputListResponseTransformInputType.Jpeg,
+            "json" => OutputListResponseTransformInputType.Json,
+            "heif" => OutputListResponseTransformInputType.Heif,
+            "m4a" => OutputListResponseTransformInputType.M4a,
+            "mp3" => OutputListResponseTransformInputType.Mp3,
+            "pdf" => OutputListResponseTransformInputType.Pdf,
+            "png" => OutputListResponseTransformInputType.Png,
+            "text" => OutputListResponseTransformInputType.Text,
+            "wav" => OutputListResponseTransformInputType.Wav,
+            "webp" => OutputListResponseTransformInputType.Webp,
+            "xls" => OutputListResponseTransformInputType.Xls,
+            "xlsx" => OutputListResponseTransformInputType.Xlsx,
+            "xml" => OutputListResponseTransformInputType.Xml,
+            _ => (OutputListResponseTransformInputType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        InputType value,
+        OutputListResponseTransformInputType value,
         JsonSerializerOptions options
     )
     {
@@ -2379,24 +2707,24 @@ sealed class InputTypeConverter : JsonConverter<InputType>
             writer,
             value switch
             {
-                InputType.Csv => "csv",
-                InputType.Docx => "docx",
-                InputType.Email => "email",
-                InputType.Heic => "heic",
-                InputType.Html => "html",
-                InputType.Jpeg => "jpeg",
-                InputType.Json => "json",
-                InputType.Heif => "heif",
-                InputType.M4a => "m4a",
-                InputType.Mp3 => "mp3",
-                InputType.Pdf => "pdf",
-                InputType.Png => "png",
-                InputType.Text => "text",
-                InputType.Wav => "wav",
-                InputType.Webp => "webp",
-                InputType.Xls => "xls",
-                InputType.Xlsx => "xlsx",
-                InputType.Xml => "xml",
+                OutputListResponseTransformInputType.Csv => "csv",
+                OutputListResponseTransformInputType.Docx => "docx",
+                OutputListResponseTransformInputType.Email => "email",
+                OutputListResponseTransformInputType.Heic => "heic",
+                OutputListResponseTransformInputType.Html => "html",
+                OutputListResponseTransformInputType.Jpeg => "jpeg",
+                OutputListResponseTransformInputType.Json => "json",
+                OutputListResponseTransformInputType.Heif => "heif",
+                OutputListResponseTransformInputType.M4a => "m4a",
+                OutputListResponseTransformInputType.Mp3 => "mp3",
+                OutputListResponseTransformInputType.Pdf => "pdf",
+                OutputListResponseTransformInputType.Png => "png",
+                OutputListResponseTransformInputType.Text => "text",
+                OutputListResponseTransformInputType.Wav => "wav",
+                OutputListResponseTransformInputType.Webp => "webp",
+                OutputListResponseTransformInputType.Xls => "xls",
+                OutputListResponseTransformInputType.Xlsx => "xlsx",
+                OutputListResponseTransformInputType.Xml => "xml",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -2408,11 +2736,11 @@ sealed class InputTypeConverter : JsonConverter<InputType>
 
 [JsonConverter(
     typeof(JsonModelConverter<
-        global::Bem.Models.Outputs.Metadata,
-        global::Bem.Models.Outputs.MetadataFromRaw
+        OutputListResponseTransformMetadata,
+        OutputListResponseTransformMetadataFromRaw
     >)
 )]
-public sealed record class Metadata : JsonModel
+public sealed record class OutputListResponseTransformMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -2438,29 +2766,31 @@ public sealed record class Metadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public Metadata() { }
+    public OutputListResponseTransformMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Metadata(global::Bem.Models.Outputs.Metadata metadata)
-        : base(metadata) { }
+    public OutputListResponseTransformMetadata(
+        OutputListResponseTransformMetadata outputListResponseTransformMetadata
+    )
+        : base(outputListResponseTransformMetadata) { }
 #pragma warning restore CS8618
 
-    public Metadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseTransformMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Metadata(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransformMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="global::Bem.Models.Outputs.MetadataFromRaw.FromRawUnchecked"/>
-    public static global::Bem.Models.Outputs.Metadata FromRawUnchecked(
+    /// <inheritdoc cref="OutputListResponseTransformMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransformMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -2468,26 +2798,33 @@ public sealed record class Metadata : JsonModel
     }
 }
 
-class MetadataFromRaw : IFromRawJson<global::Bem.Models.Outputs.Metadata>
+class OutputListResponseTransformMetadataFromRaw : IFromRawJson<OutputListResponseTransformMetadata>
 {
     /// <inheritdoc/>
-    public global::Bem.Models.Outputs.Metadata FromRawUnchecked(
+    public OutputListResponseTransformMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => global::Bem.Models.Outputs.Metadata.FromRawUnchecked(rawData);
+    ) => OutputListResponseTransformMetadata.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Accuracy, precision, recall, and F1 score when corrected JSON is provided.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<Metrics, MetricsFromRaw>))]
-public sealed record class Metrics : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseTransformMetrics,
+        OutputListResponseTransformMetricsFromRaw
+    >)
+)]
+public sealed record class OutputListResponseTransformMetrics : JsonModel
 {
-    public IReadOnlyList<Difference>? Differences
+    public IReadOnlyList<OutputListResponseTransformMetricsDifference>? Differences
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<Difference>>("differences");
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<OutputListResponseTransformMetricsDifference>
+            >("differences");
         }
         init
         {
@@ -2496,19 +2833,21 @@ public sealed record class Metrics : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<Difference>?>(
+            this._rawData.Set<ImmutableArray<OutputListResponseTransformMetricsDifference>?>(
                 "differences",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }
     }
 
-    public MetricsMetrics? MetricsValue
+    public OutputListResponseTransformMetricsMetrics? Metrics
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<MetricsMetrics>("metrics");
+            return this._rawData.GetNullableClass<OutputListResponseTransformMetricsMetrics>(
+                "metrics"
+            );
         }
         init
         {
@@ -2528,46 +2867,56 @@ public sealed record class Metrics : JsonModel
         {
             item.Validate();
         }
-        this.MetricsValue?.Validate();
+        this.Metrics?.Validate();
     }
 
-    public Metrics() { }
+    public OutputListResponseTransformMetrics() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Metrics(Metrics metrics)
-        : base(metrics) { }
+    public OutputListResponseTransformMetrics(
+        OutputListResponseTransformMetrics outputListResponseTransformMetrics
+    )
+        : base(outputListResponseTransformMetrics) { }
 #pragma warning restore CS8618
 
-    public Metrics(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseTransformMetrics(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Metrics(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransformMetrics(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="MetricsFromRaw.FromRawUnchecked"/>
-    public static Metrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseTransformMetricsFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransformMetrics FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class MetricsFromRaw : IFromRawJson<Metrics>
+class OutputListResponseTransformMetricsFromRaw : IFromRawJson<OutputListResponseTransformMetrics>
 {
     /// <inheritdoc/>
-    public Metrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Metrics.FromRawUnchecked(rawData);
+    public OutputListResponseTransformMetrics FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseTransformMetrics.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<Difference, DifferenceFromRaw>))]
-public sealed record class Difference : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseTransformMetricsDifference,
+        OutputListResponseTransformMetricsDifferenceFromRaw
+    >)
+)]
+public sealed record class OutputListResponseTransformMetricsDifference : JsonModel
 {
     public string? Category
     {
@@ -2650,43 +2999,56 @@ public sealed record class Difference : JsonModel
         _ = this.JsonPointer;
     }
 
-    public Difference() { }
+    public OutputListResponseTransformMetricsDifference() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Difference(Difference difference)
-        : base(difference) { }
+    public OutputListResponseTransformMetricsDifference(
+        OutputListResponseTransformMetricsDifference outputListResponseTransformMetricsDifference
+    )
+        : base(outputListResponseTransformMetricsDifference) { }
 #pragma warning restore CS8618
 
-    public Difference(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseTransformMetricsDifference(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Difference(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransformMetricsDifference(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="DifferenceFromRaw.FromRawUnchecked"/>
-    public static Difference FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseTransformMetricsDifferenceFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransformMetricsDifference FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class DifferenceFromRaw : IFromRawJson<Difference>
+class OutputListResponseTransformMetricsDifferenceFromRaw
+    : IFromRawJson<OutputListResponseTransformMetricsDifference>
 {
     /// <inheritdoc/>
-    public Difference FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Difference.FromRawUnchecked(rawData);
+    public OutputListResponseTransformMetricsDifference FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseTransformMetricsDifference.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<MetricsMetrics, MetricsMetricsFromRaw>))]
-public sealed record class MetricsMetrics : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseTransformMetricsMetrics,
+        OutputListResponseTransformMetricsMetricsFromRaw
+    >)
+)]
+public sealed record class OutputListResponseTransformMetricsMetrics : JsonModel
 {
     public double? Accuracy
     {
@@ -2769,1212 +3131,33 @@ public sealed record class MetricsMetrics : JsonModel
         _ = this.Recall;
     }
 
-    public MetricsMetrics() { }
+    public OutputListResponseTransformMetricsMetrics() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public MetricsMetrics(MetricsMetrics metricsMetrics)
-        : base(metricsMetrics) { }
+    public OutputListResponseTransformMetricsMetrics(
+        OutputListResponseTransformMetricsMetrics outputListResponseTransformMetricsMetrics
+    )
+        : base(outputListResponseTransformMetricsMetrics) { }
 #pragma warning restore CS8618
 
-    public MetricsMetrics(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    MetricsMetrics(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="MetricsMetricsFromRaw.FromRawUnchecked"/>
-    public static MetricsMetrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class MetricsMetricsFromRaw : IFromRawJson<MetricsMetrics>
-{
-    /// <inheritdoc/>
-    public MetricsMetrics FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        MetricsMetrics.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<Route, RouteFromRaw>))]
-public sealed record class Route : JsonModel
-{
-    /// <summary>
-    /// The choice made by the router function.
-    /// </summary>
-    public required string Choice
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("choice");
-        }
-        init { this._rawData.Set("choice", value); }
-    }
-
-    /// <summary>
-    /// Unique ID generated by bem to identify the event.
-    /// </summary>
-    public required string EventID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("eventID");
-        }
-        init { this._rawData.Set("eventID", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of function that this event is associated with.
-    /// </summary>
-    public required string FunctionID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionID");
-        }
-        init { this._rawData.Set("functionID", value); }
-    }
-
-    /// <summary>
-    /// Unique name of function that this event is associated with.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    /// <summary>
-    /// The unique ID you use internally to refer to this data point, propagated from
-    /// the original function input.
-    /// </summary>
-    public required string ReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("referenceID");
-        }
-        init { this._rawData.Set("referenceID", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of workflow call that this event is associated with.
-    /// </summary>
-    public string? CallID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("callID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("callID", value);
-        }
-    }
-
-    /// <summary>
-    /// Timestamp indicating when the event was created.
-    /// </summary>
-    public DateTimeOffset? CreatedAt
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("createdAt", value);
-        }
-    }
-
-    public ApiEnum<string, RouteEventType>? EventType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, RouteEventType>>("eventType");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("eventType", value);
-        }
-    }
-
-    /// <summary>
-    /// Unique identifier of function call that this event is associated with.
-    /// </summary>
-    public string? FunctionCallID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionCallID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionCallID", value);
-        }
-    }
-
-    /// <summary>
-    /// The attempt number of the function call that created this event. 1 indexed.
-    /// </summary>
-    public long? FunctionCallTryNumber
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionCallTryNumber", value);
-        }
-    }
-
-    /// <summary>
-    /// Version number of function that this event is associated with.
-    /// </summary>
-    public long? FunctionVersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("functionVersionNum");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionVersionNum", value);
-        }
-    }
-
-    /// <summary>
-    /// The inbound email that triggered this event.
-    /// </summary>
-    public InboundEmailEvent? InboundEmail
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("inboundEmail", value);
-        }
-    }
-
-    public RouteMetadata? Metadata
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<RouteMetadata>("metadata");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("metadata", value);
-        }
-    }
-
-    /// <summary>
-    /// The presigned S3 URL of the file that was routed.
-    /// </summary>
-    public string? S3Url
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("s3URL");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("s3URL", value);
-        }
-    }
-
-    /// <summary>
-    /// Unique identifier of workflow that this event is associated with.
-    /// </summary>
-    public string? WorkflowID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("workflowID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowID", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of workflow that this event is associated with.
-    /// </summary>
-    public string? WorkflowName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("workflowName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowName", value);
-        }
-    }
-
-    /// <summary>
-    /// Version number of workflow that this event is associated with.
-    /// </summary>
-    public long? WorkflowVersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowVersionNum", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Choice;
-        _ = this.EventID;
-        _ = this.FunctionID;
-        _ = this.FunctionName;
-        _ = this.ReferenceID;
-        _ = this.CallID;
-        _ = this.CreatedAt;
-        this.EventType?.Validate();
-        _ = this.FunctionCallID;
-        _ = this.FunctionCallTryNumber;
-        _ = this.FunctionVersionNum;
-        this.InboundEmail?.Validate();
-        this.Metadata?.Validate();
-        _ = this.S3Url;
-        _ = this.WorkflowID;
-        _ = this.WorkflowName;
-        _ = this.WorkflowVersionNum;
-    }
-
-    public Route() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Route(Route route)
-        : base(route) { }
-#pragma warning restore CS8618
-
-    public Route(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Route(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="RouteFromRaw.FromRawUnchecked"/>
-    public static Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class RouteFromRaw : IFromRawJson<Route>
-{
-    /// <inheritdoc/>
-    public Route FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Route.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(RouteEventTypeConverter))]
-public enum RouteEventType
-{
-    Route,
-}
-
-sealed class RouteEventTypeConverter : JsonConverter<RouteEventType>
-{
-    public override RouteEventType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
+    public OutputListResponseTransformMetricsMetrics(
+        IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "route" => RouteEventType.Route,
-            _ => (RouteEventType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        RouteEventType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                RouteEventType.Route => "route",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(typeof(JsonModelConverter<RouteMetadata, RouteMetadataFromRaw>))]
-public sealed record class RouteMetadata : JsonModel
-{
-    public double? DurationFunctionToEventSeconds
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("durationFunctionToEventSeconds", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.DurationFunctionToEventSeconds;
-    }
-
-    public RouteMetadata() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public RouteMetadata(RouteMetadata routeMetadata)
-        : base(routeMetadata) { }
-#pragma warning restore CS8618
-
-    public RouteMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    RouteMetadata(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseTransformMetricsMetrics(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="RouteMetadataFromRaw.FromRawUnchecked"/>
-    public static RouteMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class RouteMetadataFromRaw : IFromRawJson<RouteMetadata>
-{
-    /// <inheritdoc/>
-    public RouteMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        RouteMetadata.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<SplitCollection, SplitCollectionFromRaw>))]
-public sealed record class SplitCollection : JsonModel
-{
-    /// <summary>
-    /// Unique ID generated by bem to identify the event.
-    /// </summary>
-    public required string EventID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("eventID");
-        }
-        init { this._rawData.Set("eventID", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of function that this event is associated with.
-    /// </summary>
-    public required string FunctionID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionID");
-        }
-        init { this._rawData.Set("functionID", value); }
-    }
-
-    /// <summary>
-    /// Unique name of function that this event is associated with.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    public required ApiEnum<string, OutputType> OutputType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, OutputType>>("outputType");
-        }
-        init { this._rawData.Set("outputType", value); }
-    }
-
-    public required PrintPageOutput PrintPageOutput
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<PrintPageOutput>("printPageOutput");
-        }
-        init { this._rawData.Set("printPageOutput", value); }
-    }
-
-    /// <summary>
-    /// The unique ID you use internally to refer to this data point, propagated from
-    /// the original function input.
-    /// </summary>
-    public required string ReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("referenceID");
-        }
-        init { this._rawData.Set("referenceID", value); }
-    }
-
-    public required SemanticPageOutput SemanticPageOutput
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<SemanticPageOutput>("semanticPageOutput");
-        }
-        init { this._rawData.Set("semanticPageOutput", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of workflow call that this event is associated with.
-    /// </summary>
-    public string? CallID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("callID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("callID", value);
-        }
-    }
-
-    /// <summary>
-    /// Timestamp indicating when the event was created.
-    /// </summary>
-    public DateTimeOffset? CreatedAt
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("createdAt", value);
-        }
-    }
-
-    public ApiEnum<string, SplitCollectionEventType>? EventType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, SplitCollectionEventType>>(
-                "eventType"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("eventType", value);
-        }
-    }
-
-    /// <summary>
-    /// Unique identifier of function call that this event is associated with.
-    /// </summary>
-    public string? FunctionCallID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionCallID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionCallID", value);
-        }
-    }
-
-    /// <summary>
-    /// The attempt number of the function call that created this event. 1 indexed.
-    /// </summary>
-    public long? FunctionCallTryNumber
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionCallTryNumber", value);
-        }
-    }
-
-    /// <summary>
-    /// Version number of function that this event is associated with.
-    /// </summary>
-    public long? FunctionVersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("functionVersionNum");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionVersionNum", value);
-        }
-    }
-
-    /// <summary>
-    /// The inbound email that triggered this event.
-    /// </summary>
-    public InboundEmailEvent? InboundEmail
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("inboundEmail", value);
-        }
-    }
-
-    public SplitCollectionMetadata? Metadata
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<SplitCollectionMetadata>("metadata");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("metadata", value);
-        }
-    }
-
-    /// <summary>
-    /// Unique identifier of workflow that this event is associated with.
-    /// </summary>
-    public string? WorkflowID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("workflowID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowID", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of workflow that this event is associated with.
-    /// </summary>
-    public string? WorkflowName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("workflowName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowName", value);
-        }
-    }
-
-    /// <summary>
-    /// Version number of workflow that this event is associated with.
-    /// </summary>
-    public long? WorkflowVersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowVersionNum", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.EventID;
-        _ = this.FunctionID;
-        _ = this.FunctionName;
-        this.OutputType.Validate();
-        this.PrintPageOutput.Validate();
-        _ = this.ReferenceID;
-        this.SemanticPageOutput.Validate();
-        _ = this.CallID;
-        _ = this.CreatedAt;
-        this.EventType?.Validate();
-        _ = this.FunctionCallID;
-        _ = this.FunctionCallTryNumber;
-        _ = this.FunctionVersionNum;
-        this.InboundEmail?.Validate();
-        this.Metadata?.Validate();
-        _ = this.WorkflowID;
-        _ = this.WorkflowName;
-        _ = this.WorkflowVersionNum;
-    }
-
-    public SplitCollection() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SplitCollection(SplitCollection splitCollection)
-        : base(splitCollection) { }
-#pragma warning restore CS8618
-
-    public SplitCollection(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SplitCollection(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SplitCollectionFromRaw.FromRawUnchecked"/>
-    public static SplitCollection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SplitCollectionFromRaw : IFromRawJson<SplitCollection>
-{
-    /// <inheritdoc/>
-    public SplitCollection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SplitCollection.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(OutputTypeConverter))]
-public enum OutputType
-{
-    PrintPage,
-    SemanticPage,
-}
-
-sealed class OutputTypeConverter : JsonConverter<OutputType>
-{
-    public override OutputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "print_page" => OutputType.PrintPage,
-            "semantic_page" => OutputType.SemanticPage,
-            _ => (OutputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        OutputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                OutputType.PrintPage => "print_page",
-                OutputType.SemanticPage => "semantic_page",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(typeof(JsonModelConverter<PrintPageOutput, PrintPageOutputFromRaw>))]
-public sealed record class PrintPageOutput : JsonModel
-{
-    public long? ItemCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemCount", value);
-        }
-    }
-
-    public IReadOnlyList<Item>? Items
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<Item>>("items");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<Item>?>(
-                "items",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ItemCount;
-        foreach (var item in this.Items ?? [])
-        {
-            item.Validate();
-        }
-    }
-
-    public PrintPageOutput() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public PrintPageOutput(PrintPageOutput printPageOutput)
-        : base(printPageOutput) { }
-#pragma warning restore CS8618
-
-    public PrintPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    PrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="PrintPageOutputFromRaw.FromRawUnchecked"/>
-    public static PrintPageOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class PrintPageOutputFromRaw : IFromRawJson<PrintPageOutput>
-{
-    /// <inheritdoc/>
-    public PrintPageOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        PrintPageOutput.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<Item, ItemFromRaw>))]
-public sealed record class Item : JsonModel
-{
-    public long? ItemOffset
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemOffset");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemOffset", value);
-        }
-    }
-
-    public string? ItemReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("itemReferenceID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemReferenceID", value);
-        }
-    }
-
-    public string? S3Url
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("s3URL");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("s3URL", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ItemOffset;
-        _ = this.ItemReferenceID;
-        _ = this.S3Url;
-    }
-
-    public Item() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Item(Item item)
-        : base(item) { }
-#pragma warning restore CS8618
-
-    public Item(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Item(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="ItemFromRaw.FromRawUnchecked"/>
-    public static Item FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class ItemFromRaw : IFromRawJson<Item>
-{
-    /// <inheritdoc/>
-    public Item FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Item.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<SemanticPageOutput, SemanticPageOutputFromRaw>))]
-public sealed record class SemanticPageOutput : JsonModel
-{
-    public long? ItemCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemCount", value);
-        }
-    }
-
-    public IReadOnlyList<SemanticPageOutputItem>? Items
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<SemanticPageOutputItem>>("items");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<SemanticPageOutputItem>?>(
-                "items",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    public long? PageCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("pageCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("pageCount", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ItemCount;
-        foreach (var item in this.Items ?? [])
-        {
-            item.Validate();
-        }
-        _ = this.PageCount;
-    }
-
-    public SemanticPageOutput() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SemanticPageOutput(SemanticPageOutput semanticPageOutput)
-        : base(semanticPageOutput) { }
-#pragma warning restore CS8618
-
-    public SemanticPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SemanticPageOutput(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SemanticPageOutputFromRaw.FromRawUnchecked"/>
-    public static SemanticPageOutput FromRawUnchecked(
+    /// <inheritdoc cref="OutputListResponseTransformMetricsMetricsFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseTransformMetricsMetrics FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -3982,1219 +3165,28 @@ public sealed record class SemanticPageOutput : JsonModel
     }
 }
 
-class SemanticPageOutputFromRaw : IFromRawJson<SemanticPageOutput>
+class OutputListResponseTransformMetricsMetricsFromRaw
+    : IFromRawJson<OutputListResponseTransformMetricsMetrics>
 {
     /// <inheritdoc/>
-    public SemanticPageOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SemanticPageOutput.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<SemanticPageOutputItem, SemanticPageOutputItemFromRaw>))]
-public sealed record class SemanticPageOutputItem : JsonModel
-{
-    public string? ItemClass
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("itemClass");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemClass", value);
-        }
-    }
-
-    public long? ItemClassCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemClassCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemClassCount", value);
-        }
-    }
-
-    public long? ItemClassOffset
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemClassOffset");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemClassOffset", value);
-        }
-    }
-
-    public long? ItemOffset
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemOffset");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemOffset", value);
-        }
-    }
-
-    public string? ItemReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("itemReferenceID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemReferenceID", value);
-        }
-    }
-
-    public long? PageEnd
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("pageEnd");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("pageEnd", value);
-        }
-    }
-
-    public long? PageStart
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("pageStart");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("pageStart", value);
-        }
-    }
-
-    public string? S3Url
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("s3URL");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("s3URL", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ItemClass;
-        _ = this.ItemClassCount;
-        _ = this.ItemClassOffset;
-        _ = this.ItemOffset;
-        _ = this.ItemReferenceID;
-        _ = this.PageEnd;
-        _ = this.PageStart;
-        _ = this.S3Url;
-    }
-
-    public SemanticPageOutputItem() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SemanticPageOutputItem(SemanticPageOutputItem semanticPageOutputItem)
-        : base(semanticPageOutputItem) { }
-#pragma warning restore CS8618
-
-    public SemanticPageOutputItem(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SemanticPageOutputItem(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SemanticPageOutputItemFromRaw.FromRawUnchecked"/>
-    public static SemanticPageOutputItem FromRawUnchecked(
+    public OutputListResponseTransformMetricsMetrics FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
+    ) => OutputListResponseTransformMetricsMetrics.FromRawUnchecked(rawData);
 }
 
-class SemanticPageOutputItemFromRaw : IFromRawJson<SemanticPageOutputItem>
-{
-    /// <inheritdoc/>
-    public SemanticPageOutputItem FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => SemanticPageOutputItem.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(SplitCollectionEventTypeConverter))]
-public enum SplitCollectionEventType
-{
-    SplitCollection,
-}
-
-sealed class SplitCollectionEventTypeConverter : JsonConverter<SplitCollectionEventType>
-{
-    public override SplitCollectionEventType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "split_collection" => SplitCollectionEventType.SplitCollection,
-            _ => (SplitCollectionEventType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        SplitCollectionEventType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                SplitCollectionEventType.SplitCollection => "split_collection",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(typeof(JsonModelConverter<SplitCollectionMetadata, SplitCollectionMetadataFromRaw>))]
-public sealed record class SplitCollectionMetadata : JsonModel
-{
-    public double? DurationFunctionToEventSeconds
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("durationFunctionToEventSeconds", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.DurationFunctionToEventSeconds;
-    }
-
-    public SplitCollectionMetadata() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SplitCollectionMetadata(SplitCollectionMetadata splitCollectionMetadata)
-        : base(splitCollectionMetadata) { }
-#pragma warning restore CS8618
-
-    public SplitCollectionMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SplitCollectionMetadata(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SplitCollectionMetadataFromRaw.FromRawUnchecked"/>
-    public static SplitCollectionMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SplitCollectionMetadataFromRaw : IFromRawJson<SplitCollectionMetadata>
-{
-    /// <inheritdoc/>
-    public SplitCollectionMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => SplitCollectionMetadata.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<SplitItem, SplitItemFromRaw>))]
-public sealed record class SplitItem : JsonModel
-{
-    /// <summary>
-    /// Unique ID generated by bem to identify the event.
-    /// </summary>
-    public required string EventID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("eventID");
-        }
-        init { this._rawData.Set("eventID", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of function that this event is associated with.
-    /// </summary>
-    public required string FunctionID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionID");
-        }
-        init { this._rawData.Set("functionID", value); }
-    }
-
-    /// <summary>
-    /// Unique name of function that this event is associated with.
-    /// </summary>
-    public required string FunctionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("functionName");
-        }
-        init { this._rawData.Set("functionName", value); }
-    }
-
-    public required ApiEnum<string, SplitItemOutputType> OutputType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, SplitItemOutputType>>(
-                "outputType"
-            );
-        }
-        init { this._rawData.Set("outputType", value); }
-    }
-
-    /// <summary>
-    /// The unique ID you use internally to refer to this data point, propagated from
-    /// the original function input.
-    /// </summary>
-    public required string ReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("referenceID");
-        }
-        init { this._rawData.Set("referenceID", value); }
-    }
-
-    /// <summary>
-    /// Unique identifier of workflow call that this event is associated with.
-    /// </summary>
-    public string? CallID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("callID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("callID", value);
-        }
-    }
-
-    /// <summary>
-    /// Timestamp indicating when the event was created.
-    /// </summary>
-    public DateTimeOffset? CreatedAt
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("createdAt", value);
-        }
-    }
-
-    public ApiEnum<string, SplitItemEventType>? EventType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, SplitItemEventType>>("eventType");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("eventType", value);
-        }
-    }
-
-    /// <summary>
-    /// Unique identifier of function call that this event is associated with.
-    /// </summary>
-    public string? FunctionCallID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("functionCallID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionCallID", value);
-        }
-    }
-
-    /// <summary>
-    /// The attempt number of the function call that created this event. 1 indexed.
-    /// </summary>
-    public long? FunctionCallTryNumber
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionCallTryNumber", value);
-        }
-    }
-
-    /// <summary>
-    /// Version number of function that this event is associated with.
-    /// </summary>
-    public long? FunctionVersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("functionVersionNum");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("functionVersionNum", value);
-        }
-    }
-
-    /// <summary>
-    /// The inbound email that triggered this event.
-    /// </summary>
-    public InboundEmailEvent? InboundEmail
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("inboundEmail", value);
-        }
-    }
-
-    public SplitItemMetadata? Metadata
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<SplitItemMetadata>("metadata");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("metadata", value);
-        }
-    }
-
-    public SplitItemPrintPageOutput? PrintPageOutput
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<SplitItemPrintPageOutput>("printPageOutput");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("printPageOutput", value);
-        }
-    }
-
-    public SplitItemSemanticPageOutput? SemanticPageOutput
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<SplitItemSemanticPageOutput>(
-                "semanticPageOutput"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("semanticPageOutput", value);
-        }
-    }
-
-    /// <summary>
-    /// Unique identifier of workflow that this event is associated with.
-    /// </summary>
-    public string? WorkflowID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("workflowID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowID", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of workflow that this event is associated with.
-    /// </summary>
-    public string? WorkflowName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("workflowName");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowName", value);
-        }
-    }
-
-    /// <summary>
-    /// Version number of workflow that this event is associated with.
-    /// </summary>
-    public long? WorkflowVersionNum
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("workflowVersionNum", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.EventID;
-        _ = this.FunctionID;
-        _ = this.FunctionName;
-        this.OutputType.Validate();
-        _ = this.ReferenceID;
-        _ = this.CallID;
-        _ = this.CreatedAt;
-        this.EventType?.Validate();
-        _ = this.FunctionCallID;
-        _ = this.FunctionCallTryNumber;
-        _ = this.FunctionVersionNum;
-        this.InboundEmail?.Validate();
-        this.Metadata?.Validate();
-        this.PrintPageOutput?.Validate();
-        this.SemanticPageOutput?.Validate();
-        _ = this.WorkflowID;
-        _ = this.WorkflowName;
-        _ = this.WorkflowVersionNum;
-    }
-
-    public SplitItem() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SplitItem(SplitItem splitItem)
-        : base(splitItem) { }
-#pragma warning restore CS8618
-
-    public SplitItem(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SplitItem(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SplitItemFromRaw.FromRawUnchecked"/>
-    public static SplitItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SplitItemFromRaw : IFromRawJson<SplitItem>
-{
-    /// <inheritdoc/>
-    public SplitItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SplitItem.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(SplitItemOutputTypeConverter))]
-public enum SplitItemOutputType
-{
-    PrintPage,
-    SemanticPage,
-}
-
-sealed class SplitItemOutputTypeConverter : JsonConverter<SplitItemOutputType>
-{
-    public override SplitItemOutputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "print_page" => SplitItemOutputType.PrintPage,
-            "semantic_page" => SplitItemOutputType.SemanticPage,
-            _ => (SplitItemOutputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        SplitItemOutputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                SplitItemOutputType.PrintPage => "print_page",
-                SplitItemOutputType.SemanticPage => "semantic_page",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(typeof(SplitItemEventTypeConverter))]
-public enum SplitItemEventType
-{
-    SplitItem,
-}
-
-sealed class SplitItemEventTypeConverter : JsonConverter<SplitItemEventType>
-{
-    public override SplitItemEventType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "split_item" => SplitItemEventType.SplitItem,
-            _ => (SplitItemEventType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        SplitItemEventType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                SplitItemEventType.SplitItem => "split_item",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(typeof(JsonModelConverter<SplitItemMetadata, SplitItemMetadataFromRaw>))]
-public sealed record class SplitItemMetadata : JsonModel
-{
-    public double? DurationFunctionToEventSeconds
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("durationFunctionToEventSeconds", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.DurationFunctionToEventSeconds;
-    }
-
-    public SplitItemMetadata() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SplitItemMetadata(SplitItemMetadata splitItemMetadata)
-        : base(splitItemMetadata) { }
-#pragma warning restore CS8618
-
-    public SplitItemMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SplitItemMetadata(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SplitItemMetadataFromRaw.FromRawUnchecked"/>
-    public static SplitItemMetadata FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SplitItemMetadataFromRaw : IFromRawJson<SplitItemMetadata>
-{
-    /// <inheritdoc/>
-    public SplitItemMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SplitItemMetadata.FromRawUnchecked(rawData);
-}
-
+/// <summary>
+/// V3 event variants that do not exist in the shared `Event` union.
+///
+/// <para>`ExtractEvent` and `ClassifyEvent` are emitted only by V3-era function types
+/// (`extract` and `classify`). The shared `Event` union in `specs/events/models.tsp`
+/// predates these types and continues to describe V2 / V1-alpha responses verbatim;
+/// V3 response payloads add the new variants via the `EventV3` union below while
+/// keeping every shared variant intact for backward compatibility.</para>
+/// </summary>
 [JsonConverter(
-    typeof(JsonModelConverter<SplitItemPrintPageOutput, SplitItemPrintPageOutputFromRaw>)
+    typeof(JsonModelConverter<OutputListResponseExtract, OutputListResponseExtractFromRaw>)
 )]
-public sealed record class SplitItemPrintPageOutput : JsonModel
-{
-    public string? CollectionReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("collectionReferenceID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("collectionReferenceID", value);
-        }
-    }
-
-    public long? ItemCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemCount", value);
-        }
-    }
-
-    public long? ItemOffset
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemOffset");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemOffset", value);
-        }
-    }
-
-    public string? S3Url
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("s3URL");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("s3URL", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CollectionReferenceID;
-        _ = this.ItemCount;
-        _ = this.ItemOffset;
-        _ = this.S3Url;
-    }
-
-    public SplitItemPrintPageOutput() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SplitItemPrintPageOutput(SplitItemPrintPageOutput splitItemPrintPageOutput)
-        : base(splitItemPrintPageOutput) { }
-#pragma warning restore CS8618
-
-    public SplitItemPrintPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SplitItemPrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SplitItemPrintPageOutputFromRaw.FromRawUnchecked"/>
-    public static SplitItemPrintPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SplitItemPrintPageOutputFromRaw : IFromRawJson<SplitItemPrintPageOutput>
-{
-    /// <inheritdoc/>
-    public SplitItemPrintPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => SplitItemPrintPageOutput.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<SplitItemSemanticPageOutput, SplitItemSemanticPageOutputFromRaw>)
-)]
-public sealed record class SplitItemSemanticPageOutput : JsonModel
-{
-    public string? CollectionReferenceID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("collectionReferenceID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("collectionReferenceID", value);
-        }
-    }
-
-    public string? ItemClass
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("itemClass");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemClass", value);
-        }
-    }
-
-    public long? ItemClassCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemClassCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemClassCount", value);
-        }
-    }
-
-    public long? ItemClassOffset
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemClassOffset");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemClassOffset", value);
-        }
-    }
-
-    public long? ItemCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemCount", value);
-        }
-    }
-
-    public long? ItemOffset
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("itemOffset");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("itemOffset", value);
-        }
-    }
-
-    public long? PageCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("pageCount");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("pageCount", value);
-        }
-    }
-
-    public long? PageEnd
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("pageEnd");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("pageEnd", value);
-        }
-    }
-
-    public long? PageStart
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("pageStart");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("pageStart", value);
-        }
-    }
-
-    public string? S3Url
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("s3URL");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("s3URL", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CollectionReferenceID;
-        _ = this.ItemClass;
-        _ = this.ItemClassCount;
-        _ = this.ItemClassOffset;
-        _ = this.ItemCount;
-        _ = this.ItemOffset;
-        _ = this.PageCount;
-        _ = this.PageEnd;
-        _ = this.PageStart;
-        _ = this.S3Url;
-    }
-
-    public SplitItemSemanticPageOutput() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SplitItemSemanticPageOutput(SplitItemSemanticPageOutput splitItemSemanticPageOutput)
-        : base(splitItemSemanticPageOutput) { }
-#pragma warning restore CS8618
-
-    public SplitItemSemanticPageOutput(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SplitItemSemanticPageOutput(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SplitItemSemanticPageOutputFromRaw.FromRawUnchecked"/>
-    public static SplitItemSemanticPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SplitItemSemanticPageOutputFromRaw : IFromRawJson<SplitItemSemanticPageOutput>
-{
-    /// <inheritdoc/>
-    public SplitItemSemanticPageOutput FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => SplitItemSemanticPageOutput.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(typeof(JsonModelConverter<Join, JoinFromRaw>))]
-public sealed record class Join : JsonModel
+public sealed record class OutputListResponseExtract : JsonModel
 {
     /// <summary>
     /// Unique ID generated by bem to identify the event.
@@ -5236,54 +3228,31 @@ public sealed record class Join : JsonModel
     }
 
     /// <summary>
-    /// List of properties that were invalid in the input.
+    /// The number of items that were transformed. Used for batch transformations
+    /// to indicate how many items were transformed.
     /// </summary>
-    public required IReadOnlyList<string> InvalidProperties
+    public required long ItemCount
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<string>>("invalidProperties");
+            return this._rawData.GetNotNullStruct<long>("itemCount");
         }
-        init
-        {
-            this._rawData.Set<ImmutableArray<string>>(
-                "invalidProperties",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
+        init { this._rawData.Set("itemCount", value); }
     }
 
     /// <summary>
-    /// The items that were joined.
+    /// The offset of the first item that was transformed. Used for batch transformations
+    /// to indicate which item in the batch this event corresponds to.
     /// </summary>
-    public required IReadOnlyList<JoinItem> Items
+    public required long ItemOffset
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<JoinItem>>("items");
+            return this._rawData.GetNotNullStruct<long>("itemOffset");
         }
-        init
-        {
-            this._rawData.Set<ImmutableArray<JoinItem>>(
-                "items",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
-    /// The type of join that was performed.
-    /// </summary>
-    public required ApiEnum<string, JoinType> JoinType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, JoinType>>("joinType");
-        }
-        init { this._rawData.Set("joinType", value); }
+        init { this._rawData.Set("itemOffset", value); }
     }
 
     /// <summary>
@@ -5349,6 +3318,21 @@ public sealed record class Join : JsonModel
     }
 
     /// <summary>
+    /// Corrected feedback provided for fine-tuning purposes.
+    /// </summary>
+    public OutputListResponseExtractCorrectedContent? CorrectedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseExtractCorrectedContent>(
+                "correctedContent"
+            );
+        }
+        init { this._rawData.Set("correctedContent", value); }
+    }
+
+    /// <summary>
     /// Timestamp indicating when the event was created.
     /// </summary>
     public DateTimeOffset? CreatedAt
@@ -5369,12 +3353,14 @@ public sealed record class Join : JsonModel
         }
     }
 
-    public ApiEnum<string, JoinEventType>? EventType
+    public ApiEnum<string, OutputListResponseExtractEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, JoinEventType>>("eventType");
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseExtractEventType>
+            >("eventType");
         }
         init
         {
@@ -5494,12 +3480,4460 @@ public sealed record class Join : JsonModel
         }
     }
 
-    public JoinMetadata? Metadata
+    /// <summary>
+    /// Array of transformation inputs with their types and S3 URLs.
+    /// </summary>
+    public IReadOnlyList<OutputListResponseExtractInput>? Inputs
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<JoinMetadata>("metadata");
+            return this._rawData.GetNullableStruct<ImmutableArray<OutputListResponseExtractInput>>(
+                "inputs"
+            );
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<OutputListResponseExtractInput>?>(
+                "inputs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The input type of the content you're sending for transformation.
+    /// </summary>
+    public ApiEnum<string, OutputListResponseExtractInputType>? InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseExtractInputType>
+            >("inputType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inputType", value);
+        }
+    }
+
+    /// <summary>
+    /// List of properties that were invalid in the input.
+    /// </summary>
+    public IReadOnlyList<string>? InvalidProperties
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("invalidProperties");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "invalidProperties",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    public OutputListResponseExtractMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseExtractMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Presigned S3 URL for the input content uploaded to S3.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <summary>
+    /// Unique ID for each transformation output generated by bem following Segment's
+    /// KSUID conventions.
+    /// </summary>
+    public string? TransformationID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("transformationID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("transformationID", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ItemCount;
+        _ = this.ItemOffset;
+        _ = this.ReferenceID;
+        _ = this.TransformedContent;
+        _ = this.AvgConfidence;
+        _ = this.CallID;
+        this.CorrectedContent?.Validate();
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FieldConfidences;
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        foreach (var item in this.Inputs ?? [])
+        {
+            item.Validate();
+        }
+        this.InputType?.Validate();
+        _ = this.InvalidProperties;
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.TransformationID;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public OutputListResponseExtract() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseExtract(OutputListResponseExtract outputListResponseExtract)
+        : base(outputListResponseExtract) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseExtract(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseExtract(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseExtractFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseExtract FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseExtractFromRaw : IFromRawJson<OutputListResponseExtract>
+{
+    /// <inheritdoc/>
+    public OutputListResponseExtract FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseExtract.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Corrected feedback provided for fine-tuning purposes.
+/// </summary>
+[JsonConverter(typeof(OutputListResponseExtractCorrectedContentConverter))]
+public record class OutputListResponseExtractCorrectedContent : ModelBase
+{
+    public object? Value { get; } = null;
+
+    JsonElement? _element = null;
+
+    public JsonElement Json
+    {
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    public OutputListResponseExtractCorrectedContent(
+        OutputListResponseExtractCorrectedContentOutput value,
+        JsonElement? element = null
+    )
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public OutputListResponseExtractCorrectedContent(
+        IReadOnlyList<JsonElement> value,
+        JsonElement? element = null
+    )
+    {
+        this.Value = ImmutableArray.ToImmutableArray(value);
+        this._element = element;
+    }
+
+    public OutputListResponseExtractCorrectedContent(string value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public OutputListResponseExtractCorrectedContent(double value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public OutputListResponseExtractCorrectedContent(bool value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public OutputListResponseExtractCorrectedContent(JsonElement element)
+    {
+        this._element = element;
+        this.Value = element;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="OutputListResponseExtractCorrectedContentOutput"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickOutputListResponseExtractCorrectedContentOutput(out var value)) {
+    ///     // `value` is of type `OutputListResponseExtractCorrectedContentOutput`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickOutputListResponseExtractCorrectedContentOutput(
+        [NotNullWhen(true)] out OutputListResponseExtractCorrectedContentOutput? value
+    )
+    {
+        value = this.Value as OutputListResponseExtractCorrectedContentOutput;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="JsonElement"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElement(out var value)) {
+    ///     // `value` is of type `JsonElement`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElement([NotNullWhen(true)] out JsonElement? value)
+    {
+        value = this.Value as JsonElement?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="List{T}"/> where <c>T</c> is a <c>JsonElement</c>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElements(out var value)) {
+    ///     // `value` is of type `IReadOnlyList&lt;JsonElement&gt;`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElements([NotNullWhen(true)] out IReadOnlyList<JsonElement>? value)
+    {
+        value = this.Value as IReadOnlyList<JsonElement>;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="string"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickString(out var value)) {
+    ///     // `value` is of type `string`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickString([NotNullWhen(true)] out string? value)
+    {
+        value = this.Value as string;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="double"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickDouble(out var value)) {
+    ///     // `value` is of type `double`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickDouble([NotNullWhen(true)] out double? value)
+    {
+        value = this.Value as double?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="bool"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickBool(out var value)) {
+    ///     // `value` is of type `bool`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickBool([NotNullWhen(true)] out bool? value)
+    {
+        value = this.Value as bool?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
+    /// if you need your function parameters to return something.</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// instance.Switch(
+    ///     (OutputListResponseExtractCorrectedContentOutput value) =&gt; {...},
+    ///     (JsonElement value) =&gt; {...},
+    ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
+    ///     (string value) =&gt; {...},
+    ///     (double value) =&gt; {...},
+    ///     (bool value) =&gt; {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public void Switch(
+        Action<OutputListResponseExtractCorrectedContentOutput> outputListResponseExtractCorrectedContentOutput,
+        Action<JsonElement> jsonElement,
+        Action<IReadOnlyList<JsonElement>> jsonElements,
+        Action<string> @string,
+        Action<double> @double,
+        Action<bool> @bool
+    )
+    {
+        switch (this.Value)
+        {
+            case OutputListResponseExtractCorrectedContentOutput value:
+                outputListResponseExtractCorrectedContentOutput(value);
+                break;
+            case JsonElement value:
+                jsonElement(value);
+                break;
+            case IReadOnlyList<JsonElement> value:
+                jsonElements(value);
+                break;
+            case string value:
+                @string(value);
+                break;
+            case double value:
+                @double(value);
+                break;
+            case bool value:
+                @bool(value);
+                break;
+            default:
+                throw new BemInvalidDataException(
+                    "Data did not match any variant of OutputListResponseExtractCorrectedContent"
+                );
+        }
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with and
+    /// returns its result.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Switch"/>
+    /// if you don't need your function parameters to return a value.</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// var result = instance.Match(
+    ///     (OutputListResponseExtractCorrectedContentOutput value) =&gt; {...},
+    ///     (JsonElement value) =&gt; {...},
+    ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
+    ///     (string value) =&gt; {...},
+    ///     (double value) =&gt; {...},
+    ///     (bool value) =&gt; {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public T Match<T>(
+        Func<
+            OutputListResponseExtractCorrectedContentOutput,
+            T
+        > outputListResponseExtractCorrectedContentOutput,
+        Func<JsonElement, T> jsonElement,
+        Func<IReadOnlyList<JsonElement>, T> jsonElements,
+        Func<string, T> @string,
+        Func<double, T> @double,
+        Func<bool, T> @bool
+    )
+    {
+        return this.Value switch
+        {
+            OutputListResponseExtractCorrectedContentOutput value =>
+                outputListResponseExtractCorrectedContentOutput(value),
+            JsonElement value => jsonElement(value),
+            IReadOnlyList<JsonElement> value => jsonElements(value),
+            string value => @string(value),
+            double value => @double(value),
+            bool value => @bool(value),
+            _ => throw new BemInvalidDataException(
+                "Data did not match any variant of OutputListResponseExtractCorrectedContent"
+            ),
+        };
+    }
+
+    public static implicit operator OutputListResponseExtractCorrectedContent(
+        OutputListResponseExtractCorrectedContentOutput value
+    ) => new(value);
+
+    public static implicit operator OutputListResponseExtractCorrectedContent(JsonElement value) =>
+        new(value);
+
+    public static implicit operator OutputListResponseExtractCorrectedContent(
+        List<JsonElement> value
+    ) => new((IReadOnlyList<JsonElement>)value);
+
+    public static implicit operator OutputListResponseExtractCorrectedContent(string value) =>
+        new(value);
+
+    public static implicit operator OutputListResponseExtractCorrectedContent(double value) =>
+        new(value);
+
+    public static implicit operator OutputListResponseExtractCorrectedContent(bool value) =>
+        new(value);
+
+    /// <summary>
+    /// Validates that the instance was constructed with a known variant and that this variant is valid
+    /// (based on its own <c>Validate</c> method).
+    ///
+    /// <para>This is useful for instances constructed from raw JSON data (e.g. deserialized from an API response).</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance does not pass validation.
+    /// </exception>
+    /// </summary>
+    public override void Validate()
+    {
+        if (this.Value == null)
+        {
+            throw new BemInvalidDataException(
+                "Data did not match any variant of OutputListResponseExtractCorrectedContent"
+            );
+        }
+        this.Switch(
+            (outputListResponseExtractCorrectedContentOutput) =>
+                outputListResponseExtractCorrectedContentOutput.Validate(),
+            (_) => { },
+            (_) => { },
+            (_) => { },
+            (_) => { },
+            (_) => { }
+        );
+    }
+
+    public virtual bool Equals(OutputListResponseExtractCorrectedContent? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(
+            FriendlyJsonPrinter.PrintValue(this.Json),
+            ModelBase.ToStringSerializerOptions
+        );
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            OutputListResponseExtractCorrectedContentOutput _ => 0,
+            JsonElement _ => 1,
+            IReadOnlyList<JsonElement> _ => 2,
+            string _ => 3,
+            double _ => 4,
+            bool _ => 5,
+            _ => -1,
+        };
+    }
+}
+
+sealed class OutputListResponseExtractCorrectedContentConverter
+    : JsonConverter<OutputListResponseExtractCorrectedContent?>
+{
+    public override OutputListResponseExtractCorrectedContent? Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        try
+        {
+            var deserialized =
+                JsonSerializer.Deserialize<OutputListResponseExtractCorrectedContentOutput>(
+                    element,
+                    options
+                );
+            if (deserialized != null)
+            {
+                deserialized.Validate();
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<List<JsonElement>>(element, options);
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<string>(element, options);
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<double>(element, options), element);
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<bool>(element, options), element);
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<JsonElement>(element, options));
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        return new(element);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseExtractCorrectedContent? value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(writer, value?.Json, options);
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseExtractCorrectedContentOutput,
+        OutputListResponseExtractCorrectedContentOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseExtractCorrectedContentOutput : JsonModel
+{
+    public IReadOnlyList<AnyType?>? Output
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<AnyType?>?>(
+                "output",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        foreach (var item in this.Output ?? [])
+        {
+            item?.Validate();
+        }
+    }
+
+    public OutputListResponseExtractCorrectedContentOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseExtractCorrectedContentOutput(
+        OutputListResponseExtractCorrectedContentOutput outputListResponseExtractCorrectedContentOutput
+    )
+        : base(outputListResponseExtractCorrectedContentOutput) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseExtractCorrectedContentOutput(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseExtractCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseExtractCorrectedContentOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseExtractCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseExtractCorrectedContentOutputFromRaw
+    : IFromRawJson<OutputListResponseExtractCorrectedContentOutput>
+{
+    /// <inheritdoc/>
+    public OutputListResponseExtractCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseExtractCorrectedContentOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(OutputListResponseExtractEventTypeConverter))]
+public enum OutputListResponseExtractEventType
+{
+    Extract,
+}
+
+sealed class OutputListResponseExtractEventTypeConverter
+    : JsonConverter<OutputListResponseExtractEventType>
+{
+    public override OutputListResponseExtractEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "extract" => OutputListResponseExtractEventType.Extract,
+            _ => (OutputListResponseExtractEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseExtractEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseExtractEventType.Extract => "extract",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseExtractInput,
+        OutputListResponseExtractInputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseExtractInput : JsonModel
+{
+    public string? InputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("inputContent");
+        }
+        init { this._rawData.Set("inputContent", value); }
+    }
+
+    public string? InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("inputType");
+        }
+        init { this._rawData.Set("inputType", value); }
+    }
+
+    public JsonElement? JsonInputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("jsonInputContent");
+        }
+        init { this._rawData.Set("jsonInputContent", value); }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.InputContent;
+        _ = this.InputType;
+        _ = this.JsonInputContent;
+        _ = this.S3Url;
+    }
+
+    public OutputListResponseExtractInput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseExtractInput(
+        OutputListResponseExtractInput outputListResponseExtractInput
+    )
+        : base(outputListResponseExtractInput) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseExtractInput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseExtractInput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseExtractInputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseExtractInput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseExtractInputFromRaw : IFromRawJson<OutputListResponseExtractInput>
+{
+    /// <inheritdoc/>
+    public OutputListResponseExtractInput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseExtractInput.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// The input type of the content you're sending for transformation.
+/// </summary>
+[JsonConverter(typeof(OutputListResponseExtractInputTypeConverter))]
+public enum OutputListResponseExtractInputType
+{
+    Csv,
+    Docx,
+    Email,
+    Heic,
+    Html,
+    Jpeg,
+    Json,
+    Heif,
+    M4a,
+    Mp3,
+    Pdf,
+    Png,
+    Text,
+    Wav,
+    Webp,
+    Xls,
+    Xlsx,
+    Xml,
+}
+
+sealed class OutputListResponseExtractInputTypeConverter
+    : JsonConverter<OutputListResponseExtractInputType>
+{
+    public override OutputListResponseExtractInputType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "csv" => OutputListResponseExtractInputType.Csv,
+            "docx" => OutputListResponseExtractInputType.Docx,
+            "email" => OutputListResponseExtractInputType.Email,
+            "heic" => OutputListResponseExtractInputType.Heic,
+            "html" => OutputListResponseExtractInputType.Html,
+            "jpeg" => OutputListResponseExtractInputType.Jpeg,
+            "json" => OutputListResponseExtractInputType.Json,
+            "heif" => OutputListResponseExtractInputType.Heif,
+            "m4a" => OutputListResponseExtractInputType.M4a,
+            "mp3" => OutputListResponseExtractInputType.Mp3,
+            "pdf" => OutputListResponseExtractInputType.Pdf,
+            "png" => OutputListResponseExtractInputType.Png,
+            "text" => OutputListResponseExtractInputType.Text,
+            "wav" => OutputListResponseExtractInputType.Wav,
+            "webp" => OutputListResponseExtractInputType.Webp,
+            "xls" => OutputListResponseExtractInputType.Xls,
+            "xlsx" => OutputListResponseExtractInputType.Xlsx,
+            "xml" => OutputListResponseExtractInputType.Xml,
+            _ => (OutputListResponseExtractInputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseExtractInputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseExtractInputType.Csv => "csv",
+                OutputListResponseExtractInputType.Docx => "docx",
+                OutputListResponseExtractInputType.Email => "email",
+                OutputListResponseExtractInputType.Heic => "heic",
+                OutputListResponseExtractInputType.Html => "html",
+                OutputListResponseExtractInputType.Jpeg => "jpeg",
+                OutputListResponseExtractInputType.Json => "json",
+                OutputListResponseExtractInputType.Heif => "heif",
+                OutputListResponseExtractInputType.M4a => "m4a",
+                OutputListResponseExtractInputType.Mp3 => "mp3",
+                OutputListResponseExtractInputType.Pdf => "pdf",
+                OutputListResponseExtractInputType.Png => "png",
+                OutputListResponseExtractInputType.Text => "text",
+                OutputListResponseExtractInputType.Wav => "wav",
+                OutputListResponseExtractInputType.Webp => "webp",
+                OutputListResponseExtractInputType.Xls => "xls",
+                OutputListResponseExtractInputType.Xlsx => "xlsx",
+                OutputListResponseExtractInputType.Xml => "xml",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseExtractMetadata,
+        OutputListResponseExtractMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseExtractMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public OutputListResponseExtractMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseExtractMetadata(
+        OutputListResponseExtractMetadata outputListResponseExtractMetadata
+    )
+        : base(outputListResponseExtractMetadata) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseExtractMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseExtractMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseExtractMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseExtractMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseExtractMetadataFromRaw : IFromRawJson<OutputListResponseExtractMetadata>
+{
+    /// <inheritdoc/>
+    public OutputListResponseExtractMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseExtractMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<OutputListResponseRoute, OutputListResponseRouteFromRaw>))]
+public sealed record class OutputListResponseRoute : JsonModel
+{
+    /// <summary>
+    /// The choice made by the router function.
+    /// </summary>
+    public required string Choice
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("choice");
+        }
+        init { this._rawData.Set("choice", value); }
+    }
+
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, OutputListResponseRouteEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseRouteEventType>
+            >("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public OutputListResponseRouteMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseRouteMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// The presigned S3 URL of the file that was routed.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Choice;
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ReferenceID;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public OutputListResponseRoute() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseRoute(OutputListResponseRoute outputListResponseRoute)
+        : base(outputListResponseRoute) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseRoute(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseRoute(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseRouteFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseRoute FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseRouteFromRaw : IFromRawJson<OutputListResponseRoute>
+{
+    /// <inheritdoc/>
+    public OutputListResponseRoute FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseRoute.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(OutputListResponseRouteEventTypeConverter))]
+public enum OutputListResponseRouteEventType
+{
+    Route,
+}
+
+sealed class OutputListResponseRouteEventTypeConverter
+    : JsonConverter<OutputListResponseRouteEventType>
+{
+    public override OutputListResponseRouteEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "route" => OutputListResponseRouteEventType.Route,
+            _ => (OutputListResponseRouteEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseRouteEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseRouteEventType.Route => "route",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseRouteMetadata,
+        OutputListResponseRouteMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseRouteMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public OutputListResponseRouteMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseRouteMetadata(
+        OutputListResponseRouteMetadata outputListResponseRouteMetadata
+    )
+        : base(outputListResponseRouteMetadata) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseRouteMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseRouteMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseRouteMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseRouteMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseRouteMetadataFromRaw : IFromRawJson<OutputListResponseRouteMetadata>
+{
+    /// <inheritdoc/>
+    public OutputListResponseRouteMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseRouteMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<OutputListResponseClassify, OutputListResponseClassifyFromRaw>)
+)]
+public sealed record class OutputListResponseClassify : JsonModel
+{
+    /// <summary>
+    /// The classification chosen by the classify function.
+    /// </summary>
+    public required string Choice
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("choice");
+        }
+        init { this._rawData.Set("choice", value); }
+    }
+
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, OutputListResponseClassifyEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseClassifyEventType>
+            >("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public OutputListResponseClassifyMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseClassifyMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// The presigned S3 URL of the file that was classified.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Choice;
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ReferenceID;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public OutputListResponseClassify() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseClassify(OutputListResponseClassify outputListResponseClassify)
+        : base(outputListResponseClassify) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseClassify(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseClassify(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseClassifyFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseClassify FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseClassifyFromRaw : IFromRawJson<OutputListResponseClassify>
+{
+    /// <inheritdoc/>
+    public OutputListResponseClassify FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseClassify.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(OutputListResponseClassifyEventTypeConverter))]
+public enum OutputListResponseClassifyEventType
+{
+    Classify,
+}
+
+sealed class OutputListResponseClassifyEventTypeConverter
+    : JsonConverter<OutputListResponseClassifyEventType>
+{
+    public override OutputListResponseClassifyEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "classify" => OutputListResponseClassifyEventType.Classify,
+            _ => (OutputListResponseClassifyEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseClassifyEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseClassifyEventType.Classify => "classify",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseClassifyMetadata,
+        OutputListResponseClassifyMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseClassifyMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public OutputListResponseClassifyMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseClassifyMetadata(
+        OutputListResponseClassifyMetadata outputListResponseClassifyMetadata
+    )
+        : base(outputListResponseClassifyMetadata) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseClassifyMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseClassifyMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseClassifyMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseClassifyMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseClassifyMetadataFromRaw : IFromRawJson<OutputListResponseClassifyMetadata>
+{
+    /// <inheritdoc/>
+    public OutputListResponseClassifyMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseClassifyMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitCollection,
+        OutputListResponseSplitCollectionFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitCollection : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public required ApiEnum<string, OutputListResponseSplitCollectionOutputType> OutputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, OutputListResponseSplitCollectionOutputType>
+            >("outputType");
+        }
+        init { this._rawData.Set("outputType", value); }
+    }
+
+    public required OutputListResponseSplitCollectionPrintPageOutput PrintPageOutput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<OutputListResponseSplitCollectionPrintPageOutput>(
+                "printPageOutput"
+            );
+        }
+        init { this._rawData.Set("printPageOutput", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    public required OutputListResponseSplitCollectionSemanticPageOutput SemanticPageOutput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<OutputListResponseSplitCollectionSemanticPageOutput>(
+                "semanticPageOutput"
+            );
+        }
+        init { this._rawData.Set("semanticPageOutput", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, OutputListResponseSplitCollectionEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseSplitCollectionEventType>
+            >("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public OutputListResponseSplitCollectionMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseSplitCollectionMetadata>(
+                "metadata"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        this.OutputType.Validate();
+        this.PrintPageOutput.Validate();
+        _ = this.ReferenceID;
+        this.SemanticPageOutput.Validate();
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public OutputListResponseSplitCollection() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitCollection(
+        OutputListResponseSplitCollection outputListResponseSplitCollection
+    )
+        : base(outputListResponseSplitCollection) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitCollection(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitCollection(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitCollectionFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitCollection FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitCollectionFromRaw : IFromRawJson<OutputListResponseSplitCollection>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitCollection FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitCollection.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(OutputListResponseSplitCollectionOutputTypeConverter))]
+public enum OutputListResponseSplitCollectionOutputType
+{
+    PrintPage,
+    SemanticPage,
+}
+
+sealed class OutputListResponseSplitCollectionOutputTypeConverter
+    : JsonConverter<OutputListResponseSplitCollectionOutputType>
+{
+    public override OutputListResponseSplitCollectionOutputType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "print_page" => OutputListResponseSplitCollectionOutputType.PrintPage,
+            "semantic_page" => OutputListResponseSplitCollectionOutputType.SemanticPage,
+            _ => (OutputListResponseSplitCollectionOutputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseSplitCollectionOutputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseSplitCollectionOutputType.PrintPage => "print_page",
+                OutputListResponseSplitCollectionOutputType.SemanticPage => "semantic_page",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitCollectionPrintPageOutput,
+        OutputListResponseSplitCollectionPrintPageOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitCollectionPrintPageOutput : JsonModel
+{
+    public long? ItemCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemCount", value);
+        }
+    }
+
+    public IReadOnlyList<OutputListResponseSplitCollectionPrintPageOutputItem>? Items
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<OutputListResponseSplitCollectionPrintPageOutputItem>
+            >("items");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<OutputListResponseSplitCollectionPrintPageOutputItem>?>(
+                "items",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.ItemCount;
+        foreach (var item in this.Items ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public OutputListResponseSplitCollectionPrintPageOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitCollectionPrintPageOutput(
+        OutputListResponseSplitCollectionPrintPageOutput outputListResponseSplitCollectionPrintPageOutput
+    )
+        : base(outputListResponseSplitCollectionPrintPageOutput) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitCollectionPrintPageOutput(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitCollectionPrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitCollectionPrintPageOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitCollectionPrintPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitCollectionPrintPageOutputFromRaw
+    : IFromRawJson<OutputListResponseSplitCollectionPrintPageOutput>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitCollectionPrintPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitCollectionPrintPageOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitCollectionPrintPageOutputItem,
+        OutputListResponseSplitCollectionPrintPageOutputItemFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitCollectionPrintPageOutputItem : JsonModel
+{
+    public long? ItemOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemOffset");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemOffset", value);
+        }
+    }
+
+    public string? ItemReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("itemReferenceID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemReferenceID", value);
+        }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.ItemOffset;
+        _ = this.ItemReferenceID;
+        _ = this.S3Url;
+    }
+
+    public OutputListResponseSplitCollectionPrintPageOutputItem() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitCollectionPrintPageOutputItem(
+        OutputListResponseSplitCollectionPrintPageOutputItem outputListResponseSplitCollectionPrintPageOutputItem
+    )
+        : base(outputListResponseSplitCollectionPrintPageOutputItem) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitCollectionPrintPageOutputItem(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitCollectionPrintPageOutputItem(
+        FrozenDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitCollectionPrintPageOutputItemFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitCollectionPrintPageOutputItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitCollectionPrintPageOutputItemFromRaw
+    : IFromRawJson<OutputListResponseSplitCollectionPrintPageOutputItem>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitCollectionPrintPageOutputItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitCollectionPrintPageOutputItem.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitCollectionSemanticPageOutput,
+        OutputListResponseSplitCollectionSemanticPageOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitCollectionSemanticPageOutput : JsonModel
+{
+    public long? ItemCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemCount", value);
+        }
+    }
+
+    public IReadOnlyList<OutputListResponseSplitCollectionSemanticPageOutputItem>? Items
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<OutputListResponseSplitCollectionSemanticPageOutputItem>
+            >("items");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<OutputListResponseSplitCollectionSemanticPageOutputItem>?>(
+                "items",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    public long? PageCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("pageCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("pageCount", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.ItemCount;
+        foreach (var item in this.Items ?? [])
+        {
+            item.Validate();
+        }
+        _ = this.PageCount;
+    }
+
+    public OutputListResponseSplitCollectionSemanticPageOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitCollectionSemanticPageOutput(
+        OutputListResponseSplitCollectionSemanticPageOutput outputListResponseSplitCollectionSemanticPageOutput
+    )
+        : base(outputListResponseSplitCollectionSemanticPageOutput) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitCollectionSemanticPageOutput(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitCollectionSemanticPageOutput(
+        FrozenDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitCollectionSemanticPageOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitCollectionSemanticPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitCollectionSemanticPageOutputFromRaw
+    : IFromRawJson<OutputListResponseSplitCollectionSemanticPageOutput>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitCollectionSemanticPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitCollectionSemanticPageOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitCollectionSemanticPageOutputItem,
+        OutputListResponseSplitCollectionSemanticPageOutputItemFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitCollectionSemanticPageOutputItem : JsonModel
+{
+    public string? ItemClass
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("itemClass");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemClass", value);
+        }
+    }
+
+    public long? ItemClassCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemClassCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemClassCount", value);
+        }
+    }
+
+    public long? ItemClassOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemClassOffset");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemClassOffset", value);
+        }
+    }
+
+    public long? ItemOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemOffset");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemOffset", value);
+        }
+    }
+
+    public string? ItemReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("itemReferenceID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemReferenceID", value);
+        }
+    }
+
+    public long? PageEnd
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("pageEnd");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("pageEnd", value);
+        }
+    }
+
+    public long? PageStart
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("pageStart");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("pageStart", value);
+        }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.ItemClass;
+        _ = this.ItemClassCount;
+        _ = this.ItemClassOffset;
+        _ = this.ItemOffset;
+        _ = this.ItemReferenceID;
+        _ = this.PageEnd;
+        _ = this.PageStart;
+        _ = this.S3Url;
+    }
+
+    public OutputListResponseSplitCollectionSemanticPageOutputItem() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitCollectionSemanticPageOutputItem(
+        OutputListResponseSplitCollectionSemanticPageOutputItem outputListResponseSplitCollectionSemanticPageOutputItem
+    )
+        : base(outputListResponseSplitCollectionSemanticPageOutputItem) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitCollectionSemanticPageOutputItem(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitCollectionSemanticPageOutputItem(
+        FrozenDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitCollectionSemanticPageOutputItemFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitCollectionSemanticPageOutputItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitCollectionSemanticPageOutputItemFromRaw
+    : IFromRawJson<OutputListResponseSplitCollectionSemanticPageOutputItem>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitCollectionSemanticPageOutputItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitCollectionSemanticPageOutputItem.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(OutputListResponseSplitCollectionEventTypeConverter))]
+public enum OutputListResponseSplitCollectionEventType
+{
+    SplitCollection,
+}
+
+sealed class OutputListResponseSplitCollectionEventTypeConverter
+    : JsonConverter<OutputListResponseSplitCollectionEventType>
+{
+    public override OutputListResponseSplitCollectionEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "split_collection" => OutputListResponseSplitCollectionEventType.SplitCollection,
+            _ => (OutputListResponseSplitCollectionEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseSplitCollectionEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseSplitCollectionEventType.SplitCollection => "split_collection",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitCollectionMetadata,
+        OutputListResponseSplitCollectionMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitCollectionMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public OutputListResponseSplitCollectionMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitCollectionMetadata(
+        OutputListResponseSplitCollectionMetadata outputListResponseSplitCollectionMetadata
+    )
+        : base(outputListResponseSplitCollectionMetadata) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitCollectionMetadata(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitCollectionMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitCollectionMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitCollectionMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitCollectionMetadataFromRaw
+    : IFromRawJson<OutputListResponseSplitCollectionMetadata>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitCollectionMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitCollectionMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<OutputListResponseSplitItem, OutputListResponseSplitItemFromRaw>)
+)]
+public sealed record class OutputListResponseSplitItem : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public required ApiEnum<string, OutputListResponseSplitItemOutputType> OutputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, OutputListResponseSplitItemOutputType>
+            >("outputType");
+        }
+        init { this._rawData.Set("outputType", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, OutputListResponseSplitItemEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseSplitItemEventType>
+            >("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public OutputListResponseSplitItemMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseSplitItemMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    public OutputListResponseSplitItemPrintPageOutput? PrintPageOutput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseSplitItemPrintPageOutput>(
+                "printPageOutput"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("printPageOutput", value);
+        }
+    }
+
+    public OutputListResponseSplitItemSemanticPageOutput? SemanticPageOutput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseSplitItemSemanticPageOutput>(
+                "semanticPageOutput"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("semanticPageOutput", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        this.OutputType.Validate();
+        _ = this.ReferenceID;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        this.PrintPageOutput?.Validate();
+        this.SemanticPageOutput?.Validate();
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public OutputListResponseSplitItem() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitItem(OutputListResponseSplitItem outputListResponseSplitItem)
+        : base(outputListResponseSplitItem) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitItem(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitItem(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitItemFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitItemFromRaw : IFromRawJson<OutputListResponseSplitItem>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitItem.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(OutputListResponseSplitItemOutputTypeConverter))]
+public enum OutputListResponseSplitItemOutputType
+{
+    PrintPage,
+    SemanticPage,
+}
+
+sealed class OutputListResponseSplitItemOutputTypeConverter
+    : JsonConverter<OutputListResponseSplitItemOutputType>
+{
+    public override OutputListResponseSplitItemOutputType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "print_page" => OutputListResponseSplitItemOutputType.PrintPage,
+            "semantic_page" => OutputListResponseSplitItemOutputType.SemanticPage,
+            _ => (OutputListResponseSplitItemOutputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseSplitItemOutputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseSplitItemOutputType.PrintPage => "print_page",
+                OutputListResponseSplitItemOutputType.SemanticPage => "semantic_page",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(OutputListResponseSplitItemEventTypeConverter))]
+public enum OutputListResponseSplitItemEventType
+{
+    SplitItem,
+}
+
+sealed class OutputListResponseSplitItemEventTypeConverter
+    : JsonConverter<OutputListResponseSplitItemEventType>
+{
+    public override OutputListResponseSplitItemEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "split_item" => OutputListResponseSplitItemEventType.SplitItem,
+            _ => (OutputListResponseSplitItemEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseSplitItemEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseSplitItemEventType.SplitItem => "split_item",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitItemMetadata,
+        OutputListResponseSplitItemMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitItemMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public OutputListResponseSplitItemMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitItemMetadata(
+        OutputListResponseSplitItemMetadata outputListResponseSplitItemMetadata
+    )
+        : base(outputListResponseSplitItemMetadata) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitItemMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitItemMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitItemMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitItemMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitItemMetadataFromRaw : IFromRawJson<OutputListResponseSplitItemMetadata>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitItemMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitItemMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitItemPrintPageOutput,
+        OutputListResponseSplitItemPrintPageOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitItemPrintPageOutput : JsonModel
+{
+    public string? CollectionReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("collectionReferenceID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("collectionReferenceID", value);
+        }
+    }
+
+    public long? ItemCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemCount", value);
+        }
+    }
+
+    public long? ItemOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemOffset");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemOffset", value);
+        }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.CollectionReferenceID;
+        _ = this.ItemCount;
+        _ = this.ItemOffset;
+        _ = this.S3Url;
+    }
+
+    public OutputListResponseSplitItemPrintPageOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitItemPrintPageOutput(
+        OutputListResponseSplitItemPrintPageOutput outputListResponseSplitItemPrintPageOutput
+    )
+        : base(outputListResponseSplitItemPrintPageOutput) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitItemPrintPageOutput(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitItemPrintPageOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitItemPrintPageOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitItemPrintPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitItemPrintPageOutputFromRaw
+    : IFromRawJson<OutputListResponseSplitItemPrintPageOutput>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitItemPrintPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitItemPrintPageOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSplitItemSemanticPageOutput,
+        OutputListResponseSplitItemSemanticPageOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSplitItemSemanticPageOutput : JsonModel
+{
+    public string? CollectionReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("collectionReferenceID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("collectionReferenceID", value);
+        }
+    }
+
+    public string? ItemClass
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("itemClass");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemClass", value);
+        }
+    }
+
+    public long? ItemClassCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemClassCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemClassCount", value);
+        }
+    }
+
+    public long? ItemClassOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemClassOffset");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemClassOffset", value);
+        }
+    }
+
+    public long? ItemCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemCount", value);
+        }
+    }
+
+    public long? ItemOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("itemOffset");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("itemOffset", value);
+        }
+    }
+
+    public long? PageCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("pageCount");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("pageCount", value);
+        }
+    }
+
+    public long? PageEnd
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("pageEnd");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("pageEnd", value);
+        }
+    }
+
+    public long? PageStart
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("pageStart");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("pageStart", value);
+        }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.CollectionReferenceID;
+        _ = this.ItemClass;
+        _ = this.ItemClassCount;
+        _ = this.ItemClassOffset;
+        _ = this.ItemCount;
+        _ = this.ItemOffset;
+        _ = this.PageCount;
+        _ = this.PageEnd;
+        _ = this.PageStart;
+        _ = this.S3Url;
+    }
+
+    public OutputListResponseSplitItemSemanticPageOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public OutputListResponseSplitItemSemanticPageOutput(
+        OutputListResponseSplitItemSemanticPageOutput outputListResponseSplitItemSemanticPageOutput
+    )
+        : base(outputListResponseSplitItemSemanticPageOutput) { }
+#pragma warning restore CS8618
+
+    public OutputListResponseSplitItemSemanticPageOutput(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    OutputListResponseSplitItemSemanticPageOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="OutputListResponseSplitItemSemanticPageOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSplitItemSemanticPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class OutputListResponseSplitItemSemanticPageOutputFromRaw
+    : IFromRawJson<OutputListResponseSplitItemSemanticPageOutput>
+{
+    /// <inheritdoc/>
+    public OutputListResponseSplitItemSemanticPageOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSplitItemSemanticPageOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<OutputListResponseJoin, OutputListResponseJoinFromRaw>))]
+public sealed record class OutputListResponseJoin : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// List of properties that were invalid in the input.
+    /// </summary>
+    public required IReadOnlyList<string> InvalidProperties
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<string>>("invalidProperties");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<string>>(
+                "invalidProperties",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The items that were joined.
+    /// </summary>
+    public required IReadOnlyList<OutputListResponseJoinItem> Items
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<OutputListResponseJoinItem>>(
+                "items"
+            );
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<OutputListResponseJoinItem>>(
+                "items",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The type of join that was performed.
+    /// </summary>
+    public required ApiEnum<string, OutputListResponseJoinJoinType> JoinType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, OutputListResponseJoinJoinType>>(
+                "joinType"
+            );
+        }
+        init { this._rawData.Set("joinType", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// The transformed content of the input. The structure of this object is defined
+    /// by the function configuration.
+    /// </summary>
+    public required JsonElement TransformedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+        }
+        init { this._rawData.Set("transformedContent", value); }
+    }
+
+    /// <summary>
+    /// Average confidence score across all extracted fields, in the range [0, 1].
+    /// </summary>
+    public float? AvgConfidence
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<float>("avgConfidence");
+        }
+        init { this._rawData.Set("avgConfidence", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, OutputListResponseJoinEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, OutputListResponseJoinEventType>>(
+                "eventType"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-field confidence scores. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// (e.g. `"/invoiceNumber"`) to float values in the range [0, 1] indicating the
+    /// model's confidence in each extracted field value.
+    /// </summary>
+    public JsonElement? FieldConfidences
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldConfidences");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldConfidences", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public OutputListResponseJoinMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<OutputListResponseJoinMetadata>("metadata");
         }
         init
         {
@@ -5627,43 +8061,48 @@ public sealed record class Join : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public Join() { }
+    public OutputListResponseJoin() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Join(Join join)
-        : base(join) { }
+    public OutputListResponseJoin(OutputListResponseJoin outputListResponseJoin)
+        : base(outputListResponseJoin) { }
 #pragma warning restore CS8618
 
-    public Join(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseJoin(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Join(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseJoin(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="JoinFromRaw.FromRawUnchecked"/>
-    public static Join FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseJoinFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseJoin FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class JoinFromRaw : IFromRawJson<Join>
+class OutputListResponseJoinFromRaw : IFromRawJson<OutputListResponseJoin>
 {
     /// <inheritdoc/>
-    public Join FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Join.FromRawUnchecked(rawData);
+    public OutputListResponseJoin FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseJoin.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<JoinItem, JoinItemFromRaw>))]
-public sealed record class JoinItem : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<OutputListResponseJoinItem, OutputListResponseJoinItemFromRaw>)
+)]
+public sealed record class OutputListResponseJoinItem : JsonModel
 {
     /// <summary>
     /// The number of items that were transformed.
@@ -5735,53 +8174,56 @@ public sealed record class JoinItem : JsonModel
         _ = this.S3Url;
     }
 
-    public JoinItem() { }
+    public OutputListResponseJoinItem() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public JoinItem(JoinItem joinItem)
-        : base(joinItem) { }
+    public OutputListResponseJoinItem(OutputListResponseJoinItem outputListResponseJoinItem)
+        : base(outputListResponseJoinItem) { }
 #pragma warning restore CS8618
 
-    public JoinItem(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseJoinItem(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    JoinItem(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseJoinItem(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="JoinItemFromRaw.FromRawUnchecked"/>
-    public static JoinItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseJoinItemFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseJoinItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class JoinItemFromRaw : IFromRawJson<JoinItem>
+class OutputListResponseJoinItemFromRaw : IFromRawJson<OutputListResponseJoinItem>
 {
     /// <inheritdoc/>
-    public JoinItem FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        JoinItem.FromRawUnchecked(rawData);
+    public OutputListResponseJoinItem FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseJoinItem.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The type of join that was performed.
 /// </summary>
-[JsonConverter(typeof(JoinTypeConverter))]
-public enum JoinType
+[JsonConverter(typeof(OutputListResponseJoinJoinTypeConverter))]
+public enum OutputListResponseJoinJoinType
 {
     Standard,
 }
 
-sealed class JoinTypeConverter : JsonConverter<JoinType>
+sealed class OutputListResponseJoinJoinTypeConverter : JsonConverter<OutputListResponseJoinJoinType>
 {
-    public override JoinType Read(
+    public override OutputListResponseJoinJoinType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -5789,51 +8231,14 @@ sealed class JoinTypeConverter : JsonConverter<JoinType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "standard" => JoinType.Standard,
-            _ => (JoinType)(-1),
-        };
-    }
-
-    public override void Write(Utf8JsonWriter writer, JoinType value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                JoinType.Standard => "standard",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(typeof(JoinEventTypeConverter))]
-public enum JoinEventType
-{
-    Join,
-}
-
-sealed class JoinEventTypeConverter : JsonConverter<JoinEventType>
-{
-    public override JoinEventType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "join" => JoinEventType.Join,
-            _ => (JoinEventType)(-1),
+            "standard" => OutputListResponseJoinJoinType.Standard,
+            _ => (OutputListResponseJoinJoinType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        JoinEventType value,
+        OutputListResponseJoinJoinType value,
         JsonSerializerOptions options
     )
     {
@@ -5841,7 +8246,7 @@ sealed class JoinEventTypeConverter : JsonConverter<JoinEventType>
             writer,
             value switch
             {
-                JoinEventType.Join => "join",
+                OutputListResponseJoinJoinType.Standard => "standard",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -5851,8 +8256,55 @@ sealed class JoinEventTypeConverter : JsonConverter<JoinEventType>
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<JoinMetadata, JoinMetadataFromRaw>))]
-public sealed record class JoinMetadata : JsonModel
+[JsonConverter(typeof(OutputListResponseJoinEventTypeConverter))]
+public enum OutputListResponseJoinEventType
+{
+    Join,
+}
+
+sealed class OutputListResponseJoinEventTypeConverter
+    : JsonConverter<OutputListResponseJoinEventType>
+{
+    public override OutputListResponseJoinEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "join" => OutputListResponseJoinEventType.Join,
+            _ => (OutputListResponseJoinEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseJoinEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                OutputListResponseJoinEventType.Join => "join",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseJoinMetadata,
+        OutputListResponseJoinMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseJoinMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -5878,43 +8330,50 @@ public sealed record class JoinMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public JoinMetadata() { }
+    public OutputListResponseJoinMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public JoinMetadata(JoinMetadata joinMetadata)
-        : base(joinMetadata) { }
+    public OutputListResponseJoinMetadata(
+        OutputListResponseJoinMetadata outputListResponseJoinMetadata
+    )
+        : base(outputListResponseJoinMetadata) { }
 #pragma warning restore CS8618
 
-    public JoinMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseJoinMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    JoinMetadata(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseJoinMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="JoinMetadataFromRaw.FromRawUnchecked"/>
-    public static JoinMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseJoinMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseJoinMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class JoinMetadataFromRaw : IFromRawJson<JoinMetadata>
+class OutputListResponseJoinMetadataFromRaw : IFromRawJson<OutputListResponseJoinMetadata>
 {
     /// <inheritdoc/>
-    public JoinMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        JoinMetadata.FromRawUnchecked(rawData);
+    public OutputListResponseJoinMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseJoinMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<Enrich, EnrichFromRaw>))]
-public sealed record class Enrich : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<OutputListResponseEnrich, OutputListResponseEnrichFromRaw>)
+)]
+public sealed record class OutputListResponseEnrich : JsonModel
 {
     /// <summary>
     /// The enriched content produced by the enrich function. Contains the input data
@@ -6025,12 +8484,14 @@ public sealed record class Enrich : JsonModel
         }
     }
 
-    public ApiEnum<string, EnrichEventType>? EventType
+    public ApiEnum<string, OutputListResponseEnrichEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, EnrichEventType>>("eventType");
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseEnrichEventType>
+            >("eventType");
         }
         init
         {
@@ -6127,12 +8588,12 @@ public sealed record class Enrich : JsonModel
         }
     }
 
-    public EnrichMetadata? Metadata
+    public OutputListResponseEnrichMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<EnrichMetadata>("metadata");
+            return this._rawData.GetNullableClass<OutputListResponseEnrichMetadata>("metadata");
         }
         init
         {
@@ -6229,50 +8690,54 @@ public sealed record class Enrich : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public Enrich() { }
+    public OutputListResponseEnrich() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Enrich(Enrich enrich)
-        : base(enrich) { }
+    public OutputListResponseEnrich(OutputListResponseEnrich outputListResponseEnrich)
+        : base(outputListResponseEnrich) { }
 #pragma warning restore CS8618
 
-    public Enrich(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseEnrich(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Enrich(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseEnrich(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="EnrichFromRaw.FromRawUnchecked"/>
-    public static Enrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseEnrichFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseEnrich FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class EnrichFromRaw : IFromRawJson<Enrich>
+class OutputListResponseEnrichFromRaw : IFromRawJson<OutputListResponseEnrich>
 {
     /// <inheritdoc/>
-    public Enrich FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Enrich.FromRawUnchecked(rawData);
+    public OutputListResponseEnrich FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseEnrich.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(EnrichEventTypeConverter))]
-public enum EnrichEventType
+[JsonConverter(typeof(OutputListResponseEnrichEventTypeConverter))]
+public enum OutputListResponseEnrichEventType
 {
     Enrich,
 }
 
-sealed class EnrichEventTypeConverter : JsonConverter<EnrichEventType>
+sealed class OutputListResponseEnrichEventTypeConverter
+    : JsonConverter<OutputListResponseEnrichEventType>
 {
-    public override EnrichEventType Read(
+    public override OutputListResponseEnrichEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -6280,14 +8745,14 @@ sealed class EnrichEventTypeConverter : JsonConverter<EnrichEventType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "enrich" => EnrichEventType.Enrich,
-            _ => (EnrichEventType)(-1),
+            "enrich" => OutputListResponseEnrichEventType.Enrich,
+            _ => (OutputListResponseEnrichEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        EnrichEventType value,
+        OutputListResponseEnrichEventType value,
         JsonSerializerOptions options
     )
     {
@@ -6295,7 +8760,7 @@ sealed class EnrichEventTypeConverter : JsonConverter<EnrichEventType>
             writer,
             value switch
             {
-                EnrichEventType.Enrich => "enrich",
+                OutputListResponseEnrichEventType.Enrich => "enrich",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -6305,8 +8770,13 @@ sealed class EnrichEventTypeConverter : JsonConverter<EnrichEventType>
     }
 }
 
-[JsonConverter(typeof(JsonModelConverter<EnrichMetadata, EnrichMetadataFromRaw>))]
-public sealed record class EnrichMetadata : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseEnrichMetadata,
+        OutputListResponseEnrichMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseEnrichMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -6332,43 +8802,53 @@ public sealed record class EnrichMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public EnrichMetadata() { }
+    public OutputListResponseEnrichMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public EnrichMetadata(EnrichMetadata enrichMetadata)
-        : base(enrichMetadata) { }
+    public OutputListResponseEnrichMetadata(
+        OutputListResponseEnrichMetadata outputListResponseEnrichMetadata
+    )
+        : base(outputListResponseEnrichMetadata) { }
 #pragma warning restore CS8618
 
-    public EnrichMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseEnrichMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    EnrichMetadata(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseEnrichMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="EnrichMetadataFromRaw.FromRawUnchecked"/>
-    public static EnrichMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseEnrichMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseEnrichMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class EnrichMetadataFromRaw : IFromRawJson<EnrichMetadata>
+class OutputListResponseEnrichMetadataFromRaw : IFromRawJson<OutputListResponseEnrichMetadata>
 {
     /// <inheritdoc/>
-    public EnrichMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        EnrichMetadata.FromRawUnchecked(rawData);
+    public OutputListResponseEnrichMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseEnrichMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<CollectionProcessing, CollectionProcessingFromRaw>))]
-public sealed record class CollectionProcessing : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseCollectionProcessing,
+        OutputListResponseCollectionProcessingFromRaw
+    >)
+)]
+public sealed record class OutputListResponseCollectionProcessing : JsonModel
 {
     /// <summary>
     /// Unique identifier of the collection.
@@ -6412,12 +8892,14 @@ public sealed record class CollectionProcessing : JsonModel
     /// <summary>
     /// The operation performed (add or update).
     /// </summary>
-    public required ApiEnum<string, Operation> Operation
+    public required ApiEnum<string, OutputListResponseCollectionProcessingOperation> Operation
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, Operation>>("operation");
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, OutputListResponseCollectionProcessingOperation>
+            >("operation");
         }
         init { this._rawData.Set("operation", value); }
     }
@@ -6452,12 +8934,14 @@ public sealed record class CollectionProcessing : JsonModel
     /// <summary>
     /// Processing status (success or failed).
     /// </summary>
-    public required ApiEnum<string, Status> Status
+    public required ApiEnum<string, OutputListResponseCollectionProcessingStatus> Status
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, Status>>("status");
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, OutputListResponseCollectionProcessingStatus>
+            >("status");
         }
         init { this._rawData.Set("status", value); }
     }
@@ -6528,14 +9012,14 @@ public sealed record class CollectionProcessing : JsonModel
         }
     }
 
-    public ApiEnum<string, CollectionProcessingEventType>? EventType
+    public ApiEnum<string, OutputListResponseCollectionProcessingEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, CollectionProcessingEventType>>(
-                "eventType"
-            );
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, OutputListResponseCollectionProcessingEventType>
+            >("eventType");
         }
         init
         {
@@ -6590,12 +9074,14 @@ public sealed record class CollectionProcessing : JsonModel
         }
     }
 
-    public CollectionProcessingMetadata? Metadata
+    public OutputListResponseCollectionProcessingMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<CollectionProcessingMetadata>("metadata");
+            return this._rawData.GetNullableClass<OutputListResponseCollectionProcessingMetadata>(
+                "metadata"
+            );
         }
         init
         {
@@ -6627,29 +9113,31 @@ public sealed record class CollectionProcessing : JsonModel
         this.Metadata?.Validate();
     }
 
-    public CollectionProcessing() { }
+    public OutputListResponseCollectionProcessing() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public CollectionProcessing(CollectionProcessing collectionProcessing)
-        : base(collectionProcessing) { }
+    public OutputListResponseCollectionProcessing(
+        OutputListResponseCollectionProcessing outputListResponseCollectionProcessing
+    )
+        : base(outputListResponseCollectionProcessing) { }
 #pragma warning restore CS8618
 
-    public CollectionProcessing(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseCollectionProcessing(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    CollectionProcessing(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseCollectionProcessing(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="CollectionProcessingFromRaw.FromRawUnchecked"/>
-    public static CollectionProcessing FromRawUnchecked(
+    /// <inheritdoc cref="OutputListResponseCollectionProcessingFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseCollectionProcessing FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -6657,27 +9145,29 @@ public sealed record class CollectionProcessing : JsonModel
     }
 }
 
-class CollectionProcessingFromRaw : IFromRawJson<CollectionProcessing>
+class OutputListResponseCollectionProcessingFromRaw
+    : IFromRawJson<OutputListResponseCollectionProcessing>
 {
     /// <inheritdoc/>
-    public CollectionProcessing FromRawUnchecked(
+    public OutputListResponseCollectionProcessing FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => CollectionProcessing.FromRawUnchecked(rawData);
+    ) => OutputListResponseCollectionProcessing.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// The operation performed (add or update).
 /// </summary>
-[JsonConverter(typeof(OperationConverter))]
-public enum Operation
+[JsonConverter(typeof(OutputListResponseCollectionProcessingOperationConverter))]
+public enum OutputListResponseCollectionProcessingOperation
 {
     Add,
     Update,
 }
 
-sealed class OperationConverter : JsonConverter<Operation>
+sealed class OutputListResponseCollectionProcessingOperationConverter
+    : JsonConverter<OutputListResponseCollectionProcessingOperation>
 {
-    public override Operation Read(
+    public override OutputListResponseCollectionProcessingOperation Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -6685,15 +9175,15 @@ sealed class OperationConverter : JsonConverter<Operation>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "add" => Operation.Add,
-            "update" => Operation.Update,
-            _ => (Operation)(-1),
+            "add" => OutputListResponseCollectionProcessingOperation.Add,
+            "update" => OutputListResponseCollectionProcessingOperation.Update,
+            _ => (OutputListResponseCollectionProcessingOperation)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        Operation value,
+        OutputListResponseCollectionProcessingOperation value,
         JsonSerializerOptions options
     )
     {
@@ -6701,8 +9191,8 @@ sealed class OperationConverter : JsonConverter<Operation>
             writer,
             value switch
             {
-                Operation.Add => "add",
-                Operation.Update => "update",
+                OutputListResponseCollectionProcessingOperation.Add => "add",
+                OutputListResponseCollectionProcessingOperation.Update => "update",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -6715,16 +9205,17 @@ sealed class OperationConverter : JsonConverter<Operation>
 /// <summary>
 /// Processing status (success or failed).
 /// </summary>
-[JsonConverter(typeof(StatusConverter))]
-public enum Status
+[JsonConverter(typeof(OutputListResponseCollectionProcessingStatusConverter))]
+public enum OutputListResponseCollectionProcessingStatus
 {
     Success,
     Failed,
 }
 
-sealed class StatusConverter : JsonConverter<Status>
+sealed class OutputListResponseCollectionProcessingStatusConverter
+    : JsonConverter<OutputListResponseCollectionProcessingStatus>
 {
-    public override Status Read(
+    public override OutputListResponseCollectionProcessingStatus Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -6732,20 +9223,24 @@ sealed class StatusConverter : JsonConverter<Status>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "success" => Status.Success,
-            "failed" => Status.Failed,
-            _ => (Status)(-1),
+            "success" => OutputListResponseCollectionProcessingStatus.Success,
+            "failed" => OutputListResponseCollectionProcessingStatus.Failed,
+            _ => (OutputListResponseCollectionProcessingStatus)(-1),
         };
     }
 
-    public override void Write(Utf8JsonWriter writer, Status value, JsonSerializerOptions options)
+    public override void Write(
+        Utf8JsonWriter writer,
+        OutputListResponseCollectionProcessingStatus value,
+        JsonSerializerOptions options
+    )
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                Status.Success => "success",
-                Status.Failed => "failed",
+                OutputListResponseCollectionProcessingStatus.Success => "success",
+                OutputListResponseCollectionProcessingStatus.Failed => "failed",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -6755,15 +9250,16 @@ sealed class StatusConverter : JsonConverter<Status>
     }
 }
 
-[JsonConverter(typeof(CollectionProcessingEventTypeConverter))]
-public enum CollectionProcessingEventType
+[JsonConverter(typeof(OutputListResponseCollectionProcessingEventTypeConverter))]
+public enum OutputListResponseCollectionProcessingEventType
 {
     CollectionProcessing,
 }
 
-sealed class CollectionProcessingEventTypeConverter : JsonConverter<CollectionProcessingEventType>
+sealed class OutputListResponseCollectionProcessingEventTypeConverter
+    : JsonConverter<OutputListResponseCollectionProcessingEventType>
 {
-    public override CollectionProcessingEventType Read(
+    public override OutputListResponseCollectionProcessingEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -6771,14 +9267,15 @@ sealed class CollectionProcessingEventTypeConverter : JsonConverter<CollectionPr
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "collection_processing" => CollectionProcessingEventType.CollectionProcessing,
-            _ => (CollectionProcessingEventType)(-1),
+            "collection_processing" =>
+                OutputListResponseCollectionProcessingEventType.CollectionProcessing,
+            _ => (OutputListResponseCollectionProcessingEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        CollectionProcessingEventType value,
+        OutputListResponseCollectionProcessingEventType value,
         JsonSerializerOptions options
     )
     {
@@ -6786,7 +9283,8 @@ sealed class CollectionProcessingEventTypeConverter : JsonConverter<CollectionPr
             writer,
             value switch
             {
-                CollectionProcessingEventType.CollectionProcessing => "collection_processing",
+                OutputListResponseCollectionProcessingEventType.CollectionProcessing =>
+                    "collection_processing",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -6797,9 +9295,12 @@ sealed class CollectionProcessingEventTypeConverter : JsonConverter<CollectionPr
 }
 
 [JsonConverter(
-    typeof(JsonModelConverter<CollectionProcessingMetadata, CollectionProcessingMetadataFromRaw>)
+    typeof(JsonModelConverter<
+        OutputListResponseCollectionProcessingMetadata,
+        OutputListResponseCollectionProcessingMetadataFromRaw
+    >)
 )]
-public sealed record class CollectionProcessingMetadata : JsonModel
+public sealed record class OutputListResponseCollectionProcessingMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -6825,29 +9326,33 @@ public sealed record class CollectionProcessingMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public CollectionProcessingMetadata() { }
+    public OutputListResponseCollectionProcessingMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public CollectionProcessingMetadata(CollectionProcessingMetadata collectionProcessingMetadata)
-        : base(collectionProcessingMetadata) { }
+    public OutputListResponseCollectionProcessingMetadata(
+        OutputListResponseCollectionProcessingMetadata outputListResponseCollectionProcessingMetadata
+    )
+        : base(outputListResponseCollectionProcessingMetadata) { }
 #pragma warning restore CS8618
 
-    public CollectionProcessingMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseCollectionProcessingMetadata(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    CollectionProcessingMetadata(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseCollectionProcessingMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="CollectionProcessingMetadataFromRaw.FromRawUnchecked"/>
-    public static CollectionProcessingMetadata FromRawUnchecked(
+    /// <inheritdoc cref="OutputListResponseCollectionProcessingMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseCollectionProcessingMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -6855,26 +9360,29 @@ public sealed record class CollectionProcessingMetadata : JsonModel
     }
 }
 
-class CollectionProcessingMetadataFromRaw : IFromRawJson<CollectionProcessingMetadata>
+class OutputListResponseCollectionProcessingMetadataFromRaw
+    : IFromRawJson<OutputListResponseCollectionProcessingMetadata>
 {
     /// <inheritdoc/>
-    public CollectionProcessingMetadata FromRawUnchecked(
+    public OutputListResponseCollectionProcessingMetadata FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => CollectionProcessingMetadata.FromRawUnchecked(rawData);
+    ) => OutputListResponseCollectionProcessingMetadata.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<Send, SendFromRaw>))]
-public sealed record class Send : JsonModel
+[JsonConverter(typeof(JsonModelConverter<OutputListResponseSend, OutputListResponseSendFromRaw>))]
+public sealed record class OutputListResponseSend : JsonModel
 {
     /// <summary>
     /// Outcome of a Send function's delivery attempt.
     /// </summary>
-    public required ApiEnum<string, DeliveryStatus> DeliveryStatus
+    public required ApiEnum<string, OutputListResponseSendDeliveryStatus> DeliveryStatus
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, DeliveryStatus>>("deliveryStatus");
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, OutputListResponseSendDeliveryStatus>
+            >("deliveryStatus");
         }
         init { this._rawData.Set("deliveryStatus", value); }
     }
@@ -6882,14 +9390,14 @@ public sealed record class Send : JsonModel
     /// <summary>
     /// Destination type for a Send function.
     /// </summary>
-    public required ApiEnum<string, DestinationType> DestinationType
+    public required ApiEnum<string, OutputListResponseSendDestinationType> DestinationType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
-                "destinationType"
-            );
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, OutputListResponseSendDestinationType>
+            >("destinationType");
         }
         init { this._rawData.Set("destinationType", value); }
     }
@@ -7013,12 +9521,14 @@ public sealed record class Send : JsonModel
         }
     }
 
-    public ApiEnum<string, SendEventType>? EventType
+    public ApiEnum<string, OutputListResponseSendEventType>? EventType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, SendEventType>>("eventType");
+            return this._rawData.GetNullableClass<ApiEnum<string, OutputListResponseSendEventType>>(
+                "eventType"
+            );
         }
         init
         {
@@ -7097,12 +9607,14 @@ public sealed record class Send : JsonModel
     /// <summary>
     /// Metadata returned when a Send function delivers to Google Drive.
     /// </summary>
-    public GoogleDriveOutput? GoogleDriveOutput
+    public OutputListResponseSendGoogleDriveOutput? GoogleDriveOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<GoogleDriveOutput>("googleDriveOutput");
+            return this._rawData.GetNullableClass<OutputListResponseSendGoogleDriveOutput>(
+                "googleDriveOutput"
+            );
         }
         init
         {
@@ -7136,12 +9648,12 @@ public sealed record class Send : JsonModel
         }
     }
 
-    public SendMetadata? Metadata
+    public OutputListResponseSendMetadata? Metadata
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<SendMetadata>("metadata");
+            return this._rawData.GetNullableClass<OutputListResponseSendMetadata>("metadata");
         }
         init
         {
@@ -7157,12 +9669,12 @@ public sealed record class Send : JsonModel
     /// <summary>
     /// Metadata returned when a Send function delivers to an S3 bucket.
     /// </summary>
-    public S3Output? S3Output
+    public OutputListResponseSendS3Output? S3Output
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<S3Output>("s3Output");
+            return this._rawData.GetNullableClass<OutputListResponseSendS3Output>("s3Output");
         }
         init
         {
@@ -7178,12 +9690,14 @@ public sealed record class Send : JsonModel
     /// <summary>
     /// Metadata returned when a Send function delivers to a webhook.
     /// </summary>
-    public WebhookOutput? WebhookOutput
+    public OutputListResponseSendWebhookOutput? WebhookOutput
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<WebhookOutput>("webhookOutput");
+            return this._rawData.GetNullableClass<OutputListResponseSendWebhookOutput>(
+                "webhookOutput"
+            );
         }
         init
         {
@@ -7285,54 +9799,58 @@ public sealed record class Send : JsonModel
         _ = this.WorkflowVersionNum;
     }
 
-    public Send() { }
+    public OutputListResponseSend() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Send(Send send)
-        : base(send) { }
+    public OutputListResponseSend(OutputListResponseSend outputListResponseSend)
+        : base(outputListResponseSend) { }
 #pragma warning restore CS8618
 
-    public Send(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseSend(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Send(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseSend(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="SendFromRaw.FromRawUnchecked"/>
-    public static Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseSendFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSend FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class SendFromRaw : IFromRawJson<Send>
+class OutputListResponseSendFromRaw : IFromRawJson<OutputListResponseSend>
 {
     /// <inheritdoc/>
-    public Send FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Send.FromRawUnchecked(rawData);
+    public OutputListResponseSend FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSend.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Outcome of a Send function's delivery attempt.
 /// </summary>
-[JsonConverter(typeof(DeliveryStatusConverter))]
-public enum DeliveryStatus
+[JsonConverter(typeof(OutputListResponseSendDeliveryStatusConverter))]
+public enum OutputListResponseSendDeliveryStatus
 {
     Success,
     Skip,
 }
 
-sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
+sealed class OutputListResponseSendDeliveryStatusConverter
+    : JsonConverter<OutputListResponseSendDeliveryStatus>
 {
-    public override DeliveryStatus Read(
+    public override OutputListResponseSendDeliveryStatus Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -7340,15 +9858,15 @@ sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "success" => DeliveryStatus.Success,
-            "skip" => DeliveryStatus.Skip,
-            _ => (DeliveryStatus)(-1),
+            "success" => OutputListResponseSendDeliveryStatus.Success,
+            "skip" => OutputListResponseSendDeliveryStatus.Skip,
+            _ => (OutputListResponseSendDeliveryStatus)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        DeliveryStatus value,
+        OutputListResponseSendDeliveryStatus value,
         JsonSerializerOptions options
     )
     {
@@ -7356,8 +9874,8 @@ sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
             writer,
             value switch
             {
-                DeliveryStatus.Success => "success",
-                DeliveryStatus.Skip => "skip",
+                OutputListResponseSendDeliveryStatus.Success => "success",
+                OutputListResponseSendDeliveryStatus.Skip => "skip",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -7370,17 +9888,18 @@ sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
 /// <summary>
 /// Destination type for a Send function.
 /// </summary>
-[JsonConverter(typeof(DestinationTypeConverter))]
-public enum DestinationType
+[JsonConverter(typeof(OutputListResponseSendDestinationTypeConverter))]
+public enum OutputListResponseSendDestinationType
 {
     Webhook,
     S3,
     GoogleDrive,
 }
 
-sealed class DestinationTypeConverter : JsonConverter<DestinationType>
+sealed class OutputListResponseSendDestinationTypeConverter
+    : JsonConverter<OutputListResponseSendDestinationType>
 {
-    public override DestinationType Read(
+    public override OutputListResponseSendDestinationType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -7388,16 +9907,16 @@ sealed class DestinationTypeConverter : JsonConverter<DestinationType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "webhook" => DestinationType.Webhook,
-            "s3" => DestinationType.S3,
-            "google_drive" => DestinationType.GoogleDrive,
-            _ => (DestinationType)(-1),
+            "webhook" => OutputListResponseSendDestinationType.Webhook,
+            "s3" => OutputListResponseSendDestinationType.S3,
+            "google_drive" => OutputListResponseSendDestinationType.GoogleDrive,
+            _ => (OutputListResponseSendDestinationType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        DestinationType value,
+        OutputListResponseSendDestinationType value,
         JsonSerializerOptions options
     )
     {
@@ -7405,9 +9924,9 @@ sealed class DestinationTypeConverter : JsonConverter<DestinationType>
             writer,
             value switch
             {
-                DestinationType.Webhook => "webhook",
-                DestinationType.S3 => "s3",
-                DestinationType.GoogleDrive => "google_drive",
+                OutputListResponseSendDestinationType.Webhook => "webhook",
+                OutputListResponseSendDestinationType.S3 => "s3",
+                OutputListResponseSendDestinationType.GoogleDrive => "google_drive",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -7417,15 +9936,16 @@ sealed class DestinationTypeConverter : JsonConverter<DestinationType>
     }
 }
 
-[JsonConverter(typeof(SendEventTypeConverter))]
-public enum SendEventType
+[JsonConverter(typeof(OutputListResponseSendEventTypeConverter))]
+public enum OutputListResponseSendEventType
 {
     Send,
 }
 
-sealed class SendEventTypeConverter : JsonConverter<SendEventType>
+sealed class OutputListResponseSendEventTypeConverter
+    : JsonConverter<OutputListResponseSendEventType>
 {
-    public override SendEventType Read(
+    public override OutputListResponseSendEventType Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -7433,14 +9953,14 @@ sealed class SendEventTypeConverter : JsonConverter<SendEventType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "send" => SendEventType.Send,
-            _ => (SendEventType)(-1),
+            "send" => OutputListResponseSendEventType.Send,
+            _ => (OutputListResponseSendEventType)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        SendEventType value,
+        OutputListResponseSendEventType value,
         JsonSerializerOptions options
     )
     {
@@ -7448,7 +9968,7 @@ sealed class SendEventTypeConverter : JsonConverter<SendEventType>
             writer,
             value switch
             {
-                SendEventType.Send => "send",
+                OutputListResponseSendEventType.Send => "send",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -7461,8 +9981,13 @@ sealed class SendEventTypeConverter : JsonConverter<SendEventType>
 /// <summary>
 /// Metadata returned when a Send function delivers to Google Drive.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<GoogleDriveOutput, GoogleDriveOutputFromRaw>))]
-public sealed record class GoogleDriveOutput : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSendGoogleDriveOutput,
+        OutputListResponseSendGoogleDriveOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSendGoogleDriveOutput : JsonModel
 {
     /// <summary>
     /// Name of the file created in Google Drive.
@@ -7497,29 +10022,31 @@ public sealed record class GoogleDriveOutput : JsonModel
         _ = this.FolderID;
     }
 
-    public GoogleDriveOutput() { }
+    public OutputListResponseSendGoogleDriveOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public GoogleDriveOutput(GoogleDriveOutput googleDriveOutput)
-        : base(googleDriveOutput) { }
+    public OutputListResponseSendGoogleDriveOutput(
+        OutputListResponseSendGoogleDriveOutput outputListResponseSendGoogleDriveOutput
+    )
+        : base(outputListResponseSendGoogleDriveOutput) { }
 #pragma warning restore CS8618
 
-    public GoogleDriveOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseSendGoogleDriveOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    GoogleDriveOutput(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseSendGoogleDriveOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="GoogleDriveOutputFromRaw.FromRawUnchecked"/>
-    public static GoogleDriveOutput FromRawUnchecked(
+    /// <inheritdoc cref="OutputListResponseSendGoogleDriveOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSendGoogleDriveOutput FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -7527,15 +10054,22 @@ public sealed record class GoogleDriveOutput : JsonModel
     }
 }
 
-class GoogleDriveOutputFromRaw : IFromRawJson<GoogleDriveOutput>
+class OutputListResponseSendGoogleDriveOutputFromRaw
+    : IFromRawJson<OutputListResponseSendGoogleDriveOutput>
 {
     /// <inheritdoc/>
-    public GoogleDriveOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        GoogleDriveOutput.FromRawUnchecked(rawData);
+    public OutputListResponseSendGoogleDriveOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSendGoogleDriveOutput.FromRawUnchecked(rawData);
 }
 
-[JsonConverter(typeof(JsonModelConverter<SendMetadata, SendMetadataFromRaw>))]
-public sealed record class SendMetadata : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSendMetadata,
+        OutputListResponseSendMetadataFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSendMetadata : JsonModel
 {
     public double? DurationFunctionToEventSeconds
     {
@@ -7561,46 +10095,56 @@ public sealed record class SendMetadata : JsonModel
         _ = this.DurationFunctionToEventSeconds;
     }
 
-    public SendMetadata() { }
+    public OutputListResponseSendMetadata() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public SendMetadata(SendMetadata sendMetadata)
-        : base(sendMetadata) { }
+    public OutputListResponseSendMetadata(
+        OutputListResponseSendMetadata outputListResponseSendMetadata
+    )
+        : base(outputListResponseSendMetadata) { }
 #pragma warning restore CS8618
 
-    public SendMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseSendMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    SendMetadata(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseSendMetadata(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="SendMetadataFromRaw.FromRawUnchecked"/>
-    public static SendMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseSendMetadataFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSendMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class SendMetadataFromRaw : IFromRawJson<SendMetadata>
+class OutputListResponseSendMetadataFromRaw : IFromRawJson<OutputListResponseSendMetadata>
 {
     /// <inheritdoc/>
-    public SendMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SendMetadata.FromRawUnchecked(rawData);
+    public OutputListResponseSendMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSendMetadata.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Metadata returned when a Send function delivers to an S3 bucket.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<S3Output, S3OutputFromRaw>))]
-public sealed record class S3Output : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSendS3Output,
+        OutputListResponseSendS3OutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSendS3Output : JsonModel
 {
     /// <summary>
     /// Name of the S3 bucket the payload was written to.
@@ -7635,46 +10179,56 @@ public sealed record class S3Output : JsonModel
         _ = this.Key;
     }
 
-    public S3Output() { }
+    public OutputListResponseSendS3Output() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public S3Output(S3Output s3Output)
-        : base(s3Output) { }
+    public OutputListResponseSendS3Output(
+        OutputListResponseSendS3Output outputListResponseSendS3Output
+    )
+        : base(outputListResponseSendS3Output) { }
 #pragma warning restore CS8618
 
-    public S3Output(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseSendS3Output(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    S3Output(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseSendS3Output(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="S3OutputFromRaw.FromRawUnchecked"/>
-    public static S3Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseSendS3OutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSendS3Output FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class S3OutputFromRaw : IFromRawJson<S3Output>
+class OutputListResponseSendS3OutputFromRaw : IFromRawJson<OutputListResponseSendS3Output>
 {
     /// <inheritdoc/>
-    public S3Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        S3Output.FromRawUnchecked(rawData);
+    public OutputListResponseSendS3Output FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSendS3Output.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Metadata returned when a Send function delivers to a webhook.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<WebhookOutput, WebhookOutputFromRaw>))]
-public sealed record class WebhookOutput : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        OutputListResponseSendWebhookOutput,
+        OutputListResponseSendWebhookOutputFromRaw
+    >)
+)]
+public sealed record class OutputListResponseSendWebhookOutput : JsonModel
 {
     /// <summary>
     /// Raw HTTP response body returned by the webhook endpoint.
@@ -7709,37 +10263,42 @@ public sealed record class WebhookOutput : JsonModel
         _ = this.HttpStatusCode;
     }
 
-    public WebhookOutput() { }
+    public OutputListResponseSendWebhookOutput() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public WebhookOutput(WebhookOutput webhookOutput)
-        : base(webhookOutput) { }
+    public OutputListResponseSendWebhookOutput(
+        OutputListResponseSendWebhookOutput outputListResponseSendWebhookOutput
+    )
+        : base(outputListResponseSendWebhookOutput) { }
 #pragma warning restore CS8618
 
-    public WebhookOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    public OutputListResponseSendWebhookOutput(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    WebhookOutput(FrozenDictionary<string, JsonElement> rawData)
+    OutputListResponseSendWebhookOutput(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="WebhookOutputFromRaw.FromRawUnchecked"/>
-    public static WebhookOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="OutputListResponseSendWebhookOutputFromRaw.FromRawUnchecked"/>
+    public static OutputListResponseSendWebhookOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class WebhookOutputFromRaw : IFromRawJson<WebhookOutput>
+class OutputListResponseSendWebhookOutputFromRaw : IFromRawJson<OutputListResponseSendWebhookOutput>
 {
     /// <inheritdoc/>
-    public WebhookOutput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        WebhookOutput.FromRawUnchecked(rawData);
+    public OutputListResponseSendWebhookOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => OutputListResponseSendWebhookOutput.FromRawUnchecked(rawData);
 }

@@ -41,7 +41,11 @@ public interface IVersionService
     IVersionService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
-    /// Get a Function Version
+    /// **Retrieve a specific historical version of a function.**
+    ///
+    /// <para>Versions are immutable. Use this endpoint to inspect what a function
+    /// looked like at the moment a particular call was made — every event and
+    /// transformation records the function version it ran against.</para>
     /// </summary>
     Task<VersionRetrieveResponse> Retrieve(
         VersionRetrieveParams parameters,
@@ -56,7 +60,12 @@ public interface IVersionService
     );
 
     /// <summary>
-    /// List Function Versions
+    /// **List every version of a function.**
+    ///
+    /// <para>Returns the full version history, newest-first. Each row captures the
+    /// configuration the function had between updates. Useful for audits ("when did
+    /// this schema change?") and for diffing two versions before promoting an update to
+    /// production.</para>
     /// </summary>
     Task<ListFunctionVersionsResponse> List(
         VersionListParams parameters,

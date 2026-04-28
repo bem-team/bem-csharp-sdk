@@ -15,8 +15,10 @@ public class CreateFunctionTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -155,14 +157,34 @@ public class CreateFunctionTest : TestBase
     }
 
     [Fact]
+    public void ParseValidationWorks()
+    {
+        CreateFunction value = new Parse()
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void ExtractSerializationRoundtripWorks()
     {
         CreateFunction value = new Extract()
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -341,6 +363,30 @@ public class CreateFunctionTest : TestBase
 
         Assert.Equal(value, deserialized);
     }
+
+    [Fact]
+    public void ParseSerializationRoundtripWorks()
+    {
+        CreateFunction value = new Parse()
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<CreateFunction>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
 }
 
 public class ExtractTest : TestBase
@@ -352,8 +398,10 @@ public class ExtractTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -361,17 +409,21 @@ public class ExtractTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         bool expectedTabularChunkingEnabled = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
         Assert.NotNull(model.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, model.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, model.OutputSchemaName);
+        Assert.Equal(expectedPreCount, model.PreCount);
         Assert.Equal(expectedTabularChunkingEnabled, model.TabularChunkingEnabled);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -388,8 +440,10 @@ public class ExtractTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -407,8 +461,10 @@ public class ExtractTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -423,17 +479,21 @@ public class ExtractTest : TestBase
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("extract");
         string expectedDisplayName = "displayName";
+        bool expectedEnableBoundingBoxes = true;
         JsonElement expectedOutputSchema = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedOutputSchemaName = "outputSchemaName";
+        bool expectedPreCount = true;
         bool expectedTabularChunkingEnabled = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
         Assert.NotNull(deserialized.OutputSchema);
         Assert.True(JsonElement.DeepEquals(expectedOutputSchema, deserialized.OutputSchema.Value));
         Assert.Equal(expectedOutputSchemaName, deserialized.OutputSchemaName);
+        Assert.Equal(expectedPreCount, deserialized.PreCount);
         Assert.Equal(expectedTabularChunkingEnabled, deserialized.TabularChunkingEnabled);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -450,8 +510,10 @@ public class ExtractTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -466,10 +528,14 @@ public class ExtractTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.OutputSchema);
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
         Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.PreCount);
+        Assert.False(model.RawData.ContainsKey("preCount"));
         Assert.Null(model.TabularChunkingEnabled);
         Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
         Assert.Null(model.Tags);
@@ -493,18 +559,24 @@ public class ExtractTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             OutputSchema = null,
             OutputSchemaName = null,
+            PreCount = null,
             TabularChunkingEnabled = null,
             Tags = null,
         };
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.OutputSchema);
         Assert.False(model.RawData.ContainsKey("outputSchema"));
         Assert.Null(model.OutputSchemaName);
         Assert.False(model.RawData.ContainsKey("outputSchemaName"));
+        Assert.Null(model.PreCount);
+        Assert.False(model.RawData.ContainsKey("preCount"));
         Assert.Null(model.TabularChunkingEnabled);
         Assert.False(model.RawData.ContainsKey("tabularChunkingEnabled"));
         Assert.Null(model.Tags);
@@ -520,8 +592,10 @@ public class ExtractTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            EnableBoundingBoxes = null,
             OutputSchema = null,
             OutputSchemaName = null,
+            PreCount = null,
             TabularChunkingEnabled = null,
             Tags = null,
         };
@@ -536,8 +610,10 @@ public class ExtractTest : TestBase
         {
             FunctionName = "functionName",
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -2543,6 +2619,362 @@ public class EnrichTest : TestBase
         };
 
         Enrich copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ParseTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("parse");
+        string expectedDisplayName = "displayName";
+        ParseConfig expectedParseConfig = new()
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+        List<string> expectedTags = ["string"];
+
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedParseConfig, model.ParseConfig);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Parse>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Parse>(element, ModelBase.SerializerOptions);
+        Assert.NotNull(deserialized);
+
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("parse");
+        string expectedDisplayName = "displayName";
+        ParseConfig expectedParseConfig = new()
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+        List<string> expectedTags = ["string"];
+
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedParseConfig, deserialized.ParseConfig);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Parse { FunctionName = "functionName" };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ParseConfig);
+        Assert.False(model.RawData.ContainsKey("parseConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Parse { FunctionName = "functionName" };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            ParseConfig = null,
+            Tags = null,
+        };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ParseConfig);
+        Assert.False(model.RawData.ContainsKey("parseConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            ParseConfig = null,
+            Tags = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Parse
+        {
+            FunctionName = "functionName",
+            DisplayName = "displayName",
+            ParseConfig = new()
+            {
+                ExtractEntities = true,
+                LinkAcrossDocuments = true,
+                Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+        };
+
+        Parse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ParseConfigTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new ParseConfig
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        bool expectedExtractEntities = true;
+        bool expectedLinkAcrossDocuments = true;
+        JsonElement expectedSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+
+        Assert.Equal(expectedExtractEntities, model.ExtractEntities);
+        Assert.Equal(expectedLinkAcrossDocuments, model.LinkAcrossDocuments);
+        Assert.NotNull(model.Schema);
+        Assert.True(JsonElement.DeepEquals(expectedSchema, model.Schema.Value));
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new ParseConfig
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseConfig>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new ParseConfig
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseConfig>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        bool expectedExtractEntities = true;
+        bool expectedLinkAcrossDocuments = true;
+        JsonElement expectedSchema = JsonSerializer.Deserialize<JsonElement>("{}");
+
+        Assert.Equal(expectedExtractEntities, deserialized.ExtractEntities);
+        Assert.Equal(expectedLinkAcrossDocuments, deserialized.LinkAcrossDocuments);
+        Assert.NotNull(deserialized.Schema);
+        Assert.True(JsonElement.DeepEquals(expectedSchema, deserialized.Schema.Value));
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new ParseConfig
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ParseConfig { };
+
+        Assert.Null(model.ExtractEntities);
+        Assert.False(model.RawData.ContainsKey("extractEntities"));
+        Assert.Null(model.LinkAcrossDocuments);
+        Assert.False(model.RawData.ContainsKey("linkAcrossDocuments"));
+        Assert.Null(model.Schema);
+        Assert.False(model.RawData.ContainsKey("schema"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ParseConfig { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ParseConfig
+        {
+            // Null should be interpreted as omitted for these properties
+            ExtractEntities = null,
+            LinkAcrossDocuments = null,
+            Schema = null,
+        };
+
+        Assert.Null(model.ExtractEntities);
+        Assert.False(model.RawData.ContainsKey("extractEntities"));
+        Assert.Null(model.LinkAcrossDocuments);
+        Assert.False(model.RawData.ContainsKey("linkAcrossDocuments"));
+        Assert.Null(model.Schema);
+        Assert.False(model.RawData.ContainsKey("schema"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ParseConfig
+        {
+            // Null should be interpreted as omitted for these properties
+            ExtractEntities = null,
+            LinkAcrossDocuments = null,
+            Schema = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new ParseConfig
+        {
+            ExtractEntities = true,
+            LinkAcrossDocuments = true,
+            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        ParseConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }

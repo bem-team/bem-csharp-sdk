@@ -9,7 +9,11 @@ using Bem.Core;
 namespace Bem.Models.Functions.Versions;
 
 /// <summary>
-/// List Function Versions
+/// **List every version of a function.**
+///
+/// <para>Returns the full version history, newest-first. Each row captures the configuration
+/// the function had between updates. Useful for audits ("when did this schema change?")
+/// and for diffing two versions before promoting an update to production.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
