@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 (2026-04-28)
+
+Full Changelog: [v0.6.0...v0.7.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.6.0...v0.7.0)
+
+### Features
+
+* support setting headers via env ([7be31a2](https://github.com/bem-team/bem-csharp-sdk/commit/7be31a2e4f5cb72804b0f6aec16c068bb828ea49))
+
 ## 0.6.0 (2026-04-28)
 
 Full Changelog: [v0.5.0...v0.6.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.5.0...v0.6.0)
