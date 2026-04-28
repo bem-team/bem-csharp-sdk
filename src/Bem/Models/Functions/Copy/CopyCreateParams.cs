@@ -11,7 +11,17 @@ using Bem.Core;
 namespace Bem.Models.Functions.Copy;
 
 /// <summary>
-/// Copy a Function
+/// **Copy a function to a new name within the same environment.**
+///
+/// <para>Forks the source function's current configuration into a brand-new function.
+/// The copy starts at `versionNum: 1` regardless of how many versions the source
+/// has — version history is not carried over.</para>
+///
+/// <para>Useful for experimenting with schema or prompt changes against a stable
+/// production function without disturbing existing callers.</para>
+///
+/// <para>The destination name must be unique in the environment. A copy does not
+/// migrate workflows: existing workflow nodes continue to reference the original function.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

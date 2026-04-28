@@ -10,7 +10,24 @@ using Bem.Core;
 namespace Bem.Models.Functions;
 
 /// <summary>
-/// Create a Function
+/// **Create a function.**
+///
+/// <para>The function type (`extract`, `classify`, `split`, `join`, `enrich`, or
+/// `payload_shaping`) determines which configuration fields are required — see [Function
+/// types overview](/guide/function-types/overview) for the per-type contract.</para>
+///
+/// <para>The response contains both `functionID` and `functionName`. Either is a
+/// stable handle you can use elsewhere; most workflows reference functions by `functionName`
+/// because it's human-readable.</para>
+///
+/// <para>## Naming rules</para>
+///
+/// <para>- `functionName` must be unique per environment. - Allowed characters:
+/// letters, digits, hyphens, and underscores. - Names cannot be reused after deletion
+/// within the same environment for at least the retention window of the previous record.</para>
+///
+/// <para>The new function is created at `versionNum: 1`. Subsequent `PATCH /v3/functions/{functionName}`
+/// calls produce new versions — the version-1 configuration remains immutable and addressable.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -21,7 +38,7 @@ public record class FunctionCreateParams : ParamsBase
     public JsonElement RawBodyData { get; private init; }
 
     /// <summary>
-    /// V3 wire form of the Route (classify) function create payload. Mirrors {
+    /// V3 wire form of the classify function create payload.
     /// </summary>
     public required CreateFunction CreateFunction
     {

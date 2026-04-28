@@ -11,7 +11,15 @@ using Bem.Core;
 namespace Bem.Models.Workflows;
 
 /// <summary>
-/// Copy a Workflow
+/// **Copy a workflow to a new name.**
+///
+/// <para>Forks the source workflow's current version into a brand-new workflow at
+/// `versionNum: 1`. The full node graph and edges are carried over, but the *functions*
+/// the copied nodes reference are shared, not duplicated — both workflows now point
+/// at the same functions.</para>
+///
+/// <para>Useful for forking a production workflow to test a topology change without
+/// disturbing the live caller.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

@@ -77,6 +77,30 @@ public record class OutputListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Filter to specific output events by their event IDs (KSUIDs).
+    /// </summary>
+    public IReadOnlyList<string>? EventIds
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("eventIDs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "eventIDs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
     public IReadOnlyList<string>? FunctionIds
     {
         get
@@ -120,6 +144,32 @@ public record class OutputListParams : ParamsBase
     }
 
     /// <summary>
+    /// Filter to specific function version numbers.
+    /// </summary>
+    public IReadOnlyList<long>? FunctionVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<long>>(
+                "functionVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<long>?>(
+                "functionVersionNums",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
     /// When `true`, includes intermediate events (those that spawned a downstream
     /// function call). Default: `false`.
     /// </summary>
@@ -138,6 +188,54 @@ public record class OutputListParams : ParamsBase
             }
 
             this._rawQueryData.Set("includeIntermediate", value);
+        }
+    }
+
+    /// <summary>
+    /// If `true`, only outputs with a corrected (labelled) payload. If `false`, only
+    /// outputs that are not labelled. If omitted, no filter is applied.
+    /// </summary>
+    public bool? IsLabelled
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<bool>("isLabelled");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("isLabelled", value);
+        }
+    }
+
+    /// <summary>
+    /// If `true`, only regression-marked outputs. If `false`, only non-regression
+    /// outputs. If omitted, no filter is applied.
+    ///
+    /// <para>Note: clients migrating from `/v1-beta/transformations` should pass
+    /// `isRegression=false` explicitly to preserve the legacy default (regressions
+    /// hidden unless explicitly requested).</para>
+    /// </summary>
+    public bool? IsRegression
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<bool>("isRegression");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("isRegression", value);
         }
     }
 
@@ -234,6 +332,33 @@ public record class OutputListParams : ParamsBase
             }
 
             this._rawQueryData.Set("startingAfter", value);
+        }
+    }
+
+    /// <summary>
+    /// Filter by legacy transformation IDs. Provided for backwards compatibility
+    /// with clients migrating from `/v1-beta/transformations`.
+    /// </summary>
+    public IReadOnlyList<string>? TransformationIds
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "transformationIDs"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "transformationIDs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
         }
     }
 

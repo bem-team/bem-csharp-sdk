@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Bem.Exceptions;
 using Bem.Models.Collections.Items;
+using Bem.Models.Fs;
 using Bem.Models.Functions;
 using Calls = Bem.Models.Calls;
 using Errors = Bem.Models.Errors;
@@ -53,7 +54,10 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Errors::SortOrder>(),
             new ApiEnumConverter<string, Outputs::EventType>(),
             new ApiEnumConverter<string, Outputs::InputType>(),
+            new ApiEnumConverter<string, Outputs::ExtractEventType>(),
+            new ApiEnumConverter<string, Outputs::ExtractInputType>(),
             new ApiEnumConverter<string, Outputs::RouteEventType>(),
+            new ApiEnumConverter<string, Outputs::ClassifyEventType>(),
             new ApiEnumConverter<string, Outputs::OutputType>(),
             new ApiEnumConverter<string, Outputs::SplitCollectionEventType>(),
             new ApiEnumConverter<string, Outputs::SplitItemOutputType>(),
@@ -79,6 +83,8 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Status>(),
             new ApiEnumConverter<string, ItemAddResponseStatus>(),
             new ApiEnumConverter<string, Events::FunctionType>(),
+            new ApiEnumConverter<string, FNavigateResponseOp>(),
+            new ApiEnumConverter<string, Op>(),
         },
     };
 

@@ -42,7 +42,18 @@ public interface ICopyService
     ICopyService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
-    /// Copy a Function
+    /// **Copy a function to a new name within the same environment.**
+    ///
+    /// <para>Forks the source function's current configuration into a brand-new
+    /// function. The copy starts at `versionNum: 1` regardless of how many versions the
+    /// source has — version history is not carried over.</para>
+    ///
+    /// <para>Useful for experimenting with schema or prompt changes against a stable
+    /// production function without disturbing existing callers.</para>
+    ///
+    /// <para>The destination name must be unique in the environment. A copy does not
+    /// migrate workflows: existing workflow nodes continue to reference the original
+    /// function.</para>
     /// </summary>
     Task<FunctionResponse> Create(
         CopyCreateParams parameters,

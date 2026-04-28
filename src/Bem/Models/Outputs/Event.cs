@@ -11,6 +11,11 @@ using Bem.Models.Errors;
 
 namespace Bem.Models.Outputs;
 
+/// <summary>
+/// V3 read-side event union. Superset of the shared `Event` union: it contains every
+/// shared variant verbatim (backward compatible) and adds the V3-only `extract` and
+/// `classify` variants.
+/// </summary>
 [JsonConverter(typeof(EventConverter))]
 public record class Event : ModelBase
 {
@@ -35,7 +40,9 @@ public record class Event : ModelBase
         {
             return Match(
                 transform: (x) => x.EventID,
+                extract: (x) => x.EventID,
                 route: (x) => x.EventID,
+                classify: (x) => x.EventID,
                 splitCollection: (x) => x.EventID,
                 splitItem: (x) => x.EventID,
                 error: (x) => x.EventID,
@@ -53,7 +60,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionID,
+                extract: (x) => x.FunctionID,
                 route: (x) => x.FunctionID,
+                classify: (x) => x.FunctionID,
                 splitCollection: (x) => x.FunctionID,
                 splitItem: (x) => x.FunctionID,
                 error: (x) => x.FunctionID,
@@ -71,7 +80,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionName,
+                extract: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
+                classify: (x) => x.FunctionName,
                 splitCollection: (x) => x.FunctionName,
                 splitItem: (x) => x.FunctionName,
                 error: (x) => x.FunctionName,
@@ -83,13 +94,55 @@ public record class Event : ModelBase
         }
     }
 
+    public long? ItemCount
+    {
+        get
+        {
+            return Match<long?>(
+                transform: (x) => x.ItemCount,
+                extract: (x) => x.ItemCount,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
+            );
+        }
+    }
+
+    public long? ItemOffset
+    {
+        get
+        {
+            return Match<long?>(
+                transform: (x) => x.ItemOffset,
+                extract: (x) => x.ItemOffset,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
+            );
+        }
+    }
+
     public string ReferenceID
     {
         get
         {
             return Match(
                 transform: (x) => x.ReferenceID,
+                extract: (x) => x.ReferenceID,
                 route: (x) => x.ReferenceID,
+                classify: (x) => x.ReferenceID,
                 splitCollection: (x) => x.ReferenceID,
                 splitItem: (x) => x.ReferenceID,
                 error: (x) => x.ReferenceID,
@@ -107,7 +160,9 @@ public record class Event : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.TransformedContent,
+                extract: (x) => x.TransformedContent,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
                 error: (_) => null,
@@ -125,7 +180,9 @@ public record class Event : ModelBase
         {
             return Match<float?>(
                 transform: (x) => x.AvgConfidence,
+                extract: (x) => x.AvgConfidence,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
                 error: (_) => null,
@@ -143,7 +200,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.CallID,
+                extract: (x) => x.CallID,
                 route: (x) => x.CallID,
+                classify: (x) => x.CallID,
                 splitCollection: (x) => x.CallID,
                 splitItem: (x) => x.CallID,
                 error: (x) => x.CallID,
@@ -161,7 +220,9 @@ public record class Event : ModelBase
         {
             return Match<DateTimeOffset?>(
                 transform: (x) => x.CreatedAt,
+                extract: (x) => x.CreatedAt,
                 route: (x) => x.CreatedAt,
+                classify: (x) => x.CreatedAt,
                 splitCollection: (x) => x.CreatedAt,
                 splitItem: (x) => x.CreatedAt,
                 error: (x) => x.CreatedAt,
@@ -179,7 +240,9 @@ public record class Event : ModelBase
         {
             return Match<JsonElement?>(
                 transform: (x) => x.FieldConfidences,
+                extract: (x) => x.FieldConfidences,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
                 error: (_) => null,
@@ -197,7 +260,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.FunctionCallID,
+                extract: (x) => x.FunctionCallID,
                 route: (x) => x.FunctionCallID,
+                classify: (x) => x.FunctionCallID,
                 splitCollection: (x) => x.FunctionCallID,
                 splitItem: (x) => x.FunctionCallID,
                 error: (x) => x.FunctionCallID,
@@ -215,7 +280,9 @@ public record class Event : ModelBase
         {
             return Match<long?>(
                 transform: (x) => x.FunctionCallTryNumber,
+                extract: (x) => x.FunctionCallTryNumber,
                 route: (x) => x.FunctionCallTryNumber,
+                classify: (x) => x.FunctionCallTryNumber,
                 splitCollection: (x) => x.FunctionCallTryNumber,
                 splitItem: (x) => x.FunctionCallTryNumber,
                 error: (x) => x.FunctionCallTryNumber,
@@ -233,7 +300,9 @@ public record class Event : ModelBase
         {
             return Match<long?>(
                 transform: (x) => x.FunctionVersionNum,
+                extract: (x) => x.FunctionVersionNum,
                 route: (x) => x.FunctionVersionNum,
+                classify: (x) => x.FunctionVersionNum,
                 splitCollection: (x) => x.FunctionVersionNum,
                 splitItem: (x) => x.FunctionVersionNum,
                 error: (x) => x.FunctionVersionNum,
@@ -251,7 +320,9 @@ public record class Event : ModelBase
         {
             return Match<InboundEmailEvent?>(
                 transform: (x) => x.InboundEmail,
+                extract: (x) => x.InboundEmail,
                 route: (x) => x.InboundEmail,
+                classify: (x) => x.InboundEmail,
                 splitCollection: (x) => x.InboundEmail,
                 splitItem: (x) => x.InboundEmail,
                 error: (x) => x.InboundEmail,
@@ -269,7 +340,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.S3Url,
+                extract: (x) => x.S3Url,
                 route: (x) => x.S3Url,
+                classify: (x) => x.S3Url,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
                 error: (_) => null,
@@ -287,7 +360,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.TransformationID,
+                extract: (x) => x.TransformationID,
                 route: (_) => null,
+                classify: (_) => null,
                 splitCollection: (_) => null,
                 splitItem: (_) => null,
                 error: (_) => null,
@@ -305,7 +380,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.WorkflowID,
+                extract: (x) => x.WorkflowID,
                 route: (x) => x.WorkflowID,
+                classify: (x) => x.WorkflowID,
                 splitCollection: (x) => x.WorkflowID,
                 splitItem: (x) => x.WorkflowID,
                 error: (x) => x.WorkflowID,
@@ -323,7 +400,9 @@ public record class Event : ModelBase
         {
             return Match<string?>(
                 transform: (x) => x.WorkflowName,
+                extract: (x) => x.WorkflowName,
                 route: (x) => x.WorkflowName,
+                classify: (x) => x.WorkflowName,
                 splitCollection: (x) => x.WorkflowName,
                 splitItem: (x) => x.WorkflowName,
                 error: (x) => x.WorkflowName,
@@ -341,7 +420,9 @@ public record class Event : ModelBase
         {
             return Match<long?>(
                 transform: (x) => x.WorkflowVersionNum,
+                extract: (x) => x.WorkflowVersionNum,
                 route: (x) => x.WorkflowVersionNum,
+                classify: (x) => x.WorkflowVersionNum,
                 splitCollection: (x) => x.WorkflowVersionNum,
                 splitItem: (x) => x.WorkflowVersionNum,
                 error: (x) => x.WorkflowVersionNum,
@@ -353,13 +434,45 @@ public record class Event : ModelBase
         }
     }
 
+    public string? Choice
+    {
+        get
+        {
+            return Match<string?>(
+                transform: (_) => null,
+                extract: (_) => null,
+                route: (x) => x.Choice,
+                classify: (x) => x.Choice,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
+            );
+        }
+    }
+
     public Event(Transform value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
+    public Event(Extract value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
     public Event(Route value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Event(Classify value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -435,6 +548,27 @@ public record class Event : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Extract"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickExtract(out var value)) {
+    ///     // `value` is of type `Extract`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickExtract([NotNullWhen(true)] out Extract? value)
+    {
+        value = this.Value as Extract;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
     /// type <see cref="Route"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
@@ -451,6 +585,27 @@ public record class Event : ModelBase
     public bool TryPickRoute([NotNullWhen(true)] out Route? value)
     {
         value = this.Value as Route;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Classify"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickClassify(out var value)) {
+    ///     // `value` is of type `Classify`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickClassify([NotNullWhen(true)] out Classify? value)
+    {
+        value = this.Value as Classify;
         return value != null;
     }
 
@@ -616,7 +771,9 @@ public record class Event : ModelBase
     /// <code>
     /// instance.Switch(
     ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
     ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
     ///     (SplitCollection value) =&gt; {...},
     ///     (SplitItem value) =&gt; {...},
     ///     (ErrorEvent value) =&gt; {...},
@@ -630,7 +787,9 @@ public record class Event : ModelBase
     /// </summary>
     public void Switch(
         Action<Transform> transform,
+        Action<Extract> extract,
         Action<Route> route,
+        Action<Classify> classify,
         Action<SplitCollection> splitCollection,
         Action<SplitItem> splitItem,
         Action<ErrorEvent> error,
@@ -645,8 +804,14 @@ public record class Event : ModelBase
             case Transform value:
                 transform(value);
                 break;
+            case Extract value:
+                extract(value);
+                break;
             case Route value:
                 route(value);
+                break;
+            case Classify value:
+                classify(value);
                 break;
             case SplitCollection value:
                 splitCollection(value);
@@ -690,7 +855,9 @@ public record class Event : ModelBase
     /// <code>
     /// var result = instance.Match(
     ///     (Transform value) =&gt; {...},
+    ///     (Extract value) =&gt; {...},
     ///     (Route value) =&gt; {...},
+    ///     (Classify value) =&gt; {...},
     ///     (SplitCollection value) =&gt; {...},
     ///     (SplitItem value) =&gt; {...},
     ///     (ErrorEvent value) =&gt; {...},
@@ -704,7 +871,9 @@ public record class Event : ModelBase
     /// </summary>
     public T Match<T>(
         Func<Transform, T> transform,
+        Func<Extract, T> extract,
         Func<Route, T> route,
+        Func<Classify, T> classify,
         Func<SplitCollection, T> splitCollection,
         Func<SplitItem, T> splitItem,
         Func<ErrorEvent, T> error,
@@ -717,7 +886,9 @@ public record class Event : ModelBase
         return this.Value switch
         {
             Transform value => transform(value),
+            Extract value => extract(value),
             Route value => route(value),
+            Classify value => classify(value),
             SplitCollection value => splitCollection(value),
             SplitItem value => splitItem(value),
             ErrorEvent value => error(value),
@@ -731,7 +902,11 @@ public record class Event : ModelBase
 
     public static implicit operator Event(Transform value) => new(value);
 
+    public static implicit operator Event(Extract value) => new(value);
+
     public static implicit operator Event(Route value) => new(value);
+
+    public static implicit operator Event(Classify value) => new(value);
 
     public static implicit operator Event(SplitCollection value) => new(value);
 
@@ -765,7 +940,9 @@ public record class Event : ModelBase
         }
         this.Switch(
             (transform) => transform.Validate(),
+            (extract) => extract.Validate(),
             (route) => route.Validate(),
+            (classify) => classify.Validate(),
             (splitCollection) => splitCollection.Validate(),
             (splitItem) => splitItem.Validate(),
             (error) => error.Validate(),
@@ -797,14 +974,16 @@ public record class Event : ModelBase
         return this.Value switch
         {
             Transform _ => 0,
-            Route _ => 1,
-            SplitCollection _ => 2,
-            SplitItem _ => 3,
-            ErrorEvent _ => 4,
-            Join _ => 5,
-            Enrich _ => 6,
-            CollectionProcessing _ => 7,
-            Send _ => 8,
+            Extract _ => 1,
+            Route _ => 2,
+            Classify _ => 3,
+            SplitCollection _ => 4,
+            SplitItem _ => 5,
+            ErrorEvent _ => 6,
+            Join _ => 7,
+            Enrich _ => 8,
+            CollectionProcessing _ => 9,
+            Send _ => 10,
             _ => -1,
         };
     }
@@ -848,11 +1027,45 @@ sealed class EventConverter : JsonConverter<Event>
 
                 return new(element);
             }
+            case "extract":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Extract>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
             case "route":
             {
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<Route>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "classify":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Classify>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -2804,6 +3017,1373 @@ class MetricsMetricsFromRaw : IFromRawJson<MetricsMetrics>
         MetricsMetrics.FromRawUnchecked(rawData);
 }
 
+/// <summary>
+/// V3 event variants that do not exist in the shared `Event` union.
+///
+/// <para>`ExtractEvent` and `ClassifyEvent` are emitted only by V3-era function types
+/// (`extract` and `classify`). The shared `Event` union in `specs/events/models.tsp`
+/// predates these types and continues to describe V2 / V1-alpha responses verbatim;
+/// V3 response payloads add the new variants via the `EventV3` union below while
+/// keeping every shared variant intact for backward compatibility.</para>
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Extract, ExtractFromRaw>))]
+public sealed record class Extract : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The number of items that were transformed. Used for batch transformations
+    /// to indicate how many items were transformed.
+    /// </summary>
+    public required long ItemCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("itemCount");
+        }
+        init { this._rawData.Set("itemCount", value); }
+    }
+
+    /// <summary>
+    /// The offset of the first item that was transformed. Used for batch transformations
+    /// to indicate which item in the batch this event corresponds to.
+    /// </summary>
+    public required long ItemOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("itemOffset");
+        }
+        init { this._rawData.Set("itemOffset", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// The transformed content of the input. The structure of this object is defined
+    /// by the function configuration.
+    /// </summary>
+    public required JsonElement TransformedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+        }
+        init { this._rawData.Set("transformedContent", value); }
+    }
+
+    /// <summary>
+    /// Average confidence score across all extracted fields, in the range [0, 1].
+    /// </summary>
+    public float? AvgConfidence
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<float>("avgConfidence");
+        }
+        init { this._rawData.Set("avgConfidence", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Corrected feedback provided for fine-tuning purposes.
+    /// </summary>
+    public ExtractCorrectedContent? CorrectedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ExtractCorrectedContent>("correctedContent");
+        }
+        init { this._rawData.Set("correctedContent", value); }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, ExtractEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, ExtractEventType>>("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-field confidence scores. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// (e.g. `"/invoiceNumber"`) to float values in the range [0, 1] indicating the
+    /// model's confidence in each extracted field value.
+    /// </summary>
+    public JsonElement? FieldConfidences
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldConfidences");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldConfidences", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of transformation inputs with their types and S3 URLs.
+    /// </summary>
+    public IReadOnlyList<ExtractInput>? Inputs
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<ExtractInput>>("inputs");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<ExtractInput>?>(
+                "inputs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The input type of the content you're sending for transformation.
+    /// </summary>
+    public ApiEnum<string, ExtractInputType>? InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, ExtractInputType>>("inputType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inputType", value);
+        }
+    }
+
+    /// <summary>
+    /// List of properties that were invalid in the input.
+    /// </summary>
+    public IReadOnlyList<string>? InvalidProperties
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("invalidProperties");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "invalidProperties",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    public ExtractMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ExtractMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Presigned S3 URL for the input content uploaded to S3.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <summary>
+    /// Unique ID for each transformation output generated by bem following Segment's
+    /// KSUID conventions.
+    /// </summary>
+    public string? TransformationID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("transformationID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("transformationID", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ItemCount;
+        _ = this.ItemOffset;
+        _ = this.ReferenceID;
+        _ = this.TransformedContent;
+        _ = this.AvgConfidence;
+        _ = this.CallID;
+        this.CorrectedContent?.Validate();
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FieldConfidences;
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        foreach (var item in this.Inputs ?? [])
+        {
+            item.Validate();
+        }
+        this.InputType?.Validate();
+        _ = this.InvalidProperties;
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.TransformationID;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public Extract() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Extract(Extract extract)
+        : base(extract) { }
+#pragma warning restore CS8618
+
+    public Extract(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Extract(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ExtractFromRaw.FromRawUnchecked"/>
+    public static Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ExtractFromRaw : IFromRawJson<Extract>
+{
+    /// <inheritdoc/>
+    public Extract FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Extract.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Corrected feedback provided for fine-tuning purposes.
+/// </summary>
+[JsonConverter(typeof(ExtractCorrectedContentConverter))]
+public record class ExtractCorrectedContent : ModelBase
+{
+    public object? Value { get; } = null;
+
+    JsonElement? _element = null;
+
+    public JsonElement Json
+    {
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    public ExtractCorrectedContent(ExtractCorrectedContentOutput value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ExtractCorrectedContent(IReadOnlyList<JsonElement> value, JsonElement? element = null)
+    {
+        this.Value = ImmutableArray.ToImmutableArray(value);
+        this._element = element;
+    }
+
+    public ExtractCorrectedContent(string value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ExtractCorrectedContent(double value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ExtractCorrectedContent(bool value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ExtractCorrectedContent(JsonElement element)
+    {
+        this._element = element;
+        this.Value = element;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="ExtractCorrectedContentOutput"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickExtractCorrectedContentOutput(out var value)) {
+    ///     // `value` is of type `ExtractCorrectedContentOutput`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickExtractCorrectedContentOutput(
+        [NotNullWhen(true)] out ExtractCorrectedContentOutput? value
+    )
+    {
+        value = this.Value as ExtractCorrectedContentOutput;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="JsonElement"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElement(out var value)) {
+    ///     // `value` is of type `JsonElement`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElement([NotNullWhen(true)] out JsonElement? value)
+    {
+        value = this.Value as JsonElement?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="List{T}"/> where <c>T</c> is a <c>JsonElement</c>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElements(out var value)) {
+    ///     // `value` is of type `IReadOnlyList&lt;JsonElement&gt;`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElements([NotNullWhen(true)] out IReadOnlyList<JsonElement>? value)
+    {
+        value = this.Value as IReadOnlyList<JsonElement>;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="string"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickString(out var value)) {
+    ///     // `value` is of type `string`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickString([NotNullWhen(true)] out string? value)
+    {
+        value = this.Value as string;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="double"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickDouble(out var value)) {
+    ///     // `value` is of type `double`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickDouble([NotNullWhen(true)] out double? value)
+    {
+        value = this.Value as double?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="bool"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickBool(out var value)) {
+    ///     // `value` is of type `bool`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickBool([NotNullWhen(true)] out bool? value)
+    {
+        value = this.Value as bool?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
+    /// if you need your function parameters to return something.</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// instance.Switch(
+    ///     (ExtractCorrectedContentOutput value) =&gt; {...},
+    ///     (JsonElement value) =&gt; {...},
+    ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
+    ///     (string value) =&gt; {...},
+    ///     (double value) =&gt; {...},
+    ///     (bool value) =&gt; {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public void Switch(
+        Action<ExtractCorrectedContentOutput> extractCorrectedContentOutput,
+        Action<JsonElement> jsonElement,
+        Action<IReadOnlyList<JsonElement>> jsonElements,
+        Action<string> @string,
+        Action<double> @double,
+        Action<bool> @bool
+    )
+    {
+        switch (this.Value)
+        {
+            case ExtractCorrectedContentOutput value:
+                extractCorrectedContentOutput(value);
+                break;
+            case JsonElement value:
+                jsonElement(value);
+                break;
+            case IReadOnlyList<JsonElement> value:
+                jsonElements(value);
+                break;
+            case string value:
+                @string(value);
+                break;
+            case double value:
+                @double(value);
+                break;
+            case bool value:
+                @bool(value);
+                break;
+            default:
+                throw new BemInvalidDataException(
+                    "Data did not match any variant of ExtractCorrectedContent"
+                );
+        }
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with and
+    /// returns its result.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Switch"/>
+    /// if you don't need your function parameters to return a value.</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// var result = instance.Match(
+    ///     (ExtractCorrectedContentOutput value) =&gt; {...},
+    ///     (JsonElement value) =&gt; {...},
+    ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
+    ///     (string value) =&gt; {...},
+    ///     (double value) =&gt; {...},
+    ///     (bool value) =&gt; {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public T Match<T>(
+        Func<ExtractCorrectedContentOutput, T> extractCorrectedContentOutput,
+        Func<JsonElement, T> jsonElement,
+        Func<IReadOnlyList<JsonElement>, T> jsonElements,
+        Func<string, T> @string,
+        Func<double, T> @double,
+        Func<bool, T> @bool
+    )
+    {
+        return this.Value switch
+        {
+            ExtractCorrectedContentOutput value => extractCorrectedContentOutput(value),
+            JsonElement value => jsonElement(value),
+            IReadOnlyList<JsonElement> value => jsonElements(value),
+            string value => @string(value),
+            double value => @double(value),
+            bool value => @bool(value),
+            _ => throw new BemInvalidDataException(
+                "Data did not match any variant of ExtractCorrectedContent"
+            ),
+        };
+    }
+
+    public static implicit operator ExtractCorrectedContent(ExtractCorrectedContentOutput value) =>
+        new(value);
+
+    public static implicit operator ExtractCorrectedContent(JsonElement value) => new(value);
+
+    public static implicit operator ExtractCorrectedContent(List<JsonElement> value) =>
+        new((IReadOnlyList<JsonElement>)value);
+
+    public static implicit operator ExtractCorrectedContent(string value) => new(value);
+
+    public static implicit operator ExtractCorrectedContent(double value) => new(value);
+
+    public static implicit operator ExtractCorrectedContent(bool value) => new(value);
+
+    /// <summary>
+    /// Validates that the instance was constructed with a known variant and that this variant is valid
+    /// (based on its own <c>Validate</c> method).
+    ///
+    /// <para>This is useful for instances constructed from raw JSON data (e.g. deserialized from an API response).</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance does not pass validation.
+    /// </exception>
+    /// </summary>
+    public override void Validate()
+    {
+        if (this.Value == null)
+        {
+            throw new BemInvalidDataException(
+                "Data did not match any variant of ExtractCorrectedContent"
+            );
+        }
+        this.Switch(
+            (extractCorrectedContentOutput) => extractCorrectedContentOutput.Validate(),
+            (_) => { },
+            (_) => { },
+            (_) => { },
+            (_) => { },
+            (_) => { }
+        );
+    }
+
+    public virtual bool Equals(ExtractCorrectedContent? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(
+            FriendlyJsonPrinter.PrintValue(this.Json),
+            ModelBase.ToStringSerializerOptions
+        );
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            ExtractCorrectedContentOutput _ => 0,
+            JsonElement _ => 1,
+            IReadOnlyList<JsonElement> _ => 2,
+            string _ => 3,
+            double _ => 4,
+            bool _ => 5,
+            _ => -1,
+        };
+    }
+}
+
+sealed class ExtractCorrectedContentConverter : JsonConverter<ExtractCorrectedContent?>
+{
+    public override ExtractCorrectedContent? Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<ExtractCorrectedContentOutput>(
+                element,
+                options
+            );
+            if (deserialized != null)
+            {
+                deserialized.Validate();
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<List<JsonElement>>(element, options);
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<string>(element, options);
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<double>(element, options), element);
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<bool>(element, options), element);
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<JsonElement>(element, options));
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        return new(element);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ExtractCorrectedContent? value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(writer, value?.Json, options);
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<ExtractCorrectedContentOutput, ExtractCorrectedContentOutputFromRaw>)
+)]
+public sealed record class ExtractCorrectedContentOutput : JsonModel
+{
+    public IReadOnlyList<AnyType?>? Output
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<AnyType?>?>(
+                "output",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        foreach (var item in this.Output ?? [])
+        {
+            item?.Validate();
+        }
+    }
+
+    public ExtractCorrectedContentOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ExtractCorrectedContentOutput(
+        ExtractCorrectedContentOutput extractCorrectedContentOutput
+    )
+        : base(extractCorrectedContentOutput) { }
+#pragma warning restore CS8618
+
+    public ExtractCorrectedContentOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ExtractCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ExtractCorrectedContentOutputFromRaw.FromRawUnchecked"/>
+    public static ExtractCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ExtractCorrectedContentOutputFromRaw : IFromRawJson<ExtractCorrectedContentOutput>
+{
+    /// <inheritdoc/>
+    public ExtractCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => ExtractCorrectedContentOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(ExtractEventTypeConverter))]
+public enum ExtractEventType
+{
+    Extract,
+}
+
+sealed class ExtractEventTypeConverter : JsonConverter<ExtractEventType>
+{
+    public override ExtractEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "extract" => ExtractEventType.Extract,
+            _ => (ExtractEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ExtractEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ExtractEventType.Extract => "extract",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<ExtractInput, ExtractInputFromRaw>))]
+public sealed record class ExtractInput : JsonModel
+{
+    public string? InputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("inputContent");
+        }
+        init { this._rawData.Set("inputContent", value); }
+    }
+
+    public string? InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("inputType");
+        }
+        init { this._rawData.Set("inputType", value); }
+    }
+
+    public JsonElement? JsonInputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("jsonInputContent");
+        }
+        init { this._rawData.Set("jsonInputContent", value); }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.InputContent;
+        _ = this.InputType;
+        _ = this.JsonInputContent;
+        _ = this.S3Url;
+    }
+
+    public ExtractInput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ExtractInput(ExtractInput extractInput)
+        : base(extractInput) { }
+#pragma warning restore CS8618
+
+    public ExtractInput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ExtractInput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ExtractInputFromRaw.FromRawUnchecked"/>
+    public static ExtractInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ExtractInputFromRaw : IFromRawJson<ExtractInput>
+{
+    /// <inheritdoc/>
+    public ExtractInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ExtractInput.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// The input type of the content you're sending for transformation.
+/// </summary>
+[JsonConverter(typeof(ExtractInputTypeConverter))]
+public enum ExtractInputType
+{
+    Csv,
+    Docx,
+    Email,
+    Heic,
+    Html,
+    Jpeg,
+    Json,
+    Heif,
+    M4a,
+    Mp3,
+    Pdf,
+    Png,
+    Text,
+    Wav,
+    Webp,
+    Xls,
+    Xlsx,
+    Xml,
+}
+
+sealed class ExtractInputTypeConverter : JsonConverter<ExtractInputType>
+{
+    public override ExtractInputType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "csv" => ExtractInputType.Csv,
+            "docx" => ExtractInputType.Docx,
+            "email" => ExtractInputType.Email,
+            "heic" => ExtractInputType.Heic,
+            "html" => ExtractInputType.Html,
+            "jpeg" => ExtractInputType.Jpeg,
+            "json" => ExtractInputType.Json,
+            "heif" => ExtractInputType.Heif,
+            "m4a" => ExtractInputType.M4a,
+            "mp3" => ExtractInputType.Mp3,
+            "pdf" => ExtractInputType.Pdf,
+            "png" => ExtractInputType.Png,
+            "text" => ExtractInputType.Text,
+            "wav" => ExtractInputType.Wav,
+            "webp" => ExtractInputType.Webp,
+            "xls" => ExtractInputType.Xls,
+            "xlsx" => ExtractInputType.Xlsx,
+            "xml" => ExtractInputType.Xml,
+            _ => (ExtractInputType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ExtractInputType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ExtractInputType.Csv => "csv",
+                ExtractInputType.Docx => "docx",
+                ExtractInputType.Email => "email",
+                ExtractInputType.Heic => "heic",
+                ExtractInputType.Html => "html",
+                ExtractInputType.Jpeg => "jpeg",
+                ExtractInputType.Json => "json",
+                ExtractInputType.Heif => "heif",
+                ExtractInputType.M4a => "m4a",
+                ExtractInputType.Mp3 => "mp3",
+                ExtractInputType.Pdf => "pdf",
+                ExtractInputType.Png => "png",
+                ExtractInputType.Text => "text",
+                ExtractInputType.Wav => "wav",
+                ExtractInputType.Webp => "webp",
+                ExtractInputType.Xls => "xls",
+                ExtractInputType.Xlsx => "xlsx",
+                ExtractInputType.Xml => "xml",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<ExtractMetadata, ExtractMetadataFromRaw>))]
+public sealed record class ExtractMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public ExtractMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ExtractMetadata(ExtractMetadata extractMetadata)
+        : base(extractMetadata) { }
+#pragma warning restore CS8618
+
+    public ExtractMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ExtractMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ExtractMetadataFromRaw.FromRawUnchecked"/>
+    public static ExtractMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ExtractMetadataFromRaw : IFromRawJson<ExtractMetadata>
+{
+    /// <inheritdoc/>
+    public ExtractMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ExtractMetadata.FromRawUnchecked(rawData);
+}
+
 [JsonConverter(typeof(JsonModelConverter<Route, RouteFromRaw>))]
 public sealed record class Route : JsonModel
 {
@@ -3277,6 +4857,483 @@ class RouteMetadataFromRaw : IFromRawJson<RouteMetadata>
     /// <inheritdoc/>
     public RouteMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         RouteMetadata.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<Classify, ClassifyFromRaw>))]
+public sealed record class Classify : JsonModel
+{
+    /// <summary>
+    /// The classification chosen by the classify function.
+    /// </summary>
+    public required string Choice
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("choice");
+        }
+        init { this._rawData.Set("choice", value); }
+    }
+
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, ClassifyEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, ClassifyEventType>>("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public ClassifyMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ClassifyMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// The presigned S3 URL of the file that was classified.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("s3URL", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Choice;
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ReferenceID;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public Classify() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Classify(Classify classify)
+        : base(classify) { }
+#pragma warning restore CS8618
+
+    public Classify(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Classify(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ClassifyFromRaw.FromRawUnchecked"/>
+    public static Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ClassifyFromRaw : IFromRawJson<Classify>
+{
+    /// <inheritdoc/>
+    public Classify FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Classify.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(ClassifyEventTypeConverter))]
+public enum ClassifyEventType
+{
+    Classify,
+}
+
+sealed class ClassifyEventTypeConverter : JsonConverter<ClassifyEventType>
+{
+    public override ClassifyEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "classify" => ClassifyEventType.Classify,
+            _ => (ClassifyEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ClassifyEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ClassifyEventType.Classify => "classify",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<ClassifyMetadata, ClassifyMetadataFromRaw>))]
+public sealed record class ClassifyMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public ClassifyMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ClassifyMetadata(ClassifyMetadata classifyMetadata)
+        : base(classifyMetadata) { }
+#pragma warning restore CS8618
+
+    public ClassifyMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ClassifyMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ClassifyMetadataFromRaw.FromRawUnchecked"/>
+    public static ClassifyMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ClassifyMetadataFromRaw : IFromRawJson<ClassifyMetadata>
+{
+    /// <inheritdoc/>
+    public ClassifyMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ClassifyMetadata.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<SplitCollection, SplitCollectionFromRaw>))]

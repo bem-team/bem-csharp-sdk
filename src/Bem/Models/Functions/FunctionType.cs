@@ -14,12 +14,14 @@ public enum FunctionType
     Transform,
     Extract,
     Route,
+    Classify,
     Send,
     Split,
     Join,
     Analyze,
     PayloadShaping,
     Enrich,
+    Parse,
 }
 
 sealed class FunctionTypeConverter : JsonConverter<FunctionType>
@@ -35,12 +37,14 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
             "transform" => FunctionType.Transform,
             "extract" => FunctionType.Extract,
             "route" => FunctionType.Route,
+            "classify" => FunctionType.Classify,
             "send" => FunctionType.Send,
             "split" => FunctionType.Split,
             "join" => FunctionType.Join,
             "analyze" => FunctionType.Analyze,
             "payload_shaping" => FunctionType.PayloadShaping,
             "enrich" => FunctionType.Enrich,
+            "parse" => FunctionType.Parse,
             _ => (FunctionType)(-1),
         };
     }
@@ -58,12 +62,14 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
                 FunctionType.Transform => "transform",
                 FunctionType.Extract => "extract",
                 FunctionType.Route => "route",
+                FunctionType.Classify => "classify",
                 FunctionType.Send => "send",
                 FunctionType.Split => "split",
                 FunctionType.Join => "join",
                 FunctionType.Analyze => "analyze",
                 FunctionType.PayloadShaping => "payload_shaping",
                 FunctionType.Enrich => "enrich",
+                FunctionType.Parse => "parse",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

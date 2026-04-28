@@ -15,9 +15,11 @@ public class FunctionUpdateParamsTest : TestBase
             UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
+                EnableBoundingBoxes = true,
                 FunctionName = "functionName",
                 OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                 OutputSchemaName = "outputSchemaName",
+                PreCount = true,
                 TabularChunkingEnabled = true,
                 Tags = ["string"],
             },
@@ -27,9 +29,11 @@ public class FunctionUpdateParamsTest : TestBase
         UpdateFunction expectedUpdateFunction = new UpdateFunctionExtract()
         {
             DisplayName = "displayName",
+            EnableBoundingBoxes = true,
             FunctionName = "functionName",
             OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
             OutputSchemaName = "outputSchemaName",
+            PreCount = true,
             TabularChunkingEnabled = true,
             Tags = ["string"],
         };
@@ -47,9 +51,11 @@ public class FunctionUpdateParamsTest : TestBase
             UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
+                EnableBoundingBoxes = true,
                 FunctionName = "functionName",
                 OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                 OutputSchemaName = "outputSchemaName",
+                PreCount = true,
                 TabularChunkingEnabled = true,
                 Tags = ["string"],
             },
@@ -71,9 +77,11 @@ public class FunctionUpdateParamsTest : TestBase
             UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
+                EnableBoundingBoxes = true,
                 FunctionName = "functionName",
                 OutputSchema = JsonSerializer.Deserialize<JsonElement>("{}"),
                 OutputSchemaName = "outputSchemaName",
+                PreCount = true,
                 TabularChunkingEnabled = true,
                 Tags = ["string"],
             },

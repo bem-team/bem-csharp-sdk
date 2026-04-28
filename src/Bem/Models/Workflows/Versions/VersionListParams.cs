@@ -11,7 +11,11 @@ using System = System;
 namespace Bem.Models.Workflows.Versions;
 
 /// <summary>
-/// List Workflow Versions
+/// **List every version of a workflow.**
+///
+/// <para>Versions are immutable. Each row captures what the workflow looked like
+/// between updates: graph topology, metadata, and timestamps. Returns newest-first
+/// by default. Cursor pagination via `startingAfter` / `endingBefore` over `versionNum`.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
