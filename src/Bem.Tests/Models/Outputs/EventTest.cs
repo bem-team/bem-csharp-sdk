@@ -108,6 +108,7 @@ public class EventTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -593,6 +594,7 @@ public class EventTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -3429,6 +3431,7 @@ public class ExtractTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -3475,6 +3478,7 @@ public class ExtractTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         ApiEnum<string, ExtractEventType> expectedEventType = ExtractEventType.Extract;
+        JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
         JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
@@ -3517,6 +3521,10 @@ public class ExtractTest : TestBase
         Assert.Equal(expectedCorrectedContent, model.CorrectedContent);
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedEventType, model.EventType);
+        Assert.NotNull(model.FieldBoundingBoxes);
+        Assert.True(
+            JsonElement.DeepEquals(expectedFieldBoundingBoxes, model.FieldBoundingBoxes.Value)
+        );
         Assert.NotNull(model.FieldConfidences);
         Assert.True(JsonElement.DeepEquals(expectedFieldConfidences, model.FieldConfidences.Value));
         Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
@@ -3564,6 +3572,7 @@ public class ExtractTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -3621,6 +3630,7 @@ public class ExtractTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -3674,6 +3684,7 @@ public class ExtractTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         ApiEnum<string, ExtractEventType> expectedEventType = ExtractEventType.Extract;
+        JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
         JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
@@ -3718,6 +3729,13 @@ public class ExtractTest : TestBase
         Assert.Equal(expectedCorrectedContent, deserialized.CorrectedContent);
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.NotNull(deserialized.FieldBoundingBoxes);
+        Assert.True(
+            JsonElement.DeepEquals(
+                expectedFieldBoundingBoxes,
+                deserialized.FieldBoundingBoxes.Value
+            )
+        );
         Assert.NotNull(deserialized.FieldConfidences);
         Assert.True(
             JsonElement.DeepEquals(expectedFieldConfidences, deserialized.FieldConfidences.Value)
@@ -3767,6 +3785,7 @@ public class ExtractTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -3837,6 +3856,8 @@ public class ExtractTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.EventType);
         Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("fieldBoundingBoxes"));
         Assert.Null(model.FieldConfidences);
         Assert.False(model.RawData.ContainsKey("fieldConfidences"));
         Assert.Null(model.FunctionCallID);
@@ -3929,6 +3950,7 @@ public class ExtractTest : TestBase
             CallID = null,
             CreatedAt = null,
             EventType = null,
+            FieldBoundingBoxes = null,
             FieldConfidences = null,
             FunctionCallID = null,
             FunctionCallTryNumber = null,
@@ -3949,6 +3971,8 @@ public class ExtractTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.EventType);
         Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("fieldBoundingBoxes"));
         Assert.Null(model.FieldConfidences);
         Assert.False(model.RawData.ContainsKey("fieldConfidences"));
         Assert.Null(model.FunctionCallID);
@@ -4008,6 +4032,7 @@ public class ExtractTest : TestBase
             CallID = null,
             CreatedAt = null,
             EventType = null,
+            FieldBoundingBoxes = null,
             FieldConfidences = null,
             FunctionCallID = null,
             FunctionCallTryNumber = null,
@@ -4040,6 +4065,7 @@ public class ExtractTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -4085,6 +4111,7 @@ public class ExtractTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -4123,6 +4150,7 @@ public class ExtractTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -4173,6 +4201,7 @@ public class ExtractTest : TestBase
             CallID = "callID",
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
@@ -4221,6 +4250,7 @@ public class ExtractTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ExtractEventType.Extract,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 (2026-04-29)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** api update ([40b892c](https://github.com/bem-team/bem-csharp-sdk/commit/40b892c9548c74ae4bb95652166570dca04097d5))
+
 ## 0.7.0 (2026-04-28)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.6.0...v0.7.0)

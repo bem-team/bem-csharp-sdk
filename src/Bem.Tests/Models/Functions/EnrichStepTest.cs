@@ -15,7 +15,7 @@ public class EnrichStepTest : TestBase
             CollectionName = "collectionName",
             SourceField = "sourceField",
             TargetField = "targetField",
-            IncludeCosineDistance = true,
+            IncludeScore = true,
             IncludeSubcollections = true,
             ScoreThreshold = 0,
             SearchMode = SearchMode.Semantic,
@@ -25,7 +25,7 @@ public class EnrichStepTest : TestBase
         string expectedCollectionName = "collectionName";
         string expectedSourceField = "sourceField";
         string expectedTargetField = "targetField";
-        bool expectedIncludeCosineDistance = true;
+        bool expectedIncludeScore = true;
         bool expectedIncludeSubcollections = true;
         double expectedScoreThreshold = 0;
         ApiEnum<string, SearchMode> expectedSearchMode = SearchMode.Semantic;
@@ -34,7 +34,7 @@ public class EnrichStepTest : TestBase
         Assert.Equal(expectedCollectionName, model.CollectionName);
         Assert.Equal(expectedSourceField, model.SourceField);
         Assert.Equal(expectedTargetField, model.TargetField);
-        Assert.Equal(expectedIncludeCosineDistance, model.IncludeCosineDistance);
+        Assert.Equal(expectedIncludeScore, model.IncludeScore);
         Assert.Equal(expectedIncludeSubcollections, model.IncludeSubcollections);
         Assert.Equal(expectedScoreThreshold, model.ScoreThreshold);
         Assert.Equal(expectedSearchMode, model.SearchMode);
@@ -49,7 +49,7 @@ public class EnrichStepTest : TestBase
             CollectionName = "collectionName",
             SourceField = "sourceField",
             TargetField = "targetField",
-            IncludeCosineDistance = true,
+            IncludeScore = true,
             IncludeSubcollections = true,
             ScoreThreshold = 0,
             SearchMode = SearchMode.Semantic,
@@ -73,7 +73,7 @@ public class EnrichStepTest : TestBase
             CollectionName = "collectionName",
             SourceField = "sourceField",
             TargetField = "targetField",
-            IncludeCosineDistance = true,
+            IncludeScore = true,
             IncludeSubcollections = true,
             ScoreThreshold = 0,
             SearchMode = SearchMode.Semantic,
@@ -90,7 +90,7 @@ public class EnrichStepTest : TestBase
         string expectedCollectionName = "collectionName";
         string expectedSourceField = "sourceField";
         string expectedTargetField = "targetField";
-        bool expectedIncludeCosineDistance = true;
+        bool expectedIncludeScore = true;
         bool expectedIncludeSubcollections = true;
         double expectedScoreThreshold = 0;
         ApiEnum<string, SearchMode> expectedSearchMode = SearchMode.Semantic;
@@ -99,7 +99,7 @@ public class EnrichStepTest : TestBase
         Assert.Equal(expectedCollectionName, deserialized.CollectionName);
         Assert.Equal(expectedSourceField, deserialized.SourceField);
         Assert.Equal(expectedTargetField, deserialized.TargetField);
-        Assert.Equal(expectedIncludeCosineDistance, deserialized.IncludeCosineDistance);
+        Assert.Equal(expectedIncludeScore, deserialized.IncludeScore);
         Assert.Equal(expectedIncludeSubcollections, deserialized.IncludeSubcollections);
         Assert.Equal(expectedScoreThreshold, deserialized.ScoreThreshold);
         Assert.Equal(expectedSearchMode, deserialized.SearchMode);
@@ -114,7 +114,7 @@ public class EnrichStepTest : TestBase
             CollectionName = "collectionName",
             SourceField = "sourceField",
             TargetField = "targetField",
-            IncludeCosineDistance = true,
+            IncludeScore = true,
             IncludeSubcollections = true,
             ScoreThreshold = 0,
             SearchMode = SearchMode.Semantic,
@@ -134,8 +134,8 @@ public class EnrichStepTest : TestBase
             TargetField = "targetField",
         };
 
-        Assert.Null(model.IncludeCosineDistance);
-        Assert.False(model.RawData.ContainsKey("includeCosineDistance"));
+        Assert.Null(model.IncludeScore);
+        Assert.False(model.RawData.ContainsKey("includeScore"));
         Assert.Null(model.IncludeSubcollections);
         Assert.False(model.RawData.ContainsKey("includeSubcollections"));
         Assert.Null(model.ScoreThreshold);
@@ -169,15 +169,15 @@ public class EnrichStepTest : TestBase
             TargetField = "targetField",
 
             // Null should be interpreted as omitted for these properties
-            IncludeCosineDistance = null,
+            IncludeScore = null,
             IncludeSubcollections = null,
             ScoreThreshold = null,
             SearchMode = null,
             TopK = null,
         };
 
-        Assert.Null(model.IncludeCosineDistance);
-        Assert.False(model.RawData.ContainsKey("includeCosineDistance"));
+        Assert.Null(model.IncludeScore);
+        Assert.False(model.RawData.ContainsKey("includeScore"));
         Assert.Null(model.IncludeSubcollections);
         Assert.False(model.RawData.ContainsKey("includeSubcollections"));
         Assert.Null(model.ScoreThreshold);
@@ -198,7 +198,7 @@ public class EnrichStepTest : TestBase
             TargetField = "targetField",
 
             // Null should be interpreted as omitted for these properties
-            IncludeCosineDistance = null,
+            IncludeScore = null,
             IncludeSubcollections = null,
             ScoreThreshold = null,
             SearchMode = null,
@@ -216,7 +216,7 @@ public class EnrichStepTest : TestBase
             CollectionName = "collectionName",
             SourceField = "sourceField",
             TargetField = "targetField",
-            IncludeCosineDistance = true,
+            IncludeScore = true,
             IncludeSubcollections = true,
             ScoreThreshold = 0,
             SearchMode = SearchMode.Semantic,
