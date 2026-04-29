@@ -3211,6 +3211,29 @@ public sealed record class Extract : JsonModel
     }
 
     /// <summary>
+    /// Per-field bounding boxes. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// (e.g. `"/invoiceNumber"`, `"/items/0/price"`) to the document regions from
+    /// which each extracted value was sourced.
+    /// </summary>
+    public JsonElement? FieldBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldBoundingBoxes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldBoundingBoxes", value);
+        }
+    }
+
+    /// <summary>
     /// Per-field confidence scores. A JSON object mapping RFC 6901 JSON Pointer paths
     /// (e.g. `"/invoiceNumber"`) to float values in the range [0, 1] indicating the
     /// model's confidence in each extracted field value.
@@ -3512,6 +3535,7 @@ public sealed record class Extract : JsonModel
         this.CorrectedContent?.Validate();
         _ = this.CreatedAt;
         this.EventType?.Validate();
+        _ = this.FieldBoundingBoxes;
         _ = this.FieldConfidences;
         _ = this.FunctionCallID;
         _ = this.FunctionCallTryNumber;
