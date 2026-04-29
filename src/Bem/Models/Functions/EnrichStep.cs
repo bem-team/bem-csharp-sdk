@@ -79,14 +79,15 @@ public sealed record class EnrichStep : JsonModel
     /// from 0.0 (perfect match) to 2.0 (completely dissimilar). Lower scores indicate
     /// better semantic similarity.
     ///
-    /// <para>When enabled, each result includes a `cosineDistance` field.</para>
+    /// <para>When enabled, each result includes a `cosine_distance` field (semantic
+    /// mode) or a `hybrid_score` field (hybrid mode).</para>
     /// </summary>
-    public bool? IncludeCosineDistance
+    public bool? IncludeScore
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("includeCosineDistance");
+            return this._rawData.GetNullableStruct<bool>("includeScore");
         }
         init
         {
@@ -95,7 +96,7 @@ public sealed record class EnrichStep : JsonModel
                 return;
             }
 
-            this._rawData.Set("includeCosineDistance", value);
+            this._rawData.Set("includeScore", value);
         }
     }
 
@@ -219,7 +220,7 @@ public sealed record class EnrichStep : JsonModel
         _ = this.CollectionName;
         _ = this.SourceField;
         _ = this.TargetField;
-        _ = this.IncludeCosineDistance;
+        _ = this.IncludeScore;
         _ = this.IncludeSubcollections;
         _ = this.ScoreThreshold;
         this.SearchMode?.Validate();
