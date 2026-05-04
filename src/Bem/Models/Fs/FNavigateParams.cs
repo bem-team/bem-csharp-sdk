@@ -23,24 +23,56 @@ namespace Bem.Models.Fs;
 /// <para>The body always carries an `op` field; other fields apply per op. The response
 /// envelope is uniform: `{op, data, hasMore?, nextCursor?, count?, hint?}`.</para>
 ///
-/// <para>## Doc-level ops (work on every parsed document)</para>
+/// <para>## Quick reference</para>
 ///
-/// <para>- `ls`: list parsed documents with `pageCount`, `sectionCount`, `entityCount`,
-/// and a short `previewEntities` array. - `cat`: read one doc's full parse JSON,
-/// optionally sliced by `range` (page / pageRange / sectionTypes) or projected by
-/// `select` (dotted paths like `["sections.label", "sections.page"]`). - `head`:
-/// first N sections of one doc. - `grep`: substring or regex search across recent
-/// parse outputs. `scope` restricts to `sections` / `entities` / `relationships`.
-/// `path` scopes to one doc. `countOnly: true` returns only the hit count. - `stat`:
-/// metadata only — page/section/entity counts, timestamps.</para>
+/// <para>| Op | `path` | Other fields | What it does | |----|--------|-------------|--------------|
+/// | `ls` | — | `filter`, `limit`, `cursor` | List parsed documents | | `grep` |
+/// referenceID *(optional)* | `pattern`, `scope`, `countOnly` | Search across documents
+/// | | `cat` | referenceID | `range`, `select` | Read a document's parsed content
+/// | | `head` | referenceID | `n` | First N sections (default 10) | | `stat` | referenceID
+/// *or* entityID | — | Metadata only | | `find` | — | `filter`, `limit`, `cursor`
+/// | List canonical entities | | `open` | entityID | — | Entity detail + all mentions
+/// | | `xref` | entityID | `limit`, `cursor` | Sections across docs mentioning an
+/// entity |</para>
 ///
-/// <para>## Memory-level ops (require `linkAcrossDocuments: true` on the parse function)</para>
+/// <para>**`path`** is the positional identifier. For doc ops (`cat`, `head`, `stat`),
+/// pass a `referenceID` from `ls`. For entity ops (`open`, `xref`), pass an `entityID`
+/// from `find`. `grep` optionally takes a `path` to scope search to one document.</para>
 ///
-/// <para>- `find`: list canonical entities, filterable by `type`, `search`, `since`.
-/// Returns an empty list with a `hint` when no docs have been memory-linked. - `open`:
-/// fetch one entity plus its mentions across docs. - `xref`: for one entity, return
-/// the actual sections (with content) across docs that mention it. The "where exactly
-/// is X discussed" loop in one round trip.</para>
+/// <para>## Examples</para>
+///
+/// <para>**List documents:** `{"op": "ls"}`</para>
+///
+/// <para>**Search one document:** `{"op": "grep", "path": "my-doc-001", "pattern":
+/// "holiday", "scope": "sections"}`</para>
+///
+/// <para>**Read one page:** `{"op": "cat", "path": "my-doc-001", "range": {"page": 7}}`</para>
+///
+/// <para>**Read a page range:** `{"op": "cat", "path": "my-doc-001", "range": {"pageRange":
+/// [5, 10]}}`</para>
+///
+/// <para>**Project section labels and pages only:** `{"op": "cat", "path": "my-doc-001",
+/// "select": ["sections.label", "sections.page", "sections.type"]}`</para>
+///
+/// <para>**Preview first 5 sections:** `{"op": "head", "path": "my-doc-001", "n": 5}`</para>
+///
+/// <para>**Document metadata:** `{"op": "stat", "path": "my-doc-001"}`</para>
+///
+/// <para>**List entities:** `{"op": "find"}`</para>
+///
+/// <para>**Entity detail + mentions:** `{"op": "open", "path": "ent_abc123"}`</para>
+///
+/// <para>**Cross-document sections for an entity:** `{"op": "xref", "path": "ent_abc123"}`</para>
+///
+/// <para>## Key details</para>
+///
+/// <para>`range` is an **object** with optional keys: `page` (integer), `pageRange`
+/// (two-element array `[from, to]`), `sectionTypes` (array of strings like `["table", "heading"]`).</para>
+///
+/// <para>`select` is an **array of strings** — dotted paths like `["sections.label", "sections.page"]`.</para>
+///
+/// <para>`scope` (grep) is one of `"sections"`, `"entities"`, `"relationships"`,
+/// or `"all"` (default).</para>
 ///
 /// <para>## Pagination</para>
 ///
