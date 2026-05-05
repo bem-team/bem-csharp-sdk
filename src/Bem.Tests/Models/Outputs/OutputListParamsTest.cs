@@ -17,6 +17,7 @@ public class OutputListParamsTest : TestBase
             CallIds = ["string"],
             EndingBefore = "endingBefore",
             EventIds = ["string"],
+            EventTypes = ["string"],
             FunctionIds = ["string"],
             FunctionNames = ["string"],
             FunctionVersionNums = [0],
@@ -36,6 +37,7 @@ public class OutputListParamsTest : TestBase
         List<string> expectedCallIds = ["string"];
         string expectedEndingBefore = "endingBefore";
         List<string> expectedEventIds = ["string"];
+        List<string> expectedEventTypes = ["string"];
         List<string> expectedFunctionIds = ["string"];
         List<string> expectedFunctionNames = ["string"];
         List<long> expectedFunctionVersionNums = [0];
@@ -63,6 +65,12 @@ public class OutputListParamsTest : TestBase
         for (int i = 0; i < expectedEventIds.Count; i++)
         {
             Assert.Equal(expectedEventIds[i], parameters.EventIds[i]);
+        }
+        Assert.NotNull(parameters.EventTypes);
+        Assert.Equal(expectedEventTypes.Count, parameters.EventTypes.Count);
+        for (int i = 0; i < expectedEventTypes.Count; i++)
+        {
+            Assert.Equal(expectedEventTypes[i], parameters.EventTypes[i]);
         }
         Assert.NotNull(parameters.FunctionIds);
         Assert.Equal(expectedFunctionIds.Count, parameters.FunctionIds.Count);
@@ -126,6 +134,8 @@ public class OutputListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
         Assert.Null(parameters.EventIds);
         Assert.False(parameters.RawQueryData.ContainsKey("eventIDs"));
+        Assert.Null(parameters.EventTypes);
+        Assert.False(parameters.RawQueryData.ContainsKey("eventTypes"));
         Assert.Null(parameters.FunctionIds);
         Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
         Assert.Null(parameters.FunctionNames);
@@ -165,6 +175,7 @@ public class OutputListParamsTest : TestBase
             CallIds = null,
             EndingBefore = null,
             EventIds = null,
+            EventTypes = null,
             FunctionIds = null,
             FunctionNames = null,
             FunctionVersionNums = null,
@@ -187,6 +198,8 @@ public class OutputListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
         Assert.Null(parameters.EventIds);
         Assert.False(parameters.RawQueryData.ContainsKey("eventIDs"));
+        Assert.Null(parameters.EventTypes);
+        Assert.False(parameters.RawQueryData.ContainsKey("eventTypes"));
         Assert.Null(parameters.FunctionIds);
         Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
         Assert.Null(parameters.FunctionNames);
@@ -225,6 +238,7 @@ public class OutputListParamsTest : TestBase
             CallIds = ["string"],
             EndingBefore = "endingBefore",
             EventIds = ["string"],
+            EventTypes = ["string"],
             FunctionIds = ["string"],
             FunctionNames = ["string"],
             FunctionVersionNums = [0],
@@ -246,7 +260,7 @@ public class OutputListParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/outputs?callIDs=string&endingBefore=endingBefore&eventIDs=string&functionIDs=string&functionNames=string&functionVersionNums=0&includeIntermediate=true&isLabelled=true&isRegression=true&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&transformationIDs=string&workflowIDs=string&workflowNames=string"
+                    "https://api.bem.ai/v3/outputs?callIDs=string&endingBefore=endingBefore&eventIDs=string&eventTypes=string&functionIDs=string&functionNames=string&functionVersionNums=0&includeIntermediate=true&isLabelled=true&isRegression=true&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&transformationIDs=string&workflowIDs=string&workflowNames=string"
                 ),
                 url
             )
@@ -261,6 +275,7 @@ public class OutputListParamsTest : TestBase
             CallIds = ["string"],
             EndingBefore = "endingBefore",
             EventIds = ["string"],
+            EventTypes = ["string"],
             FunctionIds = ["string"],
             FunctionNames = ["string"],
             FunctionVersionNums = [0],

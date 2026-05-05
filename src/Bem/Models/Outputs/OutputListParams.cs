@@ -101,6 +101,30 @@ public record class OutputListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Filter to specific non-error output event types, e.g. `classify` or `extract`.
+    /// </summary>
+    public IReadOnlyList<string>? EventTypes
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("eventTypes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "eventTypes",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
     public IReadOnlyList<string>? FunctionIds
     {
         get
