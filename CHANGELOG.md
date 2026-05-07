@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.10.0 (2026-05-07)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **api:** add new resources and webhook support ([5cf7c0d](https://github.com/bem-team/bem-csharp-sdk/commit/5cf7c0de5296a5ef098026dcfe9417771647f3f8))
+* **api:** api update ([12e08df](https://github.com/bem-team/bem-csharp-sdk/commit/12e08df2fb435e5a9b6d9cb061900e063f1a77d9))
+
 ## 0.9.0 (2026-05-04)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.8.0...v0.9.0)
