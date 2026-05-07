@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
-using Bem.Exceptions;
 using Fs = Bem.Models.Fs;
 
 namespace Bem.Tests.Models.Fs;
@@ -14,7 +13,7 @@ public class FNavigateParamsTest : TestBase
     {
         var parameters = new Fs::FNavigateParams
         {
-            Op = Fs::Op.Ls,
+            Op = Fs::FsOp.Ls,
             CountOnly = true,
             Cursor = "cursor",
             Filter = new()
@@ -40,7 +39,7 @@ public class FNavigateParamsTest : TestBase
             Select = ["string"],
         };
 
-        ApiEnum<string, Fs::Op> expectedOp = Fs::Op.Ls;
+        ApiEnum<string, Fs::FsOp> expectedOp = Fs::FsOp.Ls;
         bool expectedCountOnly = true;
         string expectedCursor = "cursor";
         Fs::Filter expectedFilter = new()
@@ -88,7 +87,7 @@ public class FNavigateParamsTest : TestBase
     [Fact]
     public void OptionalNonNullableParamsUnsetAreNotSet_Works()
     {
-        var parameters = new Fs::FNavigateParams { Op = Fs::Op.Ls };
+        var parameters = new Fs::FNavigateParams { Op = Fs::FsOp.Ls };
 
         Assert.Null(parameters.CountOnly);
         Assert.False(parameters.RawBodyData.ContainsKey("countOnly"));
@@ -121,7 +120,7 @@ public class FNavigateParamsTest : TestBase
     {
         var parameters = new Fs::FNavigateParams
         {
-            Op = Fs::Op.Ls,
+            Op = Fs::FsOp.Ls,
 
             // Null should be interpreted as omitted for these properties
             CountOnly = null,
@@ -167,7 +166,7 @@ public class FNavigateParamsTest : TestBase
     [Fact]
     public void Url_Works()
     {
-        Fs::FNavigateParams parameters = new() { Op = Fs::Op.Ls };
+        Fs::FNavigateParams parameters = new() { Op = Fs::FsOp.Ls };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
@@ -179,7 +178,7 @@ public class FNavigateParamsTest : TestBase
     {
         var parameters = new Fs::FNavigateParams
         {
-            Op = Fs::Op.Ls,
+            Op = Fs::FsOp.Ls,
             CountOnly = true,
             Cursor = "cursor",
             Filter = new()
@@ -208,76 +207,6 @@ public class FNavigateParamsTest : TestBase
         Fs::FNavigateParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
-    }
-}
-
-public class OpTest : TestBase
-{
-    [Theory]
-    [InlineData(Fs::Op.Ls)]
-    [InlineData(Fs::Op.Find)]
-    [InlineData(Fs::Op.Open)]
-    [InlineData(Fs::Op.Cat)]
-    [InlineData(Fs::Op.Grep)]
-    [InlineData(Fs::Op.Xref)]
-    [InlineData(Fs::Op.Stat)]
-    [InlineData(Fs::Op.Head)]
-    public void Validation_Works(Fs::Op rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Fs::Op> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Fs::Op>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(Fs::Op.Ls)]
-    [InlineData(Fs::Op.Find)]
-    [InlineData(Fs::Op.Open)]
-    [InlineData(Fs::Op.Cat)]
-    [InlineData(Fs::Op.Grep)]
-    [InlineData(Fs::Op.Xref)]
-    [InlineData(Fs::Op.Stat)]
-    [InlineData(Fs::Op.Head)]
-    public void SerializationRoundtrip_Works(Fs::Op rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Fs::Op> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Fs::Op>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Fs::Op>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Fs::Op>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }
 

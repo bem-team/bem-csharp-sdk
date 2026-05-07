@@ -1237,14 +1237,14 @@ public sealed record class UpdateFunctionSend : JsonModel
     /// <summary>
     /// Destination type for a Send function.
     /// </summary>
-    public ApiEnum<string, UpdateFunctionSendDestinationType>? DestinationType
+    public ApiEnum<string, SendDestinationType>? DestinationType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<
-                ApiEnum<string, UpdateFunctionSendDestinationType>
-            >("destinationType");
+            return this._rawData.GetNullableClass<ApiEnum<string, SendDestinationType>>(
+                "destinationType"
+            );
         }
         init
         {
@@ -1489,57 +1489,6 @@ class UpdateFunctionSendFromRaw : IFromRawJson<UpdateFunctionSend>
     /// <inheritdoc/>
     public UpdateFunctionSend FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         UpdateFunctionSend.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Destination type for a Send function.
-/// </summary>
-[JsonConverter(typeof(UpdateFunctionSendDestinationTypeConverter))]
-public enum UpdateFunctionSendDestinationType
-{
-    Webhook,
-    S3,
-    GoogleDrive,
-}
-
-sealed class UpdateFunctionSendDestinationTypeConverter
-    : JsonConverter<UpdateFunctionSendDestinationType>
-{
-    public override UpdateFunctionSendDestinationType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "webhook" => UpdateFunctionSendDestinationType.Webhook,
-            "s3" => UpdateFunctionSendDestinationType.S3,
-            "google_drive" => UpdateFunctionSendDestinationType.GoogleDrive,
-            _ => (UpdateFunctionSendDestinationType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        UpdateFunctionSendDestinationType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                UpdateFunctionSendDestinationType.Webhook => "webhook",
-                UpdateFunctionSendDestinationType.S3 => "s3",
-                UpdateFunctionSendDestinationType.GoogleDrive => "google_drive",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
 }
 
 [JsonConverter(typeof(JsonModelConverter<UpdateFunctionSplit, UpdateFunctionSplitFromRaw>))]
@@ -2561,12 +2510,12 @@ public sealed record class UpdateFunctionParse : JsonModel
     /// JSON. The two toggles below independently control entity extraction (a per-call
     /// output concern) and cross-document memory linking (an environment-wide concern).</para>
     /// </summary>
-    public UpdateFunctionParseParseConfig? ParseConfig
+    public ParseConfig? ParseConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<UpdateFunctionParseParseConfig>("parseConfig");
+            return this._rawData.GetNullableClass<ParseConfig>("parseConfig");
         }
         init
         {
@@ -2656,139 +2605,4 @@ class UpdateFunctionParseFromRaw : IFromRawJson<UpdateFunctionParse>
     /// <inheritdoc/>
     public UpdateFunctionParse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         UpdateFunctionParse.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Per-version configuration for a Parse function.
-///
-/// <para>Parse renders document pages (PDF, image) via vision LLM and emits structured
-/// JSON. The two toggles below independently control entity extraction (a per-call
-/// output concern) and cross-document memory linking (an environment-wide concern).</para>
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        UpdateFunctionParseParseConfig,
-        UpdateFunctionParseParseConfigFromRaw
-    >)
-)]
-public sealed record class UpdateFunctionParseParseConfig : JsonModel
-{
-    /// <summary>
-    /// When true, extract named entities (people, organizations, products, studies,
-    /// identifiers, etc.) and the relationships between them, and dedupe by canonical
-    /// name within the document. When false, only `sections[]` is extracted; `entities[]`
-    /// and `relationships[]` come back empty in the parse output. Defaults to true.
-    /// </summary>
-    public bool? ExtractEntities
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("extractEntities");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("extractEntities", value);
-        }
-    }
-
-    /// <summary>
-    /// When true, link this document's entities to entities seen in earlier documents
-    /// in this environment, building one canonical record per real-world thing across
-    /// the corpus. Visible in the Memory tab and queryable via `POST /v3/fs` (op=find
-    /// / open / xref). Doesn't change this call's parse output. Requires `extractEntities=true`.
-    /// Defaults to true.
-    /// </summary>
-    public bool? LinkAcrossDocuments
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("linkAcrossDocuments");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("linkAcrossDocuments", value);
-        }
-    }
-
-    /// <summary>
-    /// Optional JSONSchema. When provided, each chunk performs schema-guided extraction.
-    /// When absent, chunks perform open-ended discovery and return sections, entities,
-    /// and relationships per the discovery schema.
-    /// </summary>
-    public JsonElement? Schema
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<JsonElement>("schema");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("schema", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ExtractEntities;
-        _ = this.LinkAcrossDocuments;
-        _ = this.Schema;
-    }
-
-    public UpdateFunctionParseParseConfig() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public UpdateFunctionParseParseConfig(
-        UpdateFunctionParseParseConfig updateFunctionParseParseConfig
-    )
-        : base(updateFunctionParseParseConfig) { }
-#pragma warning restore CS8618
-
-    public UpdateFunctionParseParseConfig(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    UpdateFunctionParseParseConfig(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="UpdateFunctionParseParseConfigFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionParseParseConfig FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class UpdateFunctionParseParseConfigFromRaw : IFromRawJson<UpdateFunctionParseParseConfig>
-{
-    /// <inheritdoc/>
-    public UpdateFunctionParseParseConfig FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => UpdateFunctionParseParseConfig.FromRawUnchecked(rawData);
 }

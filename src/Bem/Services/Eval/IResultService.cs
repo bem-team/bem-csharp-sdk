@@ -52,7 +52,7 @@ public interface IResultService
     /// accepts the ID list in the request body; use the `GET` variant with query
     /// parameters for simpler clients.</para>
     /// </summary>
-    Task<ResultFetchResultsResponse> FetchResults(
+    Task<EvaluationResults> FetchResults(
         ResultFetchResultsParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -64,7 +64,7 @@ public interface IResultService
     /// comma-separated `transformationIDs` query parameter. Limited to 100 IDs per
     /// request.</para>
     /// </summary>
-    Task<ResultRetrieveResultsResponse> RetrieveResults(
+    Task<EvaluationResults> RetrieveResults(
         ResultRetrieveResultsParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -87,7 +87,7 @@ public interface IResultServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/eval/results</c>, but is otherwise the
     /// same as <see cref="IResultService.FetchResults(ResultFetchResultsParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ResultFetchResultsResponse>> FetchResults(
+    Task<HttpResponse<EvaluationResults>> FetchResults(
         ResultFetchResultsParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -96,7 +96,7 @@ public interface IResultServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/eval/results</c>, but is otherwise the
     /// same as <see cref="IResultService.RetrieveResults(ResultRetrieveResultsParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ResultRetrieveResultsResponse>> RetrieveResults(
+    Task<HttpResponse<EvaluationResults>> RetrieveResults(
         ResultRetrieveResultsParams parameters,
         CancellationToken cancellationToken = default
     );

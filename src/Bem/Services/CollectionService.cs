@@ -42,7 +42,7 @@ public sealed class CollectionService : ICollectionService
     }
 
     /// <inheritdoc/>
-    public async Task<CollectionCreateResponse> Create(
+    public async Task<Collection> Create(
         CollectionCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -114,7 +114,7 @@ public sealed class CollectionServiceWithRawResponse : ICollectionServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<CollectionCreateResponse>> Create(
+    public async Task<HttpResponse<Collection>> Create(
         CollectionCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -130,7 +130,7 @@ public sealed class CollectionServiceWithRawResponse : ICollectionServiceWithRaw
             async (token) =>
             {
                 var collection = await response
-                    .Deserialize<CollectionCreateResponse>(token)
+                    .Deserialize<Collection>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {

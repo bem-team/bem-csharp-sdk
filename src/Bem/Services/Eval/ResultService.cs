@@ -34,7 +34,7 @@ public sealed class ResultService : IResultService
     }
 
     /// <inheritdoc/>
-    public async Task<ResultFetchResultsResponse> FetchResults(
+    public async Task<EvaluationResults> FetchResults(
         ResultFetchResultsParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -46,7 +46,7 @@ public sealed class ResultService : IResultService
     }
 
     /// <inheritdoc/>
-    public async Task<ResultRetrieveResultsResponse> RetrieveResults(
+    public async Task<EvaluationResults> RetrieveResults(
         ResultRetrieveResultsParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -75,7 +75,7 @@ public sealed class ResultServiceWithRawResponse : IResultServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ResultFetchResultsResponse>> FetchResults(
+    public async Task<HttpResponse<EvaluationResults>> FetchResults(
         ResultFetchResultsParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -90,20 +90,20 @@ public sealed class ResultServiceWithRawResponse : IResultServiceWithRawResponse
             response,
             async (token) =>
             {
-                var deserializedResponse = await response
-                    .Deserialize<ResultFetchResultsResponse>(token)
+                var evaluationResults = await response
+                    .Deserialize<EvaluationResults>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    deserializedResponse.Validate();
+                    evaluationResults.Validate();
                 }
-                return deserializedResponse;
+                return evaluationResults;
             }
         );
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ResultRetrieveResultsResponse>> RetrieveResults(
+    public async Task<HttpResponse<EvaluationResults>> RetrieveResults(
         ResultRetrieveResultsParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -118,14 +118,14 @@ public sealed class ResultServiceWithRawResponse : IResultServiceWithRawResponse
             response,
             async (token) =>
             {
-                var deserializedResponse = await response
-                    .Deserialize<ResultRetrieveResultsResponse>(token)
+                var evaluationResults = await response
+                    .Deserialize<EvaluationResults>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    deserializedResponse.Validate();
+                    evaluationResults.Validate();
                 }
-                return deserializedResponse;
+                return evaluationResults;
             }
         );
     }

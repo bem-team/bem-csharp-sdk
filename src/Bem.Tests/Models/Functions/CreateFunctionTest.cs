@@ -57,7 +57,7 @@ public class CreateFunctionTest : TestBase
         CreateFunction value = new Send()
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -235,7 +235,7 @@ public class CreateFunctionTest : TestBase
         CreateFunction value = new Send()
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -914,7 +914,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -926,7 +926,7 @@ public class SendTest : TestBase
 
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, SendDestinationType> expectedDestinationType = SendDestinationType.Webhook;
         string expectedDisplayName = "displayName";
         string expectedGoogleDriveFolderID = "googleDriveFolderId";
         string expectedS3Bucket = "s3Bucket";
@@ -958,7 +958,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -980,7 +980,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -996,7 +996,7 @@ public class SendTest : TestBase
 
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("send");
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, SendDestinationType> expectedDestinationType = SendDestinationType.Webhook;
         string expectedDisplayName = "displayName";
         string expectedGoogleDriveFolderID = "googleDriveFolderId";
         string expectedS3Bucket = "s3Bucket";
@@ -1028,7 +1028,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -1135,7 +1135,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             FunctionName = "functionName",
-            DestinationType = DestinationType.Webhook,
+            DestinationType = SendDestinationType.Webhook,
             DisplayName = "displayName",
             GoogleDriveFolderID = "googleDriveFolderId",
             S3Bucket = "s3Bucket",
@@ -1148,66 +1148,6 @@ public class SendTest : TestBase
         Send copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class DestinationTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void Validation_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }
 
@@ -2824,157 +2764,6 @@ public class ParseTest : TestBase
         };
 
         Parse copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ParseConfigTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ParseConfig
-        {
-            ExtractEntities = true,
-            LinkAcrossDocuments = true,
-            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
-        };
-
-        bool expectedExtractEntities = true;
-        bool expectedLinkAcrossDocuments = true;
-        JsonElement expectedSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-
-        Assert.Equal(expectedExtractEntities, model.ExtractEntities);
-        Assert.Equal(expectedLinkAcrossDocuments, model.LinkAcrossDocuments);
-        Assert.NotNull(model.Schema);
-        Assert.True(JsonElement.DeepEquals(expectedSchema, model.Schema.Value));
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ParseConfig
-        {
-            ExtractEntities = true,
-            LinkAcrossDocuments = true,
-            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ParseConfig>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ParseConfig
-        {
-            ExtractEntities = true,
-            LinkAcrossDocuments = true,
-            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ParseConfig>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        bool expectedExtractEntities = true;
-        bool expectedLinkAcrossDocuments = true;
-        JsonElement expectedSchema = JsonSerializer.Deserialize<JsonElement>("{}");
-
-        Assert.Equal(expectedExtractEntities, deserialized.ExtractEntities);
-        Assert.Equal(expectedLinkAcrossDocuments, deserialized.LinkAcrossDocuments);
-        Assert.NotNull(deserialized.Schema);
-        Assert.True(JsonElement.DeepEquals(expectedSchema, deserialized.Schema.Value));
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ParseConfig
-        {
-            ExtractEntities = true,
-            LinkAcrossDocuments = true,
-            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ParseConfig { };
-
-        Assert.Null(model.ExtractEntities);
-        Assert.False(model.RawData.ContainsKey("extractEntities"));
-        Assert.Null(model.LinkAcrossDocuments);
-        Assert.False(model.RawData.ContainsKey("linkAcrossDocuments"));
-        Assert.Null(model.Schema);
-        Assert.False(model.RawData.ContainsKey("schema"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ParseConfig { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new ParseConfig
-        {
-            // Null should be interpreted as omitted for these properties
-            ExtractEntities = null,
-            LinkAcrossDocuments = null,
-            Schema = null,
-        };
-
-        Assert.Null(model.ExtractEntities);
-        Assert.False(model.RawData.ContainsKey("extractEntities"));
-        Assert.Null(model.LinkAcrossDocuments);
-        Assert.False(model.RawData.ContainsKey("linkAcrossDocuments"));
-        Assert.Null(model.Schema);
-        Assert.False(model.RawData.ContainsKey("schema"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ParseConfig
-        {
-            // Null should be interpreted as omitted for these properties
-            ExtractEntities = null,
-            LinkAcrossDocuments = null,
-            Schema = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ParseConfig
-        {
-            ExtractEntities = true,
-            LinkAcrossDocuments = true,
-            Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
-        };
-
-        ParseConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }

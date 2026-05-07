@@ -8,7 +8,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
-using Bem.Exceptions;
 
 namespace Bem.Models.Fs;
 
@@ -113,12 +112,12 @@ public record class FNavigateParams : ParamsBase
     /// true`. On environments with no memory-linked docs they return empty data
     /// with a hint pointing at the toggle.</para>
     /// </summary>
-    public required ApiEnum<string, Op> Op
+    public required ApiEnum<string, FsOp> Op
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullClass<ApiEnum<string, Op>>("op");
+            return this._rawBodyData.GetNotNullClass<ApiEnum<string, FsOp>>("op");
         }
         init { this._rawBodyData.Set("op", value); }
     }
@@ -492,85 +491,6 @@ public record class FNavigateParams : ParamsBase
     public override int GetHashCode()
     {
         return 0;
-    }
-}
-
-/// <summary>
-/// Operations exposed by `POST /v3/fs`.
-///
-/// <para>The verbs and their flag names mirror Unix tools so an LLM agent's existing
-/// vocabulary maps directly:</para>
-///
-/// <para>- `ls` — list parsed documents - `cat` — read one parsed doc (optionally
-/// sliced by range / projected by select) - `grep` — substring or regex search across
-/// parse outputs - `head` — first N sections of one doc - `stat` — metadata only
-/// (page count, section count, parsed at, ...) - `find` — list canonical entities
-/// (cross-doc memory) - `open` — entity + mentions - `xref` — entity → sections
-/// across docs that mention it</para>
-///
-/// <para>Doc-level ops (ls, cat, grep, head, stat) work on every parsed document,
-/// regardless of how the parse function was configured.</para>
-///
-/// <para>Memory-level ops (find, open, xref) operate on the global entities table
-/// which is only populated when the parse function had `linkAcrossDocuments: true`.
-/// On environments with no memory-linked docs they return empty data with a hint
-/// pointing at the toggle.</para>
-/// </summary>
-[JsonConverter(typeof(OpConverter))]
-public enum Op
-{
-    Ls,
-    Find,
-    Open,
-    Cat,
-    Grep,
-    Xref,
-    Stat,
-    Head,
-}
-
-sealed class OpConverter : JsonConverter<Op>
-{
-    public override Op Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "ls" => Op.Ls,
-            "find" => Op.Find,
-            "open" => Op.Open,
-            "cat" => Op.Cat,
-            "grep" => Op.Grep,
-            "xref" => Op.Xref,
-            "stat" => Op.Stat,
-            "head" => Op.Head,
-            _ => (Op)(-1),
-        };
-    }
-
-    public override void Write(Utf8JsonWriter writer, Op value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                Op.Ls => "ls",
-                Op.Find => "find",
-                Op.Open => "open",
-                Op.Cat => "cat",
-                Op.Grep => "grep",
-                Op.Xref => "xref",
-                Op.Stat => "stat",
-                Op.Head => "head",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
     }
 }
 

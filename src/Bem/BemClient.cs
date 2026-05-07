@@ -120,6 +120,12 @@ public sealed class BemClient : IBemClient
         get { return _events.Value; }
     }
 
+    readonly Lazy<IWebhookService> _webhooks;
+    public IWebhookService Webhooks
+    {
+        get { return _webhooks.Value; }
+    }
+
     readonly Lazy<IWebhookSecretService> _webhookSecret;
     public IWebhookSecretService WebhookSecret
     {
@@ -138,6 +144,18 @@ public sealed class BemClient : IBemClient
         get { return _fs.Value; }
     }
 
+    readonly Lazy<IConnectorService> _connectors;
+    public IConnectorService Connectors
+    {
+        get { return _connectors.Value; }
+    }
+
+    readonly Lazy<ISubscriptionService> _subscriptions;
+    public ISubscriptionService Subscriptions
+    {
+        get { return _subscriptions.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -153,9 +171,12 @@ public sealed class BemClient : IBemClient
         _inferSchema = new(() => new InferSchemaService(this));
         _collections = new(() => new CollectionService(this));
         _events = new(() => new EventService(this));
+        _webhooks = new(() => new WebhookService(this));
         _webhookSecret = new(() => new WebhookSecretService(this));
         _eval = new(() => new EvalService(this));
         _fs = new(() => new FService(this));
+        _connectors = new(() => new ConnectorService(this));
+        _subscriptions = new(() => new SubscriptionService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -279,6 +300,12 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         get { return _events.Value; }
     }
 
+    readonly Lazy<IWebhookServiceWithRawResponse> _webhooks;
+    public IWebhookServiceWithRawResponse Webhooks
+    {
+        get { return _webhooks.Value; }
+    }
+
     readonly Lazy<IWebhookSecretServiceWithRawResponse> _webhookSecret;
     public IWebhookSecretServiceWithRawResponse WebhookSecret
     {
@@ -295,6 +322,18 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public IFServiceWithRawResponse Fs
     {
         get { return _fs.Value; }
+    }
+
+    readonly Lazy<IConnectorServiceWithRawResponse> _connectors;
+    public IConnectorServiceWithRawResponse Connectors
+    {
+        get { return _connectors.Value; }
+    }
+
+    readonly Lazy<ISubscriptionServiceWithRawResponse> _subscriptions;
+    public ISubscriptionServiceWithRawResponse Subscriptions
+    {
+        get { return _subscriptions.Value; }
     }
 
     /// <inheritdoc/>
@@ -503,9 +542,12 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _inferSchema = new(() => new InferSchemaServiceWithRawResponse(this));
         _collections = new(() => new CollectionServiceWithRawResponse(this));
         _events = new(() => new EventServiceWithRawResponse(this));
+        _webhooks = new(() => new WebhookServiceWithRawResponse(this));
         _webhookSecret = new(() => new WebhookSecretServiceWithRawResponse(this));
         _eval = new(() => new EvalServiceWithRawResponse(this));
         _fs = new(() => new FServiceWithRawResponse(this));
+        _connectors = new(() => new ConnectorServiceWithRawResponse(this));
+        _subscriptions = new(() => new SubscriptionServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)

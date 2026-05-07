@@ -9,7 +9,7 @@ public class FServiceTest : TestBase
     public async Task Navigate_Works()
     {
         var response = await this.client.Fs.Navigate(
-            new() { Op = Op.Ls },
+            new() { Op = FsOp.Ls },
             TestContext.Current.CancellationToken
         );
         response.Validate();
