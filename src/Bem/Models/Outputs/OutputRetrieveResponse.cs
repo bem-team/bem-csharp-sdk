@@ -13,7 +13,8 @@ public sealed record class OutputRetrieveResponse : JsonModel
     /// <summary>
     /// V3 read-side event union. Superset of the shared `Event` union: it contains
     /// every shared variant verbatim (backward compatible) and adds the V3-only
-    /// `extract` and `classify` variants.
+    /// `extract`, `parse`, `classify`, `analyze`, `payload_shaping`, and `evaluation`
+    /// variants. This is also the union delivered as the body of outbound webhook payloads.
     /// </summary>
     public required Event Output
     {
