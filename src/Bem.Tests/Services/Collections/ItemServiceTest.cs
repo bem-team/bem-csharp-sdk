@@ -9,11 +9,11 @@ public class ItemServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Retrieve_Works()
     {
-        var item = await this.client.Collections.Items.Retrieve(
+        var collection = await this.client.Collections.Items.Retrieve(
             new() { CollectionName = "collectionName" },
             TestContext.Current.CancellationToken
         );
-        item.Validate();
+        collection.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]

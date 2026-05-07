@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Bem.Core;
+using Bem.Models.Collections;
 using Bem.Models.Collections.Items;
 
 namespace Bem.Services.Collections;
@@ -34,7 +35,7 @@ public sealed class ItemService : IItemService
     }
 
     /// <inheritdoc/>
-    public async Task<ItemRetrieveResponse> Retrieve(
+    public async Task<Collection> Retrieve(
         ItemRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -93,7 +94,7 @@ public sealed class ItemServiceWithRawResponse : IItemServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ItemRetrieveResponse>> Retrieve(
+    public async Task<HttpResponse<Collection>> Retrieve(
         ItemRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -108,14 +109,14 @@ public sealed class ItemServiceWithRawResponse : IItemServiceWithRawResponse
             response,
             async (token) =>
             {
-                var item = await response
-                    .Deserialize<ItemRetrieveResponse>(token)
+                var collection = await response
+                    .Deserialize<Collection>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    item.Validate();
+                    collection.Validate();
                 }
-                return item;
+                return collection;
             }
         );
     }

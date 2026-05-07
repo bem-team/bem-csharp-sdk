@@ -5,6 +5,7 @@ using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.Outputs;
 using Errors = Bem.Models.Errors;
+using Functions = Bem.Models.Functions;
 
 namespace Bem.Tests.Models.Outputs;
 
@@ -130,8 +131,99 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void ParseValidationWorks()
+    {
+        Event value = new Parse()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void AnalyzeValidationWorks()
+    {
+        Event value = new Analyze()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
             TransformationID = "transformationID",
@@ -429,6 +521,72 @@ public class EventTest : TestBase
     }
 
     [Fact]
+    public void PayloadShapingValidationWorks()
+    {
+        Event value = new PayloadShaping()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void EvaluationValidationWorks()
+    {
+        Event value = new Evaluation()
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void CollectionProcessingValidationWorks()
     {
         Event value = new CollectionProcessing()
@@ -439,7 +597,7 @@ public class EventTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -463,7 +621,7 @@ public class EventTest : TestBase
         Event value = new Send()
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -616,8 +774,105 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void ParseSerializationRoundtripWorks()
+    {
+        Event value = new Parse()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void AnalyzeSerializationRoundtripWorks()
+    {
+        Event value = new Analyze()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
             TransformationID = "transformationID",
@@ -939,6 +1194,78 @@ public class EventTest : TestBase
     }
 
     [Fact]
+    public void PayloadShapingSerializationRoundtripWorks()
+    {
+        Event value = new PayloadShaping()
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void EvaluationSerializationRoundtripWorks()
+    {
+        Event value = new Evaluation()
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
     public void CollectionProcessingSerializationRoundtripWorks()
     {
         Event value = new CollectionProcessing()
@@ -949,7 +1276,7 @@ public class EventTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -976,7 +1303,7 @@ public class EventTest : TestBase
         Event value = new Send()
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2637,96 +2964,6 @@ public class InputTest : TestBase
     }
 }
 
-public class InputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void Validation_Works(InputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void SerializationRoundtrip_Works(InputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
 public class MetadataTest : TestBase
 {
     [Fact]
@@ -3453,7 +3690,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -3500,7 +3737,7 @@ public class ExtractTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, ExtractInputType> expectedInputType = ExtractInputType.Csv;
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         ExtractMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedS3Url = "s3URL";
@@ -3594,7 +3831,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -3652,7 +3889,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -3706,7 +3943,7 @@ public class ExtractTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, ExtractInputType> expectedInputType = ExtractInputType.Csv;
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         ExtractMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedS3Url = "s3URL";
@@ -3807,7 +4044,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -4077,7 +4314,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4123,7 +4360,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4162,7 +4399,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4213,7 +4450,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4272,7 +4509,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -4768,96 +5005,6 @@ public class ExtractInputTest : TestBase
     }
 }
 
-public class ExtractInputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(ExtractInputType.Csv)]
-    [InlineData(ExtractInputType.Docx)]
-    [InlineData(ExtractInputType.Email)]
-    [InlineData(ExtractInputType.Heic)]
-    [InlineData(ExtractInputType.Html)]
-    [InlineData(ExtractInputType.Jpeg)]
-    [InlineData(ExtractInputType.Json)]
-    [InlineData(ExtractInputType.Heif)]
-    [InlineData(ExtractInputType.M4a)]
-    [InlineData(ExtractInputType.Mp3)]
-    [InlineData(ExtractInputType.Pdf)]
-    [InlineData(ExtractInputType.Png)]
-    [InlineData(ExtractInputType.Text)]
-    [InlineData(ExtractInputType.Wav)]
-    [InlineData(ExtractInputType.Webp)]
-    [InlineData(ExtractInputType.Xls)]
-    [InlineData(ExtractInputType.Xlsx)]
-    [InlineData(ExtractInputType.Xml)]
-    public void Validation_Works(ExtractInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ExtractInputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ExtractInputType.Csv)]
-    [InlineData(ExtractInputType.Docx)]
-    [InlineData(ExtractInputType.Email)]
-    [InlineData(ExtractInputType.Heic)]
-    [InlineData(ExtractInputType.Html)]
-    [InlineData(ExtractInputType.Jpeg)]
-    [InlineData(ExtractInputType.Json)]
-    [InlineData(ExtractInputType.Heif)]
-    [InlineData(ExtractInputType.M4a)]
-    [InlineData(ExtractInputType.Mp3)]
-    [InlineData(ExtractInputType.Pdf)]
-    [InlineData(ExtractInputType.Png)]
-    [InlineData(ExtractInputType.Text)]
-    [InlineData(ExtractInputType.Wav)]
-    [InlineData(ExtractInputType.Webp)]
-    [InlineData(ExtractInputType.Xls)]
-    [InlineData(ExtractInputType.Xlsx)]
-    [InlineData(ExtractInputType.Xml)]
-    public void SerializationRoundtrip_Works(ExtractInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ExtractInputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
 public class ExtractMetadataTest : TestBase
 {
     [Fact]
@@ -4960,6 +5107,2274 @@ public class ExtractMetadataTest : TestBase
         var model = new ExtractMetadata { DurationFunctionToEventSeconds = 0 };
 
         ExtractMetadata copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ParseTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        long expectedItemCount = 0;
+        long expectedItemOffset = 0;
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        float expectedAvgConfidence = 0;
+        string expectedCallID = "callID";
+        ParseCorrectedContent expectedCorrectedContent = new ParseCorrectedContentOutput()
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, ParseEventType> expectedEventType = ParseEventType.Parse;
+        JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
+        JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        List<ParseInput> expectedInputs =
+        [
+            new()
+            {
+                InputContent = "inputContent",
+                InputType = "inputType",
+                JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                S3Url = "s3URL",
+            },
+        ];
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
+        List<string> expectedInvalidProperties = ["string"];
+        ParseMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedS3Url = "s3URL";
+        string expectedTransformationID = "transformationID";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedItemCount, model.ItemCount);
+        Assert.Equal(expectedItemOffset, model.ItemOffset);
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.True(JsonElement.DeepEquals(expectedTransformedContent, model.TransformedContent));
+        Assert.Equal(expectedAvgConfidence, model.AvgConfidence);
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCorrectedContent, model.CorrectedContent);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.NotNull(model.FieldBoundingBoxes);
+        Assert.True(
+            JsonElement.DeepEquals(expectedFieldBoundingBoxes, model.FieldBoundingBoxes.Value)
+        );
+        Assert.NotNull(model.FieldConfidences);
+        Assert.True(JsonElement.DeepEquals(expectedFieldConfidences, model.FieldConfidences.Value));
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.NotNull(model.Inputs);
+        Assert.Equal(expectedInputs.Count, model.Inputs.Count);
+        for (int i = 0; i < expectedInputs.Count; i++)
+        {
+            Assert.Equal(expectedInputs[i], model.Inputs[i]);
+        }
+        Assert.Equal(expectedInputType, model.InputType);
+        Assert.NotNull(model.InvalidProperties);
+        Assert.Equal(expectedInvalidProperties.Count, model.InvalidProperties.Count);
+        for (int i = 0; i < expectedInvalidProperties.Count; i++)
+        {
+            Assert.Equal(expectedInvalidProperties[i], model.InvalidProperties[i]);
+        }
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedS3Url, model.S3Url);
+        Assert.Equal(expectedTransformationID, model.TransformationID);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Parse>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Parse>(element, ModelBase.SerializerOptions);
+        Assert.NotNull(deserialized);
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        long expectedItemCount = 0;
+        long expectedItemOffset = 0;
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        float expectedAvgConfidence = 0;
+        string expectedCallID = "callID";
+        ParseCorrectedContent expectedCorrectedContent = new ParseCorrectedContentOutput()
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, ParseEventType> expectedEventType = ParseEventType.Parse;
+        JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
+        JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        List<ParseInput> expectedInputs =
+        [
+            new()
+            {
+                InputContent = "inputContent",
+                InputType = "inputType",
+                JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                S3Url = "s3URL",
+            },
+        ];
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
+        List<string> expectedInvalidProperties = ["string"];
+        ParseMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedS3Url = "s3URL";
+        string expectedTransformationID = "transformationID";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedItemCount, deserialized.ItemCount);
+        Assert.Equal(expectedItemOffset, deserialized.ItemOffset);
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.True(
+            JsonElement.DeepEquals(expectedTransformedContent, deserialized.TransformedContent)
+        );
+        Assert.Equal(expectedAvgConfidence, deserialized.AvgConfidence);
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCorrectedContent, deserialized.CorrectedContent);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.NotNull(deserialized.FieldBoundingBoxes);
+        Assert.True(
+            JsonElement.DeepEquals(
+                expectedFieldBoundingBoxes,
+                deserialized.FieldBoundingBoxes.Value
+            )
+        );
+        Assert.NotNull(deserialized.FieldConfidences);
+        Assert.True(
+            JsonElement.DeepEquals(expectedFieldConfidences, deserialized.FieldConfidences.Value)
+        );
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.NotNull(deserialized.Inputs);
+        Assert.Equal(expectedInputs.Count, deserialized.Inputs.Count);
+        for (int i = 0; i < expectedInputs.Count; i++)
+        {
+            Assert.Equal(expectedInputs[i], deserialized.Inputs[i]);
+        }
+        Assert.Equal(expectedInputType, deserialized.InputType);
+        Assert.NotNull(deserialized.InvalidProperties);
+        Assert.Equal(expectedInvalidProperties.Count, deserialized.InvalidProperties.Count);
+        for (int i = 0; i < expectedInvalidProperties.Count; i++)
+        {
+            Assert.Equal(expectedInvalidProperties[i], deserialized.InvalidProperties[i]);
+        }
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedS3Url, deserialized.S3Url);
+        Assert.Equal(expectedTransformationID, deserialized.TransformationID);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("fieldBoundingBoxes"));
+        Assert.Null(model.FieldConfidences);
+        Assert.False(model.RawData.ContainsKey("fieldConfidences"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.InputType);
+        Assert.False(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.InvalidProperties);
+        Assert.False(model.RawData.ContainsKey("invalidProperties"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.TransformationID);
+        Assert.False(model.RawData.ContainsKey("transformationID"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FieldBoundingBoxes = null,
+            FieldConfidences = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            InputType = null,
+            InvalidProperties = null,
+            Metadata = null,
+            TransformationID = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("fieldBoundingBoxes"));
+        Assert.Null(model.FieldConfidences);
+        Assert.False(model.RawData.ContainsKey("fieldConfidences"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.InputType);
+        Assert.False(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.InvalidProperties);
+        Assert.False(model.RawData.ContainsKey("invalidProperties"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.TransformationID);
+        Assert.False(model.RawData.ContainsKey("transformationID"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            S3Url = "s3URL",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FieldBoundingBoxes = null,
+            FieldConfidences = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            InputType = null,
+            InvalidProperties = null,
+            Metadata = null,
+            TransformationID = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Assert.Null(model.AvgConfidence);
+        Assert.False(model.RawData.ContainsKey("avgConfidence"));
+        Assert.Null(model.CorrectedContent);
+        Assert.False(model.RawData.ContainsKey("correctedContent"));
+        Assert.Null(model.Inputs);
+        Assert.False(model.RawData.ContainsKey("inputs"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+
+            AvgConfidence = null,
+            CorrectedContent = null,
+            Inputs = null,
+            S3Url = null,
+        };
+
+        Assert.Null(model.AvgConfidence);
+        Assert.True(model.RawData.ContainsKey("avgConfidence"));
+        Assert.Null(model.CorrectedContent);
+        Assert.True(model.RawData.ContainsKey("correctedContent"));
+        Assert.Null(model.Inputs);
+        Assert.True(model.RawData.ContainsKey("inputs"));
+        Assert.Null(model.S3Url);
+        Assert.True(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+
+            AvgConfidence = null,
+            CorrectedContent = null,
+            Inputs = null,
+            S3Url = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Parse
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ItemCount = 0,
+            ItemOffset = 0,
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CorrectedContent = new ParseCorrectedContentOutput()
+            {
+                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = ParseEventType.Parse,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Inputs =
+            [
+                new()
+                {
+                    InputContent = "inputContent",
+                    InputType = "inputType",
+                    JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    S3Url = "s3URL",
+                },
+            ],
+            InputType = InputType.Csv,
+            InvalidProperties = ["string"],
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Parse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ParseCorrectedContentTest : TestBase
+{
+    [Fact]
+    public void ParseCorrectedContentOutputValidationWorks()
+    {
+        ParseCorrectedContent value = new ParseCorrectedContentOutput()
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementValidationWorks()
+    {
+        ParseCorrectedContent value = JsonSerializer.Deserialize<JsonElement>("{}");
+        value.Validate();
+    }
+
+    [Fact]
+    public void JsonElementsValidationWorks()
+    {
+        ParseCorrectedContent value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
+        value.Validate();
+    }
+
+    [Fact]
+    public void StringValidationWorks()
+    {
+        ParseCorrectedContent value = "string";
+        value.Validate();
+    }
+
+    [Fact]
+    public void DoubleValidationWorks()
+    {
+        ParseCorrectedContent value = 0;
+        value.Validate();
+    }
+
+    [Fact]
+    public void BoolValidationWorks()
+    {
+        ParseCorrectedContent value = true;
+        value.Validate();
+    }
+
+    [Fact]
+    public void ParseCorrectedContentOutputSerializationRoundtripWorks()
+    {
+        ParseCorrectedContent value = new ParseCorrectedContentOutput()
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void JsonElementSerializationRoundtripWorks()
+    {
+        ParseCorrectedContent value = JsonSerializer.Deserialize<JsonElement>("{}");
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void JsonElementsSerializationRoundtripWorks()
+    {
+        ParseCorrectedContent value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void StringSerializationRoundtripWorks()
+    {
+        ParseCorrectedContent value = "string";
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void DoubleSerializationRoundtripWorks()
+    {
+        ParseCorrectedContent value = 0;
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void BoolSerializationRoundtripWorks()
+    {
+        ParseCorrectedContent value = true;
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContent>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class ParseCorrectedContentOutputTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
+
+        Assert.NotNull(model.Output);
+        Assert.Equal(expectedOutput.Count, model.Output.Count);
+        for (int i = 0; i < expectedOutput.Count; i++)
+        {
+            Assert.Equal(expectedOutput[i], model.Output[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContentOutput>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseCorrectedContentOutput>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
+
+        Assert.NotNull(deserialized.Output);
+        Assert.Equal(expectedOutput.Count, deserialized.Output.Count);
+        for (int i = 0; i < expectedOutput.Count; i++)
+        {
+            Assert.Equal(expectedOutput[i], deserialized.Output[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ParseCorrectedContentOutput { };
+
+        Assert.Null(model.Output);
+        Assert.False(model.RawData.ContainsKey("output"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ParseCorrectedContentOutput { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            // Null should be interpreted as omitted for these properties
+            Output = null,
+        };
+
+        Assert.Null(model.Output);
+        Assert.False(model.RawData.ContainsKey("output"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            // Null should be interpreted as omitted for these properties
+            Output = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new ParseCorrectedContentOutput
+        {
+            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
+        };
+
+        ParseCorrectedContentOutput copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ParseEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(ParseEventType.Parse)]
+    public void Validation_Works(ParseEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ParseEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ParseEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(ParseEventType.Parse)]
+    public void SerializationRoundtrip_Works(ParseEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ParseEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ParseEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ParseEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ParseEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class ParseInputTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        string expectedInputContent = "inputContent";
+        string expectedInputType = "inputType";
+        JsonElement expectedJsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedS3Url = "s3URL";
+
+        Assert.Equal(expectedInputContent, model.InputContent);
+        Assert.Equal(expectedInputType, model.InputType);
+        Assert.NotNull(model.JsonInputContent);
+        Assert.True(JsonElement.DeepEquals(expectedJsonInputContent, model.JsonInputContent.Value));
+        Assert.Equal(expectedS3Url, model.S3Url);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseInput>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseInput>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedInputContent = "inputContent";
+        string expectedInputType = "inputType";
+        JsonElement expectedJsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedS3Url = "s3URL";
+
+        Assert.Equal(expectedInputContent, deserialized.InputContent);
+        Assert.Equal(expectedInputType, deserialized.InputType);
+        Assert.NotNull(deserialized.JsonInputContent);
+        Assert.True(
+            JsonElement.DeepEquals(expectedJsonInputContent, deserialized.JsonInputContent.Value)
+        );
+        Assert.Equal(expectedS3Url, deserialized.S3Url);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ParseInput { };
+
+        Assert.Null(model.InputContent);
+        Assert.False(model.RawData.ContainsKey("inputContent"));
+        Assert.Null(model.InputType);
+        Assert.False(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.JsonInputContent);
+        Assert.False(model.RawData.ContainsKey("jsonInputContent"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ParseInput { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = null,
+            InputType = null,
+            JsonInputContent = null,
+            S3Url = null,
+        };
+
+        Assert.Null(model.InputContent);
+        Assert.True(model.RawData.ContainsKey("inputContent"));
+        Assert.Null(model.InputType);
+        Assert.True(model.RawData.ContainsKey("inputType"));
+        Assert.Null(model.JsonInputContent);
+        Assert.True(model.RawData.ContainsKey("jsonInputContent"));
+        Assert.Null(model.S3Url);
+        Assert.True(model.RawData.ContainsKey("s3URL"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = null,
+            InputType = null,
+            JsonInputContent = null,
+            S3Url = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new ParseInput
+        {
+            InputContent = "inputContent",
+            InputType = "inputType",
+            JsonInputContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            S3Url = "s3URL",
+        };
+
+        ParseInput copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ParseMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new ParseMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new ParseMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new ParseMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ParseMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new ParseMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ParseMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ParseMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ParseMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ParseMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new ParseMetadata { DurationFunctionToEventSeconds = 0 };
+
+        ParseMetadata copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class AnalyzeTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        List<string> expectedInvalidProperties = ["string"];
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        float expectedAvgConfidence = 0;
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, AnalyzeEventType> expectedEventType = AnalyzeEventType.Analyze;
+        JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
+        JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        AnalyzeMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedS3Url = "s3URL";
+        string expectedTransformationID = "transformationID";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedInvalidProperties.Count, model.InvalidProperties.Count);
+        for (int i = 0; i < expectedInvalidProperties.Count; i++)
+        {
+            Assert.Equal(expectedInvalidProperties[i], model.InvalidProperties[i]);
+        }
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.True(JsonElement.DeepEquals(expectedTransformedContent, model.TransformedContent));
+        Assert.Equal(expectedAvgConfidence, model.AvgConfidence);
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.NotNull(model.FieldBoundingBoxes);
+        Assert.True(
+            JsonElement.DeepEquals(expectedFieldBoundingBoxes, model.FieldBoundingBoxes.Value)
+        );
+        Assert.NotNull(model.FieldConfidences);
+        Assert.True(JsonElement.DeepEquals(expectedFieldConfidences, model.FieldConfidences.Value));
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedS3Url, model.S3Url);
+        Assert.Equal(expectedTransformationID, model.TransformationID);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Analyze>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Analyze>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        List<string> expectedInvalidProperties = ["string"];
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        float expectedAvgConfidence = 0;
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, AnalyzeEventType> expectedEventType = AnalyzeEventType.Analyze;
+        JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
+        JsonElement expectedFieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        AnalyzeMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedS3Url = "s3URL";
+        string expectedTransformationID = "transformationID";
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedInvalidProperties.Count, deserialized.InvalidProperties.Count);
+        for (int i = 0; i < expectedInvalidProperties.Count; i++)
+        {
+            Assert.Equal(expectedInvalidProperties[i], deserialized.InvalidProperties[i]);
+        }
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.True(
+            JsonElement.DeepEquals(expectedTransformedContent, deserialized.TransformedContent)
+        );
+        Assert.Equal(expectedAvgConfidence, deserialized.AvgConfidence);
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.NotNull(deserialized.FieldBoundingBoxes);
+        Assert.True(
+            JsonElement.DeepEquals(
+                expectedFieldBoundingBoxes,
+                deserialized.FieldBoundingBoxes.Value
+            )
+        );
+        Assert.NotNull(deserialized.FieldConfidences);
+        Assert.True(
+            JsonElement.DeepEquals(expectedFieldConfidences, deserialized.FieldConfidences.Value)
+        );
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedS3Url, deserialized.S3Url);
+        Assert.Equal(expectedTransformationID, deserialized.TransformationID);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("fieldBoundingBoxes"));
+        Assert.Null(model.FieldConfidences);
+        Assert.False(model.RawData.ContainsKey("fieldConfidences"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FieldBoundingBoxes = null,
+            FieldConfidences = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FieldBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("fieldBoundingBoxes"));
+        Assert.Null(model.FieldConfidences);
+        Assert.False(model.RawData.ContainsKey("fieldConfidences"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FieldBoundingBoxes = null,
+            FieldConfidences = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Assert.Null(model.AvgConfidence);
+        Assert.False(model.RawData.ContainsKey("avgConfidence"));
+        Assert.Null(model.S3Url);
+        Assert.False(model.RawData.ContainsKey("s3URL"));
+        Assert.Null(model.TransformationID);
+        Assert.False(model.RawData.ContainsKey("transformationID"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+
+            AvgConfidence = null,
+            S3Url = null,
+            TransformationID = null,
+        };
+
+        Assert.Null(model.AvgConfidence);
+        Assert.True(model.RawData.ContainsKey("avgConfidence"));
+        Assert.Null(model.S3Url);
+        Assert.True(model.RawData.ContainsKey("s3URL"));
+        Assert.Null(model.TransformationID);
+        Assert.True(model.RawData.ContainsKey("transformationID"));
+    }
+
+    [Fact]
+    public void OptionalNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+
+            AvgConfidence = null,
+            S3Url = null,
+            TransformationID = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Analyze
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            InvalidProperties = ["string"],
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            AvgConfidence = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = AnalyzeEventType.Analyze,
+            FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            S3Url = "s3URL",
+            TransformationID = "transformationID",
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Analyze copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class AnalyzeEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(AnalyzeEventType.Analyze)]
+    public void Validation_Works(AnalyzeEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, AnalyzeEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, AnalyzeEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(AnalyzeEventType.Analyze)]
+    public void SerializationRoundtrip_Works(AnalyzeEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, AnalyzeEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, AnalyzeEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, AnalyzeEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, AnalyzeEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class AnalyzeMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new AnalyzeMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new AnalyzeMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<AnalyzeMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new AnalyzeMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<AnalyzeMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new AnalyzeMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new AnalyzeMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new AnalyzeMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new AnalyzeMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new AnalyzeMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new AnalyzeMetadata { DurationFunctionToEventSeconds = 0 };
+
+        AnalyzeMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }
@@ -10716,6 +13131,1212 @@ public class EnrichMetadataTest : TestBase
     }
 }
 
+public class PayloadShapingTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, PayloadShapingEventType> expectedEventType =
+            PayloadShapingEventType.PayloadShaping;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        PayloadShapingMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.True(JsonElement.DeepEquals(expectedTransformedContent, model.TransformedContent));
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<PayloadShaping>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<PayloadShaping>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, PayloadShapingEventType> expectedEventType =
+            PayloadShapingEventType.PayloadShaping;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        PayloadShapingMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.True(
+            JsonElement.DeepEquals(expectedTransformedContent, deserialized.TransformedContent)
+        );
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new PayloadShaping
+        {
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = PayloadShapingEventType.PayloadShaping,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        PayloadShaping copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class PayloadShapingEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(PayloadShapingEventType.PayloadShaping)]
+    public void Validation_Works(PayloadShapingEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, PayloadShapingEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, PayloadShapingEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(PayloadShapingEventType.PayloadShaping)]
+    public void SerializationRoundtrip_Works(PayloadShapingEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, PayloadShapingEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, PayloadShapingEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, PayloadShapingEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, PayloadShapingEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class PayloadShapingMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new PayloadShapingMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new PayloadShapingMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<PayloadShapingMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new PayloadShapingMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<PayloadShapingMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new PayloadShapingMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new PayloadShapingMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new PayloadShapingMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new PayloadShapingMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new PayloadShapingMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new PayloadShapingMetadata { DurationFunctionToEventSeconds = 0 };
+
+        PayloadShapingMetadata copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class EvaluationTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string expectedEvaluationVersion = "evaluationVersion";
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedResult = JsonSerializer.Deserialize<JsonElement>("{}");
+        ApiEnum<string, Status> expectedStatus = Status.Success;
+        string expectedTransformID = "transformId";
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedErrorMessage = "errorMessage";
+        ApiEnum<string, EvaluationEventType> expectedEventType = EvaluationEventType.Evaluation;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        EvaluationMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEvaluationVersion, model.EvaluationVersion);
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.True(JsonElement.DeepEquals(expectedResult, model.Result));
+        Assert.Equal(expectedStatus, model.Status);
+        Assert.Equal(expectedTransformID, model.TransformID);
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedErrorMessage, model.ErrorMessage);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Evaluation>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Evaluation>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedEvaluationVersion = "evaluationVersion";
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedReferenceID = "referenceID";
+        JsonElement expectedResult = JsonSerializer.Deserialize<JsonElement>("{}");
+        ApiEnum<string, Status> expectedStatus = Status.Success;
+        string expectedTransformID = "transformId";
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedErrorMessage = "errorMessage";
+        ApiEnum<string, EvaluationEventType> expectedEventType = EvaluationEventType.Evaluation;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        EvaluationMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedEvaluationVersion, deserialized.EvaluationVersion);
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.True(JsonElement.DeepEquals(expectedResult, deserialized.Result));
+        Assert.Equal(expectedStatus, deserialized.Status);
+        Assert.Equal(expectedTransformID, deserialized.TransformID);
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedErrorMessage, deserialized.ErrorMessage);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.ErrorMessage);
+        Assert.False(model.RawData.ContainsKey("errorMessage"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            ErrorMessage = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.ErrorMessage);
+        Assert.False(model.RawData.ContainsKey("errorMessage"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            ErrorMessage = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Evaluation
+        {
+            EvaluationVersion = "evaluationVersion",
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            ReferenceID = "referenceID",
+            Result = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Status = Status.Success,
+            TransformID = "transformId",
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            ErrorMessage = "errorMessage",
+            EventType = EvaluationEventType.Evaluation,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Evaluation copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class StatusTest : TestBase
+{
+    [Theory]
+    [InlineData(Status.Success)]
+    [InlineData(Status.Failed)]
+    public void Validation_Works(Status rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, Status> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(Status.Success)]
+    [InlineData(Status.Failed)]
+    public void SerializationRoundtrip_Works(Status rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, Status> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class EvaluationEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(EvaluationEventType.Evaluation)]
+    public void Validation_Works(EvaluationEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, EvaluationEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, EvaluationEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(EvaluationEventType.Evaluation)]
+    public void SerializationRoundtrip_Works(EvaluationEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, EvaluationEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EvaluationEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, EvaluationEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EvaluationEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class EvaluationMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new EvaluationMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new EvaluationMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<EvaluationMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new EvaluationMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<EvaluationMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new EvaluationMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new EvaluationMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new EvaluationMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new EvaluationMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new EvaluationMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new EvaluationMetadata { DurationFunctionToEventSeconds = 0 };
+
+        EvaluationMetadata copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
 public class CollectionProcessingTest : TestBase
 {
     [Fact]
@@ -10729,7 +14350,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -10751,7 +14372,8 @@ public class CollectionProcessingTest : TestBase
         ApiEnum<string, Operation> expectedOperation = Operation.Add;
         long expectedProcessedCount = 0;
         string expectedReferenceID = "referenceID";
-        ApiEnum<string, Status> expectedStatus = Status.Success;
+        ApiEnum<string, CollectionProcessingStatus> expectedStatus =
+            CollectionProcessingStatus.Success;
         List<string> expectedCollectionItemIds = ["string"];
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedErrorMessage = "errorMessage";
@@ -10802,7 +14424,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -10838,7 +14460,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -10867,7 +14489,8 @@ public class CollectionProcessingTest : TestBase
         ApiEnum<string, Operation> expectedOperation = Operation.Add;
         long expectedProcessedCount = 0;
         string expectedReferenceID = "referenceID";
-        ApiEnum<string, Status> expectedStatus = Status.Success;
+        ApiEnum<string, CollectionProcessingStatus> expectedStatus =
+            CollectionProcessingStatus.Success;
         List<string> expectedCollectionItemIds = ["string"];
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedErrorMessage = "errorMessage";
@@ -10918,7 +14541,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -10948,7 +14571,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
         };
 
         Assert.Null(model.CollectionItemIds);
@@ -10978,7 +14601,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
         };
 
         model.Validate();
@@ -10995,7 +14618,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
 
             // Null should be interpreted as omitted for these properties
             CollectionItemIds = null,
@@ -11034,7 +14657,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
 
             // Null should be interpreted as omitted for these properties
             CollectionItemIds = null,
@@ -11060,7 +14683,7 @@ public class CollectionProcessingTest : TestBase
             Operation = Operation.Add,
             ProcessedCount = 0,
             ReferenceID = "referenceID",
-            Status = Status.Success,
+            Status = CollectionProcessingStatus.Success,
             CollectionItemIds = ["string"],
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
@@ -11140,22 +14763,22 @@ public class OperationTest : TestBase
     }
 }
 
-public class StatusTest : TestBase
+public class CollectionProcessingStatusTest : TestBase
 {
     [Theory]
-    [InlineData(Status.Success)]
-    [InlineData(Status.Failed)]
-    public void Validation_Works(Status rawValue)
+    [InlineData(CollectionProcessingStatus.Success)]
+    [InlineData(CollectionProcessingStatus.Failed)]
+    public void Validation_Works(CollectionProcessingStatus rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Status> value = rawValue;
+        ApiEnum<string, CollectionProcessingStatus> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, CollectionProcessingStatus>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -11165,15 +14788,15 @@ public class StatusTest : TestBase
     }
 
     [Theory]
-    [InlineData(Status.Success)]
-    [InlineData(Status.Failed)]
-    public void SerializationRoundtrip_Works(Status rawValue)
+    [InlineData(CollectionProcessingStatus.Success)]
+    [InlineData(CollectionProcessingStatus.Failed)]
+    public void SerializationRoundtrip_Works(CollectionProcessingStatus rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Status> value = rawValue;
+        ApiEnum<string, CollectionProcessingStatus> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, CollectionProcessingStatus>>(
             json,
             ModelBase.SerializerOptions
         );
@@ -11184,12 +14807,12 @@ public class StatusTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, CollectionProcessingStatus>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Status>>(
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, CollectionProcessingStatus>>(
             json,
             ModelBase.SerializerOptions
         );
@@ -11367,7 +14990,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11396,7 +15019,8 @@ public class SendTest : TestBase
         };
 
         ApiEnum<string, DeliveryStatus> expectedDeliveryStatus = DeliveryStatus.Success;
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, Functions::SendDestinationType> expectedDestinationType =
+            Functions::SendDestinationType.Webhook;
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
@@ -11461,7 +15085,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11501,7 +15125,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11534,7 +15158,8 @@ public class SendTest : TestBase
         Assert.NotNull(deserialized);
 
         ApiEnum<string, DeliveryStatus> expectedDeliveryStatus = DeliveryStatus.Success;
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, Functions::SendDestinationType> expectedDestinationType =
+            Functions::SendDestinationType.Webhook;
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
@@ -11601,7 +15226,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11638,7 +15263,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11683,7 +15308,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11699,7 +15324,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11761,7 +15386,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11794,7 +15419,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -11878,66 +15503,6 @@ public class DeliveryStatusTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DeliveryStatus>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class DestinationTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void Validation_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
             json,
             ModelBase.SerializerOptions
         );

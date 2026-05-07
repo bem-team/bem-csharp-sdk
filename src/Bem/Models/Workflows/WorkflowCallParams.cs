@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -6,8 +7,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
-using Bem.Exceptions;
-using System = System;
+using Outputs = Bem.Models.Outputs;
 
 namespace Bem.Models.Workflows;
 
@@ -253,9 +253,9 @@ public record class WorkflowCallParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override System::Uri Url(ClientOptions options)
+    public override Uri Url(ClientOptions options)
     {
-        return new System::UriBuilder(
+        return new UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/')
                 + string.Format("/v3/workflows/{0}/call", this.WorkflowName)
         )
@@ -475,12 +475,12 @@ public sealed record class BatchFilesInput : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public required ApiEnum<string, InputType> InputType
+    public required ApiEnum<string, Outputs::InputType> InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, InputType>>("inputType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, Outputs::InputType>>("inputType");
         }
         init { this._rawData.Set("inputType", value); }
     }
@@ -547,101 +547,6 @@ class BatchFilesInputFromRaw : IFromRawJson<BatchFilesInput>
 }
 
 /// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(InputTypeConverter))]
-public enum InputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class InputTypeConverter : JsonConverter<InputType>
-{
-    public override InputType Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => InputType.Csv,
-            "docx" => InputType.Docx,
-            "email" => InputType.Email,
-            "heic" => InputType.Heic,
-            "html" => InputType.Html,
-            "jpeg" => InputType.Jpeg,
-            "json" => InputType.Json,
-            "heif" => InputType.Heif,
-            "m4a" => InputType.M4a,
-            "mp3" => InputType.Mp3,
-            "pdf" => InputType.Pdf,
-            "png" => InputType.Png,
-            "text" => InputType.Text,
-            "wav" => InputType.Wav,
-            "webp" => InputType.Webp,
-            "xls" => InputType.Xls,
-            "xlsx" => InputType.Xlsx,
-            "xml" => InputType.Xml,
-            _ => (InputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        InputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                InputType.Csv => "csv",
-                InputType.Docx => "docx",
-                InputType.Email => "email",
-                InputType.Heic => "heic",
-                InputType.Html => "html",
-                InputType.Jpeg => "jpeg",
-                InputType.Json => "json",
-                InputType.Heif => "heif",
-                InputType.M4a => "m4a",
-                InputType.Mp3 => "mp3",
-                InputType.Pdf => "pdf",
-                InputType.Png => "png",
-                InputType.Text => "text",
-                InputType.Wav => "wav",
-                InputType.Webp => "webp",
-                InputType.Xls => "xls",
-                InputType.Xlsx => "xlsx",
-                InputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
 /// A single file input with base64-encoded content.
 ///
 /// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
@@ -668,12 +573,12 @@ public sealed record class SingleFile : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public required ApiEnum<string, SingleFileInputType> InputType
+    public required ApiEnum<string, Outputs::InputType> InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, SingleFileInputType>>("inputType");
+            return this._rawData.GetNotNullClass<ApiEnum<string, Outputs::InputType>>("inputType");
         }
         init { this._rawData.Set("inputType", value); }
     }
@@ -718,99 +623,4 @@ class SingleFileFromRaw : IFromRawJson<SingleFile>
     /// <inheritdoc/>
     public SingleFile FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         SingleFile.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(SingleFileInputTypeConverter))]
-public enum SingleFileInputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class SingleFileInputTypeConverter : JsonConverter<SingleFileInputType>
-{
-    public override SingleFileInputType Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => SingleFileInputType.Csv,
-            "docx" => SingleFileInputType.Docx,
-            "email" => SingleFileInputType.Email,
-            "heic" => SingleFileInputType.Heic,
-            "html" => SingleFileInputType.Html,
-            "jpeg" => SingleFileInputType.Jpeg,
-            "json" => SingleFileInputType.Json,
-            "heif" => SingleFileInputType.Heif,
-            "m4a" => SingleFileInputType.M4a,
-            "mp3" => SingleFileInputType.Mp3,
-            "pdf" => SingleFileInputType.Pdf,
-            "png" => SingleFileInputType.Png,
-            "text" => SingleFileInputType.Text,
-            "wav" => SingleFileInputType.Wav,
-            "webp" => SingleFileInputType.Webp,
-            "xls" => SingleFileInputType.Xls,
-            "xlsx" => SingleFileInputType.Xlsx,
-            "xml" => SingleFileInputType.Xml,
-            _ => (SingleFileInputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        SingleFileInputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                SingleFileInputType.Csv => "csv",
-                SingleFileInputType.Docx => "docx",
-                SingleFileInputType.Email => "email",
-                SingleFileInputType.Heic => "heic",
-                SingleFileInputType.Html => "html",
-                SingleFileInputType.Jpeg => "jpeg",
-                SingleFileInputType.Json => "json",
-                SingleFileInputType.Heif => "heif",
-                SingleFileInputType.M4a => "m4a",
-                SingleFileInputType.Mp3 => "mp3",
-                SingleFileInputType.Pdf => "pdf",
-                SingleFileInputType.Png => "png",
-                SingleFileInputType.Text => "text",
-                SingleFileInputType.Wav => "wav",
-                SingleFileInputType.Webp => "webp",
-                SingleFileInputType.Xls => "xls",
-                SingleFileInputType.Xlsx => "xlsx",
-                SingleFileInputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
-using Bem.Exceptions;
 using Bem.Models.Workflows;
 
 namespace Bem.Tests.Models.Workflows;
@@ -95,7 +94,7 @@ public class WorkflowTest : TestBase
         };
 
         string expectedID = "id";
-        List<WorkflowConnector> expectedConnectors =
+        List<Connector> expectedConnectors =
         [
             new()
             {
@@ -389,7 +388,7 @@ public class WorkflowTest : TestBase
         Assert.NotNull(deserialized);
 
         string expectedID = "id";
-        List<WorkflowConnector> expectedConnectors =
+        List<Connector> expectedConnectors =
         [
             new()
             {
@@ -924,12 +923,12 @@ public class WorkflowTest : TestBase
     }
 }
 
-public class WorkflowConnectorTest : TestBase
+public class ConnectorTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -945,7 +944,7 @@ public class WorkflowConnectorTest : TestBase
         string expectedConnectorID = "connectorID";
         string expectedName = "name";
         ApiEnum<string, WorkflowConnectorType> expectedType = WorkflowConnectorType.Paragon;
-        WorkflowConnectorParagon expectedParagon = new()
+        Paragon expectedParagon = new()
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
@@ -961,7 +960,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -975,10 +974,7 @@ public class WorkflowConnectorTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowConnector>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Connector>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -986,7 +982,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1000,7 +996,7 @@ public class WorkflowConnectorTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowConnector>(
+        var deserialized = JsonSerializer.Deserialize<Connector>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1009,7 +1005,7 @@ public class WorkflowConnectorTest : TestBase
         string expectedConnectorID = "connectorID";
         string expectedName = "name";
         ApiEnum<string, WorkflowConnectorType> expectedType = WorkflowConnectorType.Paragon;
-        WorkflowConnectorParagon expectedParagon = new()
+        Paragon expectedParagon = new()
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
@@ -1025,7 +1021,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1044,7 +1040,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1058,7 +1054,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1071,7 +1067,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1088,7 +1084,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1104,7 +1100,7 @@ public class WorkflowConnectorTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new WorkflowConnector
+        var model = new Connector
         {
             ConnectorID = "connectorID",
             Name = "name",
@@ -1117,74 +1113,18 @@ public class WorkflowConnectorTest : TestBase
             },
         };
 
-        WorkflowConnector copied = new(model);
+        Connector copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class WorkflowConnectorTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(WorkflowConnectorType.Paragon)]
-    public void Validation_Works(WorkflowConnectorType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, WorkflowConnectorType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, WorkflowConnectorType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(WorkflowConnectorType.Paragon)]
-    public void SerializationRoundtrip_Works(WorkflowConnectorType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, WorkflowConnectorType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, WorkflowConnectorType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, WorkflowConnectorType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, WorkflowConnectorType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class WorkflowConnectorParagonTest : TestBase
+public class ParagonTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new WorkflowConnectorParagon
+        var model = new Paragon
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
@@ -1203,7 +1143,7 @@ public class WorkflowConnectorParagonTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new WorkflowConnectorParagon
+        var model = new Paragon
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
@@ -1211,10 +1151,7 @@ public class WorkflowConnectorParagonTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowConnectorParagon>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Paragon>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -1222,7 +1159,7 @@ public class WorkflowConnectorParagonTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new WorkflowConnectorParagon
+        var model = new Paragon
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
@@ -1230,7 +1167,7 @@ public class WorkflowConnectorParagonTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<WorkflowConnectorParagon>(
+        var deserialized = JsonSerializer.Deserialize<Paragon>(
             element,
             ModelBase.SerializerOptions
         );
@@ -1248,7 +1185,7 @@ public class WorkflowConnectorParagonTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new WorkflowConnectorParagon
+        var model = new Paragon
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
@@ -1261,14 +1198,14 @@ public class WorkflowConnectorParagonTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new WorkflowConnectorParagon
+        var model = new Paragon
         {
             Configuration = JsonSerializer.Deserialize<JsonElement>("{}"),
             Integration = "integration",
             SyncID = "syncID",
         };
 
-        WorkflowConnectorParagon copied = new(model);
+        Paragon copied = new(model);
 
         Assert.Equal(model, copied);
     }

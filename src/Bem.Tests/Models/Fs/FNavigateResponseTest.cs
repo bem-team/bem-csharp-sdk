@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Bem.Core;
-using Bem.Exceptions;
 using Bem.Models.Fs;
 
 namespace Bem.Tests.Models.Fs;
@@ -13,7 +12,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
             Count = 0,
             HasMore = true,
             Hint = "hint",
@@ -21,7 +20,7 @@ public class FNavigateResponseTest : TestBase
         };
 
         JsonElement expectedData = JsonSerializer.Deserialize<JsonElement>("{}");
-        ApiEnum<string, FNavigateResponseOp> expectedOp = FNavigateResponseOp.Ls;
+        ApiEnum<string, FsOp> expectedOp = FsOp.Ls;
         long expectedCount = 0;
         bool expectedHasMore = true;
         string expectedHint = "hint";
@@ -41,7 +40,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
             Count = 0,
             HasMore = true,
             Hint = "hint",
@@ -63,7 +62,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
             Count = 0,
             HasMore = true,
             Hint = "hint",
@@ -78,7 +77,7 @@ public class FNavigateResponseTest : TestBase
         Assert.NotNull(deserialized);
 
         JsonElement expectedData = JsonSerializer.Deserialize<JsonElement>("{}");
-        ApiEnum<string, FNavigateResponseOp> expectedOp = FNavigateResponseOp.Ls;
+        ApiEnum<string, FsOp> expectedOp = FsOp.Ls;
         long expectedCount = 0;
         bool expectedHasMore = true;
         string expectedHint = "hint";
@@ -98,7 +97,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
             Count = 0,
             HasMore = true,
             Hint = "hint",
@@ -114,7 +113,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
         };
 
         Assert.Null(model.Count);
@@ -133,7 +132,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
         };
 
         model.Validate();
@@ -145,7 +144,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
 
             // Null should be interpreted as omitted for these properties
             Count = null,
@@ -170,7 +169,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
 
             // Null should be interpreted as omitted for these properties
             Count = null,
@@ -188,7 +187,7 @@ public class FNavigateResponseTest : TestBase
         var model = new FNavigateResponse
         {
             Data = JsonSerializer.Deserialize<JsonElement>("{}"),
-            Op = FNavigateResponseOp.Ls,
+            Op = FsOp.Ls,
             Count = 0,
             HasMore = true,
             Hint = "hint",
@@ -198,75 +197,5 @@ public class FNavigateResponseTest : TestBase
         FNavigateResponse copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class FNavigateResponseOpTest : TestBase
-{
-    [Theory]
-    [InlineData(FNavigateResponseOp.Ls)]
-    [InlineData(FNavigateResponseOp.Find)]
-    [InlineData(FNavigateResponseOp.Open)]
-    [InlineData(FNavigateResponseOp.Cat)]
-    [InlineData(FNavigateResponseOp.Grep)]
-    [InlineData(FNavigateResponseOp.Xref)]
-    [InlineData(FNavigateResponseOp.Stat)]
-    [InlineData(FNavigateResponseOp.Head)]
-    public void Validation_Works(FNavigateResponseOp rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FNavigateResponseOp> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FNavigateResponseOp>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(FNavigateResponseOp.Ls)]
-    [InlineData(FNavigateResponseOp.Find)]
-    [InlineData(FNavigateResponseOp.Open)]
-    [InlineData(FNavigateResponseOp.Cat)]
-    [InlineData(FNavigateResponseOp.Grep)]
-    [InlineData(FNavigateResponseOp.Xref)]
-    [InlineData(FNavigateResponseOp.Stat)]
-    [InlineData(FNavigateResponseOp.Head)]
-    public void SerializationRoundtrip_Works(FNavigateResponseOp rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FNavigateResponseOp> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FNavigateResponseOp>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FNavigateResponseOp>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FNavigateResponseOp>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }

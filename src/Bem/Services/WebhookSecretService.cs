@@ -36,7 +36,7 @@ public sealed class WebhookSecretService : IWebhookSecretService
     }
 
     /// <inheritdoc/>
-    public async Task<WebhookSecretCreateResponse> Create(
+    public async Task<WebhookSecretWebhookSecret> Create(
         WebhookSecretCreateParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -48,7 +48,7 @@ public sealed class WebhookSecretService : IWebhookSecretService
     }
 
     /// <inheritdoc/>
-    public async Task<WebhookSecretRetrieveResponse> Retrieve(
+    public async Task<WebhookSecretWebhookSecret> Retrieve(
         WebhookSecretRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -88,7 +88,7 @@ public sealed class WebhookSecretServiceWithRawResponse : IWebhookSecretServiceW
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<WebhookSecretCreateResponse>> Create(
+    public async Task<HttpResponse<WebhookSecretWebhookSecret>> Create(
         WebhookSecretCreateParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -106,7 +106,7 @@ public sealed class WebhookSecretServiceWithRawResponse : IWebhookSecretServiceW
             async (token) =>
             {
                 var webhookSecret = await response
-                    .Deserialize<WebhookSecretCreateResponse>(token)
+                    .Deserialize<WebhookSecretWebhookSecret>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
@@ -118,7 +118,7 @@ public sealed class WebhookSecretServiceWithRawResponse : IWebhookSecretServiceW
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<WebhookSecretRetrieveResponse>> Retrieve(
+    public async Task<HttpResponse<WebhookSecretWebhookSecret>> Retrieve(
         WebhookSecretRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -136,7 +136,7 @@ public sealed class WebhookSecretServiceWithRawResponse : IWebhookSecretServiceW
             async (token) =>
             {
                 var webhookSecret = await response
-                    .Deserialize<WebhookSecretRetrieveResponse>(token)
+                    .Deserialize<WebhookSecretWebhookSecret>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
 using Bem.Exceptions;
+using Bem.Models.Collections;
 using Bem.Models.Collections.Items;
 
 namespace Bem.Tests.Models.Collections.Items;
@@ -34,7 +35,7 @@ public class ItemAddResponseTest : TestBase
         string expectedMessage = "message";
         ApiEnum<string, ItemAddResponseStatus> expectedStatus = ItemAddResponseStatus.Pending;
         long expectedAddedCount = 0;
-        List<ItemAddResponseItem> expectedItems =
+        List<CollectionItem> expectedItems =
         [
             new()
             {
@@ -119,7 +120,7 @@ public class ItemAddResponseTest : TestBase
         string expectedMessage = "message";
         ApiEnum<string, ItemAddResponseStatus> expectedStatus = ItemAddResponseStatus.Pending;
         long expectedAddedCount = 0;
-        List<ItemAddResponseItem> expectedItems =
+        List<CollectionItem> expectedItems =
         [
             new()
             {
@@ -308,153 +309,6 @@ public class ItemAddResponseStatusTest : TestBase
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ItemAddResponseStatus>>(
             json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class ItemAddResponseItemTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ItemAddResponseItem
-        {
-            CollectionItemID = "collectionItemID",
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            Data = "string",
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-        };
-
-        string expectedCollectionItemID = "collectionItemID";
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ItemAddResponseItemData expectedData = "string";
-        DateTimeOffset expectedUpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-
-        Assert.Equal(expectedCollectionItemID, model.CollectionItemID);
-        Assert.Equal(expectedCreatedAt, model.CreatedAt);
-        Assert.Equal(expectedData, model.Data);
-        Assert.Equal(expectedUpdatedAt, model.UpdatedAt);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ItemAddResponseItem
-        {
-            CollectionItemID = "collectionItemID",
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            Data = "string",
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ItemAddResponseItem>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ItemAddResponseItem
-        {
-            CollectionItemID = "collectionItemID",
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            Data = "string",
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ItemAddResponseItem>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedCollectionItemID = "collectionItemID";
-        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        ItemAddResponseItemData expectedData = "string";
-        DateTimeOffset expectedUpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-
-        Assert.Equal(expectedCollectionItemID, deserialized.CollectionItemID);
-        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
-        Assert.Equal(expectedData, deserialized.Data);
-        Assert.Equal(expectedUpdatedAt, deserialized.UpdatedAt);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ItemAddResponseItem
-        {
-            CollectionItemID = "collectionItemID",
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            Data = "string",
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ItemAddResponseItem
-        {
-            CollectionItemID = "collectionItemID",
-            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            Data = "string",
-            UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-        };
-
-        ItemAddResponseItem copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ItemAddResponseItemDataTest : TestBase
-{
-    [Fact]
-    public void StringValidationWorks()
-    {
-        ItemAddResponseItemData value = "string";
-        value.Validate();
-    }
-
-    [Fact]
-    public void JsonElementValidationWorks()
-    {
-        ItemAddResponseItemData value = JsonSerializer.Deserialize<JsonElement>("{}");
-        value.Validate();
-    }
-
-    [Fact]
-    public void StringSerializationRoundtripWorks()
-    {
-        ItemAddResponseItemData value = "string";
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ItemAddResponseItemData>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void JsonElementSerializationRoundtripWorks()
-    {
-        ItemAddResponseItemData value = JsonSerializer.Deserialize<JsonElement>("{}");
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ItemAddResponseItemData>(
-            element,
             ModelBase.SerializerOptions
         );
 

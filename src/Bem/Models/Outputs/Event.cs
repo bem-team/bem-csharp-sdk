@@ -8,13 +8,15 @@ using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.Errors;
+using Functions = Bem.Models.Functions;
 
 namespace Bem.Models.Outputs;
 
 /// <summary>
 /// V3 read-side event union. Superset of the shared `Event` union: it contains every
-/// shared variant verbatim (backward compatible) and adds the V3-only `extract` and
-/// `classify` variants.
+/// shared variant verbatim (backward compatible) and adds the V3-only `extract`,
+/// `parse`, `classify`, `analyze`, `payload_shaping`, and `evaluation` variants.
+/// This is also the union delivered as the body of outbound webhook payloads.
 /// </summary>
 [JsonConverter(typeof(EventConverter))]
 public record class Event : ModelBase
@@ -41,6 +43,8 @@ public record class Event : ModelBase
             return Match(
                 transform: (x) => x.EventID,
                 extract: (x) => x.EventID,
+                parse: (x) => x.EventID,
+                analyze: (x) => x.EventID,
                 route: (x) => x.EventID,
                 classify: (x) => x.EventID,
                 splitCollection: (x) => x.EventID,
@@ -48,6 +52,8 @@ public record class Event : ModelBase
                 error: (x) => x.EventID,
                 join: (x) => x.EventID,
                 enrich: (x) => x.EventID,
+                payloadShaping: (x) => x.EventID,
+                evaluation: (x) => x.EventID,
                 collectionProcessing: (x) => x.EventID,
                 send: (x) => x.EventID
             );
@@ -61,6 +67,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.FunctionID,
                 extract: (x) => x.FunctionID,
+                parse: (x) => x.FunctionID,
+                analyze: (x) => x.FunctionID,
                 route: (x) => x.FunctionID,
                 classify: (x) => x.FunctionID,
                 splitCollection: (x) => x.FunctionID,
@@ -68,6 +76,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionID,
                 join: (x) => x.FunctionID,
                 enrich: (x) => x.FunctionID,
+                payloadShaping: (x) => x.FunctionID,
+                evaluation: (x) => x.FunctionID,
                 collectionProcessing: (_) => null,
                 send: (x) => x.FunctionID
             );
@@ -81,6 +91,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.FunctionName,
                 extract: (x) => x.FunctionName,
+                parse: (x) => x.FunctionName,
+                analyze: (x) => x.FunctionName,
                 route: (x) => x.FunctionName,
                 classify: (x) => x.FunctionName,
                 splitCollection: (x) => x.FunctionName,
@@ -88,6 +100,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionName,
                 join: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
+                payloadShaping: (x) => x.FunctionName,
+                evaluation: (x) => x.FunctionName,
                 collectionProcessing: (_) => null,
                 send: (x) => x.FunctionName
             );
@@ -101,6 +115,8 @@ public record class Event : ModelBase
             return Match<long?>(
                 transform: (x) => x.ItemCount,
                 extract: (x) => x.ItemCount,
+                parse: (x) => x.ItemCount,
+                analyze: (_) => null,
                 route: (_) => null,
                 classify: (_) => null,
                 splitCollection: (_) => null,
@@ -108,6 +124,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -121,6 +139,8 @@ public record class Event : ModelBase
             return Match<long?>(
                 transform: (x) => x.ItemOffset,
                 extract: (x) => x.ItemOffset,
+                parse: (x) => x.ItemOffset,
+                analyze: (_) => null,
                 route: (_) => null,
                 classify: (_) => null,
                 splitCollection: (_) => null,
@@ -128,6 +148,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -141,6 +163,8 @@ public record class Event : ModelBase
             return Match(
                 transform: (x) => x.ReferenceID,
                 extract: (x) => x.ReferenceID,
+                parse: (x) => x.ReferenceID,
+                analyze: (x) => x.ReferenceID,
                 route: (x) => x.ReferenceID,
                 classify: (x) => x.ReferenceID,
                 splitCollection: (x) => x.ReferenceID,
@@ -148,6 +172,8 @@ public record class Event : ModelBase
                 error: (x) => x.ReferenceID,
                 join: (x) => x.ReferenceID,
                 enrich: (x) => x.ReferenceID,
+                payloadShaping: (x) => x.ReferenceID,
+                evaluation: (x) => x.ReferenceID,
                 collectionProcessing: (x) => x.ReferenceID,
                 send: (x) => x.ReferenceID
             );
@@ -161,6 +187,8 @@ public record class Event : ModelBase
             return Match<JsonElement?>(
                 transform: (x) => x.TransformedContent,
                 extract: (x) => x.TransformedContent,
+                parse: (x) => x.TransformedContent,
+                analyze: (x) => x.TransformedContent,
                 route: (_) => null,
                 classify: (_) => null,
                 splitCollection: (_) => null,
@@ -168,6 +196,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.TransformedContent,
                 enrich: (_) => null,
+                payloadShaping: (x) => x.TransformedContent,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -181,6 +211,8 @@ public record class Event : ModelBase
             return Match<float?>(
                 transform: (x) => x.AvgConfidence,
                 extract: (x) => x.AvgConfidence,
+                parse: (x) => x.AvgConfidence,
+                analyze: (x) => x.AvgConfidence,
                 route: (_) => null,
                 classify: (_) => null,
                 splitCollection: (_) => null,
@@ -188,6 +220,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.AvgConfidence,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -201,6 +235,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.CallID,
                 extract: (x) => x.CallID,
+                parse: (x) => x.CallID,
+                analyze: (x) => x.CallID,
                 route: (x) => x.CallID,
                 classify: (x) => x.CallID,
                 splitCollection: (x) => x.CallID,
@@ -208,6 +244,8 @@ public record class Event : ModelBase
                 error: (x) => x.CallID,
                 join: (x) => x.CallID,
                 enrich: (x) => x.CallID,
+                payloadShaping: (x) => x.CallID,
+                evaluation: (x) => x.CallID,
                 collectionProcessing: (_) => null,
                 send: (x) => x.CallID
             );
@@ -221,6 +259,8 @@ public record class Event : ModelBase
             return Match<DateTimeOffset?>(
                 transform: (x) => x.CreatedAt,
                 extract: (x) => x.CreatedAt,
+                parse: (x) => x.CreatedAt,
+                analyze: (x) => x.CreatedAt,
                 route: (x) => x.CreatedAt,
                 classify: (x) => x.CreatedAt,
                 splitCollection: (x) => x.CreatedAt,
@@ -228,6 +268,8 @@ public record class Event : ModelBase
                 error: (x) => x.CreatedAt,
                 join: (x) => x.CreatedAt,
                 enrich: (x) => x.CreatedAt,
+                payloadShaping: (x) => x.CreatedAt,
+                evaluation: (x) => x.CreatedAt,
                 collectionProcessing: (x) => x.CreatedAt,
                 send: (x) => x.CreatedAt
             );
@@ -241,6 +283,8 @@ public record class Event : ModelBase
             return Match<JsonElement?>(
                 transform: (x) => x.FieldConfidences,
                 extract: (x) => x.FieldConfidences,
+                parse: (x) => x.FieldConfidences,
+                analyze: (x) => x.FieldConfidences,
                 route: (_) => null,
                 classify: (_) => null,
                 splitCollection: (_) => null,
@@ -248,6 +292,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.FieldConfidences,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -261,6 +307,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.FunctionCallID,
                 extract: (x) => x.FunctionCallID,
+                parse: (x) => x.FunctionCallID,
+                analyze: (x) => x.FunctionCallID,
                 route: (x) => x.FunctionCallID,
                 classify: (x) => x.FunctionCallID,
                 splitCollection: (x) => x.FunctionCallID,
@@ -268,6 +316,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionCallID,
                 join: (x) => x.FunctionCallID,
                 enrich: (x) => x.FunctionCallID,
+                payloadShaping: (x) => x.FunctionCallID,
+                evaluation: (x) => x.FunctionCallID,
                 collectionProcessing: (_) => null,
                 send: (x) => x.FunctionCallID
             );
@@ -281,6 +331,8 @@ public record class Event : ModelBase
             return Match<long?>(
                 transform: (x) => x.FunctionCallTryNumber,
                 extract: (x) => x.FunctionCallTryNumber,
+                parse: (x) => x.FunctionCallTryNumber,
+                analyze: (x) => x.FunctionCallTryNumber,
                 route: (x) => x.FunctionCallTryNumber,
                 classify: (x) => x.FunctionCallTryNumber,
                 splitCollection: (x) => x.FunctionCallTryNumber,
@@ -288,6 +340,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionCallTryNumber,
                 join: (x) => x.FunctionCallTryNumber,
                 enrich: (x) => x.FunctionCallTryNumber,
+                payloadShaping: (x) => x.FunctionCallTryNumber,
+                evaluation: (x) => x.FunctionCallTryNumber,
                 collectionProcessing: (x) => x.FunctionCallTryNumber,
                 send: (x) => x.FunctionCallTryNumber
             );
@@ -301,6 +355,8 @@ public record class Event : ModelBase
             return Match<long?>(
                 transform: (x) => x.FunctionVersionNum,
                 extract: (x) => x.FunctionVersionNum,
+                parse: (x) => x.FunctionVersionNum,
+                analyze: (x) => x.FunctionVersionNum,
                 route: (x) => x.FunctionVersionNum,
                 classify: (x) => x.FunctionVersionNum,
                 splitCollection: (x) => x.FunctionVersionNum,
@@ -308,6 +364,8 @@ public record class Event : ModelBase
                 error: (x) => x.FunctionVersionNum,
                 join: (x) => x.FunctionVersionNum,
                 enrich: (x) => x.FunctionVersionNum,
+                payloadShaping: (x) => x.FunctionVersionNum,
+                evaluation: (x) => x.FunctionVersionNum,
                 collectionProcessing: (_) => null,
                 send: (x) => x.FunctionVersionNum
             );
@@ -321,6 +379,8 @@ public record class Event : ModelBase
             return Match<InboundEmailEvent?>(
                 transform: (x) => x.InboundEmail,
                 extract: (x) => x.InboundEmail,
+                parse: (x) => x.InboundEmail,
+                analyze: (x) => x.InboundEmail,
                 route: (x) => x.InboundEmail,
                 classify: (x) => x.InboundEmail,
                 splitCollection: (x) => x.InboundEmail,
@@ -328,8 +388,34 @@ public record class Event : ModelBase
                 error: (x) => x.InboundEmail,
                 join: (x) => x.InboundEmail,
                 enrich: (x) => x.InboundEmail,
+                payloadShaping: (x) => x.InboundEmail,
+                evaluation: (x) => x.InboundEmail,
                 collectionProcessing: (x) => x.InboundEmail,
                 send: (x) => x.InboundEmail
+            );
+        }
+    }
+
+    public ApiEnum<string, InputType>? InputType
+    {
+        get
+        {
+            return Match<ApiEnum<string, InputType>?>(
+                transform: (x) => x.InputType,
+                extract: (x) => x.InputType,
+                parse: (x) => x.InputType,
+                analyze: (_) => null,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -341,6 +427,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.S3Url,
                 extract: (x) => x.S3Url,
+                parse: (x) => x.S3Url,
+                analyze: (x) => x.S3Url,
                 route: (x) => x.S3Url,
                 classify: (x) => x.S3Url,
                 splitCollection: (_) => null,
@@ -348,6 +436,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -361,6 +451,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.TransformationID,
                 extract: (x) => x.TransformationID,
+                parse: (x) => x.TransformationID,
+                analyze: (x) => x.TransformationID,
                 route: (_) => null,
                 classify: (_) => null,
                 splitCollection: (_) => null,
@@ -368,6 +460,8 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (x) => x.TransformationID,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
                 send: (_) => null
             );
@@ -381,6 +475,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.WorkflowID,
                 extract: (x) => x.WorkflowID,
+                parse: (x) => x.WorkflowID,
+                analyze: (x) => x.WorkflowID,
                 route: (x) => x.WorkflowID,
                 classify: (x) => x.WorkflowID,
                 splitCollection: (x) => x.WorkflowID,
@@ -388,6 +484,8 @@ public record class Event : ModelBase
                 error: (x) => x.WorkflowID,
                 join: (x) => x.WorkflowID,
                 enrich: (x) => x.WorkflowID,
+                payloadShaping: (x) => x.WorkflowID,
+                evaluation: (x) => x.WorkflowID,
                 collectionProcessing: (_) => null,
                 send: (x) => x.WorkflowID
             );
@@ -401,6 +499,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (x) => x.WorkflowName,
                 extract: (x) => x.WorkflowName,
+                parse: (x) => x.WorkflowName,
+                analyze: (x) => x.WorkflowName,
                 route: (x) => x.WorkflowName,
                 classify: (x) => x.WorkflowName,
                 splitCollection: (x) => x.WorkflowName,
@@ -408,6 +508,8 @@ public record class Event : ModelBase
                 error: (x) => x.WorkflowName,
                 join: (x) => x.WorkflowName,
                 enrich: (x) => x.WorkflowName,
+                payloadShaping: (x) => x.WorkflowName,
+                evaluation: (x) => x.WorkflowName,
                 collectionProcessing: (_) => null,
                 send: (x) => x.WorkflowName
             );
@@ -421,6 +523,8 @@ public record class Event : ModelBase
             return Match<long?>(
                 transform: (x) => x.WorkflowVersionNum,
                 extract: (x) => x.WorkflowVersionNum,
+                parse: (x) => x.WorkflowVersionNum,
+                analyze: (x) => x.WorkflowVersionNum,
                 route: (x) => x.WorkflowVersionNum,
                 classify: (x) => x.WorkflowVersionNum,
                 splitCollection: (x) => x.WorkflowVersionNum,
@@ -428,8 +532,34 @@ public record class Event : ModelBase
                 error: (x) => x.WorkflowVersionNum,
                 join: (x) => x.WorkflowVersionNum,
                 enrich: (x) => x.WorkflowVersionNum,
+                payloadShaping: (x) => x.WorkflowVersionNum,
+                evaluation: (x) => x.WorkflowVersionNum,
                 collectionProcessing: (_) => null,
                 send: (x) => x.WorkflowVersionNum
+            );
+        }
+    }
+
+    public JsonElement? FieldBoundingBoxes
+    {
+        get
+        {
+            return Match<JsonElement?>(
+                transform: (_) => null,
+                extract: (x) => x.FieldBoundingBoxes,
+                parse: (x) => x.FieldBoundingBoxes,
+                analyze: (x) => x.FieldBoundingBoxes,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -441,6 +571,8 @@ public record class Event : ModelBase
             return Match<string?>(
                 transform: (_) => null,
                 extract: (_) => null,
+                parse: (_) => null,
+                analyze: (_) => null,
                 route: (x) => x.Choice,
                 classify: (x) => x.Choice,
                 splitCollection: (_) => null,
@@ -448,7 +580,33 @@ public record class Event : ModelBase
                 error: (_) => null,
                 join: (_) => null,
                 enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
                 collectionProcessing: (_) => null,
+                send: (_) => null
+            );
+        }
+    }
+
+    public string? ErrorMessage
+    {
+        get
+        {
+            return Match<string?>(
+                transform: (_) => null,
+                extract: (_) => null,
+                parse: (_) => null,
+                analyze: (_) => null,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (x) => x.ErrorMessage,
+                collectionProcessing: (x) => x.ErrorMessage,
                 send: (_) => null
             );
         }
@@ -461,6 +619,18 @@ public record class Event : ModelBase
     }
 
     public Event(Extract value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Event(Parse value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Event(Analyze value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -503,6 +673,18 @@ public record class Event : ModelBase
     }
 
     public Event(Enrich value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Event(PayloadShaping value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Event(Evaluation value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -564,6 +746,48 @@ public record class Event : ModelBase
     public bool TryPickExtract([NotNullWhen(true)] out Extract? value)
     {
         value = this.Value as Extract;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Parse"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickParse(out var value)) {
+    ///     // `value` is of type `Parse`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickParse([NotNullWhen(true)] out Parse? value)
+    {
+        value = this.Value as Parse;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Analyze"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickAnalyze(out var value)) {
+    ///     // `value` is of type `Analyze`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickAnalyze([NotNullWhen(true)] out Analyze? value)
+    {
+        value = this.Value as Analyze;
         return value != null;
     }
 
@@ -716,6 +940,48 @@ public record class Event : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="PayloadShaping"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickPayloadShaping(out var value)) {
+    ///     // `value` is of type `PayloadShaping`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickPayloadShaping([NotNullWhen(true)] out PayloadShaping? value)
+    {
+        value = this.Value as PayloadShaping;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Evaluation"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickEvaluation(out var value)) {
+    ///     // `value` is of type `Evaluation`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickEvaluation([NotNullWhen(true)] out Evaluation? value)
+    {
+        value = this.Value as Evaluation;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
     /// type <see cref="CollectionProcessing"/>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
@@ -772,6 +1038,8 @@ public record class Event : ModelBase
     /// instance.Switch(
     ///     (Transform value) =&gt; {...},
     ///     (Extract value) =&gt; {...},
+    ///     (Parse value) =&gt; {...},
+    ///     (Analyze value) =&gt; {...},
     ///     (Route value) =&gt; {...},
     ///     (Classify value) =&gt; {...},
     ///     (SplitCollection value) =&gt; {...},
@@ -779,6 +1047,8 @@ public record class Event : ModelBase
     ///     (ErrorEvent value) =&gt; {...},
     ///     (Join value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
+    ///     (PayloadShaping value) =&gt; {...},
+    ///     (Evaluation value) =&gt; {...},
     ///     (CollectionProcessing value) =&gt; {...},
     ///     (Send value) =&gt; {...}
     /// );
@@ -788,6 +1058,8 @@ public record class Event : ModelBase
     public void Switch(
         Action<Transform> transform,
         Action<Extract> extract,
+        Action<Parse> parse,
+        Action<Analyze> analyze,
         Action<Route> route,
         Action<Classify> classify,
         Action<SplitCollection> splitCollection,
@@ -795,6 +1067,8 @@ public record class Event : ModelBase
         Action<ErrorEvent> error,
         Action<Join> join,
         Action<Enrich> enrich,
+        Action<PayloadShaping> payloadShaping,
+        Action<Evaluation> evaluation,
         Action<CollectionProcessing> collectionProcessing,
         Action<Send> send
     )
@@ -806,6 +1080,12 @@ public record class Event : ModelBase
                 break;
             case Extract value:
                 extract(value);
+                break;
+            case Parse value:
+                parse(value);
+                break;
+            case Analyze value:
+                analyze(value);
                 break;
             case Route value:
                 route(value);
@@ -827,6 +1107,12 @@ public record class Event : ModelBase
                 break;
             case Enrich value:
                 enrich(value);
+                break;
+            case PayloadShaping value:
+                payloadShaping(value);
+                break;
+            case Evaluation value:
+                evaluation(value);
                 break;
             case CollectionProcessing value:
                 collectionProcessing(value);
@@ -856,6 +1142,8 @@ public record class Event : ModelBase
     /// var result = instance.Match(
     ///     (Transform value) =&gt; {...},
     ///     (Extract value) =&gt; {...},
+    ///     (Parse value) =&gt; {...},
+    ///     (Analyze value) =&gt; {...},
     ///     (Route value) =&gt; {...},
     ///     (Classify value) =&gt; {...},
     ///     (SplitCollection value) =&gt; {...},
@@ -863,6 +1151,8 @@ public record class Event : ModelBase
     ///     (ErrorEvent value) =&gt; {...},
     ///     (Join value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
+    ///     (PayloadShaping value) =&gt; {...},
+    ///     (Evaluation value) =&gt; {...},
     ///     (CollectionProcessing value) =&gt; {...},
     ///     (Send value) =&gt; {...}
     /// );
@@ -872,6 +1162,8 @@ public record class Event : ModelBase
     public T Match<T>(
         Func<Transform, T> transform,
         Func<Extract, T> extract,
+        Func<Parse, T> parse,
+        Func<Analyze, T> analyze,
         Func<Route, T> route,
         Func<Classify, T> classify,
         Func<SplitCollection, T> splitCollection,
@@ -879,6 +1171,8 @@ public record class Event : ModelBase
         Func<ErrorEvent, T> error,
         Func<Join, T> join,
         Func<Enrich, T> enrich,
+        Func<PayloadShaping, T> payloadShaping,
+        Func<Evaluation, T> evaluation,
         Func<CollectionProcessing, T> collectionProcessing,
         Func<Send, T> send
     )
@@ -887,6 +1181,8 @@ public record class Event : ModelBase
         {
             Transform value => transform(value),
             Extract value => extract(value),
+            Parse value => parse(value),
+            Analyze value => analyze(value),
             Route value => route(value),
             Classify value => classify(value),
             SplitCollection value => splitCollection(value),
@@ -894,6 +1190,8 @@ public record class Event : ModelBase
             ErrorEvent value => error(value),
             Join value => join(value),
             Enrich value => enrich(value),
+            PayloadShaping value => payloadShaping(value),
+            Evaluation value => evaluation(value),
             CollectionProcessing value => collectionProcessing(value),
             Send value => send(value),
             _ => throw new BemInvalidDataException("Data did not match any variant of Event"),
@@ -903,6 +1201,10 @@ public record class Event : ModelBase
     public static implicit operator Event(Transform value) => new(value);
 
     public static implicit operator Event(Extract value) => new(value);
+
+    public static implicit operator Event(Parse value) => new(value);
+
+    public static implicit operator Event(Analyze value) => new(value);
 
     public static implicit operator Event(Route value) => new(value);
 
@@ -917,6 +1219,10 @@ public record class Event : ModelBase
     public static implicit operator Event(Join value) => new(value);
 
     public static implicit operator Event(Enrich value) => new(value);
+
+    public static implicit operator Event(PayloadShaping value) => new(value);
+
+    public static implicit operator Event(Evaluation value) => new(value);
 
     public static implicit operator Event(CollectionProcessing value) => new(value);
 
@@ -941,6 +1247,8 @@ public record class Event : ModelBase
         this.Switch(
             (transform) => transform.Validate(),
             (extract) => extract.Validate(),
+            (parse) => parse.Validate(),
+            (analyze) => analyze.Validate(),
             (route) => route.Validate(),
             (classify) => classify.Validate(),
             (splitCollection) => splitCollection.Validate(),
@@ -948,6 +1256,8 @@ public record class Event : ModelBase
             (error) => error.Validate(),
             (join) => join.Validate(),
             (enrich) => enrich.Validate(),
+            (payloadShaping) => payloadShaping.Validate(),
+            (evaluation) => evaluation.Validate(),
             (collectionProcessing) => collectionProcessing.Validate(),
             (send) => send.Validate()
         );
@@ -975,15 +1285,19 @@ public record class Event : ModelBase
         {
             Transform _ => 0,
             Extract _ => 1,
-            Route _ => 2,
-            Classify _ => 3,
-            SplitCollection _ => 4,
-            SplitItem _ => 5,
-            ErrorEvent _ => 6,
-            Join _ => 7,
-            Enrich _ => 8,
-            CollectionProcessing _ => 9,
-            Send _ => 10,
+            Parse _ => 2,
+            Analyze _ => 3,
+            Route _ => 4,
+            Classify _ => 5,
+            SplitCollection _ => 6,
+            SplitItem _ => 7,
+            ErrorEvent _ => 8,
+            Join _ => 9,
+            Enrich _ => 10,
+            PayloadShaping _ => 11,
+            Evaluation _ => 12,
+            CollectionProcessing _ => 13,
+            Send _ => 14,
             _ => -1,
         };
     }
@@ -1032,6 +1346,40 @@ sealed class EventConverter : JsonConverter<Event>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<Extract>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "parse":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Parse>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "analyze":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Analyze>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -1154,6 +1502,40 @@ sealed class EventConverter : JsonConverter<Event>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<Enrich>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "payload_shaping":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<PayloadShaping>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "evaluation":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Evaluation>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -2524,101 +2906,6 @@ class InputFromRaw : IFromRawJson<Input>
         Input.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(InputTypeConverter))]
-public enum InputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class InputTypeConverter : JsonConverter<InputType>
-{
-    public override InputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => InputType.Csv,
-            "docx" => InputType.Docx,
-            "email" => InputType.Email,
-            "heic" => InputType.Heic,
-            "html" => InputType.Html,
-            "jpeg" => InputType.Jpeg,
-            "json" => InputType.Json,
-            "heif" => InputType.Heif,
-            "m4a" => InputType.M4a,
-            "mp3" => InputType.Mp3,
-            "pdf" => InputType.Pdf,
-            "png" => InputType.Png,
-            "text" => InputType.Text,
-            "wav" => InputType.Wav,
-            "webp" => InputType.Webp,
-            "xls" => InputType.Xls,
-            "xlsx" => InputType.Xlsx,
-            "xml" => InputType.Xml,
-            _ => (InputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        InputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                InputType.Csv => "csv",
-                InputType.Docx => "docx",
-                InputType.Email => "email",
-                InputType.Heic => "heic",
-                InputType.Html => "html",
-                InputType.Jpeg => "jpeg",
-                InputType.Json => "json",
-                InputType.Heif => "heif",
-                InputType.M4a => "m4a",
-                InputType.Mp3 => "mp3",
-                InputType.Pdf => "pdf",
-                InputType.Png => "png",
-                InputType.Text => "text",
-                InputType.Wav => "wav",
-                InputType.Webp => "webp",
-                InputType.Xls => "xls",
-                InputType.Xlsx => "xlsx",
-                InputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
 [JsonConverter(
     typeof(JsonModelConverter<
         global::Bem.Models.Outputs.Metadata,
@@ -3362,12 +3649,12 @@ public sealed record class Extract : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public ApiEnum<string, ExtractInputType>? InputType
+    public ApiEnum<string, InputType>? InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, ExtractInputType>>("inputType");
+            return this._rawData.GetNullableClass<ApiEnum<string, InputType>>("inputType");
         }
         init
         {
@@ -4251,101 +4538,6 @@ class ExtractInputFromRaw : IFromRawJson<ExtractInput>
         ExtractInput.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(ExtractInputTypeConverter))]
-public enum ExtractInputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class ExtractInputTypeConverter : JsonConverter<ExtractInputType>
-{
-    public override ExtractInputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => ExtractInputType.Csv,
-            "docx" => ExtractInputType.Docx,
-            "email" => ExtractInputType.Email,
-            "heic" => ExtractInputType.Heic,
-            "html" => ExtractInputType.Html,
-            "jpeg" => ExtractInputType.Jpeg,
-            "json" => ExtractInputType.Json,
-            "heif" => ExtractInputType.Heif,
-            "m4a" => ExtractInputType.M4a,
-            "mp3" => ExtractInputType.Mp3,
-            "pdf" => ExtractInputType.Pdf,
-            "png" => ExtractInputType.Png,
-            "text" => ExtractInputType.Text,
-            "wav" => ExtractInputType.Wav,
-            "webp" => ExtractInputType.Webp,
-            "xls" => ExtractInputType.Xls,
-            "xlsx" => ExtractInputType.Xlsx,
-            "xml" => ExtractInputType.Xml,
-            _ => (ExtractInputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        ExtractInputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                ExtractInputType.Csv => "csv",
-                ExtractInputType.Docx => "docx",
-                ExtractInputType.Email => "email",
-                ExtractInputType.Heic => "heic",
-                ExtractInputType.Html => "html",
-                ExtractInputType.Jpeg => "jpeg",
-                ExtractInputType.Json => "json",
-                ExtractInputType.Heif => "heif",
-                ExtractInputType.M4a => "m4a",
-                ExtractInputType.Mp3 => "mp3",
-                ExtractInputType.Pdf => "pdf",
-                ExtractInputType.Png => "png",
-                ExtractInputType.Text => "text",
-                ExtractInputType.Wav => "wav",
-                ExtractInputType.Webp => "webp",
-                ExtractInputType.Xls => "xls",
-                ExtractInputType.Xlsx => "xlsx",
-                ExtractInputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
 [JsonConverter(typeof(JsonModelConverter<ExtractMetadata, ExtractMetadataFromRaw>))]
 public sealed record class ExtractMetadata : JsonModel
 {
@@ -4406,6 +4598,1866 @@ class ExtractMetadataFromRaw : IFromRawJson<ExtractMetadata>
     /// <inheritdoc/>
     public ExtractMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         ExtractMetadata.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Emitted when a `parse` function completes. Reuses the `extract` event shape on
+/// the wire — both wrap a Transformation and downstream consumers care about the
+/// same `transformedContent` payload — but uses a distinct `eventType` discriminator
+/// so receivers can dispatch on the function type that produced it.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Parse, ParseFromRaw>))]
+public sealed record class Parse : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The number of items that were parsed. Used for batch parsing to indicate how
+    /// many items were parsed.
+    /// </summary>
+    public required long ItemCount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("itemCount");
+        }
+        init { this._rawData.Set("itemCount", value); }
+    }
+
+    /// <summary>
+    /// The offset of the first item that was parsed. Used for batch parsing to indicate
+    /// which item in the batch this event corresponds to.
+    /// </summary>
+    public required long ItemOffset
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("itemOffset");
+        }
+        init { this._rawData.Set("itemOffset", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// The parsed content of the input. Top-level keys are `sections`, `entities`,
+    /// and `relationships`; the precise shape is determined by the parse function's configuration.
+    /// </summary>
+    public required JsonElement TransformedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+        }
+        init { this._rawData.Set("transformedContent", value); }
+    }
+
+    /// <summary>
+    /// Average confidence score across all parsed fields, in the range [0, 1].
+    /// </summary>
+    public float? AvgConfidence
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<float>("avgConfidence");
+        }
+        init { this._rawData.Set("avgConfidence", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Corrected feedback provided for fine-tuning purposes.
+    /// </summary>
+    public ParseCorrectedContent? CorrectedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ParseCorrectedContent>("correctedContent");
+        }
+        init { this._rawData.Set("correctedContent", value); }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, ParseEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, ParseEventType>>("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-field bounding boxes. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// to the document regions from which each parsed value was sourced.
+    /// </summary>
+    public JsonElement? FieldBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldBoundingBoxes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldBoundingBoxes", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-field confidence scores. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// to float values in the range [0, 1] indicating the model's confidence in each
+    /// parsed field value.
+    /// </summary>
+    public JsonElement? FieldConfidences
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldConfidences");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldConfidences", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of parse inputs with their types and S3 URLs.
+    /// </summary>
+    public IReadOnlyList<ParseInput>? Inputs
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<ParseInput>>("inputs");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<ParseInput>?>(
+                "inputs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The input type of the content you're sending for transformation.
+    /// </summary>
+    public ApiEnum<string, InputType>? InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, InputType>>("inputType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inputType", value);
+        }
+    }
+
+    /// <summary>
+    /// List of properties that were invalid in the input.
+    /// </summary>
+    public IReadOnlyList<string>? InvalidProperties
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("invalidProperties");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "invalidProperties",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    public ParseMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ParseMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Presigned S3 URL for the input content uploaded to S3.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <summary>
+    /// Unique ID for each transformation output generated by bem following Segment's
+    /// KSUID conventions.
+    /// </summary>
+    public string? TransformationID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("transformationID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("transformationID", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ItemCount;
+        _ = this.ItemOffset;
+        _ = this.ReferenceID;
+        _ = this.TransformedContent;
+        _ = this.AvgConfidence;
+        _ = this.CallID;
+        this.CorrectedContent?.Validate();
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FieldBoundingBoxes;
+        _ = this.FieldConfidences;
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        foreach (var item in this.Inputs ?? [])
+        {
+            item.Validate();
+        }
+        this.InputType?.Validate();
+        _ = this.InvalidProperties;
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.TransformationID;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public Parse() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Parse(Parse parse)
+        : base(parse) { }
+#pragma warning restore CS8618
+
+    public Parse(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Parse(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ParseFromRaw.FromRawUnchecked"/>
+    public static Parse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ParseFromRaw : IFromRawJson<Parse>
+{
+    /// <inheritdoc/>
+    public Parse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Parse.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Corrected feedback provided for fine-tuning purposes.
+/// </summary>
+[JsonConverter(typeof(ParseCorrectedContentConverter))]
+public record class ParseCorrectedContent : ModelBase
+{
+    public object? Value { get; } = null;
+
+    JsonElement? _element = null;
+
+    public JsonElement Json
+    {
+        get
+        {
+            return this._element ??= JsonSerializer.SerializeToElement(
+                this.Value,
+                ModelBase.SerializerOptions
+            );
+        }
+    }
+
+    public ParseCorrectedContent(ParseCorrectedContentOutput value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ParseCorrectedContent(IReadOnlyList<JsonElement> value, JsonElement? element = null)
+    {
+        this.Value = ImmutableArray.ToImmutableArray(value);
+        this._element = element;
+    }
+
+    public ParseCorrectedContent(string value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ParseCorrectedContent(double value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ParseCorrectedContent(bool value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public ParseCorrectedContent(JsonElement element)
+    {
+        this._element = element;
+        this.Value = element;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="ParseCorrectedContentOutput"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickParseCorrectedContentOutput(out var value)) {
+    ///     // `value` is of type `ParseCorrectedContentOutput`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickParseCorrectedContentOutput(
+        [NotNullWhen(true)] out ParseCorrectedContentOutput? value
+    )
+    {
+        value = this.Value as ParseCorrectedContentOutput;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="JsonElement"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElement(out var value)) {
+    ///     // `value` is of type `JsonElement`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElement([NotNullWhen(true)] out JsonElement? value)
+    {
+        value = this.Value as JsonElement?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="List{T}"/> where <c>T</c> is a <c>JsonElement</c>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickJsonElements(out var value)) {
+    ///     // `value` is of type `IReadOnlyList&lt;JsonElement&gt;`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickJsonElements([NotNullWhen(true)] out IReadOnlyList<JsonElement>? value)
+    {
+        value = this.Value as IReadOnlyList<JsonElement>;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="string"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickString(out var value)) {
+    ///     // `value` is of type `string`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickString([NotNullWhen(true)] out string? value)
+    {
+        value = this.Value as string;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="double"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickDouble(out var value)) {
+    ///     // `value` is of type `double`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickDouble([NotNullWhen(true)] out double? value)
+    {
+        value = this.Value as double?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="bool"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickBool(out var value)) {
+    ///     // `value` is of type `bool`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickBool([NotNullWhen(true)] out bool? value)
+    {
+        value = this.Value as bool?;
+        return value != null;
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
+    /// if you need your function parameters to return something.</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// instance.Switch(
+    ///     (ParseCorrectedContentOutput value) =&gt; {...},
+    ///     (JsonElement value) =&gt; {...},
+    ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
+    ///     (string value) =&gt; {...},
+    ///     (double value) =&gt; {...},
+    ///     (bool value) =&gt; {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public void Switch(
+        Action<ParseCorrectedContentOutput> parseCorrectedContentOutput,
+        Action<JsonElement> jsonElement,
+        Action<IReadOnlyList<JsonElement>> jsonElements,
+        Action<string> @string,
+        Action<double> @double,
+        Action<bool> @bool
+    )
+    {
+        switch (this.Value)
+        {
+            case ParseCorrectedContentOutput value:
+                parseCorrectedContentOutput(value);
+                break;
+            case JsonElement value:
+                jsonElement(value);
+                break;
+            case IReadOnlyList<JsonElement> value:
+                jsonElements(value);
+                break;
+            case string value:
+                @string(value);
+                break;
+            case double value:
+                @double(value);
+                break;
+            case bool value:
+                @bool(value);
+                break;
+            default:
+                throw new BemInvalidDataException(
+                    "Data did not match any variant of ParseCorrectedContent"
+                );
+        }
+    }
+
+    /// <summary>
+    /// Calls the function parameter corresponding to the variant the instance was constructed with and
+    /// returns its result.
+    ///
+    /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Switch"/>
+    /// if you don't need your function parameters to return a value.</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance was constructed with an unknown variant (e.g. deserialized from raw data
+    /// that doesn't match any variant's expected shape).
+    /// </exception>
+    ///
+    /// <example>
+    /// <code>
+    /// var result = instance.Match(
+    ///     (ParseCorrectedContentOutput value) =&gt; {...},
+    ///     (JsonElement value) =&gt; {...},
+    ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...},
+    ///     (string value) =&gt; {...},
+    ///     (double value) =&gt; {...},
+    ///     (bool value) =&gt; {...}
+    /// );
+    /// </code>
+    /// </example>
+    /// </summary>
+    public T Match<T>(
+        Func<ParseCorrectedContentOutput, T> parseCorrectedContentOutput,
+        Func<JsonElement, T> jsonElement,
+        Func<IReadOnlyList<JsonElement>, T> jsonElements,
+        Func<string, T> @string,
+        Func<double, T> @double,
+        Func<bool, T> @bool
+    )
+    {
+        return this.Value switch
+        {
+            ParseCorrectedContentOutput value => parseCorrectedContentOutput(value),
+            JsonElement value => jsonElement(value),
+            IReadOnlyList<JsonElement> value => jsonElements(value),
+            string value => @string(value),
+            double value => @double(value),
+            bool value => @bool(value),
+            _ => throw new BemInvalidDataException(
+                "Data did not match any variant of ParseCorrectedContent"
+            ),
+        };
+    }
+
+    public static implicit operator ParseCorrectedContent(ParseCorrectedContentOutput value) =>
+        new(value);
+
+    public static implicit operator ParseCorrectedContent(JsonElement value) => new(value);
+
+    public static implicit operator ParseCorrectedContent(List<JsonElement> value) =>
+        new((IReadOnlyList<JsonElement>)value);
+
+    public static implicit operator ParseCorrectedContent(string value) => new(value);
+
+    public static implicit operator ParseCorrectedContent(double value) => new(value);
+
+    public static implicit operator ParseCorrectedContent(bool value) => new(value);
+
+    /// <summary>
+    /// Validates that the instance was constructed with a known variant and that this variant is valid
+    /// (based on its own <c>Validate</c> method).
+    ///
+    /// <para>This is useful for instances constructed from raw JSON data (e.g. deserialized from an API response).</para>
+    ///
+    /// <exception cref="BemInvalidDataException">
+    /// Thrown when the instance does not pass validation.
+    /// </exception>
+    /// </summary>
+    public override void Validate()
+    {
+        if (this.Value == null)
+        {
+            throw new BemInvalidDataException(
+                "Data did not match any variant of ParseCorrectedContent"
+            );
+        }
+        this.Switch(
+            (parseCorrectedContentOutput) => parseCorrectedContentOutput.Validate(),
+            (_) => { },
+            (_) => { },
+            (_) => { },
+            (_) => { },
+            (_) => { }
+        );
+    }
+
+    public virtual bool Equals(ParseCorrectedContent? other) =>
+        other != null
+        && this.VariantIndex() == other.VariantIndex()
+        && JsonElement.DeepEquals(this.Json, other.Json);
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
+
+    public override string ToString() =>
+        JsonSerializer.Serialize(
+            FriendlyJsonPrinter.PrintValue(this.Json),
+            ModelBase.ToStringSerializerOptions
+        );
+
+    int VariantIndex()
+    {
+        return this.Value switch
+        {
+            ParseCorrectedContentOutput _ => 0,
+            JsonElement _ => 1,
+            IReadOnlyList<JsonElement> _ => 2,
+            string _ => 3,
+            double _ => 4,
+            bool _ => 5,
+            _ => -1,
+        };
+    }
+}
+
+sealed class ParseCorrectedContentConverter : JsonConverter<ParseCorrectedContent?>
+{
+    public override ParseCorrectedContent? Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        var element = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<ParseCorrectedContentOutput>(
+                element,
+                options
+            );
+            if (deserialized != null)
+            {
+                deserialized.Validate();
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<List<JsonElement>>(element, options);
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            var deserialized = JsonSerializer.Deserialize<string>(element, options);
+            if (deserialized != null)
+            {
+                return new(deserialized, element);
+            }
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<double>(element, options), element);
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<bool>(element, options), element);
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        try
+        {
+            return new(JsonSerializer.Deserialize<JsonElement>(element, options));
+        }
+        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
+        {
+            // ignore
+        }
+
+        return new(element);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ParseCorrectedContent? value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(writer, value?.Json, options);
+    }
+}
+
+[JsonConverter(
+    typeof(JsonModelConverter<ParseCorrectedContentOutput, ParseCorrectedContentOutputFromRaw>)
+)]
+public sealed record class ParseCorrectedContentOutput : JsonModel
+{
+    public IReadOnlyList<AnyType?>? Output
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<AnyType?>?>(
+                "output",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        foreach (var item in this.Output ?? [])
+        {
+            item?.Validate();
+        }
+    }
+
+    public ParseCorrectedContentOutput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ParseCorrectedContentOutput(ParseCorrectedContentOutput parseCorrectedContentOutput)
+        : base(parseCorrectedContentOutput) { }
+#pragma warning restore CS8618
+
+    public ParseCorrectedContentOutput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ParseCorrectedContentOutput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ParseCorrectedContentOutputFromRaw.FromRawUnchecked"/>
+    public static ParseCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ParseCorrectedContentOutputFromRaw : IFromRawJson<ParseCorrectedContentOutput>
+{
+    /// <inheritdoc/>
+    public ParseCorrectedContentOutput FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => ParseCorrectedContentOutput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(ParseEventTypeConverter))]
+public enum ParseEventType
+{
+    Parse,
+}
+
+sealed class ParseEventTypeConverter : JsonConverter<ParseEventType>
+{
+    public override ParseEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "parse" => ParseEventType.Parse,
+            _ => (ParseEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ParseEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ParseEventType.Parse => "parse",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<ParseInput, ParseInputFromRaw>))]
+public sealed record class ParseInput : JsonModel
+{
+    public string? InputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("inputContent");
+        }
+        init { this._rawData.Set("inputContent", value); }
+    }
+
+    public string? InputType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("inputType");
+        }
+        init { this._rawData.Set("inputType", value); }
+    }
+
+    public JsonElement? JsonInputContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("jsonInputContent");
+        }
+        init { this._rawData.Set("jsonInputContent", value); }
+    }
+
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.InputContent;
+        _ = this.InputType;
+        _ = this.JsonInputContent;
+        _ = this.S3Url;
+    }
+
+    public ParseInput() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ParseInput(ParseInput parseInput)
+        : base(parseInput) { }
+#pragma warning restore CS8618
+
+    public ParseInput(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ParseInput(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ParseInputFromRaw.FromRawUnchecked"/>
+    public static ParseInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ParseInputFromRaw : IFromRawJson<ParseInput>
+{
+    /// <inheritdoc/>
+    public ParseInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ParseInput.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<ParseMetadata, ParseMetadataFromRaw>))]
+public sealed record class ParseMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public ParseMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ParseMetadata(ParseMetadata parseMetadata)
+        : base(parseMetadata) { }
+#pragma warning restore CS8618
+
+    public ParseMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ParseMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ParseMetadataFromRaw.FromRawUnchecked"/>
+    public static ParseMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ParseMetadataFromRaw : IFromRawJson<ParseMetadata>
+{
+    /// <inheritdoc/>
+    public ParseMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ParseMetadata.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Emitted by functions of the legacy `analyze` type (the vision path predecessor
+/// of `extract`). Carries the extracted JSON along with per-field bounding-box metadata
+/// identifying the document regions each value was extracted from.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Analyze, AnalyzeFromRaw>))]
+public sealed record class Analyze : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// List of properties that were invalid in the input.
+    /// </summary>
+    public required IReadOnlyList<string> InvalidProperties
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<ImmutableArray<string>>("invalidProperties");
+        }
+        init
+        {
+            this._rawData.Set<ImmutableArray<string>>(
+                "invalidProperties",
+                ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// The extracted content of the input. The structure of this object is defined
+    /// by the function's `outputSchema`.
+    /// </summary>
+    public required JsonElement TransformedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+        }
+        init { this._rawData.Set("transformedContent", value); }
+    }
+
+    /// <summary>
+    /// Average confidence score across all extracted fields, in the range [0, 1].
+    /// </summary>
+    public float? AvgConfidence
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<float>("avgConfidence");
+        }
+        init { this._rawData.Set("avgConfidence", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, AnalyzeEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, AnalyzeEventType>>("eventType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-field bounding boxes. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// (e.g. `"/invoiceNumber"`, `"/items/0/price"`) to the document regions from
+    /// which each extracted value was sourced.
+    /// </summary>
+    public JsonElement? FieldBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldBoundingBoxes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldBoundingBoxes", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-field confidence scores. A JSON object mapping RFC 6901 JSON Pointer paths
+    /// to float values in the range [0, 1] indicating the model's confidence in each
+    /// extracted field value.
+    /// </summary>
+    public JsonElement? FieldConfidences
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("fieldConfidences");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("fieldConfidences", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public AnalyzeMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<AnalyzeMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Presigned S3 URL of the input file that was analyzed.
+    /// </summary>
+    public string? S3Url
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("s3URL");
+        }
+        init { this._rawData.Set("s3URL", value); }
+    }
+
+    /// <summary>
+    /// Unique ID for each transformation output generated by bem following Segment's
+    /// KSUID conventions.
+    /// </summary>
+    public string? TransformationID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("transformationID");
+        }
+        init { this._rawData.Set("transformationID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.InvalidProperties;
+        _ = this.ReferenceID;
+        _ = this.TransformedContent;
+        _ = this.AvgConfidence;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FieldBoundingBoxes;
+        _ = this.FieldConfidences;
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.S3Url;
+        _ = this.TransformationID;
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public Analyze() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Analyze(Analyze analyze)
+        : base(analyze) { }
+#pragma warning restore CS8618
+
+    public Analyze(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Analyze(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="AnalyzeFromRaw.FromRawUnchecked"/>
+    public static Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class AnalyzeFromRaw : IFromRawJson<Analyze>
+{
+    /// <inheritdoc/>
+    public Analyze FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Analyze.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(AnalyzeEventTypeConverter))]
+public enum AnalyzeEventType
+{
+    Analyze,
+}
+
+sealed class AnalyzeEventTypeConverter : JsonConverter<AnalyzeEventType>
+{
+    public override AnalyzeEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "analyze" => AnalyzeEventType.Analyze,
+            _ => (AnalyzeEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        AnalyzeEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                AnalyzeEventType.Analyze => "analyze",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<AnalyzeMetadata, AnalyzeMetadataFromRaw>))]
+public sealed record class AnalyzeMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public AnalyzeMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public AnalyzeMetadata(AnalyzeMetadata analyzeMetadata)
+        : base(analyzeMetadata) { }
+#pragma warning restore CS8618
+
+    public AnalyzeMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    AnalyzeMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="AnalyzeMetadataFromRaw.FromRawUnchecked"/>
+    public static AnalyzeMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class AnalyzeMetadataFromRaw : IFromRawJson<AnalyzeMetadata>
+{
+    /// <inheritdoc/>
+    public AnalyzeMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        AnalyzeMetadata.FromRawUnchecked(rawData);
 }
 
 [JsonConverter(typeof(JsonModelConverter<Route, RouteFromRaw>))]
@@ -8448,6 +10500,1040 @@ class EnrichMetadataFromRaw : IFromRawJson<EnrichMetadata>
         EnrichMetadata.FromRawUnchecked(rawData);
 }
 
+/// <summary>
+/// Emitted by `payload_shaping` functions, which restructure JSON payloads using
+/// JMESPath expressions configured on the function. The shaped result is carried
+/// in `transformedContent`.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<PayloadShaping, PayloadShapingFromRaw>))]
+public sealed record class PayloadShaping : JsonModel
+{
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// The reshaped payload produced by applying the function's JMESPath expressions
+    /// to the input data.
+    /// </summary>
+    public required JsonElement TransformedContent
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+        }
+        init { this._rawData.Set("transformedContent", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    public ApiEnum<string, PayloadShapingEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, PayloadShapingEventType>>(
+                "eventType"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public PayloadShapingMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<PayloadShapingMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ReferenceID;
+        _ = this.TransformedContent;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public PayloadShaping() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public PayloadShaping(PayloadShaping payloadShaping)
+        : base(payloadShaping) { }
+#pragma warning restore CS8618
+
+    public PayloadShaping(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    PayloadShaping(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="PayloadShapingFromRaw.FromRawUnchecked"/>
+    public static PayloadShaping FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class PayloadShapingFromRaw : IFromRawJson<PayloadShaping>
+{
+    /// <inheritdoc/>
+    public PayloadShaping FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        PayloadShaping.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(PayloadShapingEventTypeConverter))]
+public enum PayloadShapingEventType
+{
+    PayloadShaping,
+}
+
+sealed class PayloadShapingEventTypeConverter : JsonConverter<PayloadShapingEventType>
+{
+    public override PayloadShapingEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "payload_shaping" => PayloadShapingEventType.PayloadShaping,
+            _ => (PayloadShapingEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        PayloadShapingEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                PayloadShapingEventType.PayloadShaping => "payload_shaping",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<PayloadShapingMetadata, PayloadShapingMetadataFromRaw>))]
+public sealed record class PayloadShapingMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public PayloadShapingMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public PayloadShapingMetadata(PayloadShapingMetadata payloadShapingMetadata)
+        : base(payloadShapingMetadata) { }
+#pragma warning restore CS8618
+
+    public PayloadShapingMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    PayloadShapingMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="PayloadShapingMetadataFromRaw.FromRawUnchecked"/>
+    public static PayloadShapingMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class PayloadShapingMetadataFromRaw : IFromRawJson<PayloadShapingMetadata>
+{
+    /// <inheritdoc/>
+    public PayloadShapingMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => PayloadShapingMetadata.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Emitted when a function-accuracy evaluation completes for a transformation. Evaluations
+/// are scheduled by `POST /v3/eval` and run asynchronously; this event reports the
+/// terminal result.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Evaluation, EvaluationFromRaw>))]
+public sealed record class Evaluation : JsonModel
+{
+    /// <summary>
+    /// Version identifier of the evaluation logic that produced this result.
+    /// </summary>
+    public required string EvaluationVersion
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("evaluationVersion");
+        }
+        init { this._rawData.Set("evaluationVersion", value); }
+    }
+
+    /// <summary>
+    /// Unique ID generated by bem to identify the event.
+    /// </summary>
+    public required string EventID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("eventID");
+        }
+        init { this._rawData.Set("eventID", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of function that this event is associated with.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Unique name of function that this event is associated with.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// The unique ID you use internally to refer to this data point, propagated from
+    /// the original function input.
+    /// </summary>
+    public required string ReferenceID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("referenceID");
+        }
+        init { this._rawData.Set("referenceID", value); }
+    }
+
+    /// <summary>
+    /// Evaluator output. Shape depends on `evaluationVersion` and includes confidence
+    /// scores, per-field hallucination flags, and relevance metrics.
+    /// </summary>
+    public required JsonElement Result
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("result");
+        }
+        init { this._rawData.Set("result", value); }
+    }
+
+    /// <summary>
+    /// Terminal status of the evaluation run.
+    /// </summary>
+    public required ApiEnum<string, Status> Status
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, Status>>("status");
+        }
+        init { this._rawData.Set("status", value); }
+    }
+
+    /// <summary>
+    /// Unique ID of the transformation that was evaluated.
+    /// </summary>
+    public required string TransformID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("transformId");
+        }
+        init { this._rawData.Set("transformId", value); }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow call that this event is associated with.
+    /// </summary>
+    public string? CallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("callID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("callID", value);
+        }
+    }
+
+    /// <summary>
+    /// Timestamp indicating when the event was created.
+    /// </summary>
+    public DateTimeOffset? CreatedAt
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<DateTimeOffset>("createdAt");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("createdAt", value);
+        }
+    }
+
+    /// <summary>
+    /// Failure reason populated when `status` is `failed`.
+    /// </summary>
+    public string? ErrorMessage
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("errorMessage");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("errorMessage", value);
+        }
+    }
+
+    public ApiEnum<string, EvaluationEventType>? EventType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, EvaluationEventType>>(
+                "eventType"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("eventType", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of function call that this event is associated with.
+    /// </summary>
+    public string? FunctionCallID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionCallID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallID", value);
+        }
+    }
+
+    /// <summary>
+    /// The attempt number of the function call that created this event. 1 indexed.
+    /// </summary>
+    public long? FunctionCallTryNumber
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionCallTryNumber");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionCallTryNumber", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of function that this event is associated with.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
+    /// The inbound email that triggered this event.
+    /// </summary>
+    public InboundEmailEvent? InboundEmail
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<InboundEmailEvent>("inboundEmail");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("inboundEmail", value);
+        }
+    }
+
+    public EvaluationMetadata? Metadata
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<EvaluationMetadata>("metadata");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("metadata", value);
+        }
+    }
+
+    /// <summary>
+    /// Unique identifier of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of workflow that this event is associated with.
+    /// </summary>
+    public string? WorkflowName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("workflowName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowName", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of workflow that this event is associated with.
+    /// </summary>
+    public long? WorkflowVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("workflowVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("workflowVersionNum", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EvaluationVersion;
+        _ = this.EventID;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        _ = this.ReferenceID;
+        _ = this.Result;
+        this.Status.Validate();
+        _ = this.TransformID;
+        _ = this.CallID;
+        _ = this.CreatedAt;
+        _ = this.ErrorMessage;
+        this.EventType?.Validate();
+        _ = this.FunctionCallID;
+        _ = this.FunctionCallTryNumber;
+        _ = this.FunctionVersionNum;
+        this.InboundEmail?.Validate();
+        this.Metadata?.Validate();
+        _ = this.WorkflowID;
+        _ = this.WorkflowName;
+        _ = this.WorkflowVersionNum;
+    }
+
+    public Evaluation() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Evaluation(Evaluation evaluation)
+        : base(evaluation) { }
+#pragma warning restore CS8618
+
+    public Evaluation(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Evaluation(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="EvaluationFromRaw.FromRawUnchecked"/>
+    public static Evaluation FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class EvaluationFromRaw : IFromRawJson<Evaluation>
+{
+    /// <inheritdoc/>
+    public Evaluation FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Evaluation.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Terminal status of the evaluation run.
+/// </summary>
+[JsonConverter(typeof(StatusConverter))]
+public enum Status
+{
+    Success,
+    Failed,
+}
+
+sealed class StatusConverter : JsonConverter<Status>
+{
+    public override Status Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "success" => Status.Success,
+            "failed" => Status.Failed,
+            _ => (Status)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Status value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                Status.Success => "success",
+                Status.Failed => "failed",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(EvaluationEventTypeConverter))]
+public enum EvaluationEventType
+{
+    Evaluation,
+}
+
+sealed class EvaluationEventTypeConverter : JsonConverter<EvaluationEventType>
+{
+    public override EvaluationEventType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "evaluation" => EvaluationEventType.Evaluation,
+            _ => (EvaluationEventType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        EvaluationEventType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                EvaluationEventType.Evaluation => "evaluation",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+[JsonConverter(typeof(JsonModelConverter<EvaluationMetadata, EvaluationMetadataFromRaw>))]
+public sealed record class EvaluationMetadata : JsonModel
+{
+    public double? DurationFunctionToEventSeconds
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("durationFunctionToEventSeconds");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("durationFunctionToEventSeconds", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.DurationFunctionToEventSeconds;
+    }
+
+    public EvaluationMetadata() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public EvaluationMetadata(EvaluationMetadata evaluationMetadata)
+        : base(evaluationMetadata) { }
+#pragma warning restore CS8618
+
+    public EvaluationMetadata(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    EvaluationMetadata(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="EvaluationMetadataFromRaw.FromRawUnchecked"/>
+    public static EvaluationMetadata FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class EvaluationMetadataFromRaw : IFromRawJson<EvaluationMetadata>
+{
+    /// <inheritdoc/>
+    public EvaluationMetadata FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        EvaluationMetadata.FromRawUnchecked(rawData);
+}
+
 [JsonConverter(typeof(JsonModelConverter<CollectionProcessing, CollectionProcessingFromRaw>))]
 public sealed record class CollectionProcessing : JsonModel
 {
@@ -8533,12 +11619,14 @@ public sealed record class CollectionProcessing : JsonModel
     /// <summary>
     /// Processing status (success or failed).
     /// </summary>
-    public required ApiEnum<string, Status> Status
+    public required ApiEnum<string, CollectionProcessingStatus> Status
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, Status>>("status");
+            return this._rawData.GetNotNullClass<ApiEnum<string, CollectionProcessingStatus>>(
+                "status"
+            );
         }
         init { this._rawData.Set("status", value); }
     }
@@ -8796,16 +11884,16 @@ sealed class OperationConverter : JsonConverter<Operation>
 /// <summary>
 /// Processing status (success or failed).
 /// </summary>
-[JsonConverter(typeof(StatusConverter))]
-public enum Status
+[JsonConverter(typeof(CollectionProcessingStatusConverter))]
+public enum CollectionProcessingStatus
 {
     Success,
     Failed,
 }
 
-sealed class StatusConverter : JsonConverter<Status>
+sealed class CollectionProcessingStatusConverter : JsonConverter<CollectionProcessingStatus>
 {
-    public override Status Read(
+    public override CollectionProcessingStatus Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -8813,20 +11901,24 @@ sealed class StatusConverter : JsonConverter<Status>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "success" => Status.Success,
-            "failed" => Status.Failed,
-            _ => (Status)(-1),
+            "success" => CollectionProcessingStatus.Success,
+            "failed" => CollectionProcessingStatus.Failed,
+            _ => (CollectionProcessingStatus)(-1),
         };
     }
 
-    public override void Write(Utf8JsonWriter writer, Status value, JsonSerializerOptions options)
+    public override void Write(
+        Utf8JsonWriter writer,
+        CollectionProcessingStatus value,
+        JsonSerializerOptions options
+    )
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                Status.Success => "success",
-                Status.Failed => "failed",
+                CollectionProcessingStatus.Success => "success",
+                CollectionProcessingStatus.Failed => "failed",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -8963,12 +12055,12 @@ public sealed record class Send : JsonModel
     /// <summary>
     /// Destination type for a Send function.
     /// </summary>
-    public required ApiEnum<string, DestinationType> DestinationType
+    public required ApiEnum<string, Functions::SendDestinationType> DestinationType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
+            return this._rawData.GetNotNullClass<ApiEnum<string, Functions::SendDestinationType>>(
                 "destinationType"
             );
         }
@@ -9439,56 +12531,6 @@ sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
             {
                 DeliveryStatus.Success => "success",
                 DeliveryStatus.Skip => "skip",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// Destination type for a Send function.
-/// </summary>
-[JsonConverter(typeof(DestinationTypeConverter))]
-public enum DestinationType
-{
-    Webhook,
-    S3,
-    GoogleDrive,
-}
-
-sealed class DestinationTypeConverter : JsonConverter<DestinationType>
-{
-    public override DestinationType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "webhook" => DestinationType.Webhook,
-            "s3" => DestinationType.S3,
-            "google_drive" => DestinationType.GoogleDrive,
-            _ => (DestinationType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        DestinationType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                DestinationType.Webhook => "webhook",
-                DestinationType.S3 => "s3",
-                DestinationType.GoogleDrive => "google_drive",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

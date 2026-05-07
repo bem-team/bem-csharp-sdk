@@ -30,7 +30,7 @@ public class CollectionListResponseTest : TestBase
             TotalPages = 0,
         };
 
-        List<Collection> expectedCollections =
+        List<CollectionListResponseCollection> expectedCollections =
         [
             new()
             {
@@ -117,7 +117,7 @@ public class CollectionListResponseTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        List<Collection> expectedCollections =
+        List<CollectionListResponseCollection> expectedCollections =
         [
             new()
             {
@@ -197,12 +197,12 @@ public class CollectionListResponseTest : TestBase
     }
 }
 
-public class CollectionTest : TestBase
+public class CollectionListResponseCollectionTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -227,7 +227,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -237,7 +237,7 @@ public class CollectionTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Collection>(
+        var deserialized = JsonSerializer.Deserialize<CollectionListResponseCollection>(
             json,
             ModelBase.SerializerOptions
         );
@@ -248,7 +248,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -258,7 +258,7 @@ public class CollectionTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Collection>(
+        var deserialized = JsonSerializer.Deserialize<CollectionListResponseCollection>(
             element,
             ModelBase.SerializerOptions
         );
@@ -280,7 +280,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -295,7 +295,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -310,7 +310,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -324,7 +324,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -342,7 +342,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -359,7 +359,7 @@ public class CollectionTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Collection
+        var model = new CollectionListResponseCollection
         {
             CollectionID = "collectionID",
             CollectionName = "collectionName",
@@ -368,7 +368,7 @@ public class CollectionTest : TestBase
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
         };
 
-        Collection copied = new(model);
+        CollectionListResponseCollection copied = new(model);
 
         Assert.Equal(model, copied);
     }
