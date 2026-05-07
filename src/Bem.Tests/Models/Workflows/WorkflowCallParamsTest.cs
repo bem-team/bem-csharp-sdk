@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
-using Bem.Exceptions;
 using Bem.Models.Workflows;
+using Outputs = Bem.Models.Outputs;
 
 namespace Bem.Tests.Models.Workflows;
 
@@ -24,7 +24,7 @@ public class WorkflowCallParamsTest : TestBase
                         new()
                         {
                             InputContent = "inputContent",
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             ItemReferenceID = "itemReferenceID",
                         },
                     ],
@@ -32,7 +32,7 @@ public class WorkflowCallParamsTest : TestBase
                 SingleFile = new()
                 {
                     InputContent = "inputContent",
-                    InputType = SingleFileInputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                 },
             },
             Wait = true,
@@ -50,7 +50,7 @@ public class WorkflowCallParamsTest : TestBase
                     new()
                     {
                         InputContent = "inputContent",
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         ItemReferenceID = "itemReferenceID",
                     },
                 ],
@@ -58,7 +58,7 @@ public class WorkflowCallParamsTest : TestBase
             SingleFile = new()
             {
                 InputContent = "inputContent",
-                InputType = SingleFileInputType.Csv,
+                InputType = Outputs::InputType.Csv,
             },
         };
         bool expectedWait = true;
@@ -88,7 +88,7 @@ public class WorkflowCallParamsTest : TestBase
                         new()
                         {
                             InputContent = "inputContent",
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             ItemReferenceID = "itemReferenceID",
                         },
                     ],
@@ -96,7 +96,7 @@ public class WorkflowCallParamsTest : TestBase
                 SingleFile = new()
                 {
                     InputContent = "inputContent",
-                    InputType = SingleFileInputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                 },
             },
         };
@@ -124,7 +124,7 @@ public class WorkflowCallParamsTest : TestBase
                         new()
                         {
                             InputContent = "inputContent",
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             ItemReferenceID = "itemReferenceID",
                         },
                     ],
@@ -132,7 +132,7 @@ public class WorkflowCallParamsTest : TestBase
                 SingleFile = new()
                 {
                     InputContent = "inputContent",
-                    InputType = SingleFileInputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                 },
             },
 
@@ -165,7 +165,7 @@ public class WorkflowCallParamsTest : TestBase
                         new()
                         {
                             InputContent = "inputContent",
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             ItemReferenceID = "itemReferenceID",
                         },
                     ],
@@ -173,7 +173,7 @@ public class WorkflowCallParamsTest : TestBase
                 SingleFile = new()
                 {
                     InputContent = "inputContent",
-                    InputType = SingleFileInputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                 },
             },
             Wait = true,
@@ -204,7 +204,7 @@ public class WorkflowCallParamsTest : TestBase
                         new()
                         {
                             InputContent = "inputContent",
-                            InputType = InputType.Csv,
+                            InputType = Outputs::InputType.Csv,
                             ItemReferenceID = "itemReferenceID",
                         },
                     ],
@@ -212,7 +212,7 @@ public class WorkflowCallParamsTest : TestBase
                 SingleFile = new()
                 {
                     InputContent = "inputContent",
-                    InputType = SingleFileInputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                 },
             },
             Wait = true,
@@ -240,7 +240,7 @@ public class InputTest : TestBase
                     new()
                     {
                         InputContent = "inputContent",
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         ItemReferenceID = "itemReferenceID",
                     },
                 ],
@@ -248,7 +248,7 @@ public class InputTest : TestBase
             SingleFile = new()
             {
                 InputContent = "inputContent",
-                InputType = SingleFileInputType.Csv,
+                InputType = Outputs::InputType.Csv,
             },
         };
 
@@ -259,7 +259,7 @@ public class InputTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -267,7 +267,7 @@ public class InputTest : TestBase
         SingleFile expectedSingleFile = new()
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         Assert.Equal(expectedBatchFiles, model.BatchFiles);
@@ -286,7 +286,7 @@ public class InputTest : TestBase
                     new()
                     {
                         InputContent = "inputContent",
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         ItemReferenceID = "itemReferenceID",
                     },
                 ],
@@ -294,7 +294,7 @@ public class InputTest : TestBase
             SingleFile = new()
             {
                 InputContent = "inputContent",
-                InputType = SingleFileInputType.Csv,
+                InputType = Outputs::InputType.Csv,
             },
         };
 
@@ -316,7 +316,7 @@ public class InputTest : TestBase
                     new()
                     {
                         InputContent = "inputContent",
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         ItemReferenceID = "itemReferenceID",
                     },
                 ],
@@ -324,7 +324,7 @@ public class InputTest : TestBase
             SingleFile = new()
             {
                 InputContent = "inputContent",
-                InputType = SingleFileInputType.Csv,
+                InputType = Outputs::InputType.Csv,
             },
         };
 
@@ -339,7 +339,7 @@ public class InputTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -347,7 +347,7 @@ public class InputTest : TestBase
         SingleFile expectedSingleFile = new()
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         Assert.Equal(expectedBatchFiles, deserialized.BatchFiles);
@@ -366,7 +366,7 @@ public class InputTest : TestBase
                     new()
                     {
                         InputContent = "inputContent",
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         ItemReferenceID = "itemReferenceID",
                     },
                 ],
@@ -374,7 +374,7 @@ public class InputTest : TestBase
             SingleFile = new()
             {
                 InputContent = "inputContent",
-                InputType = SingleFileInputType.Csv,
+                InputType = Outputs::InputType.Csv,
             },
         };
 
@@ -441,7 +441,7 @@ public class InputTest : TestBase
                     new()
                     {
                         InputContent = "inputContent",
-                        InputType = InputType.Csv,
+                        InputType = Outputs::InputType.Csv,
                         ItemReferenceID = "itemReferenceID",
                     },
                 ],
@@ -449,7 +449,7 @@ public class InputTest : TestBase
             SingleFile = new()
             {
                 InputContent = "inputContent",
-                InputType = SingleFileInputType.Csv,
+                InputType = Outputs::InputType.Csv,
             },
         };
 
@@ -471,7 +471,7 @@ public class BatchFilesTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -482,7 +482,7 @@ public class BatchFilesTest : TestBase
             new()
             {
                 InputContent = "inputContent",
-                InputType = InputType.Csv,
+                InputType = Outputs::InputType.Csv,
                 ItemReferenceID = "itemReferenceID",
             },
         ];
@@ -505,7 +505,7 @@ public class BatchFilesTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -530,7 +530,7 @@ public class BatchFilesTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -548,7 +548,7 @@ public class BatchFilesTest : TestBase
             new()
             {
                 InputContent = "inputContent",
-                InputType = InputType.Csv,
+                InputType = Outputs::InputType.Csv,
                 ItemReferenceID = "itemReferenceID",
             },
         ];
@@ -571,7 +571,7 @@ public class BatchFilesTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -632,7 +632,7 @@ public class BatchFilesTest : TestBase
                 new()
                 {
                     InputContent = "inputContent",
-                    InputType = InputType.Csv,
+                    InputType = Outputs::InputType.Csv,
                     ItemReferenceID = "itemReferenceID",
                 },
             ],
@@ -652,12 +652,12 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
             ItemReferenceID = "itemReferenceID",
         };
 
         string expectedInputContent = "inputContent";
-        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
+        ApiEnum<string, Outputs::InputType> expectedInputType = Outputs::InputType.Csv;
         string expectedItemReferenceID = "itemReferenceID";
 
         Assert.Equal(expectedInputContent, model.InputContent);
@@ -671,7 +671,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
             ItemReferenceID = "itemReferenceID",
         };
 
@@ -690,7 +690,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
             ItemReferenceID = "itemReferenceID",
         };
 
@@ -702,7 +702,7 @@ public class BatchFilesInputTest : TestBase
         Assert.NotNull(deserialized);
 
         string expectedInputContent = "inputContent";
-        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
+        ApiEnum<string, Outputs::InputType> expectedInputType = Outputs::InputType.Csv;
         string expectedItemReferenceID = "itemReferenceID";
 
         Assert.Equal(expectedInputContent, deserialized.InputContent);
@@ -716,7 +716,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
             ItemReferenceID = "itemReferenceID",
         };
 
@@ -729,7 +729,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         Assert.Null(model.ItemReferenceID);
@@ -742,7 +742,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         model.Validate();
@@ -754,7 +754,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
 
             // Null should be interpreted as omitted for these properties
             ItemReferenceID = null,
@@ -770,7 +770,7 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
 
             // Null should be interpreted as omitted for these properties
             ItemReferenceID = null,
@@ -785,103 +785,13 @@ public class BatchFilesInputTest : TestBase
         var model = new BatchFilesInput
         {
             InputContent = "inputContent",
-            InputType = InputType.Csv,
+            InputType = Outputs::InputType.Csv,
             ItemReferenceID = "itemReferenceID",
         };
 
         BatchFilesInput copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class InputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void Validation_Works(InputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void SerializationRoundtrip_Works(InputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }
 
@@ -893,11 +803,11 @@ public class SingleFileTest : TestBase
         var model = new SingleFile
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         string expectedInputContent = "inputContent";
-        ApiEnum<string, SingleFileInputType> expectedInputType = SingleFileInputType.Csv;
+        ApiEnum<string, Outputs::InputType> expectedInputType = Outputs::InputType.Csv;
 
         Assert.Equal(expectedInputContent, model.InputContent);
         Assert.Equal(expectedInputType, model.InputType);
@@ -909,7 +819,7 @@ public class SingleFileTest : TestBase
         var model = new SingleFile
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -927,7 +837,7 @@ public class SingleFileTest : TestBase
         var model = new SingleFile
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -938,7 +848,7 @@ public class SingleFileTest : TestBase
         Assert.NotNull(deserialized);
 
         string expectedInputContent = "inputContent";
-        ApiEnum<string, SingleFileInputType> expectedInputType = SingleFileInputType.Csv;
+        ApiEnum<string, Outputs::InputType> expectedInputType = Outputs::InputType.Csv;
 
         Assert.Equal(expectedInputContent, deserialized.InputContent);
         Assert.Equal(expectedInputType, deserialized.InputType);
@@ -950,7 +860,7 @@ public class SingleFileTest : TestBase
         var model = new SingleFile
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         model.Validate();
@@ -962,101 +872,11 @@ public class SingleFileTest : TestBase
         var model = new SingleFile
         {
             InputContent = "inputContent",
-            InputType = SingleFileInputType.Csv,
+            InputType = Outputs::InputType.Csv,
         };
 
         SingleFile copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class SingleFileInputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(SingleFileInputType.Csv)]
-    [InlineData(SingleFileInputType.Docx)]
-    [InlineData(SingleFileInputType.Email)]
-    [InlineData(SingleFileInputType.Heic)]
-    [InlineData(SingleFileInputType.Html)]
-    [InlineData(SingleFileInputType.Jpeg)]
-    [InlineData(SingleFileInputType.Json)]
-    [InlineData(SingleFileInputType.Heif)]
-    [InlineData(SingleFileInputType.M4a)]
-    [InlineData(SingleFileInputType.Mp3)]
-    [InlineData(SingleFileInputType.Pdf)]
-    [InlineData(SingleFileInputType.Png)]
-    [InlineData(SingleFileInputType.Text)]
-    [InlineData(SingleFileInputType.Wav)]
-    [InlineData(SingleFileInputType.Webp)]
-    [InlineData(SingleFileInputType.Xls)]
-    [InlineData(SingleFileInputType.Xlsx)]
-    [InlineData(SingleFileInputType.Xml)]
-    public void Validation_Works(SingleFileInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SingleFileInputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SingleFileInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(SingleFileInputType.Csv)]
-    [InlineData(SingleFileInputType.Docx)]
-    [InlineData(SingleFileInputType.Email)]
-    [InlineData(SingleFileInputType.Heic)]
-    [InlineData(SingleFileInputType.Html)]
-    [InlineData(SingleFileInputType.Jpeg)]
-    [InlineData(SingleFileInputType.Json)]
-    [InlineData(SingleFileInputType.Heif)]
-    [InlineData(SingleFileInputType.M4a)]
-    [InlineData(SingleFileInputType.Mp3)]
-    [InlineData(SingleFileInputType.Pdf)]
-    [InlineData(SingleFileInputType.Png)]
-    [InlineData(SingleFileInputType.Text)]
-    [InlineData(SingleFileInputType.Wav)]
-    [InlineData(SingleFileInputType.Webp)]
-    [InlineData(SingleFileInputType.Xls)]
-    [InlineData(SingleFileInputType.Xlsx)]
-    [InlineData(SingleFileInputType.Xml)]
-    public void SerializationRoundtrip_Works(SingleFileInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SingleFileInputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SingleFileInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SingleFileInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SingleFileInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }

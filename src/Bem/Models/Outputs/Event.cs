@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.Errors;
+using Functions = Bem.Models.Functions;
 
 namespace Bem.Models.Outputs;
 
@@ -391,6 +392,30 @@ public record class Event : ModelBase
                 evaluation: (x) => x.InboundEmail,
                 collectionProcessing: (x) => x.InboundEmail,
                 send: (x) => x.InboundEmail
+            );
+        }
+    }
+
+    public ApiEnum<string, InputType>? InputType
+    {
+        get
+        {
+            return Match<ApiEnum<string, InputType>?>(
+                transform: (x) => x.InputType,
+                extract: (x) => x.InputType,
+                parse: (x) => x.InputType,
+                analyze: (_) => null,
+                route: (_) => null,
+                classify: (_) => null,
+                splitCollection: (_) => null,
+                splitItem: (_) => null,
+                error: (_) => null,
+                join: (_) => null,
+                enrich: (_) => null,
+                payloadShaping: (_) => null,
+                evaluation: (_) => null,
+                collectionProcessing: (_) => null,
+                send: (_) => null
             );
         }
     }
@@ -2881,101 +2906,6 @@ class InputFromRaw : IFromRawJson<Input>
         Input.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(InputTypeConverter))]
-public enum InputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class InputTypeConverter : JsonConverter<InputType>
-{
-    public override InputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => InputType.Csv,
-            "docx" => InputType.Docx,
-            "email" => InputType.Email,
-            "heic" => InputType.Heic,
-            "html" => InputType.Html,
-            "jpeg" => InputType.Jpeg,
-            "json" => InputType.Json,
-            "heif" => InputType.Heif,
-            "m4a" => InputType.M4a,
-            "mp3" => InputType.Mp3,
-            "pdf" => InputType.Pdf,
-            "png" => InputType.Png,
-            "text" => InputType.Text,
-            "wav" => InputType.Wav,
-            "webp" => InputType.Webp,
-            "xls" => InputType.Xls,
-            "xlsx" => InputType.Xlsx,
-            "xml" => InputType.Xml,
-            _ => (InputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        InputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                InputType.Csv => "csv",
-                InputType.Docx => "docx",
-                InputType.Email => "email",
-                InputType.Heic => "heic",
-                InputType.Html => "html",
-                InputType.Jpeg => "jpeg",
-                InputType.Json => "json",
-                InputType.Heif => "heif",
-                InputType.M4a => "m4a",
-                InputType.Mp3 => "mp3",
-                InputType.Pdf => "pdf",
-                InputType.Png => "png",
-                InputType.Text => "text",
-                InputType.Wav => "wav",
-                InputType.Webp => "webp",
-                InputType.Xls => "xls",
-                InputType.Xlsx => "xlsx",
-                InputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
 [JsonConverter(
     typeof(JsonModelConverter<
         global::Bem.Models.Outputs.Metadata,
@@ -3719,12 +3649,12 @@ public sealed record class Extract : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public ApiEnum<string, ExtractInputType>? InputType
+    public ApiEnum<string, InputType>? InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, ExtractInputType>>("inputType");
+            return this._rawData.GetNullableClass<ApiEnum<string, InputType>>("inputType");
         }
         init
         {
@@ -4608,101 +4538,6 @@ class ExtractInputFromRaw : IFromRawJson<ExtractInput>
         ExtractInput.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(ExtractInputTypeConverter))]
-public enum ExtractInputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class ExtractInputTypeConverter : JsonConverter<ExtractInputType>
-{
-    public override ExtractInputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => ExtractInputType.Csv,
-            "docx" => ExtractInputType.Docx,
-            "email" => ExtractInputType.Email,
-            "heic" => ExtractInputType.Heic,
-            "html" => ExtractInputType.Html,
-            "jpeg" => ExtractInputType.Jpeg,
-            "json" => ExtractInputType.Json,
-            "heif" => ExtractInputType.Heif,
-            "m4a" => ExtractInputType.M4a,
-            "mp3" => ExtractInputType.Mp3,
-            "pdf" => ExtractInputType.Pdf,
-            "png" => ExtractInputType.Png,
-            "text" => ExtractInputType.Text,
-            "wav" => ExtractInputType.Wav,
-            "webp" => ExtractInputType.Webp,
-            "xls" => ExtractInputType.Xls,
-            "xlsx" => ExtractInputType.Xlsx,
-            "xml" => ExtractInputType.Xml,
-            _ => (ExtractInputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        ExtractInputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                ExtractInputType.Csv => "csv",
-                ExtractInputType.Docx => "docx",
-                ExtractInputType.Email => "email",
-                ExtractInputType.Heic => "heic",
-                ExtractInputType.Html => "html",
-                ExtractInputType.Jpeg => "jpeg",
-                ExtractInputType.Json => "json",
-                ExtractInputType.Heif => "heif",
-                ExtractInputType.M4a => "m4a",
-                ExtractInputType.Mp3 => "mp3",
-                ExtractInputType.Pdf => "pdf",
-                ExtractInputType.Png => "png",
-                ExtractInputType.Text => "text",
-                ExtractInputType.Wav => "wav",
-                ExtractInputType.Webp => "webp",
-                ExtractInputType.Xls => "xls",
-                ExtractInputType.Xlsx => "xlsx",
-                ExtractInputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
 [JsonConverter(typeof(JsonModelConverter<ExtractMetadata, ExtractMetadataFromRaw>))]
 public sealed record class ExtractMetadata : JsonModel
 {
@@ -5106,12 +4941,12 @@ public sealed record class Parse : JsonModel
     /// <summary>
     /// The input type of the content you're sending for transformation.
     /// </summary>
-    public ApiEnum<string, ParseInputType>? InputType
+    public ApiEnum<string, InputType>? InputType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, ParseInputType>>("inputType");
+            return this._rawData.GetNullableClass<ApiEnum<string, InputType>>("inputType");
         }
         init
         {
@@ -5991,101 +5826,6 @@ class ParseInputFromRaw : IFromRawJson<ParseInput>
     /// <inheritdoc/>
     public ParseInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         ParseInput.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// The input type of the content you're sending for transformation.
-/// </summary>
-[JsonConverter(typeof(ParseInputTypeConverter))]
-public enum ParseInputType
-{
-    Csv,
-    Docx,
-    Email,
-    Heic,
-    Html,
-    Jpeg,
-    Json,
-    Heif,
-    M4a,
-    Mp3,
-    Pdf,
-    Png,
-    Text,
-    Wav,
-    Webp,
-    Xls,
-    Xlsx,
-    Xml,
-}
-
-sealed class ParseInputTypeConverter : JsonConverter<ParseInputType>
-{
-    public override ParseInputType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "csv" => ParseInputType.Csv,
-            "docx" => ParseInputType.Docx,
-            "email" => ParseInputType.Email,
-            "heic" => ParseInputType.Heic,
-            "html" => ParseInputType.Html,
-            "jpeg" => ParseInputType.Jpeg,
-            "json" => ParseInputType.Json,
-            "heif" => ParseInputType.Heif,
-            "m4a" => ParseInputType.M4a,
-            "mp3" => ParseInputType.Mp3,
-            "pdf" => ParseInputType.Pdf,
-            "png" => ParseInputType.Png,
-            "text" => ParseInputType.Text,
-            "wav" => ParseInputType.Wav,
-            "webp" => ParseInputType.Webp,
-            "xls" => ParseInputType.Xls,
-            "xlsx" => ParseInputType.Xlsx,
-            "xml" => ParseInputType.Xml,
-            _ => (ParseInputType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        ParseInputType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                ParseInputType.Csv => "csv",
-                ParseInputType.Docx => "docx",
-                ParseInputType.Email => "email",
-                ParseInputType.Heic => "heic",
-                ParseInputType.Html => "html",
-                ParseInputType.Jpeg => "jpeg",
-                ParseInputType.Json => "json",
-                ParseInputType.Heif => "heif",
-                ParseInputType.M4a => "m4a",
-                ParseInputType.Mp3 => "mp3",
-                ParseInputType.Pdf => "pdf",
-                ParseInputType.Png => "png",
-                ParseInputType.Text => "text",
-                ParseInputType.Wav => "wav",
-                ParseInputType.Webp => "webp",
-                ParseInputType.Xls => "xls",
-                ParseInputType.Xlsx => "xlsx",
-                ParseInputType.Xml => "xml",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
 }
 
 [JsonConverter(typeof(JsonModelConverter<ParseMetadata, ParseMetadataFromRaw>))]
@@ -12315,12 +12055,12 @@ public sealed record class Send : JsonModel
     /// <summary>
     /// Destination type for a Send function.
     /// </summary>
-    public required ApiEnum<string, DestinationType> DestinationType
+    public required ApiEnum<string, Functions::SendDestinationType> DestinationType
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, DestinationType>>(
+            return this._rawData.GetNotNullClass<ApiEnum<string, Functions::SendDestinationType>>(
                 "destinationType"
             );
         }
@@ -12791,56 +12531,6 @@ sealed class DeliveryStatusConverter : JsonConverter<DeliveryStatus>
             {
                 DeliveryStatus.Success => "success",
                 DeliveryStatus.Skip => "skip",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// Destination type for a Send function.
-/// </summary>
-[JsonConverter(typeof(DestinationTypeConverter))]
-public enum DestinationType
-{
-    Webhook,
-    S3,
-    GoogleDrive,
-}
-
-sealed class DestinationTypeConverter : JsonConverter<DestinationType>
-{
-    public override DestinationType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "webhook" => DestinationType.Webhook,
-            "s3" => DestinationType.S3,
-            "google_drive" => DestinationType.GoogleDrive,
-            _ => (DestinationType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        DestinationType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                DestinationType.Webhook => "webhook",
-                DestinationType.S3 => "s3",
-                DestinationType.GoogleDrive => "google_drive",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

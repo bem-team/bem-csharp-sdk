@@ -1,6 +1,6 @@
 using System.Text.Json;
 using System.Threading.Tasks;
-using Bem.Models.Workflows;
+using Bem.Models.Outputs;
 
 namespace Bem.Tests.Services;
 
@@ -94,11 +94,7 @@ public class WorkflowServiceTest : TestBase
                             },
                         ],
                     },
-                    SingleFile = new()
-                    {
-                        InputContent = "inputContent",
-                        InputType = SingleFileInputType.Csv,
-                    },
+                    SingleFile = new() { InputContent = "inputContent", InputType = InputType.Csv },
                 },
             },
             TestContext.Current.CancellationToken

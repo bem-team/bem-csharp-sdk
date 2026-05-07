@@ -58,7 +58,7 @@ public interface ICollectionService
     /// <summary>
     /// Create a Collection
     /// </summary>
-    Task<CollectionCreateResponse> Create(
+    Task<Collection> Create(
         CollectionCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -106,7 +106,7 @@ public interface ICollectionServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/collections</c>, but is otherwise the
     /// same as <see cref="ICollectionService.Create(CollectionCreateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<CollectionCreateResponse>> Create(
+    Task<HttpResponse<Collection>> Create(
         CollectionCreateParams parameters,
         CancellationToken cancellationToken = default
     );

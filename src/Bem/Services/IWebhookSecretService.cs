@@ -97,7 +97,7 @@ public interface IWebhookSecretService
     /// secret. Update your verification logic before calling this endpoint if you need
     /// zero-downtime rotation.</para>
     /// </summary>
-    Task<WebhookSecretCreateResponse> Create(
+    Task<WebhookSecretWebhookSecret> Create(
         WebhookSecretCreateParams? parameters = null,
         CancellationToken cancellationToken = default
     );
@@ -115,7 +115,7 @@ public interface IWebhookSecretService
     /// the secret. 4. Compare the hex digest against `v1`. 5. Reject requests where the
     /// timestamp is more than a few minutes old.</para>
     /// </summary>
-    Task<WebhookSecretRetrieveResponse> Retrieve(
+    Task<WebhookSecretWebhookSecret> Retrieve(
         WebhookSecretRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
     );
@@ -149,7 +149,7 @@ public interface IWebhookSecretServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/webhook-secret</c>, but is otherwise the
     /// same as <see cref="IWebhookSecretService.Create(WebhookSecretCreateParams?, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<WebhookSecretCreateResponse>> Create(
+    Task<HttpResponse<WebhookSecretWebhookSecret>> Create(
         WebhookSecretCreateParams? parameters = null,
         CancellationToken cancellationToken = default
     );
@@ -158,7 +158,7 @@ public interface IWebhookSecretServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/webhook-secret</c>, but is otherwise the
     /// same as <see cref="IWebhookSecretService.Retrieve(WebhookSecretRetrieveParams?, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<WebhookSecretRetrieveResponse>> Retrieve(
+    Task<HttpResponse<WebhookSecretWebhookSecret>> Retrieve(
         WebhookSecretRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
     );

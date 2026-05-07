@@ -5,6 +5,7 @@ using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.Outputs;
 using Errors = Bem.Models.Errors;
+using Functions = Bem.Models.Functions;
 
 namespace Bem.Tests.Models.Outputs;
 
@@ -130,7 +131,7 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -184,7 +185,7 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -620,7 +621,7 @@ public class EventTest : TestBase
         Event value = new Send()
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -773,7 +774,7 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -830,7 +831,7 @@ public class EventTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -1302,7 +1303,7 @@ public class EventTest : TestBase
         Event value = new Send()
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -2963,96 +2964,6 @@ public class InputTest : TestBase
     }
 }
 
-public class InputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void Validation_Works(InputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(InputType.Csv)]
-    [InlineData(InputType.Docx)]
-    [InlineData(InputType.Email)]
-    [InlineData(InputType.Heic)]
-    [InlineData(InputType.Html)]
-    [InlineData(InputType.Jpeg)]
-    [InlineData(InputType.Json)]
-    [InlineData(InputType.Heif)]
-    [InlineData(InputType.M4a)]
-    [InlineData(InputType.Mp3)]
-    [InlineData(InputType.Pdf)]
-    [InlineData(InputType.Png)]
-    [InlineData(InputType.Text)]
-    [InlineData(InputType.Wav)]
-    [InlineData(InputType.Webp)]
-    [InlineData(InputType.Xls)]
-    [InlineData(InputType.Xlsx)]
-    [InlineData(InputType.Xml)]
-    public void SerializationRoundtrip_Works(InputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, InputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, InputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
 public class MetadataTest : TestBase
 {
     [Fact]
@@ -3779,7 +3690,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -3826,7 +3737,7 @@ public class ExtractTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, ExtractInputType> expectedInputType = ExtractInputType.Csv;
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         ExtractMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedS3Url = "s3URL";
@@ -3920,7 +3831,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -3978,7 +3889,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -4032,7 +3943,7 @@ public class ExtractTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, ExtractInputType> expectedInputType = ExtractInputType.Csv;
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         ExtractMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedS3Url = "s3URL";
@@ -4133,7 +4044,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -4403,7 +4314,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4449,7 +4360,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4488,7 +4399,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4539,7 +4450,7 @@ public class ExtractTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -4598,7 +4509,7 @@ public class ExtractTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ExtractInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -5094,96 +5005,6 @@ public class ExtractInputTest : TestBase
     }
 }
 
-public class ExtractInputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(ExtractInputType.Csv)]
-    [InlineData(ExtractInputType.Docx)]
-    [InlineData(ExtractInputType.Email)]
-    [InlineData(ExtractInputType.Heic)]
-    [InlineData(ExtractInputType.Html)]
-    [InlineData(ExtractInputType.Jpeg)]
-    [InlineData(ExtractInputType.Json)]
-    [InlineData(ExtractInputType.Heif)]
-    [InlineData(ExtractInputType.M4a)]
-    [InlineData(ExtractInputType.Mp3)]
-    [InlineData(ExtractInputType.Pdf)]
-    [InlineData(ExtractInputType.Png)]
-    [InlineData(ExtractInputType.Text)]
-    [InlineData(ExtractInputType.Wav)]
-    [InlineData(ExtractInputType.Webp)]
-    [InlineData(ExtractInputType.Xls)]
-    [InlineData(ExtractInputType.Xlsx)]
-    [InlineData(ExtractInputType.Xml)]
-    public void Validation_Works(ExtractInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ExtractInputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ExtractInputType.Csv)]
-    [InlineData(ExtractInputType.Docx)]
-    [InlineData(ExtractInputType.Email)]
-    [InlineData(ExtractInputType.Heic)]
-    [InlineData(ExtractInputType.Html)]
-    [InlineData(ExtractInputType.Jpeg)]
-    [InlineData(ExtractInputType.Json)]
-    [InlineData(ExtractInputType.Heif)]
-    [InlineData(ExtractInputType.M4a)]
-    [InlineData(ExtractInputType.Mp3)]
-    [InlineData(ExtractInputType.Pdf)]
-    [InlineData(ExtractInputType.Png)]
-    [InlineData(ExtractInputType.Text)]
-    [InlineData(ExtractInputType.Wav)]
-    [InlineData(ExtractInputType.Webp)]
-    [InlineData(ExtractInputType.Xls)]
-    [InlineData(ExtractInputType.Xlsx)]
-    [InlineData(ExtractInputType.Xml)]
-    public void SerializationRoundtrip_Works(ExtractInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ExtractInputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ExtractInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
 public class ExtractMetadataTest : TestBase
 {
     [Fact]
@@ -5335,7 +5156,7 @@ public class ParseTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -5382,7 +5203,7 @@ public class ParseTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, ParseInputType> expectedInputType = ParseInputType.Csv;
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         ParseMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedS3Url = "s3URL";
@@ -5476,7 +5297,7 @@ public class ParseTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -5534,7 +5355,7 @@ public class ParseTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -5585,7 +5406,7 @@ public class ParseTest : TestBase
                 S3Url = "s3URL",
             },
         ];
-        ApiEnum<string, ParseInputType> expectedInputType = ParseInputType.Csv;
+        ApiEnum<string, InputType> expectedInputType = InputType.Csv;
         List<string> expectedInvalidProperties = ["string"];
         ParseMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedS3Url = "s3URL";
@@ -5686,7 +5507,7 @@ public class ParseTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -5956,7 +5777,7 @@ public class ParseTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -6002,7 +5823,7 @@ public class ParseTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -6041,7 +5862,7 @@ public class ParseTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -6092,7 +5913,7 @@ public class ParseTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             TransformationID = "transformationID",
@@ -6151,7 +5972,7 @@ public class ParseTest : TestBase
                     S3Url = "s3URL",
                 },
             ],
-            InputType = ParseInputType.Csv,
+            InputType = InputType.Csv,
             InvalidProperties = ["string"],
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Url = "s3URL",
@@ -6644,96 +6465,6 @@ public class ParseInputTest : TestBase
         ParseInput copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class ParseInputTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(ParseInputType.Csv)]
-    [InlineData(ParseInputType.Docx)]
-    [InlineData(ParseInputType.Email)]
-    [InlineData(ParseInputType.Heic)]
-    [InlineData(ParseInputType.Html)]
-    [InlineData(ParseInputType.Jpeg)]
-    [InlineData(ParseInputType.Json)]
-    [InlineData(ParseInputType.Heif)]
-    [InlineData(ParseInputType.M4a)]
-    [InlineData(ParseInputType.Mp3)]
-    [InlineData(ParseInputType.Pdf)]
-    [InlineData(ParseInputType.Png)]
-    [InlineData(ParseInputType.Text)]
-    [InlineData(ParseInputType.Wav)]
-    [InlineData(ParseInputType.Webp)]
-    [InlineData(ParseInputType.Xls)]
-    [InlineData(ParseInputType.Xlsx)]
-    [InlineData(ParseInputType.Xml)]
-    public void Validation_Works(ParseInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ParseInputType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ParseInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ParseInputType.Csv)]
-    [InlineData(ParseInputType.Docx)]
-    [InlineData(ParseInputType.Email)]
-    [InlineData(ParseInputType.Heic)]
-    [InlineData(ParseInputType.Html)]
-    [InlineData(ParseInputType.Jpeg)]
-    [InlineData(ParseInputType.Json)]
-    [InlineData(ParseInputType.Heif)]
-    [InlineData(ParseInputType.M4a)]
-    [InlineData(ParseInputType.Mp3)]
-    [InlineData(ParseInputType.Pdf)]
-    [InlineData(ParseInputType.Png)]
-    [InlineData(ParseInputType.Text)]
-    [InlineData(ParseInputType.Wav)]
-    [InlineData(ParseInputType.Webp)]
-    [InlineData(ParseInputType.Xls)]
-    [InlineData(ParseInputType.Xlsx)]
-    [InlineData(ParseInputType.Xml)]
-    public void SerializationRoundtrip_Works(ParseInputType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ParseInputType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ParseInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ParseInputType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ParseInputType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }
 
@@ -15259,7 +14990,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15288,7 +15019,8 @@ public class SendTest : TestBase
         };
 
         ApiEnum<string, DeliveryStatus> expectedDeliveryStatus = DeliveryStatus.Success;
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, Functions::SendDestinationType> expectedDestinationType =
+            Functions::SendDestinationType.Webhook;
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
@@ -15353,7 +15085,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15393,7 +15125,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15426,7 +15158,8 @@ public class SendTest : TestBase
         Assert.NotNull(deserialized);
 
         ApiEnum<string, DeliveryStatus> expectedDeliveryStatus = DeliveryStatus.Success;
-        ApiEnum<string, DestinationType> expectedDestinationType = DestinationType.Webhook;
+        ApiEnum<string, Functions::SendDestinationType> expectedDestinationType =
+            Functions::SendDestinationType.Webhook;
         string expectedEventID = "eventID";
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
@@ -15493,7 +15226,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15530,7 +15263,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15575,7 +15308,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15591,7 +15324,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15653,7 +15386,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15686,7 +15419,7 @@ public class SendTest : TestBase
         var model = new Send
         {
             DeliveryStatus = DeliveryStatus.Success,
-            DestinationType = DestinationType.Webhook,
+            DestinationType = Functions::SendDestinationType.Webhook,
             EventID = "eventID",
             FunctionID = "functionID",
             FunctionName = "functionName",
@@ -15770,66 +15503,6 @@ public class DeliveryStatusTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DeliveryStatus>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class DestinationTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void Validation_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(DestinationType.Webhook)]
-    [InlineData(DestinationType.S3)]
-    [InlineData(DestinationType.GoogleDrive)]
-    public void SerializationRoundtrip_Works(DestinationType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, DestinationType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DestinationType>>(
             json,
             ModelBase.SerializerOptions
         );

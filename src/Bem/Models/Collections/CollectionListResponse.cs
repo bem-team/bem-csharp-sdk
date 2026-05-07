@@ -18,16 +18,18 @@ public sealed record class CollectionListResponse : JsonModel
     /// <summary>
     /// List of collections
     /// </summary>
-    public required IReadOnlyList<Collection> Collections
+    public required IReadOnlyList<CollectionListResponseCollection> Collections
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<Collection>>("collections");
+            return this._rawData.GetNotNullStruct<ImmutableArray<CollectionListResponseCollection>>(
+                "collections"
+            );
         }
         init
         {
-            this._rawData.Set<ImmutableArray<Collection>>(
+            this._rawData.Set<ImmutableArray<CollectionListResponseCollection>>(
                 "collections",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -140,8 +142,13 @@ class CollectionListResponseFromRaw : IFromRawJson<CollectionListResponse>
 /// <summary>
 /// Collection metadata without items
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<Collection, CollectionFromRaw>))]
-public sealed record class Collection : JsonModel
+[JsonConverter(
+    typeof(JsonModelConverter<
+        CollectionListResponseCollection,
+        CollectionListResponseCollectionFromRaw
+    >)
+)]
+public sealed record class CollectionListResponseCollection : JsonModel
 {
     /// <summary>
     /// Unique identifier for the collection
@@ -226,37 +233,42 @@ public sealed record class Collection : JsonModel
         _ = this.UpdatedAt;
     }
 
-    public Collection() { }
+    public CollectionListResponseCollection() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public Collection(Collection collection)
-        : base(collection) { }
+    public CollectionListResponseCollection(
+        CollectionListResponseCollection collectionListResponseCollection
+    )
+        : base(collectionListResponseCollection) { }
 #pragma warning restore CS8618
 
-    public Collection(IReadOnlyDictionary<string, JsonElement> rawData)
+    public CollectionListResponseCollection(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    Collection(FrozenDictionary<string, JsonElement> rawData)
+    CollectionListResponseCollection(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="CollectionFromRaw.FromRawUnchecked"/>
-    public static Collection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="CollectionListResponseCollectionFromRaw.FromRawUnchecked"/>
+    public static CollectionListResponseCollection FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class CollectionFromRaw : IFromRawJson<Collection>
+class CollectionListResponseCollectionFromRaw : IFromRawJson<CollectionListResponseCollection>
 {
     /// <inheritdoc/>
-    public Collection FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Collection.FromRawUnchecked(rawData);
+    public CollectionListResponseCollection FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => CollectionListResponseCollection.FromRawUnchecked(rawData);
 }

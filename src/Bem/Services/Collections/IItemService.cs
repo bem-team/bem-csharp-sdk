@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Bem.Core;
+using Bem.Models.Collections;
 using Bem.Models.Collections.Items;
 
 namespace Bem.Services.Collections;
@@ -55,7 +56,7 @@ public interface IItemService
     /// <summary>
     /// Get a Collection
     /// </summary>
-    Task<ItemRetrieveResponse> Retrieve(
+    Task<Collection> Retrieve(
         ItemRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -99,7 +100,7 @@ public interface IItemServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/collections/items</c>, but is otherwise the
     /// same as <see cref="IItemService.Retrieve(ItemRetrieveParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ItemRetrieveResponse>> Retrieve(
+    Task<HttpResponse<Collection>> Retrieve(
         ItemRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
