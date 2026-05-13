@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.1 (2026-05-13)
+
+Full Changelog: [v0.10.0...v0.10.1](https://github.com/bem-team/bem-csharp-sdk/compare/v0.10.0...v0.10.1)
+
+### Bug Fixes
+
+* **internal:** disable default HttpClient timeout as we have our own ([517ee95](https://github.com/bem-team/bem-csharp-sdk/commit/517ee959ec0e6f8a1996c15165729fd21b982ad8))
+
 ## 0.10.0 (2026-05-07)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.9.0...v0.10.0)
