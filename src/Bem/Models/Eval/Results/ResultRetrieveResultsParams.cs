@@ -9,10 +9,15 @@ using Bem.Core;
 namespace Bem.Models.Eval.Results;
 
 /// <summary>
-/// **Fetch evaluation results for a batch of transformations.**
+/// **Fetch evaluation results for a batch of events.**
 ///
-/// <para>Identical behavior to the POST variant; accepts transformation IDs as a
-/// comma-separated `transformationIDs` query parameter. Limited to 100 IDs per request.</para>
+/// <para>Pass either `eventIDs` (preferred — the externally-stable V3 identifier)
+/// or `transformationIDs` as a comma-separated query parameter. Exactly one of the
+/// two must be provided. Up to 100 IDs per request.</para>
+///
+/// <para>For each requested ID the response reports one of three states: a completed
+/// `result`, still-`pending`, or `failed`. Results, pending, and failed entries
+/// are all keyed by event KSUID regardless of which input form was used.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -20,20 +25,6 @@ namespace Bem.Models.Eval.Results;
 /// </summary>
 public record class ResultRetrieveResultsParams : ParamsBase
 {
-    /// <summary>
-    /// Comma-separated list of transformation IDs to fetch results for. Between
-    /// 1 and 100 IDs per request.
-    /// </summary>
-    public required string TransformationIds
-    {
-        get
-        {
-            this._rawQueryData.Freeze();
-            return this._rawQueryData.GetNotNullClass<string>("transformationIDs");
-        }
-        init { this._rawQueryData.Set("transformationIDs", value); }
-    }
-
     /// <summary>
     /// Optional evaluation version filter.
     /// </summary>
@@ -52,6 +43,51 @@ public record class ResultRetrieveResultsParams : ParamsBase
             }
 
             this._rawQueryData.Set("evaluationVersion", value);
+        }
+    }
+
+    /// <summary>
+    /// Comma-separated list of event KSUIDs to fetch results for. Between 1 and
+    /// 100 IDs per request. Mutually exclusive with `transformationIDs`.
+    /// </summary>
+    public string? EventIds
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("eventIDs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("eventIDs", value);
+        }
+    }
+
+    /// <summary>
+    /// Comma-separated list of transformation IDs to fetch results for. Between
+    /// 1 and 100 IDs per request. Mutually exclusive with `eventIDs`. Prefer `eventIDs`
+    /// for new integrations.
+    /// </summary>
+    public string? TransformationIds
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("transformationIDs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("transformationIDs", value);
         }
     }
 

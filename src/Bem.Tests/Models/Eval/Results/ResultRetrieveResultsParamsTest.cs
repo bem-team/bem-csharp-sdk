@@ -10,27 +10,31 @@ public class ResultRetrieveResultsParamsTest : TestBase
     {
         var parameters = new ResultRetrieveResultsParams
         {
-            TransformationIds = "transformationIDs",
             EvaluationVersion = "evaluationVersion",
+            EventIds = "eventIDs",
+            TransformationIds = "transformationIDs",
         };
 
-        string expectedTransformationIds = "transformationIDs";
         string expectedEvaluationVersion = "evaluationVersion";
+        string expectedEventIds = "eventIDs";
+        string expectedTransformationIds = "transformationIDs";
 
-        Assert.Equal(expectedTransformationIds, parameters.TransformationIds);
         Assert.Equal(expectedEvaluationVersion, parameters.EvaluationVersion);
+        Assert.Equal(expectedEventIds, parameters.EventIds);
+        Assert.Equal(expectedTransformationIds, parameters.TransformationIds);
     }
 
     [Fact]
     public void OptionalNonNullableParamsUnsetAreNotSet_Works()
     {
-        var parameters = new ResultRetrieveResultsParams
-        {
-            TransformationIds = "transformationIDs",
-        };
+        var parameters = new ResultRetrieveResultsParams { };
 
         Assert.Null(parameters.EvaluationVersion);
         Assert.False(parameters.RawQueryData.ContainsKey("evaluationVersion"));
+        Assert.Null(parameters.EventIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("eventIDs"));
+        Assert.Null(parameters.TransformationIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("transformationIDs"));
     }
 
     [Fact]
@@ -38,14 +42,18 @@ public class ResultRetrieveResultsParamsTest : TestBase
     {
         var parameters = new ResultRetrieveResultsParams
         {
-            TransformationIds = "transformationIDs",
-
             // Null should be interpreted as omitted for these properties
             EvaluationVersion = null,
+            EventIds = null,
+            TransformationIds = null,
         };
 
         Assert.Null(parameters.EvaluationVersion);
         Assert.False(parameters.RawQueryData.ContainsKey("evaluationVersion"));
+        Assert.Null(parameters.EventIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("eventIDs"));
+        Assert.Null(parameters.TransformationIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("transformationIDs"));
     }
 
     [Fact]
@@ -53,8 +61,9 @@ public class ResultRetrieveResultsParamsTest : TestBase
     {
         ResultRetrieveResultsParams parameters = new()
         {
-            TransformationIds = "transformationIDs",
             EvaluationVersion = "evaluationVersion",
+            EventIds = "eventIDs",
+            TransformationIds = "transformationIDs",
         };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
@@ -62,7 +71,7 @@ public class ResultRetrieveResultsParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/eval/results?transformationIDs=transformationIDs&evaluationVersion=evaluationVersion"
+                    "https://api.bem.ai/v3/eval/results?evaluationVersion=evaluationVersion&eventIDs=eventIDs&transformationIDs=transformationIDs"
                 ),
                 url
             )
@@ -74,8 +83,9 @@ public class ResultRetrieveResultsParamsTest : TestBase
     {
         var parameters = new ResultRetrieveResultsParams
         {
-            TransformationIds = "transformationIDs",
             EvaluationVersion = "evaluationVersion",
+            EventIds = "eventIDs",
+            TransformationIds = "transformationIDs",
         };
 
         ResultRetrieveResultsParams copied = new(parameters);

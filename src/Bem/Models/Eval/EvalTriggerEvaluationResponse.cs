@@ -8,8 +8,8 @@ using Bem.Core;
 namespace Bem.Models.Eval;
 
 /// <summary>
-/// Summary of the trigger call. Evaluations run asynchronously; use `POST /v3/eval/results`
-/// or `GET /v3/eval/results` to poll for results.
+/// Summary of the trigger call. Evaluations run asynchronously; use `GET /v3/eval/results`
+/// to poll for results.
 /// </summary>
 [JsonConverter(
     typeof(JsonModelConverter<EvalTriggerEvaluationResponse, EvalTriggerEvaluationResponseFromRaw>)
