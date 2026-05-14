@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0 (2026-05-14)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **api:** function regression and view endpoint support ([e8b5e2e](https://github.com/bem-team/bem-csharp-sdk/commit/e8b5e2ec02f7d396c4679463fc138429d9ddd44a))
+
 ## 0.11.0 (2026-05-14)
 
 Full Changelog: [v0.10.1...v0.11.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.10.1...v0.11.0)
