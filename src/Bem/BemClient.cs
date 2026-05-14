@@ -156,6 +156,12 @@ public sealed class BemClient : IBemClient
         get { return _subscriptions.Value; }
     }
 
+    readonly Lazy<IViewService> _views;
+    public IViewService Views
+    {
+        get { return _views.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -177,6 +183,7 @@ public sealed class BemClient : IBemClient
         _fs = new(() => new FService(this));
         _connectors = new(() => new ConnectorService(this));
         _subscriptions = new(() => new SubscriptionService(this));
+        _views = new(() => new ViewService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -334,6 +341,12 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public ISubscriptionServiceWithRawResponse Subscriptions
     {
         get { return _subscriptions.Value; }
+    }
+
+    readonly Lazy<IViewServiceWithRawResponse> _views;
+    public IViewServiceWithRawResponse Views
+    {
+        get { return _views.Value; }
     }
 
     /// <inheritdoc/>
@@ -548,6 +561,7 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _fs = new(() => new FServiceWithRawResponse(this));
         _connectors = new(() => new ConnectorServiceWithRawResponse(this));
         _subscriptions = new(() => new SubscriptionServiceWithRawResponse(this));
+        _views = new(() => new ViewServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)

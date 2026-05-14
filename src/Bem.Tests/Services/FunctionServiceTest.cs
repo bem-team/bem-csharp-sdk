@@ -80,4 +80,34 @@ public class FunctionServiceTest : TestBase
             TestContext.Current.CancellationToken
         );
     }
+
+    [Fact(Skip = "Mock server tests are disabled")]
+    public async Task CompareMetrics_Works()
+    {
+        var response = await this.client.Functions.CompareMetrics(
+            new() { FunctionName = "invoice-extractor" },
+            TestContext.Current.CancellationToken
+        );
+        response.Validate();
+    }
+
+    [Fact(Skip = "Mock server tests are disabled")]
+    public async Task EstimateReviewRequirements_Works()
+    {
+        var response = await this.client.Functions.EstimateReviewRequirements(
+            new() { FunctionName = "invoice-extractor" },
+            TestContext.Current.CancellationToken
+        );
+        response.Validate();
+    }
+
+    [Fact(Skip = "Mock server tests are disabled")]
+    public async Task GetMetrics_Works()
+    {
+        var response = await this.client.Functions.GetMetrics(
+            new(),
+            TestContext.Current.CancellationToken
+        );
+        response.Validate();
+    }
 }

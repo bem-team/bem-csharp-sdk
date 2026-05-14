@@ -35,6 +35,7 @@ public sealed class FunctionService : IFunctionService
         _withRawResponse = new(() => new FunctionServiceWithRawResponse(client.WithRawResponse));
         _copy = new(() => new CopyService(client));
         _versions = new(() => new VersionService(client));
+        _regression = new(() => new RegressionService(client));
     }
 
     readonly Lazy<ICopyService> _copy;
@@ -47,6 +48,12 @@ public sealed class FunctionService : IFunctionService
     public IVersionService Versions
     {
         get { return _versions.Value; }
+    }
+
+    readonly Lazy<IRegressionService> _regression;
+    public IRegressionService Regression
+    {
+        get { return _regression.Value; }
     }
 
     /// <inheritdoc/>
@@ -146,6 +153,42 @@ public sealed class FunctionService : IFunctionService
         await this.Delete(parameters with { FunctionName = functionName }, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <inheritdoc/>
+    public async Task<FunctionCompareMetricsResponse> CompareMetrics(
+        FunctionCompareMetricsParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        using var response = await this
+            .WithRawResponse.CompareMetrics(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
+    public async Task<FunctionEstimateReviewRequirementsResponse> EstimateReviewRequirements(
+        FunctionEstimateReviewRequirementsParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        using var response = await this
+            .WithRawResponse.EstimateReviewRequirements(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
+    public async Task<FunctionGetMetricsResponse> GetMetrics(
+        FunctionGetMetricsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        using var response = await this
+            .WithRawResponse.GetMetrics(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
+    }
 }
 
 /// <inheritdoc/>
@@ -165,6 +208,7 @@ public sealed class FunctionServiceWithRawResponse : IFunctionServiceWithRawResp
 
         _copy = new(() => new CopyServiceWithRawResponse(client));
         _versions = new(() => new VersionServiceWithRawResponse(client));
+        _regression = new(() => new RegressionServiceWithRawResponse(client));
     }
 
     readonly Lazy<ICopyServiceWithRawResponse> _copy;
@@ -177,6 +221,12 @@ public sealed class FunctionServiceWithRawResponse : IFunctionServiceWithRawResp
     public IVersionServiceWithRawResponse Versions
     {
         get { return _versions.Value; }
+    }
+
+    readonly Lazy<IRegressionServiceWithRawResponse> _regression;
+    public IRegressionServiceWithRawResponse Regression
+    {
+        get { return _regression.Value; }
     }
 
     /// <inheritdoc/>
@@ -360,5 +410,93 @@ public sealed class FunctionServiceWithRawResponse : IFunctionServiceWithRawResp
         parameters ??= new();
 
         return this.Delete(parameters with { FunctionName = functionName }, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task<HttpResponse<FunctionCompareMetricsResponse>> CompareMetrics(
+        FunctionCompareMetricsParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        HttpRequest<FunctionCompareMetricsParams> request = new()
+        {
+            Method = HttpMethod.Post,
+            Params = parameters,
+        };
+        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                var deserializedResponse = await response
+                    .Deserialize<FunctionCompareMetricsResponse>(token)
+                    .ConfigureAwait(false);
+                if (this._client.ResponseValidation)
+                {
+                    deserializedResponse.Validate();
+                }
+                return deserializedResponse;
+            }
+        );
+    }
+
+    /// <inheritdoc/>
+    public async Task<
+        HttpResponse<FunctionEstimateReviewRequirementsResponse>
+    > EstimateReviewRequirements(
+        FunctionEstimateReviewRequirementsParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        HttpRequest<FunctionEstimateReviewRequirementsParams> request = new()
+        {
+            Method = HttpMethod.Post,
+            Params = parameters,
+        };
+        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                var deserializedResponse = await response
+                    .Deserialize<FunctionEstimateReviewRequirementsResponse>(token)
+                    .ConfigureAwait(false);
+                if (this._client.ResponseValidation)
+                {
+                    deserializedResponse.Validate();
+                }
+                return deserializedResponse;
+            }
+        );
+    }
+
+    /// <inheritdoc/>
+    public async Task<HttpResponse<FunctionGetMetricsResponse>> GetMetrics(
+        FunctionGetMetricsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        parameters ??= new();
+
+        HttpRequest<FunctionGetMetricsParams> request = new()
+        {
+            Method = HttpMethod.Get,
+            Params = parameters,
+        };
+        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                var deserializedResponse = await response
+                    .Deserialize<FunctionGetMetricsResponse>(token)
+                    .ConfigureAwait(false);
+                if (this._client.ResponseValidation)
+                {
+                    deserializedResponse.Validate();
+                }
+                return deserializedResponse;
+            }
+        );
     }
 }
