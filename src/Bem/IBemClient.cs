@@ -81,6 +81,8 @@ public interface IBemClient : IDisposable
     IConnectorService Connectors { get; }
 
     ISubscriptionService Subscriptions { get; }
+
+    IViewService Views { get; }
 }
 
 /// <summary>
@@ -142,6 +144,8 @@ public interface IBemClientWithRawResponse : IDisposable
     IConnectorServiceWithRawResponse Connectors { get; }
 
     ISubscriptionServiceWithRawResponse Subscriptions { get; }
+
+    IViewServiceWithRawResponse Views { get; }
 
     /// <summary>
     /// Sends a request to the Bem REST API.

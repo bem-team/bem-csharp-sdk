@@ -8,29 +8,9 @@ using Bem.Services.Functions;
 namespace Bem.Services;
 
 /// <summary>
-/// Functions are the core building blocks of data transformation in Bem. Each function
-/// type serves a specific purpose:
-///
-/// <para>- **Extract**: Extract structured JSON data from unstructured documents
-/// (PDFs, emails, images, spreadsheets), with optional layout-aware bounding-box
-/// extraction - **Route**: Direct data to different processing paths based on conditions
-/// - **Split**: Break multi-page documents into individual pages for parallel processing
-/// - **Join**: Combine outputs from multiple function calls into a single result
-/// - **Parse**: Render documents into a navigable structure of page-aware sections,
-/// named entities, and relationships — designed to be walked by an LLM agent via
-/// the [File System API](/api/v3/file-system) (`POST /v3/fs`). Two toggles, both
-/// `true` by default: `extractEntities` controls per-document entity and relationship
-/// extraction; `linkAcrossDocuments` merges entities into one canonical record per
-/// real-world thing across the environment, populating cross-document memory. - **Payload
-/// Shaping**: Transform and restructure data using JMESPath expressions - **Enrich**:
-/// Enhance data with semantic search against collections - **Send**: Deliver workflow
-/// outputs to downstream destinations</para>
-///
-/// <para>Use these endpoints to create, update, list, and manage your functions.</para>
-///
-/// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
-/// breaking changes in non-major versions. We may add new methods in the future that
-/// cause existing derived classes to break.</para>
+/// NOTE: Do not inherit from this type outside the SDK unless you're okay with breaking
+/// changes in non-major versions. We may add new methods in the future that cause
+/// existing derived classes to break.
 /// </summary>
 public interface IFunctionService
 {
@@ -50,6 +30,8 @@ public interface IFunctionService
     ICopyService Copy { get; }
 
     IVersionService Versions { get; }
+
+    IRegressionService Regression { get; }
 
     /// <summary>
     /// **Create a function.**
@@ -183,6 +165,78 @@ public interface IFunctionService
         FunctionDeleteParams? parameters = null,
         CancellationToken cancellationToken = default
     );
+
+    /// <summary>
+    /// **Compare metrics between two function versions.**
+    ///
+    /// <para>Computes aggregate and field-level lift/regression between any two
+    /// versions of a function: accuracy, precision, recall, F1, and PR-AUC. Field-level
+    /// changes are returned only for fields whose lift exceeds 1% in either direction.</para>
+    ///
+    /// <para>Supported for every function type that produces labeled transformations:
+    /// `extract`, `transform`, `analyze`, `join`. Pass `isRegression: true` to compare
+    /// only the regression dataset (rows produced by `POST /v3/functions/regression`) —
+    /// the canonical way to judge a candidate version before promoting it.</para>
+    ///
+    /// <para>Defaults: `baselineVersionNum = currentVersionNum - 1`,
+    /// `comparisonVersionNum = currentVersionNum`.</para>
+    /// </summary>
+    Task<FunctionCompareMetricsResponse> CompareMetrics(
+        FunctionCompareMetricsParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// **Estimate human review requirements for a function.**
+    ///
+    /// <para>Combines confusion-matrix metrics with the per-transformation evaluation
+    /// scores (confidence / hallucination / relevance produced by the eval service) to
+    /// compute:</para>
+    ///
+    /// <para>- A confidence-bucketed distribution of the function's outputs. -
+    /// Sample-size estimates at configurable margin-of-error and confidence levels
+    /// (Wald or Wilson intervals). - A precision-recall AUC and a per-threshold matrix
+    /// you can use to pick a review cutoff.</para>
+    ///
+    /// <para>Supported for every function type that produces transformations and feeds
+    /// the auto-evaluation pipeline: `extract`, `transform`, `analyze`, `join`. Extract
+    /// works on both vision (PDF/PNG/JPEG/HEIC/HEIF/WebP) and OCR-routed inputs.</para>
+    ///
+    /// <para>Pass `isRegression: true` to scope the review to transformations created
+    /// by a previous regression run (see `POST /v3/functions/regression`).</para>
+    /// </summary>
+    Task<FunctionEstimateReviewRequirementsResponse> EstimateReviewRequirements(
+        FunctionEstimateReviewRequirementsParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// **Retrieve performance metrics for functions based on labeled transformation
+    /// data.**
+    ///
+    /// <para>Calculates accuracy, precision, recall, F1, and the underlying
+    /// confusion-matrix counts for each matching function by comparing model outputs
+    /// against user corrections. Metrics are aggregated across every transformation the
+    /// function has produced, regardless of function type — `extract`, `transform`,
+    /// `analyze`, and `join` all populate the same `metrics` column on the
+    /// transformation row, so v3 surfaces all of them uniformly.</para>
+    ///
+    /// <para>## Filtering</para>
+    ///
+    /// <para>Combine `functionIDs` / `functionNames` / `types` to narrow the result
+    /// set. `types` accepts `extract` alongside the legacy `transform` / `analyze`
+    /// types (which remain readable). Pagination is cursor-based.</para>
+    ///
+    /// <para>## Requirements</para>
+    ///
+    /// <para>A function only shows non-zero metrics once at least one of its
+    /// transformations has been labeled — submit corrections via `POST
+    /// /v3/events/{eventID}/feedback`.</para>
+    /// </summary>
+    Task<FunctionGetMetricsResponse> GetMetrics(
+        FunctionGetMetricsParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
 }
 
 /// <summary>
@@ -201,6 +255,8 @@ public interface IFunctionServiceWithRawResponse
     ICopyServiceWithRawResponse Copy { get; }
 
     IVersionServiceWithRawResponse Versions { get; }
+
+    IRegressionServiceWithRawResponse Regression { get; }
 
     /// <summary>
     /// Returns a raw HTTP response for <c>post /v3/functions</c>, but is otherwise the
@@ -265,6 +321,33 @@ public interface IFunctionServiceWithRawResponse
     Task<HttpResponse> Delete(
         string functionName,
         FunctionDeleteParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for <c>post /v3/functions/compare</c>, but is otherwise the
+    /// same as <see cref="IFunctionService.CompareMetrics(FunctionCompareMetricsParams, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<FunctionCompareMetricsResponse>> CompareMetrics(
+        FunctionCompareMetricsParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for <c>post /v3/functions/review</c>, but is otherwise the
+    /// same as <see cref="IFunctionService.EstimateReviewRequirements(FunctionEstimateReviewRequirementsParams, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<FunctionEstimateReviewRequirementsResponse>> EstimateReviewRequirements(
+        FunctionEstimateReviewRequirementsParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for <c>get /v3/functions/metrics</c>, but is otherwise the
+    /// same as <see cref="IFunctionService.GetMetrics(FunctionGetMetricsParams?, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<FunctionGetMetricsResponse>> GetMetrics(
+        FunctionGetMetricsParams? parameters = null,
         CancellationToken cancellationToken = default
     );
 }

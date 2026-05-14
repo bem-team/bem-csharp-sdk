@@ -10,6 +10,7 @@ using Events = Bem.Models.Events;
 using Outputs = Bem.Models.Outputs;
 using Subscriptions = Bem.Models.Subscriptions;
 using Versions = Bem.Models.Functions.Versions;
+using Views = Bem.Models.Views;
 using Webhooks = Bem.Models.Webhooks;
 using Workflows = Bem.Models.Workflows;
 using WorkflowsVersions = Bem.Models.Workflows.Versions;
@@ -43,6 +44,9 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, UpdateFunctionSplitSplitType>(),
             new ApiEnumConverter<string, UpdateFunctionJoinJoinType>(),
             new ApiEnumConverter<string, SortOrder>(),
+            new ApiEnumConverter<string, ConfidenceMethod>(),
+            new ApiEnumConverter<string, EvaluationVersion>(),
+            new ApiEnumConverter<string, FunctionGetMetricsParamsSortOrder>(),
             new ApiEnumConverter<string, Versions::SplitType>(),
             new ApiEnumConverter<string, Versions::JoinType>(),
             new ApiEnumConverter<string, Calls::CallStatus>(),
@@ -106,6 +110,33 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Subscriptions::Type>(),
             new ApiEnumConverter<string, Subscriptions::SubscriptionUpdateParamsType>(),
             new ApiEnumConverter<string, Subscriptions::SortOrder>(),
+            new ApiEnumConverter<string, Views::ViewCreateResponseAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewCreateResponseFilterFilterType>(),
+            new ApiEnumConverter<string, Views::DisplayType>(),
+            new ApiEnumConverter<string, Views::ViewRetrieveResponseAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewRetrieveResponseFilterFilterType>(),
+            new ApiEnumConverter<string, Views::ViewRetrieveResponseDisplayType>(),
+            new ApiEnumConverter<string, Views::ViewUpdateResponseAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewUpdateResponseFilterFilterType>(),
+            new ApiEnumConverter<string, Views::ViewUpdateResponseDisplayType>(),
+            new ApiEnumConverter<string, Views::ViewAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewFilterFilterType>(),
+            new ApiEnumConverter<string, Views::ViewDisplayType>(),
+            new ApiEnumConverter<string, Views::Function>(),
+            new ApiEnumConverter<string, Views::FilterType>(),
+            new ApiEnumConverter<string, Views::ViewUpdateParamsAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewUpdateParamsFilterFilterType>(),
+            new ApiEnumConverter<string, Views::SortOrder>(),
+            new ApiEnumConverter<
+                string,
+                Views::ViewGenerateAggregationDataParamsAggregationFunction
+            >(),
+            new ApiEnumConverter<
+                string,
+                Views::ViewGenerateAggregationDataParamsFilterFilterType
+            >(),
+            new ApiEnumConverter<string, Views::ViewGenerateTableDataParamsAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewGenerateTableDataParamsFilterFilterType>(),
         },
     };
 
