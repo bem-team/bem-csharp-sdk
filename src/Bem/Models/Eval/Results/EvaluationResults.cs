@@ -10,17 +10,18 @@ using Bem.Core;
 namespace Bem.Models.Eval.Results;
 
 /// <summary>
-/// Batched response containing the evaluation state for every requested transformation
-/// ID, partitioned into completed `results`, still-running `pending`, and terminal
-/// `failed` groups.
+/// Batched response containing the evaluation state for every requested ID, partitioned
+/// into completed `results`, still-running `pending`, and terminal `failed` groups.
+/// All identifiers in the response are event KSUIDs regardless of whether the request
+/// used `eventIDs` or `transformationIDs`.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<EvaluationResults, EvaluationResultsFromRaw>))]
 public sealed record class EvaluationResults : JsonModel
 {
     /// <summary>
-    /// Completed evaluation results, keyed by transformation ID.
+    /// Completed evaluation results, keyed by event KSUID.
     ///
-    /// <para>A transformation appears here only if its evaluation completed successfully.
+    /// <para>An event appears here only if its evaluation completed successfully.
     /// Still-running evaluations appear in `pending`; failed evaluations appear
     /// in `failed`.</para>
     /// </summary>
@@ -35,8 +36,8 @@ public sealed record class EvaluationResults : JsonModel
     }
 
     /// <summary>
-    /// Reserved map of transformation ID to error message for validation failures
-    /// on the request itself. Populated only in edge cases.
+    /// Reserved map of event KSUID to error message for validation failures on the
+    /// request itself. Populated only in edge cases.
     /// </summary>
     public JsonElement? Errors
     {
@@ -57,7 +58,7 @@ public sealed record class EvaluationResults : JsonModel
     }
 
     /// <summary>
-    /// Transformations whose evaluation failed or was not found.
+    /// Events whose evaluation failed or was not found.
     /// </summary>
     public IReadOnlyList<Failed>? Failed
     {
@@ -81,7 +82,7 @@ public sealed record class EvaluationResults : JsonModel
     }
 
     /// <summary>
-    /// Transformations whose evaluation is still running.
+    /// Events whose evaluation is still running.
     /// </summary>
     public IReadOnlyList<Pending>? Pending
     {
@@ -164,7 +165,7 @@ class EvaluationResultsFromRaw : IFromRawJson<EvaluationResults>
 }
 
 /// <summary>
-/// A transformation whose evaluation failed or was not found.
+/// An event whose evaluation failed or was not found.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Failed, FailedFromRaw>))]
 public sealed record class Failed : JsonModel
@@ -195,14 +196,17 @@ public sealed record class Failed : JsonModel
         init { this._rawData.Set("errorMessage", value); }
     }
 
-    public required string TransformationID
+    /// <summary>
+    /// Event KSUID.
+    /// </summary>
+    public required string EventID
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("transformationId");
+            return this._rawData.GetNotNullClass<string>("eventID");
         }
-        init { this._rawData.Set("transformationId", value); }
+        init { this._rawData.Set("eventID", value); }
     }
 
     /// <inheritdoc/>
@@ -210,7 +214,7 @@ public sealed record class Failed : JsonModel
     {
         _ = this.CreatedAt;
         _ = this.ErrorMessage;
-        _ = this.TransformationID;
+        _ = this.EventID;
     }
 
     public Failed() { }
@@ -249,7 +253,7 @@ class FailedFromRaw : IFromRawJson<Failed>
 }
 
 /// <summary>
-/// A transformation whose evaluation is still running.
+/// An event whose evaluation is still running.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Pending, PendingFromRaw>))]
 public sealed record class Pending : JsonModel
@@ -267,21 +271,24 @@ public sealed record class Pending : JsonModel
         init { this._rawData.Set("createdAt", value); }
     }
 
-    public required string TransformationID
+    /// <summary>
+    /// Event KSUID.
+    /// </summary>
+    public required string EventID
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("transformationId");
+            return this._rawData.GetNotNullClass<string>("eventID");
         }
-        init { this._rawData.Set("transformationId", value); }
+        init { this._rawData.Set("eventID", value); }
     }
 
     /// <inheritdoc/>
     public override void Validate()
     {
         _ = this.CreatedAt;
-        _ = this.TransformationID;
+        _ = this.EventID;
     }
 
     public Pending() { }

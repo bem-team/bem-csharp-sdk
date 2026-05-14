@@ -21,7 +21,7 @@ public class EvaluationResultsTest : TestBase
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     ErrorMessage = "errorMessage",
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
             Pending =
@@ -29,7 +29,7 @@ public class EvaluationResultsTest : TestBase
                 new()
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
         };
@@ -42,7 +42,7 @@ public class EvaluationResultsTest : TestBase
             {
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 ErrorMessage = "errorMessage",
-                TransformationID = "transformationId",
+                EventID = "eventID",
             },
         ];
         List<Pending> expectedPending =
@@ -50,7 +50,7 @@ public class EvaluationResultsTest : TestBase
             new()
             {
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                TransformationID = "transformationId",
+                EventID = "eventID",
             },
         ];
 
@@ -84,7 +84,7 @@ public class EvaluationResultsTest : TestBase
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     ErrorMessage = "errorMessage",
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
             Pending =
@@ -92,7 +92,7 @@ public class EvaluationResultsTest : TestBase
                 new()
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
         };
@@ -119,7 +119,7 @@ public class EvaluationResultsTest : TestBase
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     ErrorMessage = "errorMessage",
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
             Pending =
@@ -127,7 +127,7 @@ public class EvaluationResultsTest : TestBase
                 new()
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
         };
@@ -147,7 +147,7 @@ public class EvaluationResultsTest : TestBase
             {
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 ErrorMessage = "errorMessage",
-                TransformationID = "transformationId",
+                EventID = "eventID",
             },
         ];
         List<Pending> expectedPending =
@@ -155,7 +155,7 @@ public class EvaluationResultsTest : TestBase
             new()
             {
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                TransformationID = "transformationId",
+                EventID = "eventID",
             },
         ];
 
@@ -189,7 +189,7 @@ public class EvaluationResultsTest : TestBase
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     ErrorMessage = "errorMessage",
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
             Pending =
@@ -197,7 +197,7 @@ public class EvaluationResultsTest : TestBase
                 new()
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
         };
@@ -282,7 +282,7 @@ public class EvaluationResultsTest : TestBase
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     ErrorMessage = "errorMessage",
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
             Pending =
@@ -290,7 +290,7 @@ public class EvaluationResultsTest : TestBase
                 new()
                 {
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-                    TransformationID = "transformationId",
+                    EventID = "eventID",
                 },
             ],
         };
@@ -310,16 +310,16 @@ public class FailedTest : TestBase
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedErrorMessage = "errorMessage";
-        string expectedTransformationID = "transformationId";
+        string expectedEventID = "eventID";
 
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedErrorMessage, model.ErrorMessage);
-        Assert.Equal(expectedTransformationID, model.TransformationID);
+        Assert.Equal(expectedEventID, model.EventID);
     }
 
     [Fact]
@@ -329,7 +329,7 @@ public class FailedTest : TestBase
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -345,7 +345,7 @@ public class FailedTest : TestBase
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -354,11 +354,11 @@ public class FailedTest : TestBase
 
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedErrorMessage = "errorMessage";
-        string expectedTransformationID = "transformationId";
+        string expectedEventID = "eventID";
 
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedErrorMessage, deserialized.ErrorMessage);
-        Assert.Equal(expectedTransformationID, deserialized.TransformationID);
+        Assert.Equal(expectedEventID, deserialized.EventID);
     }
 
     [Fact]
@@ -368,7 +368,7 @@ public class FailedTest : TestBase
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         model.Validate();
@@ -381,7 +381,7 @@ public class FailedTest : TestBase
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             ErrorMessage = "errorMessage",
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         Failed copied = new(model);
@@ -398,14 +398,14 @@ public class PendingTest : TestBase
         var model = new Pending
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        string expectedTransformationID = "transformationId";
+        string expectedEventID = "eventID";
 
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
-        Assert.Equal(expectedTransformationID, model.TransformationID);
+        Assert.Equal(expectedEventID, model.EventID);
     }
 
     [Fact]
@@ -414,7 +414,7 @@ public class PendingTest : TestBase
         var model = new Pending
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -429,7 +429,7 @@ public class PendingTest : TestBase
         var model = new Pending
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -440,10 +440,10 @@ public class PendingTest : TestBase
         Assert.NotNull(deserialized);
 
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
-        string expectedTransformationID = "transformationId";
+        string expectedEventID = "eventID";
 
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
-        Assert.Equal(expectedTransformationID, deserialized.TransformationID);
+        Assert.Equal(expectedEventID, deserialized.EventID);
     }
 
     [Fact]
@@ -452,7 +452,7 @@ public class PendingTest : TestBase
         var model = new Pending
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         model.Validate();
@@ -464,7 +464,7 @@ public class PendingTest : TestBase
         var model = new Pending
         {
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            TransformationID = "transformationId",
+            EventID = "eventID",
         };
 
         Pending copied = new(model);

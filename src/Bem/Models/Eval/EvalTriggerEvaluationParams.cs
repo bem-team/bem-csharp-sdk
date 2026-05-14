@@ -19,8 +19,8 @@ namespace Bem.Models.Eval;
 /// `analyze`, or `join`.</para>
 ///
 /// <para>Returns immediately with a summary of queued vs. skipped transformations
-/// and per-transformation errors. Poll `POST /v3/eval/results` or `GET /v3/eval/results`
-/// to retrieve results once evaluations complete.</para>
+/// and per-transformation errors. Poll `GET /v3/eval/results` to retrieve results
+/// once evaluations complete.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

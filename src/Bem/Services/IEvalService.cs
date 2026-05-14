@@ -8,23 +8,40 @@ using Bem.Services.Eval;
 namespace Bem.Services;
 
 /// <summary>
-/// Trigger and retrieve evaluations for completed transformations.
+/// Monitor, evaluate, and iterate on the quality of every function in your environment.
+/// Function Accuracy bundles two complementary loops:
 ///
-/// <para>Evaluations run asynchronously and score each transformation's output against
-/// the function's schema for confidence, per-field hallucination detection, and
-/// relevance. Evaluations are supported for `extract`, `transform`, `analyze`, and
-/// `join` events.</para>
+/// <para>## Evaluations (`/v3/eval`)</para>
 ///
-/// <para>## Lifecycle</para>
+/// <para>Trigger and retrieve per-transformation evaluations. Evaluations run asynchronously
+/// and score each transformation's output against the function's schema for confidence,
+/// per-field hallucination detection, and relevance. Supported for `extract`, `transform`,
+/// `analyze`, and `join` events.</para>
 ///
 /// <para>1. **Trigger** — `POST /v3/eval` queues jobs for a batch of transformation
-/// IDs    and returns immediately with `queued` / `skipped` counts plus per-ID errors.
-/// 2. **Poll** — `POST /v3/eval/results` (body) or `GET /v3/eval/results` (query)
-///    returns the current state of each requested transformation, partitioned
-/// into `results` (completed), `pending` (still running), and `failed`    (terminal
-/// failures or unknown transformation IDs).</para>
+/// IDs. 2. **Poll** — `GET /v3/eval/results` returns the current state of each
+///   requested ID, partitioned into `results`, `pending`, and `failed`.    Accepts
+/// either `eventIDs` (preferred) or `transformationIDs` as a    comma-separated query
+/// parameter, and always keys the response by    event KSUID.</para>
 ///
-/// <para>Up to 100 transformation IDs may be submitted per request.</para>
+/// <para>Up to 100 IDs may be submitted per request.</para>
+///
+/// <para>## Metrics, review, regression (`/v3/functions/{metrics,review,regression,compare}`)</para>
+///
+/// <para>Roll evaluation results and user corrections up into actionable function-level signal:</para>
+///
+/// <para>- **`GET /v3/functions/metrics`** — aggregate accuracy, precision,   recall,
+/// F1, and confusion-matrix counts per function. - **`POST /v3/functions/review`**
+/// — sample-size estimation,   confidence-bucketed distribution, PR-AUC, and per-threshold
+///   confidence intervals (Wald or Wilson) for picking review cutoffs. - **`POST
+/// /v3/functions/regression`** — replay corrected historical   inputs against a
+/// new function version, producing a labeled   regression dataset. - **`POST /v3/functions/regression/corrections`**
+/// — propagate   baseline corrections onto the regression dataset so it can be
+/// scored. - **`POST /v3/functions/compare`** — compute aggregate and   field-level
+/// lift between any two versions, optionally scoped to   the regression dataset.</para>
+///
+/// <para>All five endpoints support `extract` end-to-end on both the vision and OCR
+/// paths, alongside the legacy `transform` / `analyze` / `join` types.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -56,8 +73,8 @@ public interface IEvalService
     /// `transform`, `analyze`, or `join`.</para>
     ///
     /// <para>Returns immediately with a summary of queued vs. skipped transformations
-    /// and per-transformation errors. Poll `POST /v3/eval/results` or `GET
-    /// /v3/eval/results` to retrieve results once evaluations complete.</para>
+    /// and per-transformation errors. Poll `GET /v3/eval/results` to retrieve results
+    /// once evaluations complete.</para>
     /// </summary>
     Task<EvalTriggerEvaluationResponse> TriggerEvaluation(
         EvalTriggerEvaluationParams parameters,
