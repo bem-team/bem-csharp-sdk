@@ -153,29 +153,6 @@ public sealed record class ViewUpdateResponse : JsonModel
         init { this._rawData.Set("description", value); }
     }
 
-    /// <summary>
-    /// Display type of the view
-    /// </summary>
-    public ApiEnum<string, ViewUpdateResponseDisplayType>? DisplayType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, ViewUpdateResponseDisplayType>>(
-                "displayType"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayType", value);
-        }
-    }
-
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -199,7 +176,6 @@ public sealed record class ViewUpdateResponse : JsonModel
         _ = this.Name;
         _ = this.ViewID;
         _ = this.Description;
-        this.DisplayType?.Validate();
     }
 
     public ViewUpdateResponse() { }
@@ -290,6 +266,29 @@ public sealed record class ViewUpdateResponseAggregation : JsonModel
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, ViewUpdateResponseAggregationDisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, ViewUpdateResponseAggregationDisplayType>
+            >("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -308,6 +307,7 @@ public sealed record class ViewUpdateResponseAggregation : JsonModel
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -402,6 +402,57 @@ sealed class ViewUpdateResponseAggregationFunctionConverter
                 ViewUpdateResponseAggregationFunction.Average => "average",
                 ViewUpdateResponseAggregationFunction.Min => "min",
                 ViewUpdateResponseAggregationFunction.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(ViewUpdateResponseAggregationDisplayTypeConverter))]
+public enum ViewUpdateResponseAggregationDisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class ViewUpdateResponseAggregationDisplayTypeConverter
+    : JsonConverter<ViewUpdateResponseAggregationDisplayType>
+{
+    public override ViewUpdateResponseAggregationDisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => ViewUpdateResponseAggregationDisplayType.Table,
+            "bar_chart" => ViewUpdateResponseAggregationDisplayType.BarChart,
+            "pie_chart" => ViewUpdateResponseAggregationDisplayType.PieChart,
+            _ => (ViewUpdateResponseAggregationDisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ViewUpdateResponseAggregationDisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ViewUpdateResponseAggregationDisplayType.Table => "table",
+                ViewUpdateResponseAggregationDisplayType.BarChart => "bar_chart",
+                ViewUpdateResponseAggregationDisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -778,54 +829,4 @@ class ViewUpdateResponseFunctionFromRaw : IFromRawJson<ViewUpdateResponseFunctio
     public ViewUpdateResponseFunction FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => ViewUpdateResponseFunction.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Display type of the view
-/// </summary>
-[JsonConverter(typeof(ViewUpdateResponseDisplayTypeConverter))]
-public enum ViewUpdateResponseDisplayType
-{
-    Table,
-    BarChart,
-    PieChart,
-}
-
-sealed class ViewUpdateResponseDisplayTypeConverter : JsonConverter<ViewUpdateResponseDisplayType>
-{
-    public override ViewUpdateResponseDisplayType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "table" => ViewUpdateResponseDisplayType.Table,
-            "bar_chart" => ViewUpdateResponseDisplayType.BarChart,
-            "pie_chart" => ViewUpdateResponseDisplayType.PieChart,
-            _ => (ViewUpdateResponseDisplayType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        ViewUpdateResponseDisplayType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                ViewUpdateResponseDisplayType.Table => "table",
-                ViewUpdateResponseDisplayType.BarChart => "bar_chart",
-                ViewUpdateResponseDisplayType.PieChart => "pie_chart",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
 }

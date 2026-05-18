@@ -111,20 +111,22 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Subscriptions::SubscriptionUpdateParamsType>(),
             new ApiEnumConverter<string, Subscriptions::SortOrder>(),
             new ApiEnumConverter<string, Views::ViewCreateResponseAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewCreateResponseAggregationDisplayType>(),
             new ApiEnumConverter<string, Views::ViewCreateResponseFilterFilterType>(),
-            new ApiEnumConverter<string, Views::DisplayType>(),
             new ApiEnumConverter<string, Views::ViewRetrieveResponseAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewRetrieveResponseAggregationDisplayType>(),
             new ApiEnumConverter<string, Views::ViewRetrieveResponseFilterFilterType>(),
-            new ApiEnumConverter<string, Views::ViewRetrieveResponseDisplayType>(),
             new ApiEnumConverter<string, Views::ViewUpdateResponseAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewUpdateResponseAggregationDisplayType>(),
             new ApiEnumConverter<string, Views::ViewUpdateResponseFilterFilterType>(),
-            new ApiEnumConverter<string, Views::ViewUpdateResponseDisplayType>(),
             new ApiEnumConverter<string, Views::ViewAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewAggregationDisplayType>(),
             new ApiEnumConverter<string, Views::ViewFilterFilterType>(),
-            new ApiEnumConverter<string, Views::ViewDisplayType>(),
             new ApiEnumConverter<string, Views::Function>(),
+            new ApiEnumConverter<string, Views::DisplayType>(),
             new ApiEnumConverter<string, Views::FilterType>(),
             new ApiEnumConverter<string, Views::ViewUpdateParamsAggregationFunction>(),
+            new ApiEnumConverter<string, Views::ViewUpdateParamsAggregationDisplayType>(),
             new ApiEnumConverter<string, Views::ViewUpdateParamsFilterFilterType>(),
             new ApiEnumConverter<string, Views::SortOrder>(),
             new ApiEnumConverter<
@@ -133,9 +135,17 @@ public abstract record class ModelBase
             >(),
             new ApiEnumConverter<
                 string,
+                Views::ViewGenerateAggregationDataParamsAggregationDisplayType
+            >(),
+            new ApiEnumConverter<
+                string,
                 Views::ViewGenerateAggregationDataParamsFilterFilterType
             >(),
             new ApiEnumConverter<string, Views::ViewGenerateTableDataParamsAggregationFunction>(),
+            new ApiEnumConverter<
+                string,
+                Views::ViewGenerateTableDataParamsAggregationDisplayType
+            >(),
             new ApiEnumConverter<string, Views::ViewGenerateTableDataParamsFilterFilterType>(),
         },
     };

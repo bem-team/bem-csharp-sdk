@@ -131,6 +131,27 @@ public record class ViewCreateParams : ParamsBase
         init { this._rawBodyData.Set("name", value); }
     }
 
+    /// <summary>
+    /// Description of the view
+    /// </summary>
+    public string? Description
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("description", value);
+        }
+    }
+
     public ViewCreateParams() { }
 
 #pragma warning disable CS8618
@@ -288,6 +309,27 @@ public sealed record class Aggregation : JsonModel
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, DisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, DisplayType>>("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -306,6 +348,7 @@ public sealed record class Aggregation : JsonModel
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -390,6 +433,56 @@ sealed class FunctionConverter : JsonConverter<Function>
                 Function.Average => "average",
                 Function.Min => "min",
                 Function.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(DisplayTypeConverter))]
+public enum DisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class DisplayTypeConverter : JsonConverter<DisplayType>
+{
+    public override DisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => DisplayType.Table,
+            "bar_chart" => DisplayType.BarChart,
+            "pie_chart" => DisplayType.PieChart,
+            _ => (DisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        DisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                DisplayType.Table => "table",
+                DisplayType.BarChart => "bar_chart",
+                DisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

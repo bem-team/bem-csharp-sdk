@@ -21,6 +21,105 @@ public class ViewCreateParamsTest : TestBase
                     Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = DisplayType.Table,
+                    GroupByColumnName = "groupByColumnName",
+                },
+            ],
+            Columns =
+            [
+                new()
+                {
+                    DisplayOrderIndex = 0,
+                    Name = "name",
+                    ValueSchemaPath = ["string"],
+                },
+            ],
+            Filters =
+            [
+                new()
+                {
+                    ColumnName = "columnName",
+                    FilterType = FilterType.EqualsString,
+                    Number = 0,
+                    String = "string",
+                },
+            ],
+            Functions = [new() { ID = "id", Name = "name" }],
+            Name = "name",
+            Description = "description",
+        };
+
+        List<Aggregation> expectedAggregations =
+        [
+            new()
+            {
+                Function = Function.Count,
+                Name = "name",
+                AggregateColumnName = "aggregateColumnName",
+                DisplayType = DisplayType.Table,
+                GroupByColumnName = "groupByColumnName",
+            },
+        ];
+        List<Column> expectedColumns =
+        [
+            new()
+            {
+                DisplayOrderIndex = 0,
+                Name = "name",
+                ValueSchemaPath = ["string"],
+            },
+        ];
+        List<Filter> expectedFilters =
+        [
+            new()
+            {
+                ColumnName = "columnName",
+                FilterType = FilterType.EqualsString,
+                Number = 0,
+                String = "string",
+            },
+        ];
+        List<ViewCreateParamsFunction> expectedFunctions = [new() { ID = "id", Name = "name" }];
+        string expectedName = "name";
+        string expectedDescription = "description";
+
+        Assert.Equal(expectedAggregations.Count, parameters.Aggregations.Count);
+        for (int i = 0; i < expectedAggregations.Count; i++)
+        {
+            Assert.Equal(expectedAggregations[i], parameters.Aggregations[i]);
+        }
+        Assert.Equal(expectedColumns.Count, parameters.Columns.Count);
+        for (int i = 0; i < expectedColumns.Count; i++)
+        {
+            Assert.Equal(expectedColumns[i], parameters.Columns[i]);
+        }
+        Assert.Equal(expectedFilters.Count, parameters.Filters.Count);
+        for (int i = 0; i < expectedFilters.Count; i++)
+        {
+            Assert.Equal(expectedFilters[i], parameters.Filters[i]);
+        }
+        Assert.Equal(expectedFunctions.Count, parameters.Functions.Count);
+        for (int i = 0; i < expectedFunctions.Count; i++)
+        {
+            Assert.Equal(expectedFunctions[i], parameters.Functions[i]);
+        }
+        Assert.Equal(expectedName, parameters.Name);
+        Assert.Equal(expectedDescription, parameters.Description);
+    }
+
+    [Fact]
+    public void OptionalNonNullableParamsUnsetAreNotSet_Works()
+    {
+        var parameters = new ViewCreateParams
+        {
+            Aggregations =
+            [
+                new()
+                {
+                    Function = Function.Count,
+                    Name = "name",
+                    AggregateColumnName = "aggregateColumnName",
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -47,59 +146,54 @@ public class ViewCreateParamsTest : TestBase
             Name = "name",
         };
 
-        List<Aggregation> expectedAggregations =
-        [
-            new()
-            {
-                Function = Function.Count,
-                Name = "name",
-                AggregateColumnName = "aggregateColumnName",
-                GroupByColumnName = "groupByColumnName",
-            },
-        ];
-        List<Column> expectedColumns =
-        [
-            new()
-            {
-                DisplayOrderIndex = 0,
-                Name = "name",
-                ValueSchemaPath = ["string"],
-            },
-        ];
-        List<Filter> expectedFilters =
-        [
-            new()
-            {
-                ColumnName = "columnName",
-                FilterType = FilterType.EqualsString,
-                Number = 0,
-                String = "string",
-            },
-        ];
-        List<ViewCreateParamsFunction> expectedFunctions = [new() { ID = "id", Name = "name" }];
-        string expectedName = "name";
+        Assert.Null(parameters.Description);
+        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+    }
 
-        Assert.Equal(expectedAggregations.Count, parameters.Aggregations.Count);
-        for (int i = 0; i < expectedAggregations.Count; i++)
+    [Fact]
+    public void OptionalNonNullableParamsSetToNullAreNotSet_Works()
+    {
+        var parameters = new ViewCreateParams
         {
-            Assert.Equal(expectedAggregations[i], parameters.Aggregations[i]);
-        }
-        Assert.Equal(expectedColumns.Count, parameters.Columns.Count);
-        for (int i = 0; i < expectedColumns.Count; i++)
-        {
-            Assert.Equal(expectedColumns[i], parameters.Columns[i]);
-        }
-        Assert.Equal(expectedFilters.Count, parameters.Filters.Count);
-        for (int i = 0; i < expectedFilters.Count; i++)
-        {
-            Assert.Equal(expectedFilters[i], parameters.Filters[i]);
-        }
-        Assert.Equal(expectedFunctions.Count, parameters.Functions.Count);
-        for (int i = 0; i < expectedFunctions.Count; i++)
-        {
-            Assert.Equal(expectedFunctions[i], parameters.Functions[i]);
-        }
-        Assert.Equal(expectedName, parameters.Name);
+            Aggregations =
+            [
+                new()
+                {
+                    Function = Function.Count,
+                    Name = "name",
+                    AggregateColumnName = "aggregateColumnName",
+                    DisplayType = DisplayType.Table,
+                    GroupByColumnName = "groupByColumnName",
+                },
+            ],
+            Columns =
+            [
+                new()
+                {
+                    DisplayOrderIndex = 0,
+                    Name = "name",
+                    ValueSchemaPath = ["string"],
+                },
+            ],
+            Filters =
+            [
+                new()
+                {
+                    ColumnName = "columnName",
+                    FilterType = FilterType.EqualsString,
+                    Number = 0,
+                    String = "string",
+                },
+            ],
+            Functions = [new() { ID = "id", Name = "name" }],
+            Name = "name",
+
+            // Null should be interpreted as omitted for these properties
+            Description = null,
+        };
+
+        Assert.Null(parameters.Description);
+        Assert.False(parameters.RawBodyData.ContainsKey("description"));
     }
 
     [Fact]
@@ -114,6 +208,7 @@ public class ViewCreateParamsTest : TestBase
                     Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -157,6 +252,7 @@ public class ViewCreateParamsTest : TestBase
                     Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -181,6 +277,7 @@ public class ViewCreateParamsTest : TestBase
             ],
             Functions = [new() { ID = "id", Name = "name" }],
             Name = "name",
+            Description = "description",
         };
 
         ViewCreateParams copied = new(parameters);
@@ -199,17 +296,20 @@ public class AggregationTest : TestBase
             Function = Function.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = DisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
         ApiEnum<string, Function> expectedFunction = Function.Count;
         string expectedName = "name";
         string expectedAggregateColumnName = "aggregateColumnName";
+        ApiEnum<string, DisplayType> expectedDisplayType = DisplayType.Table;
         string expectedGroupByColumnName = "groupByColumnName";
 
         Assert.Equal(expectedFunction, model.Function);
         Assert.Equal(expectedName, model.Name);
         Assert.Equal(expectedAggregateColumnName, model.AggregateColumnName);
+        Assert.Equal(expectedDisplayType, model.DisplayType);
         Assert.Equal(expectedGroupByColumnName, model.GroupByColumnName);
     }
 
@@ -221,6 +321,7 @@ public class AggregationTest : TestBase
             Function = Function.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = DisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -241,6 +342,7 @@ public class AggregationTest : TestBase
             Function = Function.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = DisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -254,16 +356,48 @@ public class AggregationTest : TestBase
         ApiEnum<string, Function> expectedFunction = Function.Count;
         string expectedName = "name";
         string expectedAggregateColumnName = "aggregateColumnName";
+        ApiEnum<string, DisplayType> expectedDisplayType = DisplayType.Table;
         string expectedGroupByColumnName = "groupByColumnName";
 
         Assert.Equal(expectedFunction, deserialized.Function);
         Assert.Equal(expectedName, deserialized.Name);
         Assert.Equal(expectedAggregateColumnName, deserialized.AggregateColumnName);
+        Assert.Equal(expectedDisplayType, deserialized.DisplayType);
         Assert.Equal(expectedGroupByColumnName, deserialized.GroupByColumnName);
     }
 
     [Fact]
     public void Validation_Works()
+    {
+        var model = new Aggregation
+        {
+            Function = Function.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            DisplayType = DisplayType.Table,
+            GroupByColumnName = "groupByColumnName",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Aggregation
+        {
+            Function = Function.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+        };
+
+        Assert.Null(model.DisplayType);
+        Assert.False(model.RawData.ContainsKey("displayType"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
         var model = new Aggregation
         {
@@ -277,9 +411,49 @@ public class AggregationTest : TestBase
     }
 
     [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Aggregation
+        {
+            Function = Function.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayType = null,
+        };
+
+        Assert.Null(model.DisplayType);
+        Assert.False(model.RawData.ContainsKey("displayType"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Aggregation
+        {
+            Function = Function.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayType = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
     public void OptionalNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Aggregation { Function = Function.Count, Name = "name" };
+        var model = new Aggregation
+        {
+            Function = Function.Count,
+            Name = "name",
+            DisplayType = DisplayType.Table,
+        };
 
         Assert.Null(model.AggregateColumnName);
         Assert.False(model.RawData.ContainsKey("aggregateColumnName"));
@@ -290,7 +464,12 @@ public class AggregationTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Aggregation { Function = Function.Count, Name = "name" };
+        var model = new Aggregation
+        {
+            Function = Function.Count,
+            Name = "name",
+            DisplayType = DisplayType.Table,
+        };
 
         model.Validate();
     }
@@ -302,6 +481,7 @@ public class AggregationTest : TestBase
         {
             Function = Function.Count,
             Name = "name",
+            DisplayType = DisplayType.Table,
 
             AggregateColumnName = null,
             GroupByColumnName = null,
@@ -320,6 +500,7 @@ public class AggregationTest : TestBase
         {
             Function = Function.Count,
             Name = "name",
+            DisplayType = DisplayType.Table,
 
             AggregateColumnName = null,
             GroupByColumnName = null,
@@ -336,6 +517,7 @@ public class AggregationTest : TestBase
             Function = Function.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = DisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -403,6 +585,66 @@ public class FunctionTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Function>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class DisplayTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(DisplayType.Table)]
+    [InlineData(DisplayType.BarChart)]
+    [InlineData(DisplayType.PieChart)]
+    public void Validation_Works(DisplayType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, DisplayType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, DisplayType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(DisplayType.Table)]
+    [InlineData(DisplayType.BarChart)]
+    [InlineData(DisplayType.PieChart)]
+    public void SerializationRoundtrip_Works(DisplayType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, DisplayType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DisplayType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, DisplayType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, DisplayType>>(
             json,
             ModelBase.SerializerOptions
         );

@@ -21,6 +21,125 @@ public class ViewGenerateTableDataParamsTest : TestBase
                     Function = ViewGenerateTableDataParamsAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
+                    GroupByColumnName = "groupByColumnName",
+                },
+            ],
+            Columns =
+            [
+                new()
+                {
+                    DisplayOrderIndex = 0,
+                    Name = "name",
+                    ValueSchemaPath = ["string"],
+                },
+            ],
+            Filters =
+            [
+                new()
+                {
+                    ColumnName = "columnName",
+                    FilterType = ViewGenerateTableDataParamsFilterFilterType.EqualsString,
+                    Number = 0,
+                    String = "string",
+                },
+            ],
+            Functions = [new() { ID = "id", Name = "name" }],
+            Name = "name",
+            TimeWindow = new()
+            {
+                End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            },
+            Description = "description",
+            Limit = 1,
+            Offset = 0,
+        };
+
+        List<ViewGenerateTableDataParamsAggregation> expectedAggregations =
+        [
+            new()
+            {
+                Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+                Name = "name",
+                AggregateColumnName = "aggregateColumnName",
+                DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
+                GroupByColumnName = "groupByColumnName",
+            },
+        ];
+        List<ViewGenerateTableDataParamsColumn> expectedColumns =
+        [
+            new()
+            {
+                DisplayOrderIndex = 0,
+                Name = "name",
+                ValueSchemaPath = ["string"],
+            },
+        ];
+        List<ViewGenerateTableDataParamsFilter> expectedFilters =
+        [
+            new()
+            {
+                ColumnName = "columnName",
+                FilterType = ViewGenerateTableDataParamsFilterFilterType.EqualsString,
+                Number = 0,
+                String = "string",
+            },
+        ];
+        List<ViewGenerateTableDataParamsFunction> expectedFunctions =
+        [
+            new() { ID = "id", Name = "name" },
+        ];
+        string expectedName = "name";
+        ViewGenerateTableDataParamsTimeWindow expectedTimeWindow = new()
+        {
+            End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+        };
+        string expectedDescription = "description";
+        long expectedLimit = 1;
+        long expectedOffset = 0;
+
+        Assert.Equal(expectedAggregations.Count, parameters.Aggregations.Count);
+        for (int i = 0; i < expectedAggregations.Count; i++)
+        {
+            Assert.Equal(expectedAggregations[i], parameters.Aggregations[i]);
+        }
+        Assert.Equal(expectedColumns.Count, parameters.Columns.Count);
+        for (int i = 0; i < expectedColumns.Count; i++)
+        {
+            Assert.Equal(expectedColumns[i], parameters.Columns[i]);
+        }
+        Assert.Equal(expectedFilters.Count, parameters.Filters.Count);
+        for (int i = 0; i < expectedFilters.Count; i++)
+        {
+            Assert.Equal(expectedFilters[i], parameters.Filters[i]);
+        }
+        Assert.Equal(expectedFunctions.Count, parameters.Functions.Count);
+        for (int i = 0; i < expectedFunctions.Count; i++)
+        {
+            Assert.Equal(expectedFunctions[i], parameters.Functions[i]);
+        }
+        Assert.Equal(expectedName, parameters.Name);
+        Assert.Equal(expectedTimeWindow, parameters.TimeWindow);
+        Assert.Equal(expectedDescription, parameters.Description);
+        Assert.Equal(expectedLimit, parameters.Limit);
+        Assert.Equal(expectedOffset, parameters.Offset);
+    }
+
+    [Fact]
+    public void OptionalNonNullableParamsUnsetAreNotSet_Works()
+    {
+        var parameters = new ViewGenerateTableDataParams
+        {
+            Aggregations =
+            [
+                new()
+                {
+                    Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+                    Name = "name",
+                    AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -54,76 +173,12 @@ public class ViewGenerateTableDataParamsTest : TestBase
             Offset = 0,
         };
 
-        List<ViewGenerateTableDataParamsAggregation> expectedAggregations =
-        [
-            new()
-            {
-                Function = ViewGenerateTableDataParamsAggregationFunction.Count,
-                Name = "name",
-                AggregateColumnName = "aggregateColumnName",
-                GroupByColumnName = "groupByColumnName",
-            },
-        ];
-        List<ViewGenerateTableDataParamsColumn> expectedColumns =
-        [
-            new()
-            {
-                DisplayOrderIndex = 0,
-                Name = "name",
-                ValueSchemaPath = ["string"],
-            },
-        ];
-        List<ViewGenerateTableDataParamsFilter> expectedFilters =
-        [
-            new()
-            {
-                ColumnName = "columnName",
-                FilterType = ViewGenerateTableDataParamsFilterFilterType.EqualsString,
-                Number = 0,
-                String = "string",
-            },
-        ];
-        List<ViewGenerateTableDataParamsFunction> expectedFunctions =
-        [
-            new() { ID = "id", Name = "name" },
-        ];
-        string expectedName = "name";
-        ViewGenerateTableDataParamsTimeWindow expectedTimeWindow = new()
-        {
-            End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-            Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
-        };
-        long expectedLimit = 1;
-        long expectedOffset = 0;
-
-        Assert.Equal(expectedAggregations.Count, parameters.Aggregations.Count);
-        for (int i = 0; i < expectedAggregations.Count; i++)
-        {
-            Assert.Equal(expectedAggregations[i], parameters.Aggregations[i]);
-        }
-        Assert.Equal(expectedColumns.Count, parameters.Columns.Count);
-        for (int i = 0; i < expectedColumns.Count; i++)
-        {
-            Assert.Equal(expectedColumns[i], parameters.Columns[i]);
-        }
-        Assert.Equal(expectedFilters.Count, parameters.Filters.Count);
-        for (int i = 0; i < expectedFilters.Count; i++)
-        {
-            Assert.Equal(expectedFilters[i], parameters.Filters[i]);
-        }
-        Assert.Equal(expectedFunctions.Count, parameters.Functions.Count);
-        for (int i = 0; i < expectedFunctions.Count; i++)
-        {
-            Assert.Equal(expectedFunctions[i], parameters.Functions[i]);
-        }
-        Assert.Equal(expectedName, parameters.Name);
-        Assert.Equal(expectedTimeWindow, parameters.TimeWindow);
-        Assert.Equal(expectedLimit, parameters.Limit);
-        Assert.Equal(expectedOffset, parameters.Offset);
+        Assert.Null(parameters.Description);
+        Assert.False(parameters.RawBodyData.ContainsKey("description"));
     }
 
     [Fact]
-    public void OptionalNullableParamsUnsetAreNotSet_Works()
+    public void OptionalNonNullableParamsSetToNullAreNotSet_Works()
     {
         var parameters = new ViewGenerateTableDataParams
         {
@@ -134,6 +189,7 @@ public class ViewGenerateTableDataParamsTest : TestBase
                     Function = ViewGenerateTableDataParamsAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -163,6 +219,60 @@ public class ViewGenerateTableDataParamsTest : TestBase
                 End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
+            Limit = 1,
+            Offset = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Description = null,
+        };
+
+        Assert.Null(parameters.Description);
+        Assert.False(parameters.RawBodyData.ContainsKey("description"));
+    }
+
+    [Fact]
+    public void OptionalNullableParamsUnsetAreNotSet_Works()
+    {
+        var parameters = new ViewGenerateTableDataParams
+        {
+            Aggregations =
+            [
+                new()
+                {
+                    Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+                    Name = "name",
+                    AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
+                    GroupByColumnName = "groupByColumnName",
+                },
+            ],
+            Columns =
+            [
+                new()
+                {
+                    DisplayOrderIndex = 0,
+                    Name = "name",
+                    ValueSchemaPath = ["string"],
+                },
+            ],
+            Filters =
+            [
+                new()
+                {
+                    ColumnName = "columnName",
+                    FilterType = ViewGenerateTableDataParamsFilterFilterType.EqualsString,
+                    Number = 0,
+                    String = "string",
+                },
+            ],
+            Functions = [new() { ID = "id", Name = "name" }],
+            Name = "name",
+            TimeWindow = new()
+            {
+                End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            },
+            Description = "description",
         };
 
         Assert.Null(parameters.Limit);
@@ -183,6 +293,7 @@ public class ViewGenerateTableDataParamsTest : TestBase
                     Function = ViewGenerateTableDataParamsAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -212,6 +323,7 @@ public class ViewGenerateTableDataParamsTest : TestBase
                 End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
+            Description = "description",
 
             Limit = null,
             Offset = null,
@@ -235,6 +347,7 @@ public class ViewGenerateTableDataParamsTest : TestBase
                     Function = ViewGenerateTableDataParamsAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -283,6 +396,7 @@ public class ViewGenerateTableDataParamsTest : TestBase
                     Function = ViewGenerateTableDataParamsAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -312,6 +426,7 @@ public class ViewGenerateTableDataParamsTest : TestBase
                 End = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Start = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             },
+            Description = "description",
             Limit = 1,
             Offset = 0,
         };
@@ -332,6 +447,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -339,11 +455,14 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
             ViewGenerateTableDataParamsAggregationFunction.Count;
         string expectedName = "name";
         string expectedAggregateColumnName = "aggregateColumnName";
+        ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType> expectedDisplayType =
+            ViewGenerateTableDataParamsAggregationDisplayType.Table;
         string expectedGroupByColumnName = "groupByColumnName";
 
         Assert.Equal(expectedFunction, model.Function);
         Assert.Equal(expectedName, model.Name);
         Assert.Equal(expectedAggregateColumnName, model.AggregateColumnName);
+        Assert.Equal(expectedDisplayType, model.DisplayType);
         Assert.Equal(expectedGroupByColumnName, model.GroupByColumnName);
     }
 
@@ -355,6 +474,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -375,6 +495,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -389,16 +510,49 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
             ViewGenerateTableDataParamsAggregationFunction.Count;
         string expectedName = "name";
         string expectedAggregateColumnName = "aggregateColumnName";
+        ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType> expectedDisplayType =
+            ViewGenerateTableDataParamsAggregationDisplayType.Table;
         string expectedGroupByColumnName = "groupByColumnName";
 
         Assert.Equal(expectedFunction, deserialized.Function);
         Assert.Equal(expectedName, deserialized.Name);
         Assert.Equal(expectedAggregateColumnName, deserialized.AggregateColumnName);
+        Assert.Equal(expectedDisplayType, deserialized.DisplayType);
         Assert.Equal(expectedGroupByColumnName, deserialized.GroupByColumnName);
     }
 
     [Fact]
     public void Validation_Works()
+    {
+        var model = new ViewGenerateTableDataParamsAggregation
+        {
+            Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
+            GroupByColumnName = "groupByColumnName",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ViewGenerateTableDataParamsAggregation
+        {
+            Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+        };
+
+        Assert.Null(model.DisplayType);
+        Assert.False(model.RawData.ContainsKey("displayType"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
         var model = new ViewGenerateTableDataParamsAggregation
         {
@@ -412,12 +566,48 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
     }
 
     [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ViewGenerateTableDataParamsAggregation
+        {
+            Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayType = null,
+        };
+
+        Assert.Null(model.DisplayType);
+        Assert.False(model.RawData.ContainsKey("displayType"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ViewGenerateTableDataParamsAggregation
+        {
+            Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayType = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
     public void OptionalNullablePropertiesUnsetAreNotSet_Works()
     {
         var model = new ViewGenerateTableDataParamsAggregation
         {
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
         };
 
         Assert.Null(model.AggregateColumnName);
@@ -433,6 +623,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
         {
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
         };
 
         model.Validate();
@@ -445,6 +636,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
         {
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
 
             AggregateColumnName = null,
             GroupByColumnName = null,
@@ -463,6 +655,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
         {
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
 
             AggregateColumnName = null,
             GroupByColumnName = null,
@@ -479,6 +672,7 @@ public class ViewGenerateTableDataParamsAggregationTest : TestBase
             Function = ViewGenerateTableDataParamsAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -546,6 +740,64 @@ public class ViewGenerateTableDataParamsAggregationFunctionTest : TestBase
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<
             ApiEnum<string, ViewGenerateTableDataParamsAggregationFunction>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class ViewGenerateTableDataParamsAggregationDisplayTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(ViewGenerateTableDataParamsAggregationDisplayType.Table)]
+    [InlineData(ViewGenerateTableDataParamsAggregationDisplayType.BarChart)]
+    [InlineData(ViewGenerateTableDataParamsAggregationDisplayType.PieChart)]
+    public void Validation_Works(ViewGenerateTableDataParamsAggregationDisplayType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(ViewGenerateTableDataParamsAggregationDisplayType.Table)]
+    [InlineData(ViewGenerateTableDataParamsAggregationDisplayType.BarChart)]
+    [InlineData(ViewGenerateTableDataParamsAggregationDisplayType.PieChart)]
+    public void SerializationRoundtrip_Works(
+        ViewGenerateTableDataParamsAggregationDisplayType rawValue
+    )
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType>
+        >(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<
+            ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType>
+        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType>
         >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);

@@ -153,29 +153,6 @@ public sealed record class ViewRetrieveResponse : JsonModel
         init { this._rawData.Set("description", value); }
     }
 
-    /// <summary>
-    /// Display type of the view
-    /// </summary>
-    public ApiEnum<string, ViewRetrieveResponseDisplayType>? DisplayType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, ViewRetrieveResponseDisplayType>>(
-                "displayType"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayType", value);
-        }
-    }
-
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -199,7 +176,6 @@ public sealed record class ViewRetrieveResponse : JsonModel
         _ = this.Name;
         _ = this.ViewID;
         _ = this.Description;
-        this.DisplayType?.Validate();
     }
 
     public ViewRetrieveResponse() { }
@@ -294,6 +270,29 @@ public sealed record class ViewRetrieveResponseAggregation : JsonModel
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, ViewRetrieveResponseAggregationDisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, ViewRetrieveResponseAggregationDisplayType>
+            >("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -312,6 +311,7 @@ public sealed record class ViewRetrieveResponseAggregation : JsonModel
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -406,6 +406,57 @@ sealed class ViewRetrieveResponseAggregationFunctionConverter
                 ViewRetrieveResponseAggregationFunction.Average => "average",
                 ViewRetrieveResponseAggregationFunction.Min => "min",
                 ViewRetrieveResponseAggregationFunction.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(ViewRetrieveResponseAggregationDisplayTypeConverter))]
+public enum ViewRetrieveResponseAggregationDisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class ViewRetrieveResponseAggregationDisplayTypeConverter
+    : JsonConverter<ViewRetrieveResponseAggregationDisplayType>
+{
+    public override ViewRetrieveResponseAggregationDisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => ViewRetrieveResponseAggregationDisplayType.Table,
+            "bar_chart" => ViewRetrieveResponseAggregationDisplayType.BarChart,
+            "pie_chart" => ViewRetrieveResponseAggregationDisplayType.PieChart,
+            _ => (ViewRetrieveResponseAggregationDisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ViewRetrieveResponseAggregationDisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ViewRetrieveResponseAggregationDisplayType.Table => "table",
+                ViewRetrieveResponseAggregationDisplayType.BarChart => "bar_chart",
+                ViewRetrieveResponseAggregationDisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -783,55 +834,4 @@ class ViewRetrieveResponseFunctionFromRaw : IFromRawJson<ViewRetrieveResponseFun
     public ViewRetrieveResponseFunction FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => ViewRetrieveResponseFunction.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Display type of the view
-/// </summary>
-[JsonConverter(typeof(ViewRetrieveResponseDisplayTypeConverter))]
-public enum ViewRetrieveResponseDisplayType
-{
-    Table,
-    BarChart,
-    PieChart,
-}
-
-sealed class ViewRetrieveResponseDisplayTypeConverter
-    : JsonConverter<ViewRetrieveResponseDisplayType>
-{
-    public override ViewRetrieveResponseDisplayType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "table" => ViewRetrieveResponseDisplayType.Table,
-            "bar_chart" => ViewRetrieveResponseDisplayType.BarChart,
-            "pie_chart" => ViewRetrieveResponseDisplayType.PieChart,
-            _ => (ViewRetrieveResponseDisplayType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        ViewRetrieveResponseDisplayType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                ViewRetrieveResponseDisplayType.Table => "table",
-                ViewRetrieveResponseDisplayType.BarChart => "bar_chart",
-                ViewRetrieveResponseDisplayType.PieChart => "pie_chart",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
 }
