@@ -150,6 +150,27 @@ public record class ViewGenerateTableDataParams : ParamsBase
     }
 
     /// <summary>
+    /// Description of the view
+    /// </summary>
+    public string? Description
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("description", value);
+        }
+    }
+
+    /// <summary>
     /// Maximum number of rows to return (default: 50, max: 200)
     /// </summary>
     public long? Limit
@@ -339,6 +360,29 @@ public sealed record class ViewGenerateTableDataParamsAggregation : JsonModel
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, ViewGenerateTableDataParamsAggregationDisplayType>
+            >("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -357,6 +401,7 @@ public sealed record class ViewGenerateTableDataParamsAggregation : JsonModel
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -452,6 +497,57 @@ sealed class ViewGenerateTableDataParamsAggregationFunctionConverter
                 ViewGenerateTableDataParamsAggregationFunction.Average => "average",
                 ViewGenerateTableDataParamsAggregationFunction.Min => "min",
                 ViewGenerateTableDataParamsAggregationFunction.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(ViewGenerateTableDataParamsAggregationDisplayTypeConverter))]
+public enum ViewGenerateTableDataParamsAggregationDisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class ViewGenerateTableDataParamsAggregationDisplayTypeConverter
+    : JsonConverter<ViewGenerateTableDataParamsAggregationDisplayType>
+{
+    public override ViewGenerateTableDataParamsAggregationDisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => ViewGenerateTableDataParamsAggregationDisplayType.Table,
+            "bar_chart" => ViewGenerateTableDataParamsAggregationDisplayType.BarChart,
+            "pie_chart" => ViewGenerateTableDataParamsAggregationDisplayType.PieChart,
+            _ => (ViewGenerateTableDataParamsAggregationDisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ViewGenerateTableDataParamsAggregationDisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ViewGenerateTableDataParamsAggregationDisplayType.Table => "table",
+                ViewGenerateTableDataParamsAggregationDisplayType.BarChart => "bar_chart",
+                ViewGenerateTableDataParamsAggregationDisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

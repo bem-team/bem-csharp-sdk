@@ -145,6 +145,27 @@ public record class ViewGenerateAggregationDataParams : ParamsBase
         init { this._rawBodyData.Set("timeWindow", value); }
     }
 
+    /// <summary>
+    /// Description of the view
+    /// </summary>
+    public string? Description
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("description", value);
+        }
+    }
+
     public ViewGenerateAggregationDataParams() { }
 
 #pragma warning disable CS8618
@@ -313,6 +334,29 @@ public sealed record class ViewGenerateAggregationDataParamsAggregation : JsonMo
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, ViewGenerateAggregationDataParamsAggregationDisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, ViewGenerateAggregationDataParamsAggregationDisplayType>
+            >("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -331,6 +375,7 @@ public sealed record class ViewGenerateAggregationDataParamsAggregation : JsonMo
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -429,6 +474,57 @@ sealed class ViewGenerateAggregationDataParamsAggregationFunctionConverter
                 ViewGenerateAggregationDataParamsAggregationFunction.Average => "average",
                 ViewGenerateAggregationDataParamsAggregationFunction.Min => "min",
                 ViewGenerateAggregationDataParamsAggregationFunction.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(ViewGenerateAggregationDataParamsAggregationDisplayTypeConverter))]
+public enum ViewGenerateAggregationDataParamsAggregationDisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class ViewGenerateAggregationDataParamsAggregationDisplayTypeConverter
+    : JsonConverter<ViewGenerateAggregationDataParamsAggregationDisplayType>
+{
+    public override ViewGenerateAggregationDataParamsAggregationDisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => ViewGenerateAggregationDataParamsAggregationDisplayType.Table,
+            "bar_chart" => ViewGenerateAggregationDataParamsAggregationDisplayType.BarChart,
+            "pie_chart" => ViewGenerateAggregationDataParamsAggregationDisplayType.PieChart,
+            _ => (ViewGenerateAggregationDataParamsAggregationDisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ViewGenerateAggregationDataParamsAggregationDisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ViewGenerateAggregationDataParamsAggregationDisplayType.Table => "table",
+                ViewGenerateAggregationDataParamsAggregationDisplayType.BarChart => "bar_chart",
+                ViewGenerateAggregationDataParamsAggregationDisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

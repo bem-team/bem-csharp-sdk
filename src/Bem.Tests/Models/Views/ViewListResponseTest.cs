@@ -25,6 +25,7 @@ public class ViewListResponseTest : TestBase
                             Function = ViewAggregationFunction.Count,
                             Name = "name",
                             AggregateColumnName = "aggregateColumnName",
+                            DisplayType = ViewAggregationDisplayType.Table,
                             GroupByColumnName = "groupByColumnName",
                         },
                     ],
@@ -52,7 +53,6 @@ public class ViewListResponseTest : TestBase
                     Name = "name",
                     ViewID = "viewID",
                     Description = "description",
-                    DisplayType = ViewDisplayType.Table,
                 },
             ],
         };
@@ -69,6 +69,7 @@ public class ViewListResponseTest : TestBase
                         Function = ViewAggregationFunction.Count,
                         Name = "name",
                         AggregateColumnName = "aggregateColumnName",
+                        DisplayType = ViewAggregationDisplayType.Table,
                         GroupByColumnName = "groupByColumnName",
                     },
                 ],
@@ -96,7 +97,6 @@ public class ViewListResponseTest : TestBase
                 Name = "name",
                 ViewID = "viewID",
                 Description = "description",
-                DisplayType = ViewDisplayType.Table,
             },
         ];
 
@@ -125,6 +125,7 @@ public class ViewListResponseTest : TestBase
                             Function = ViewAggregationFunction.Count,
                             Name = "name",
                             AggregateColumnName = "aggregateColumnName",
+                            DisplayType = ViewAggregationDisplayType.Table,
                             GroupByColumnName = "groupByColumnName",
                         },
                     ],
@@ -152,7 +153,6 @@ public class ViewListResponseTest : TestBase
                     Name = "name",
                     ViewID = "viewID",
                     Description = "description",
-                    DisplayType = ViewDisplayType.Table,
                 },
             ],
         };
@@ -183,6 +183,7 @@ public class ViewListResponseTest : TestBase
                             Function = ViewAggregationFunction.Count,
                             Name = "name",
                             AggregateColumnName = "aggregateColumnName",
+                            DisplayType = ViewAggregationDisplayType.Table,
                             GroupByColumnName = "groupByColumnName",
                         },
                     ],
@@ -210,7 +211,6 @@ public class ViewListResponseTest : TestBase
                     Name = "name",
                     ViewID = "viewID",
                     Description = "description",
-                    DisplayType = ViewDisplayType.Table,
                 },
             ],
         };
@@ -234,6 +234,7 @@ public class ViewListResponseTest : TestBase
                         Function = ViewAggregationFunction.Count,
                         Name = "name",
                         AggregateColumnName = "aggregateColumnName",
+                        DisplayType = ViewAggregationDisplayType.Table,
                         GroupByColumnName = "groupByColumnName",
                     },
                 ],
@@ -261,7 +262,6 @@ public class ViewListResponseTest : TestBase
                 Name = "name",
                 ViewID = "viewID",
                 Description = "description",
-                DisplayType = ViewDisplayType.Table,
             },
         ];
 
@@ -290,6 +290,7 @@ public class ViewListResponseTest : TestBase
                             Function = ViewAggregationFunction.Count,
                             Name = "name",
                             AggregateColumnName = "aggregateColumnName",
+                            DisplayType = ViewAggregationDisplayType.Table,
                             GroupByColumnName = "groupByColumnName",
                         },
                     ],
@@ -317,7 +318,6 @@ public class ViewListResponseTest : TestBase
                     Name = "name",
                     ViewID = "viewID",
                     Description = "description",
-                    DisplayType = ViewDisplayType.Table,
                 },
             ],
         };
@@ -342,6 +342,7 @@ public class ViewListResponseTest : TestBase
                             Function = ViewAggregationFunction.Count,
                             Name = "name",
                             AggregateColumnName = "aggregateColumnName",
+                            DisplayType = ViewAggregationDisplayType.Table,
                             GroupByColumnName = "groupByColumnName",
                         },
                     ],
@@ -369,7 +370,6 @@ public class ViewListResponseTest : TestBase
                     Name = "name",
                     ViewID = "viewID",
                     Description = "description",
-                    DisplayType = ViewDisplayType.Table,
                 },
             ],
         };
@@ -394,6 +394,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -421,7 +422,6 @@ public class ViewTest : TestBase
             Name = "name",
             ViewID = "viewID",
             Description = "description",
-            DisplayType = ViewDisplayType.Table,
         };
 
         List<ViewAggregation> expectedAggregations =
@@ -431,6 +431,7 @@ public class ViewTest : TestBase
                 Function = ViewAggregationFunction.Count,
                 Name = "name",
                 AggregateColumnName = "aggregateColumnName",
+                DisplayType = ViewAggregationDisplayType.Table,
                 GroupByColumnName = "groupByColumnName",
             },
         ];
@@ -458,7 +459,6 @@ public class ViewTest : TestBase
         string expectedName = "name";
         string expectedViewID = "viewID";
         string expectedDescription = "description";
-        ApiEnum<string, ViewDisplayType> expectedDisplayType = ViewDisplayType.Table;
 
         Assert.Equal(expectedAggregations.Count, model.Aggregations.Count);
         for (int i = 0; i < expectedAggregations.Count; i++)
@@ -484,7 +484,6 @@ public class ViewTest : TestBase
         Assert.Equal(expectedName, model.Name);
         Assert.Equal(expectedViewID, model.ViewID);
         Assert.Equal(expectedDescription, model.Description);
-        Assert.Equal(expectedDisplayType, model.DisplayType);
     }
 
     [Fact]
@@ -499,6 +498,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -526,7 +526,6 @@ public class ViewTest : TestBase
             Name = "name",
             ViewID = "viewID",
             Description = "description",
-            DisplayType = ViewDisplayType.Table,
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -547,6 +546,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -574,7 +574,6 @@ public class ViewTest : TestBase
             Name = "name",
             ViewID = "viewID",
             Description = "description",
-            DisplayType = ViewDisplayType.Table,
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -588,6 +587,7 @@ public class ViewTest : TestBase
                 Function = ViewAggregationFunction.Count,
                 Name = "name",
                 AggregateColumnName = "aggregateColumnName",
+                DisplayType = ViewAggregationDisplayType.Table,
                 GroupByColumnName = "groupByColumnName",
             },
         ];
@@ -615,7 +615,6 @@ public class ViewTest : TestBase
         string expectedName = "name";
         string expectedViewID = "viewID";
         string expectedDescription = "description";
-        ApiEnum<string, ViewDisplayType> expectedDisplayType = ViewDisplayType.Table;
 
         Assert.Equal(expectedAggregations.Count, deserialized.Aggregations.Count);
         for (int i = 0; i < expectedAggregations.Count; i++)
@@ -641,7 +640,6 @@ public class ViewTest : TestBase
         Assert.Equal(expectedName, deserialized.Name);
         Assert.Equal(expectedViewID, deserialized.ViewID);
         Assert.Equal(expectedDescription, deserialized.Description);
-        Assert.Equal(expectedDisplayType, deserialized.DisplayType);
     }
 
     [Fact]
@@ -656,6 +654,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -683,191 +682,6 @@ public class ViewTest : TestBase
             Name = "name",
             ViewID = "viewID",
             Description = "description",
-            DisplayType = ViewDisplayType.Table,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new View
-        {
-            Aggregations =
-            [
-                new()
-                {
-                    Function = ViewAggregationFunction.Count,
-                    Name = "name",
-                    AggregateColumnName = "aggregateColumnName",
-                    GroupByColumnName = "groupByColumnName",
-                },
-            ],
-            Columns =
-            [
-                new()
-                {
-                    DisplayOrderIndex = 0,
-                    Name = "name",
-                    ValueSchemaPath = ["string"],
-                },
-            ],
-            CurrentVersionNum = 0,
-            Filters =
-            [
-                new()
-                {
-                    ColumnName = "columnName",
-                    FilterType = ViewFilterFilterType.EqualsString,
-                    Number = 0,
-                    String = "string",
-                },
-            ],
-            Functions = [new() { ID = "id", Name = "name" }],
-            Name = "name",
-            ViewID = "viewID",
-            Description = "description",
-        };
-
-        Assert.Null(model.DisplayType);
-        Assert.False(model.RawData.ContainsKey("displayType"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new View
-        {
-            Aggregations =
-            [
-                new()
-                {
-                    Function = ViewAggregationFunction.Count,
-                    Name = "name",
-                    AggregateColumnName = "aggregateColumnName",
-                    GroupByColumnName = "groupByColumnName",
-                },
-            ],
-            Columns =
-            [
-                new()
-                {
-                    DisplayOrderIndex = 0,
-                    Name = "name",
-                    ValueSchemaPath = ["string"],
-                },
-            ],
-            CurrentVersionNum = 0,
-            Filters =
-            [
-                new()
-                {
-                    ColumnName = "columnName",
-                    FilterType = ViewFilterFilterType.EqualsString,
-                    Number = 0,
-                    String = "string",
-                },
-            ],
-            Functions = [new() { ID = "id", Name = "name" }],
-            Name = "name",
-            ViewID = "viewID",
-            Description = "description",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new View
-        {
-            Aggregations =
-            [
-                new()
-                {
-                    Function = ViewAggregationFunction.Count,
-                    Name = "name",
-                    AggregateColumnName = "aggregateColumnName",
-                    GroupByColumnName = "groupByColumnName",
-                },
-            ],
-            Columns =
-            [
-                new()
-                {
-                    DisplayOrderIndex = 0,
-                    Name = "name",
-                    ValueSchemaPath = ["string"],
-                },
-            ],
-            CurrentVersionNum = 0,
-            Filters =
-            [
-                new()
-                {
-                    ColumnName = "columnName",
-                    FilterType = ViewFilterFilterType.EqualsString,
-                    Number = 0,
-                    String = "string",
-                },
-            ],
-            Functions = [new() { ID = "id", Name = "name" }],
-            Name = "name",
-            ViewID = "viewID",
-            Description = "description",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayType = null,
-        };
-
-        Assert.Null(model.DisplayType);
-        Assert.False(model.RawData.ContainsKey("displayType"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new View
-        {
-            Aggregations =
-            [
-                new()
-                {
-                    Function = ViewAggregationFunction.Count,
-                    Name = "name",
-                    AggregateColumnName = "aggregateColumnName",
-                    GroupByColumnName = "groupByColumnName",
-                },
-            ],
-            Columns =
-            [
-                new()
-                {
-                    DisplayOrderIndex = 0,
-                    Name = "name",
-                    ValueSchemaPath = ["string"],
-                },
-            ],
-            CurrentVersionNum = 0,
-            Filters =
-            [
-                new()
-                {
-                    ColumnName = "columnName",
-                    FilterType = ViewFilterFilterType.EqualsString,
-                    Number = 0,
-                    String = "string",
-                },
-            ],
-            Functions = [new() { ID = "id", Name = "name" }],
-            Name = "name",
-            ViewID = "viewID",
-            Description = "description",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayType = null,
         };
 
         model.Validate();
@@ -885,6 +699,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -911,7 +726,6 @@ public class ViewTest : TestBase
             Functions = [new() { ID = "id", Name = "name" }],
             Name = "name",
             ViewID = "viewID",
-            DisplayType = ViewDisplayType.Table,
         };
 
         Assert.Null(model.Description);
@@ -930,6 +744,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -956,7 +771,6 @@ public class ViewTest : TestBase
             Functions = [new() { ID = "id", Name = "name" }],
             Name = "name",
             ViewID = "viewID",
-            DisplayType = ViewDisplayType.Table,
         };
 
         model.Validate();
@@ -974,6 +788,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -1000,7 +815,6 @@ public class ViewTest : TestBase
             Functions = [new() { ID = "id", Name = "name" }],
             Name = "name",
             ViewID = "viewID",
-            DisplayType = ViewDisplayType.Table,
 
             Description = null,
         };
@@ -1021,6 +835,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -1047,7 +862,6 @@ public class ViewTest : TestBase
             Functions = [new() { ID = "id", Name = "name" }],
             Name = "name",
             ViewID = "viewID",
-            DisplayType = ViewDisplayType.Table,
 
             Description = null,
         };
@@ -1067,6 +881,7 @@ public class ViewTest : TestBase
                     Function = ViewAggregationFunction.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
+                    DisplayType = ViewAggregationDisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -1094,7 +909,6 @@ public class ViewTest : TestBase
             Name = "name",
             ViewID = "viewID",
             Description = "description",
-            DisplayType = ViewDisplayType.Table,
         };
 
         View copied = new(model);
@@ -1113,17 +927,21 @@ public class ViewAggregationTest : TestBase
             Function = ViewAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
         ApiEnum<string, ViewAggregationFunction> expectedFunction = ViewAggregationFunction.Count;
         string expectedName = "name";
         string expectedAggregateColumnName = "aggregateColumnName";
+        ApiEnum<string, ViewAggregationDisplayType> expectedDisplayType =
+            ViewAggregationDisplayType.Table;
         string expectedGroupByColumnName = "groupByColumnName";
 
         Assert.Equal(expectedFunction, model.Function);
         Assert.Equal(expectedName, model.Name);
         Assert.Equal(expectedAggregateColumnName, model.AggregateColumnName);
+        Assert.Equal(expectedDisplayType, model.DisplayType);
         Assert.Equal(expectedGroupByColumnName, model.GroupByColumnName);
     }
 
@@ -1135,6 +953,7 @@ public class ViewAggregationTest : TestBase
             Function = ViewAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -1155,6 +974,7 @@ public class ViewAggregationTest : TestBase
             Function = ViewAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -1168,16 +988,49 @@ public class ViewAggregationTest : TestBase
         ApiEnum<string, ViewAggregationFunction> expectedFunction = ViewAggregationFunction.Count;
         string expectedName = "name";
         string expectedAggregateColumnName = "aggregateColumnName";
+        ApiEnum<string, ViewAggregationDisplayType> expectedDisplayType =
+            ViewAggregationDisplayType.Table;
         string expectedGroupByColumnName = "groupByColumnName";
 
         Assert.Equal(expectedFunction, deserialized.Function);
         Assert.Equal(expectedName, deserialized.Name);
         Assert.Equal(expectedAggregateColumnName, deserialized.AggregateColumnName);
+        Assert.Equal(expectedDisplayType, deserialized.DisplayType);
         Assert.Equal(expectedGroupByColumnName, deserialized.GroupByColumnName);
     }
 
     [Fact]
     public void Validation_Works()
+    {
+        var model = new ViewAggregation
+        {
+            Function = ViewAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewAggregationDisplayType.Table,
+            GroupByColumnName = "groupByColumnName",
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ViewAggregation
+        {
+            Function = ViewAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+        };
+
+        Assert.Null(model.DisplayType);
+        Assert.False(model.RawData.ContainsKey("displayType"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
         var model = new ViewAggregation
         {
@@ -1191,9 +1044,49 @@ public class ViewAggregationTest : TestBase
     }
 
     [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ViewAggregation
+        {
+            Function = ViewAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayType = null,
+        };
+
+        Assert.Null(model.DisplayType);
+        Assert.False(model.RawData.ContainsKey("displayType"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ViewAggregation
+        {
+            Function = ViewAggregationFunction.Count,
+            Name = "name",
+            AggregateColumnName = "aggregateColumnName",
+            GroupByColumnName = "groupByColumnName",
+
+            // Null should be interpreted as omitted for these properties
+            DisplayType = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
     public void OptionalNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new ViewAggregation { Function = ViewAggregationFunction.Count, Name = "name" };
+        var model = new ViewAggregation
+        {
+            Function = ViewAggregationFunction.Count,
+            Name = "name",
+            DisplayType = ViewAggregationDisplayType.Table,
+        };
 
         Assert.Null(model.AggregateColumnName);
         Assert.False(model.RawData.ContainsKey("aggregateColumnName"));
@@ -1204,7 +1097,12 @@ public class ViewAggregationTest : TestBase
     [Fact]
     public void OptionalNullablePropertiesUnsetValidation_Works()
     {
-        var model = new ViewAggregation { Function = ViewAggregationFunction.Count, Name = "name" };
+        var model = new ViewAggregation
+        {
+            Function = ViewAggregationFunction.Count,
+            Name = "name",
+            DisplayType = ViewAggregationDisplayType.Table,
+        };
 
         model.Validate();
     }
@@ -1216,6 +1114,7 @@ public class ViewAggregationTest : TestBase
         {
             Function = ViewAggregationFunction.Count,
             Name = "name",
+            DisplayType = ViewAggregationDisplayType.Table,
 
             AggregateColumnName = null,
             GroupByColumnName = null,
@@ -1234,6 +1133,7 @@ public class ViewAggregationTest : TestBase
         {
             Function = ViewAggregationFunction.Count,
             Name = "name",
+            DisplayType = ViewAggregationDisplayType.Table,
 
             AggregateColumnName = null,
             GroupByColumnName = null,
@@ -1250,6 +1150,7 @@ public class ViewAggregationTest : TestBase
             Function = ViewAggregationFunction.Count,
             Name = "name",
             AggregateColumnName = "aggregateColumnName",
+            DisplayType = ViewAggregationDisplayType.Table,
             GroupByColumnName = "groupByColumnName",
         };
 
@@ -1317,6 +1218,66 @@ public class ViewAggregationFunctionTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ViewAggregationFunction>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class ViewAggregationDisplayTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(ViewAggregationDisplayType.Table)]
+    [InlineData(ViewAggregationDisplayType.BarChart)]
+    [InlineData(ViewAggregationDisplayType.PieChart)]
+    public void Validation_Works(ViewAggregationDisplayType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ViewAggregationDisplayType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ViewAggregationDisplayType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(ViewAggregationDisplayType.Table)]
+    [InlineData(ViewAggregationDisplayType.BarChart)]
+    [InlineData(ViewAggregationDisplayType.PieChart)]
+    public void SerializationRoundtrip_Works(ViewAggregationDisplayType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ViewAggregationDisplayType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ViewAggregationDisplayType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ViewAggregationDisplayType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ViewAggregationDisplayType>>(
             json,
             ModelBase.SerializerOptions
         );
@@ -1775,65 +1736,5 @@ public class ViewFunctionTest : TestBase
         ViewFunction copied = new(model);
 
         Assert.Equal(model, copied);
-    }
-}
-
-public class ViewDisplayTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(ViewDisplayType.Table)]
-    [InlineData(ViewDisplayType.BarChart)]
-    [InlineData(ViewDisplayType.PieChart)]
-    public void Validation_Works(ViewDisplayType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewDisplayType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ViewDisplayType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ViewDisplayType.Table)]
-    [InlineData(ViewDisplayType.BarChart)]
-    [InlineData(ViewDisplayType.PieChart)]
-    public void SerializationRoundtrip_Works(ViewDisplayType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewDisplayType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ViewDisplayType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ViewDisplayType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ViewDisplayType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }

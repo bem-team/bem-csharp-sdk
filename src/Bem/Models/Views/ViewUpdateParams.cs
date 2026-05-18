@@ -130,6 +130,27 @@ public record class ViewUpdateParams : ParamsBase
         init { this._rawBodyData.Set("name", value); }
     }
 
+    /// <summary>
+    /// Description of the view
+    /// </summary>
+    public string? Description
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("description");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("description", value);
+        }
+    }
+
     public ViewUpdateParams() { }
 
 #pragma warning disable CS8618
@@ -301,6 +322,29 @@ public sealed record class ViewUpdateParamsAggregation : JsonModel
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, ViewUpdateParamsAggregationDisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, ViewUpdateParamsAggregationDisplayType>
+            >("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -319,6 +363,7 @@ public sealed record class ViewUpdateParamsAggregation : JsonModel
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -411,6 +456,57 @@ sealed class ViewUpdateParamsAggregationFunctionConverter
                 ViewUpdateParamsAggregationFunction.Average => "average",
                 ViewUpdateParamsAggregationFunction.Min => "min",
                 ViewUpdateParamsAggregationFunction.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(ViewUpdateParamsAggregationDisplayTypeConverter))]
+public enum ViewUpdateParamsAggregationDisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class ViewUpdateParamsAggregationDisplayTypeConverter
+    : JsonConverter<ViewUpdateParamsAggregationDisplayType>
+{
+    public override ViewUpdateParamsAggregationDisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => ViewUpdateParamsAggregationDisplayType.Table,
+            "bar_chart" => ViewUpdateParamsAggregationDisplayType.BarChart,
+            "pie_chart" => ViewUpdateParamsAggregationDisplayType.PieChart,
+            _ => (ViewUpdateParamsAggregationDisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ViewUpdateParamsAggregationDisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ViewUpdateParamsAggregationDisplayType.Table => "table",
+                ViewUpdateParamsAggregationDisplayType.BarChart => "bar_chart",
+                ViewUpdateParamsAggregationDisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

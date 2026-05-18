@@ -153,27 +153,6 @@ public sealed record class ViewCreateResponse : JsonModel
         init { this._rawData.Set("description", value); }
     }
 
-    /// <summary>
-    /// Display type of the view
-    /// </summary>
-    public ApiEnum<string, DisplayType>? DisplayType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, DisplayType>>("displayType");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayType", value);
-        }
-    }
-
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -197,7 +176,6 @@ public sealed record class ViewCreateResponse : JsonModel
         _ = this.Name;
         _ = this.ViewID;
         _ = this.Description;
-        this.DisplayType?.Validate();
     }
 
     public ViewCreateResponse() { }
@@ -288,6 +266,29 @@ public sealed record class ViewCreateResponseAggregation : JsonModel
     }
 
     /// <summary>
+    /// How to display the aggregation results
+    /// </summary>
+    public ApiEnum<string, ViewCreateResponseAggregationDisplayType>? DisplayType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<
+                ApiEnum<string, ViewCreateResponseAggregationDisplayType>
+            >("displayType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayType", value);
+        }
+    }
+
+    /// <summary>
     /// Name of the column to group by (optional, for grouped aggregations)
     /// </summary>
     public string? GroupByColumnName
@@ -306,6 +307,7 @@ public sealed record class ViewCreateResponseAggregation : JsonModel
         this.Function.Validate();
         _ = this.Name;
         _ = this.AggregateColumnName;
+        this.DisplayType?.Validate();
         _ = this.GroupByColumnName;
     }
 
@@ -400,6 +402,57 @@ sealed class ViewCreateResponseAggregationFunctionConverter
                 ViewCreateResponseAggregationFunction.Average => "average",
                 ViewCreateResponseAggregationFunction.Min => "min",
                 ViewCreateResponseAggregationFunction.Max => "max",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// How to display the aggregation results
+/// </summary>
+[JsonConverter(typeof(ViewCreateResponseAggregationDisplayTypeConverter))]
+public enum ViewCreateResponseAggregationDisplayType
+{
+    Table,
+    BarChart,
+    PieChart,
+}
+
+sealed class ViewCreateResponseAggregationDisplayTypeConverter
+    : JsonConverter<ViewCreateResponseAggregationDisplayType>
+{
+    public override ViewCreateResponseAggregationDisplayType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "table" => ViewCreateResponseAggregationDisplayType.Table,
+            "bar_chart" => ViewCreateResponseAggregationDisplayType.BarChart,
+            "pie_chart" => ViewCreateResponseAggregationDisplayType.PieChart,
+            _ => (ViewCreateResponseAggregationDisplayType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        ViewCreateResponseAggregationDisplayType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                ViewCreateResponseAggregationDisplayType.Table => "table",
+                ViewCreateResponseAggregationDisplayType.BarChart => "bar_chart",
+                ViewCreateResponseAggregationDisplayType.PieChart => "pie_chart",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -776,54 +829,4 @@ class ViewCreateResponseFunctionFromRaw : IFromRawJson<ViewCreateResponseFunctio
     public ViewCreateResponseFunction FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => ViewCreateResponseFunction.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Display type of the view
-/// </summary>
-[JsonConverter(typeof(DisplayTypeConverter))]
-public enum DisplayType
-{
-    Table,
-    BarChart,
-    PieChart,
-}
-
-sealed class DisplayTypeConverter : JsonConverter<DisplayType>
-{
-    public override DisplayType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "table" => DisplayType.Table,
-            "bar_chart" => DisplayType.BarChart,
-            "pie_chart" => DisplayType.PieChart,
-            _ => (DisplayType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        DisplayType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                DisplayType.Table => "table",
-                DisplayType.BarChart => "bar_chart",
-                DisplayType.PieChart => "pie_chart",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
 }
