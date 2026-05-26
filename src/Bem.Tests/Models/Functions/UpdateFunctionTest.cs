@@ -162,6 +162,7 @@ public class UpdateFunctionTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -367,6 +368,7 @@ public class UpdateFunctionTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2560,6 +2562,7 @@ public class UpdateFunctionParseTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2572,6 +2575,7 @@ public class UpdateFunctionParseTest : TestBase
         string expectedFunctionName = "functionName";
         ParseConfig expectedParseConfig = new()
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2599,6 +2603,7 @@ public class UpdateFunctionParseTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2624,6 +2629,7 @@ public class UpdateFunctionParseTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2643,6 +2649,7 @@ public class UpdateFunctionParseTest : TestBase
         string expectedFunctionName = "functionName";
         ParseConfig expectedParseConfig = new()
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2670,6 +2677,7 @@ public class UpdateFunctionParseTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2749,6 +2757,7 @@ public class UpdateFunctionParseTest : TestBase
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
