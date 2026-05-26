@@ -616,6 +616,7 @@ public class FunctionVersionTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -1295,6 +1296,7 @@ public class FunctionVersionTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7168,6 +7170,7 @@ public class ParseTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7223,6 +7226,7 @@ public class ParseTest : TestBase
         string expectedDisplayName = "displayName";
         Functions::ParseConfig expectedParseConfig = new()
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7303,6 +7307,7 @@ public class ParseTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7368,6 +7373,7 @@ public class ParseTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7427,6 +7433,7 @@ public class ParseTest : TestBase
         string expectedDisplayName = "displayName";
         Functions::ParseConfig expectedParseConfig = new()
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7507,6 +7514,7 @@ public class ParseTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7659,6 +7667,7 @@ public class ParseTest : TestBase
             DisplayName = "displayName",
             ParseConfig = new()
             {
+                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),

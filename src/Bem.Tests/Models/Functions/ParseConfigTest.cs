@@ -11,15 +11,18 @@ public class ParseConfigTest : TestBase
     {
         var model = new ParseConfig
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
 
+        bool expectedEnableBoundingBoxes = true;
         bool expectedExtractEntities = true;
         bool expectedLinkAcrossDocuments = true;
         JsonElement expectedSchema = JsonSerializer.Deserialize<JsonElement>("{}");
 
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
         Assert.Equal(expectedExtractEntities, model.ExtractEntities);
         Assert.Equal(expectedLinkAcrossDocuments, model.LinkAcrossDocuments);
         Assert.NotNull(model.Schema);
@@ -31,6 +34,7 @@ public class ParseConfigTest : TestBase
     {
         var model = new ParseConfig
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -50,6 +54,7 @@ public class ParseConfigTest : TestBase
     {
         var model = new ParseConfig
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -62,10 +67,12 @@ public class ParseConfigTest : TestBase
         );
         Assert.NotNull(deserialized);
 
+        bool expectedEnableBoundingBoxes = true;
         bool expectedExtractEntities = true;
         bool expectedLinkAcrossDocuments = true;
         JsonElement expectedSchema = JsonSerializer.Deserialize<JsonElement>("{}");
 
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
         Assert.Equal(expectedExtractEntities, deserialized.ExtractEntities);
         Assert.Equal(expectedLinkAcrossDocuments, deserialized.LinkAcrossDocuments);
         Assert.NotNull(deserialized.Schema);
@@ -77,6 +84,7 @@ public class ParseConfigTest : TestBase
     {
         var model = new ParseConfig
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -90,6 +98,8 @@ public class ParseConfigTest : TestBase
     {
         var model = new ParseConfig { };
 
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.ExtractEntities);
         Assert.False(model.RawData.ContainsKey("extractEntities"));
         Assert.Null(model.LinkAcrossDocuments);
@@ -112,11 +122,14 @@ public class ParseConfigTest : TestBase
         var model = new ParseConfig
         {
             // Null should be interpreted as omitted for these properties
+            EnableBoundingBoxes = null,
             ExtractEntities = null,
             LinkAcrossDocuments = null,
             Schema = null,
         };
 
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
         Assert.Null(model.ExtractEntities);
         Assert.False(model.RawData.ContainsKey("extractEntities"));
         Assert.Null(model.LinkAcrossDocuments);
@@ -131,6 +144,7 @@ public class ParseConfigTest : TestBase
         var model = new ParseConfig
         {
             // Null should be interpreted as omitted for these properties
+            EnableBoundingBoxes = null,
             ExtractEntities = null,
             LinkAcrossDocuments = null,
             Schema = null,
@@ -144,6 +158,7 @@ public class ParseConfigTest : TestBase
     {
         var model = new ParseConfig
         {
+            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
