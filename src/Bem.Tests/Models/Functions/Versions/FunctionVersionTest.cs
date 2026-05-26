@@ -614,9 +614,9 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -1294,9 +1294,9 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7168,9 +7168,9 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7224,9 +7224,9 @@ public class ParseTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        ExtraConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         Functions::ParseConfig expectedParseConfig = new()
         {
-            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7250,6 +7250,7 @@ public class ParseTest : TestBase
         Assert.Equal(expectedAudit, model.Audit);
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedExtraConfig, model.ExtraConfig);
         Assert.Equal(expectedParseConfig, model.ParseConfig);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -7305,9 +7306,9 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7371,9 +7372,9 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7431,9 +7432,9 @@ public class ParseTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        ExtraConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         Functions::ParseConfig expectedParseConfig = new()
         {
-            EnableBoundingBoxes = true,
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7457,6 +7458,7 @@ public class ParseTest : TestBase
         Assert.Equal(expectedAudit, deserialized.Audit);
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedExtraConfig, deserialized.ExtraConfig);
         Assert.Equal(expectedParseConfig, deserialized.ParseConfig);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -7512,9 +7514,9 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7551,6 +7553,8 @@ public class ParseTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ExtraConfig);
+        Assert.False(model.RawData.ContainsKey("extraConfig"));
         Assert.Null(model.ParseConfig);
         Assert.False(model.RawData.ContainsKey("parseConfig"));
         Assert.Null(model.Tags);
@@ -7585,6 +7589,7 @@ public class ParseTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            ExtraConfig = null,
             ParseConfig = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -7596,6 +7601,8 @@ public class ParseTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ExtraConfig);
+        Assert.False(model.RawData.ContainsKey("extraConfig"));
         Assert.Null(model.ParseConfig);
         Assert.False(model.RawData.ContainsKey("parseConfig"));
         Assert.Null(model.Tags);
@@ -7617,6 +7624,7 @@ public class ParseTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            ExtraConfig = null,
             ParseConfig = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -7665,9 +7673,9 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
-                EnableBoundingBoxes = true,
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7686,6 +7694,110 @@ public class ParseTest : TestBase
         };
 
         Parse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ExtraConfigTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new ExtraConfig { EnableBoundingBoxes = true };
+
+        bool expectedEnableBoundingBoxes = true;
+
+        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new ExtraConfig { EnableBoundingBoxes = true };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ExtraConfig>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new ExtraConfig { EnableBoundingBoxes = true };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ExtraConfig>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        bool expectedEnableBoundingBoxes = true;
+
+        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new ExtraConfig { EnableBoundingBoxes = true };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new ExtraConfig { };
+
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new ExtraConfig { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new ExtraConfig
+        {
+            // Null should be interpreted as omitted for these properties
+            EnableBoundingBoxes = null,
+        };
+
+        Assert.Null(model.EnableBoundingBoxes);
+        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new ExtraConfig
+        {
+            // Null should be interpreted as omitted for these properties
+            EnableBoundingBoxes = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new ExtraConfig { EnableBoundingBoxes = true };
+
+        ExtraConfig copied = new(model);
 
         Assert.Equal(model, copied);
     }

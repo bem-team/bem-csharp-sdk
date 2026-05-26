@@ -3896,6 +3896,29 @@ public sealed record class Parse : JsonModel
     }
 
     /// <summary>
+    /// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface
+    /// on Extract / Join — separated from `parseConfig` so the per-call Parse output
+    /// shape stays distinct from operator-level execution flags.
+    /// </summary>
+    public ExtraConfig? ExtraConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ExtraConfig>("extraConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("extraConfig", value);
+        }
+    }
+
+    /// <summary>
     /// Per-version configuration for a Parse function.
     ///
     /// <para>Parse renders document pages (PDF, image) via vision LLM and emits structured
@@ -3983,6 +4006,7 @@ public sealed record class Parse : JsonModel
         this.Audit?.Validate();
         _ = this.CreatedAt;
         _ = this.DisplayName;
+        this.ExtraConfig?.Validate();
         this.ParseConfig?.Validate();
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -4029,4 +4053,80 @@ class ParseFromRaw : IFromRawJson<Parse>
     /// <inheritdoc/>
     public Parse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Parse.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface on
+/// Extract / Join — separated from `parseConfig` so the per-call Parse output shape
+/// stays distinct from operator-level execution flags.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<ExtraConfig, ExtraConfigFromRaw>))]
+public sealed record class ExtraConfig : JsonModel
+{
+    /// <summary>
+    /// When true, return per-section and per-entity-mention coordinates in the parse
+    /// event's `fieldBoundingBoxes` map (same shape as Extract: JSON Pointer key
+    /// → array of `{page, left, top, width, height}` with coordinates normalized
+    /// to [0, 1]). Keys are `/sections/{N}` and `/entities/{N}/occurrences/{M}` into
+    /// the parse output. Only applies to the open-ended discovery path (no `schema`)
+    /// and to vision input types. Bedrock-backed parse functions silently return
+    /// an empty map (no native bbox support). Defaults to false.
+    /// </summary>
+    public bool? EnableBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("enableBoundingBoxes", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EnableBoundingBoxes;
+    }
+
+    public ExtraConfig() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public ExtraConfig(ExtraConfig extraConfig)
+        : base(extraConfig) { }
+#pragma warning restore CS8618
+
+    public ExtraConfig(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    ExtraConfig(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ExtraConfigFromRaw.FromRawUnchecked"/>
+    public static ExtraConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ExtraConfigFromRaw : IFromRawJson<ExtraConfig>
+{
+    /// <inheritdoc/>
+    public ExtraConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        ExtraConfig.FromRawUnchecked(rawData);
 }

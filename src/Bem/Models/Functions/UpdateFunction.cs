@@ -2483,6 +2483,29 @@ public sealed record class UpdateFunctionParse : JsonModel
     }
 
     /// <summary>
+    /// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface
+    /// on Extract / Join — separated from `parseConfig` so the per-call Parse output
+    /// shape stays distinct from operator-level execution flags.
+    /// </summary>
+    public UpdateFunctionParseExtraConfig? ExtraConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<UpdateFunctionParseExtraConfig>("extraConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("extraConfig", value);
+        }
+    }
+
+    /// <summary>
     /// Name of function. Must be UNIQUE on a per-environment basis.
     /// </summary>
     public string? FunctionName
@@ -2560,6 +2583,7 @@ public sealed record class UpdateFunctionParse : JsonModel
             throw new BemInvalidDataException("Invalid value given for constant");
         }
         _ = this.DisplayName;
+        this.ExtraConfig?.Validate();
         _ = this.FunctionName;
         this.ParseConfig?.Validate();
         _ = this.Tags;
@@ -2605,4 +2629,90 @@ class UpdateFunctionParseFromRaw : IFromRawJson<UpdateFunctionParse>
     /// <inheritdoc/>
     public UpdateFunctionParse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         UpdateFunctionParse.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface on
+/// Extract / Join — separated from `parseConfig` so the per-call Parse output shape
+/// stays distinct from operator-level execution flags.
+/// </summary>
+[JsonConverter(
+    typeof(JsonModelConverter<
+        UpdateFunctionParseExtraConfig,
+        UpdateFunctionParseExtraConfigFromRaw
+    >)
+)]
+public sealed record class UpdateFunctionParseExtraConfig : JsonModel
+{
+    /// <summary>
+    /// When true, return per-section and per-entity-mention coordinates in the parse
+    /// event's `fieldBoundingBoxes` map (same shape as Extract: JSON Pointer key
+    /// → array of `{page, left, top, width, height}` with coordinates normalized
+    /// to [0, 1]). Keys are `/sections/{N}` and `/entities/{N}/occurrences/{M}` into
+    /// the parse output. Only applies to the open-ended discovery path (no `schema`)
+    /// and to vision input types. Bedrock-backed parse functions silently return
+    /// an empty map (no native bbox support). Defaults to false.
+    /// </summary>
+    public bool? EnableBoundingBoxes
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("enableBoundingBoxes", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.EnableBoundingBoxes;
+    }
+
+    public UpdateFunctionParseExtraConfig() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public UpdateFunctionParseExtraConfig(
+        UpdateFunctionParseExtraConfig updateFunctionParseExtraConfig
+    )
+        : base(updateFunctionParseExtraConfig) { }
+#pragma warning restore CS8618
+
+    public UpdateFunctionParseExtraConfig(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    UpdateFunctionParseExtraConfig(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="UpdateFunctionParseExtraConfigFromRaw.FromRawUnchecked"/>
+    public static UpdateFunctionParseExtraConfig FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class UpdateFunctionParseExtraConfigFromRaw : IFromRawJson<UpdateFunctionParseExtraConfig>
+{
+    /// <inheritdoc/>
+    public UpdateFunctionParseExtraConfig FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => UpdateFunctionParseExtraConfig.FromRawUnchecked(rawData);
 }
