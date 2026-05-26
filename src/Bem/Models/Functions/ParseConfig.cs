@@ -18,33 +18,6 @@ namespace Bem.Models.Functions;
 public sealed record class ParseConfig : JsonModel
 {
     /// <summary>
-    /// When true, return per-section and per-entity-mention coordinates in the parse
-    /// event's `fieldBoundingBoxes` map (same shape as Extract: JSON Pointer key
-    /// → array of `{page, left, top, width, height}` with coordinates normalized
-    /// to [0, 1]). Keys are `/sections/{N}` and `/entities/{N}/occurrences/{M}` into
-    /// the parse output. Only applies to the open-ended discovery path (no `schema`)
-    /// and to vision input types. Bedrock-backed parse functions silently return
-    /// an empty map (no native bbox support). Defaults to false.
-    /// </summary>
-    public bool? EnableBoundingBoxes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("enableBoundingBoxes", value);
-        }
-    }
-
-    /// <summary>
     /// When true, extract named entities (people, organizations, products, studies,
     /// identifiers, etc.) and the relationships between them, and dedupe by canonical
     /// name within the document. When false, only `sections[]` is extracted; `entities[]`
@@ -119,7 +92,6 @@ public sealed record class ParseConfig : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        _ = this.EnableBoundingBoxes;
         _ = this.ExtractEntities;
         _ = this.LinkAcrossDocuments;
         _ = this.Schema;
