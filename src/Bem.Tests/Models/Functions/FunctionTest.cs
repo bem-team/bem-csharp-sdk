@@ -499,21 +499,44 @@ public class FunctionTest : TestBase
     {
         Function value = new FunctionEnrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -1162,21 +1185,44 @@ public class FunctionTest : TestBase
     {
         Function value = new FunctionEnrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6326,21 +6372,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6388,21 +6457,44 @@ public class FunctionEnrichTest : TestBase
             ],
         };
 
-        EnrichConfig expectedConfig = new(
+        EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = SearchMode.Semantic,
+                    Source = Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
@@ -6476,21 +6568,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6552,21 +6667,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6621,21 +6759,44 @@ public class FunctionEnrichTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        EnrichConfig expectedConfig = new(
+        EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = SearchMode.Semantic,
+                    Source = Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
@@ -6709,21 +6870,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6779,21 +6963,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6814,21 +7021,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6842,21 +7072,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6883,21 +7136,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6917,21 +7193,44 @@ public class FunctionEnrichTest : TestBase
     {
         var model = new FunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,

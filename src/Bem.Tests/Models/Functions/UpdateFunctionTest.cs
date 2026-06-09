@@ -134,21 +134,44 @@ public class UpdateFunctionTest : TestBase
     {
         UpdateFunction value = new UpdateFunctionEnrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
         value.Validate();
     }
@@ -334,21 +357,44 @@ public class UpdateFunctionTest : TestBase
     {
         UpdateFunction value = new UpdateFunctionEnrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<UpdateFunction>(
@@ -2337,39 +2383,85 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
-        EnrichConfig expectedConfig = new(
+        EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = SearchMode.Semantic,
+                    Source = Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedConfig, model.Config);
@@ -2380,21 +2472,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -2411,21 +2526,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -2436,21 +2574,44 @@ public class UpdateFunctionEnrichTest : TestBase
         Assert.NotNull(deserialized);
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
-        EnrichConfig expectedConfig = new(
+        EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = SearchMode.Semantic,
+                    Source = Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedConfig, deserialized.Config);
@@ -2461,21 +2622,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         model.Validate();
@@ -2528,21 +2712,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         UpdateFunctionEnrich copied = new(model);

@@ -12,42 +12,39 @@ namespace Bem.Models.Functions;
 /// <summary>
 /// Single enrichment step configuration.
 ///
-/// <para>**Process Flow:** 1. Extract values from `sourceField` using JMESPath 2.
-/// Perform search against the specified collection (semantic, exact, or hybrid based
-/// on `searchMode`) 3. Return top K matches sorted by relevance (best match first)
-/// 4. Inject results into `targetField`</para>
+/// <para>**Process Flow (collection source):** 1. Extract values from `sourceField`
+/// using JMESPath 2. Perform search against the specified collection (semantic, exact,
+/// or hybrid based on `searchMode`) 3. Return top K matches sorted by relevance (best
+/// match first) 4. Inject results into `targetField`</para>
 ///
-/// <para>**Search Modes:** - `semantic` (default): Vector similarity search - best
-/// for natural language and conceptual matching - `exact`: Exact keyword matching
-/// - best for SKU numbers, IDs, routing numbers - `hybrid`: Combined semantic +
-/// keyword search - best for tags and categories</para>
+/// <para>**Process Flow (endpoint source):** 1. Extract values from `sourceField`
+/// using JMESPath 2. Call the named endpoint once per extracted value, following
+/// pagination if `nextPagePath`/`nextPageParam` are configured on the endpoint 3.
+/// Optionally apply LLM agent reasoning to rank candidates (`matchInstructions`),
+/// batching across all fetched pages in groups of `maxCandidates` 4. Inject results
+/// into `targetField`</para>
 ///
-/// <para>**Result Format:** - Results are always returned as an array (list), regardless
-/// of `topK` value - Array is sorted by relevance (best match first) - Each result
-/// contains `data` (the collection item) and optionally `cosineDistance` - With `topK=1`:
-/// Returns array with single best match: `[{data: {...}, cosineDistance: 0.15}]`
-/// - With `topK&gt;1`: Returns array with multiple matches sorted by relevance</para>
+/// <para>**Collection Search Modes** (`source: "collection"` only): - `semantic`
+/// (default): Vector similarity search — best for natural language and conceptual
+/// matching - `exact`: Exact keyword matching — best for SKU numbers, IDs, routing
+/// numbers - `hybrid`: Combined semantic + keyword search — best for tags and categories</para>
+///
+/// <para>**Result Format (collection source):** - Always an array sorted by relevance
+/// (best match first) - Each element: `{ data, cosineDistance? }` or `{ data, hybridScore? }`</para>
+///
+/// <para>**Result Format (endpoint source, no matchInstructions):** - Always an array;
+/// the raw fetched value is the single element</para>
+///
+/// <para>**Result Format (endpoint source, with matchInstructions):** - Array of
+/// LLM-ranked matches: `[{ data, confidence, reasoning? }, ...]` - Length capped
+/// by `enrichEndpoint.matchTopK` (default 1)</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<EnrichStep, EnrichStepFromRaw>))]
 public sealed record class EnrichStep : JsonModel
 {
     /// <summary>
-    /// Name of the collection to search against. The collection must exist and contain
-    /// items. Supports hierarchical paths when used with `includeSubcollections`.
-    /// </summary>
-    public required string CollectionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("collectionName");
-        }
-        init { this._rawData.Set("collectionName", value); }
-    }
-
-    /// <summary>
-    /// JMESPath expression to extract source data for semantic search. Can extract
-    /// single values or arrays. All extracted values will be used for search.
+    /// JMESPath expression to extract source data. Can extract a single value or
+    /// an array. Each extracted value is looked up independently.
     /// </summary>
     public required string SourceField
     {
@@ -72,6 +69,51 @@ public sealed record class EnrichStep : JsonModel
             return this._rawData.GetNotNullClass<string>("targetField");
         }
         init { this._rawData.Set("targetField", value); }
+    }
+
+    /// <summary>
+    /// Name of the collection to search against. Required when `source` is `"collection"`.
+    /// The collection must exist and contain items. Supports hierarchical paths
+    /// when used with `includeSubcollections`.
+    /// </summary>
+    public string? CollectionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("collectionName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("collectionName", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of an endpoint defined in `enrichConfig.endpoints`. Required when `source`
+    /// is `"endpoint"`.
+    /// </summary>
+    public string? EndpointName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("endpointName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("endpointName", value);
+        }
     }
 
     /// <summary>
@@ -189,6 +231,31 @@ public sealed record class EnrichStep : JsonModel
     }
 
     /// <summary>
+    /// Where to fetch enrichment data from (default: `"collection"`).
+    ///
+    /// <para>- `"collection"`: Vector/keyword search against a BEM collection. Requires
+    /// `collectionName`. - `"endpoint"`: HTTP call to a named endpoint defined in
+    /// `enrichConfig.endpoints`. Requires `endpointName`.</para>
+    /// </summary>
+    public ApiEnum<string, Source>? Source
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, Source>>("source");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("source", value);
+        }
+    }
+
+    /// <summary>
     /// Number of top matching results to return per query (default: 1). Results
     /// are always returned as an array (list) and automatically sorted by cosine
     /// distance (best match = lowest distance first).
@@ -217,13 +284,15 @@ public sealed record class EnrichStep : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        _ = this.CollectionName;
         _ = this.SourceField;
         _ = this.TargetField;
+        _ = this.CollectionName;
+        _ = this.EndpointName;
         _ = this.IncludeScore;
         _ = this.IncludeSubcollections;
         _ = this.ScoreThreshold;
         this.SearchMode?.Validate();
+        this.Source?.Validate();
         _ = this.TopK;
     }
 
@@ -315,6 +384,53 @@ sealed class SearchModeConverter : JsonConverter<SearchMode>
                 SearchMode.Semantic => "semantic",
                 SearchMode.Exact => "exact",
                 SearchMode.Hybrid => "hybrid",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Where to fetch enrichment data from (default: `"collection"`).
+///
+/// <para>- `"collection"`: Vector/keyword search against a BEM collection. Requires
+/// `collectionName`. - `"endpoint"`: HTTP call to a named endpoint defined in `enrichConfig.endpoints`.
+/// Requires `endpointName`.</para>
+/// </summary>
+[JsonConverter(typeof(SourceConverter))]
+public enum Source
+{
+    Collection,
+    Endpoint,
+}
+
+sealed class SourceConverter : JsonConverter<Source>
+{
+    public override Source Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "collection" => Source.Collection,
+            "endpoint" => Source.Endpoint,
+            _ => (Source)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Source value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                Source.Collection => "collection",
+                Source.Endpoint => "endpoint",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
