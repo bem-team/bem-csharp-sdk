@@ -14,6 +14,7 @@ public class FNavigateParamsTest : TestBase
         var parameters = new Fs::FNavigateParams
         {
             Op = Fs::FsOp.Ls,
+            Context = new() { Bucket = "bucket" },
             CountOnly = true,
             Cursor = "cursor",
             Filter = new()
@@ -40,6 +41,7 @@ public class FNavigateParamsTest : TestBase
         };
 
         ApiEnum<string, Fs::FsOp> expectedOp = Fs::FsOp.Ls;
+        Fs::Context expectedContext = new() { Bucket = "bucket" };
         bool expectedCountOnly = true;
         string expectedCursor = "cursor";
         Fs::Filter expectedFilter = new()
@@ -65,6 +67,7 @@ public class FNavigateParamsTest : TestBase
         List<string> expectedSelect = ["string"];
 
         Assert.Equal(expectedOp, parameters.Op);
+        Assert.Equal(expectedContext, parameters.Context);
         Assert.Equal(expectedCountOnly, parameters.CountOnly);
         Assert.Equal(expectedCursor, parameters.Cursor);
         Assert.Equal(expectedFilter, parameters.Filter);
@@ -89,6 +92,8 @@ public class FNavigateParamsTest : TestBase
     {
         var parameters = new Fs::FNavigateParams { Op = Fs::FsOp.Ls };
 
+        Assert.Null(parameters.Context);
+        Assert.False(parameters.RawBodyData.ContainsKey("context"));
         Assert.Null(parameters.CountOnly);
         Assert.False(parameters.RawBodyData.ContainsKey("countOnly"));
         Assert.Null(parameters.Cursor);
@@ -123,6 +128,7 @@ public class FNavigateParamsTest : TestBase
             Op = Fs::FsOp.Ls,
 
             // Null should be interpreted as omitted for these properties
+            Context = null,
             CountOnly = null,
             Cursor = null,
             Filter = null,
@@ -137,6 +143,8 @@ public class FNavigateParamsTest : TestBase
             Select = null,
         };
 
+        Assert.Null(parameters.Context);
+        Assert.False(parameters.RawBodyData.ContainsKey("context"));
         Assert.Null(parameters.CountOnly);
         Assert.False(parameters.RawBodyData.ContainsKey("countOnly"));
         Assert.Null(parameters.Cursor);
@@ -179,6 +187,7 @@ public class FNavigateParamsTest : TestBase
         var parameters = new Fs::FNavigateParams
         {
             Op = Fs::FsOp.Ls,
+            Context = new() { Bucket = "bucket" },
             CountOnly = true,
             Cursor = "cursor",
             Filter = new()
@@ -207,6 +216,110 @@ public class FNavigateParamsTest : TestBase
         Fs::FNavigateParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
+    }
+}
+
+public class ContextTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Fs::Context { Bucket = "bucket" };
+
+        string expectedBucket = "bucket";
+
+        Assert.Equal(expectedBucket, model.Bucket);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Fs::Context { Bucket = "bucket" };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Fs::Context>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Fs::Context { Bucket = "bucket" };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Fs::Context>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedBucket = "bucket";
+
+        Assert.Equal(expectedBucket, deserialized.Bucket);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Fs::Context { Bucket = "bucket" };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Fs::Context { };
+
+        Assert.Null(model.Bucket);
+        Assert.False(model.RawData.ContainsKey("bucket"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Fs::Context { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Fs::Context
+        {
+            // Null should be interpreted as omitted for these properties
+            Bucket = null,
+        };
+
+        Assert.Null(model.Bucket);
+        Assert.False(model.RawData.ContainsKey("bucket"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Fs::Context
+        {
+            // Null should be interpreted as omitted for these properties
+            Bucket = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Fs::Context { Bucket = "bucket" };
+
+        Fs::Context copied = new(model);
+
+        Assert.Equal(model, copied);
     }
 }
 
