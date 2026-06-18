@@ -162,6 +162,42 @@ public sealed class BemClient : IBemClient
         get { return _views.Value; }
     }
 
+    readonly Lazy<IBucketService> _buckets;
+    public IBucketService Buckets
+    {
+        get { return _buckets.Value; }
+    }
+
+    readonly Lazy<IEntityService> _entities;
+    public IEntityService Entities
+    {
+        get { return _entities.Value; }
+    }
+
+    readonly Lazy<IEntityTypeService> _entityTypes;
+    public IEntityTypeService EntityTypes
+    {
+        get { return _entityTypes.Value; }
+    }
+
+    readonly Lazy<IKnowledgeGraphService> _knowledgeGraph;
+    public IKnowledgeGraphService KnowledgeGraph
+    {
+        get { return _knowledgeGraph.Value; }
+    }
+
+    readonly Lazy<IReviewQueueService> _reviewQueue;
+    public IReviewQueueService ReviewQueue
+    {
+        get { return _reviewQueue.Value; }
+    }
+
+    readonly Lazy<IUserService> _users;
+    public IUserService Users
+    {
+        get { return _users.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -184,6 +220,12 @@ public sealed class BemClient : IBemClient
         _connectors = new(() => new ConnectorService(this));
         _subscriptions = new(() => new SubscriptionService(this));
         _views = new(() => new ViewService(this));
+        _buckets = new(() => new BucketService(this));
+        _entities = new(() => new EntityService(this));
+        _entityTypes = new(() => new EntityTypeService(this));
+        _knowledgeGraph = new(() => new KnowledgeGraphService(this));
+        _reviewQueue = new(() => new ReviewQueueService(this));
+        _users = new(() => new UserService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -347,6 +389,42 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public IViewServiceWithRawResponse Views
     {
         get { return _views.Value; }
+    }
+
+    readonly Lazy<IBucketServiceWithRawResponse> _buckets;
+    public IBucketServiceWithRawResponse Buckets
+    {
+        get { return _buckets.Value; }
+    }
+
+    readonly Lazy<IEntityServiceWithRawResponse> _entities;
+    public IEntityServiceWithRawResponse Entities
+    {
+        get { return _entities.Value; }
+    }
+
+    readonly Lazy<IEntityTypeServiceWithRawResponse> _entityTypes;
+    public IEntityTypeServiceWithRawResponse EntityTypes
+    {
+        get { return _entityTypes.Value; }
+    }
+
+    readonly Lazy<IKnowledgeGraphServiceWithRawResponse> _knowledgeGraph;
+    public IKnowledgeGraphServiceWithRawResponse KnowledgeGraph
+    {
+        get { return _knowledgeGraph.Value; }
+    }
+
+    readonly Lazy<IReviewQueueServiceWithRawResponse> _reviewQueue;
+    public IReviewQueueServiceWithRawResponse ReviewQueue
+    {
+        get { return _reviewQueue.Value; }
+    }
+
+    readonly Lazy<IUserServiceWithRawResponse> _users;
+    public IUserServiceWithRawResponse Users
+    {
+        get { return _users.Value; }
     }
 
     /// <inheritdoc/>
@@ -562,6 +640,12 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _connectors = new(() => new ConnectorServiceWithRawResponse(this));
         _subscriptions = new(() => new SubscriptionServiceWithRawResponse(this));
         _views = new(() => new ViewServiceWithRawResponse(this));
+        _buckets = new(() => new BucketServiceWithRawResponse(this));
+        _entities = new(() => new EntityServiceWithRawResponse(this));
+        _entityTypes = new(() => new EntityTypeServiceWithRawResponse(this));
+        _knowledgeGraph = new(() => new KnowledgeGraphServiceWithRawResponse(this));
+        _reviewQueue = new(() => new ReviewQueueServiceWithRawResponse(this));
+        _users = new(() => new UserServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)

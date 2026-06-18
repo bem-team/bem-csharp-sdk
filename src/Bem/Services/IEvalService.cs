@@ -64,6 +64,8 @@ public interface IEvalService
 
     IResultService Results { get; }
 
+    IScoreService Score { get; }
+
     /// <summary>
     /// **Queue evaluation jobs for a batch of transformations.**
     ///
@@ -96,6 +98,8 @@ public interface IEvalServiceWithRawResponse
     IEvalServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     IResultServiceWithRawResponse Results { get; }
+
+    IScoreServiceWithRawResponse Score { get; }
 
     /// <summary>
     /// Returns a raw HTTP response for <c>post /v3/eval</c>, but is otherwise the
