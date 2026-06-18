@@ -5,10 +5,13 @@ using Bem.Models.Connectors;
 using Bem.Models.Fs;
 using Bem.Models.Functions;
 using Calls = Bem.Models.Calls;
+using Entities = Bem.Models.Entities;
 using Errors = Bem.Models.Errors;
 using Events = Bem.Models.Events;
 using Outputs = Bem.Models.Outputs;
+using Score = Bem.Models.Eval.Score;
 using Subscriptions = Bem.Models.Subscriptions;
+using Synonyms = Bem.Models.Entities.Synonyms;
 using Versions = Bem.Models.Functions.Versions;
 using Views = Bem.Models.Views;
 using Webhooks = Bem.Models.Webhooks;
@@ -106,6 +109,19 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Webhooks::Operation>(),
             new ApiEnumConverter<string, Webhooks::CollectionProcessingWebhookEventStatus>(),
             new ApiEnumConverter<string, Webhooks::CollectionProcessingWebhookEventEventType>(),
+            new ApiEnumConverter<string, Score::Status>(),
+            new ApiEnumConverter<string, Score::ScoreRetrieveResponseMatchConfigArrayMatch>(),
+            new ApiEnumConverter<string, Score::ScoreRetrieveResponseMatchConfigStringMatch>(),
+            new ApiEnumConverter<string, Score::PerPairStatus>(),
+            new ApiEnumConverter<string, Score::Match>(),
+            new ApiEnumConverter<string, Score::ScoreRetrieveResponseStatus>(),
+            new ApiEnumConverter<string, Score::ScoreCancelResponseMatchConfigArrayMatch>(),
+            new ApiEnumConverter<string, Score::ScoreCancelResponseMatchConfigStringMatch>(),
+            new ApiEnumConverter<string, Score::ScoreCancelResponsePerPairStatus>(),
+            new ApiEnumConverter<string, Score::ScoreCancelResponsePerPairFieldResultMatch>(),
+            new ApiEnumConverter<string, Score::ScoreCancelResponseStatus>(),
+            new ApiEnumConverter<string, Score::ArrayMatch>(),
+            new ApiEnumConverter<string, Score::StringMatch>(),
             new ApiEnumConverter<string, FsOp>(),
             new ApiEnumConverter<string, ConnectorType>(),
             new ApiEnumConverter<string, Subscriptions::SubscriptionV3Type>(),
@@ -149,6 +165,16 @@ public abstract record class ModelBase
                 Views::ViewGenerateTableDataParamsAggregationDisplayType
             >(),
             new ApiEnumConverter<string, Views::ViewGenerateTableDataParamsFilterFilterType>(),
+            new ApiEnumConverter<string, Entities::EntityUpdateResponseStatus>(),
+            new ApiEnumConverter<string, Entities::Outcome>(),
+            new ApiEnumConverter<string, Entities::EntityBulkValidateResponseResultOutcome>(),
+            new ApiEnumConverter<string, Entities::EntityRetrieveSeedStatusResponseStatus>(),
+            new ApiEnumConverter<string, Entities::EntityRetrieveSeedStatusResponseResultOutcome>(),
+            new ApiEnumConverter<string, Entities::Status>(),
+            new ApiEnumConverter<string, Entities::OnConflict>(),
+            new ApiEnumConverter<string, Entities::EntityBulkValidateParamsStatus>(),
+            new ApiEnumConverter<string, Entities::Direction>(),
+            new ApiEnumConverter<string, Synonyms::Source>(),
         },
     };
 

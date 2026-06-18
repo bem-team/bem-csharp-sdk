@@ -83,6 +83,18 @@ public interface IBemClient : IDisposable
     ISubscriptionService Subscriptions { get; }
 
     IViewService Views { get; }
+
+    IBucketService Buckets { get; }
+
+    IEntityService Entities { get; }
+
+    IEntityTypeService EntityTypes { get; }
+
+    IKnowledgeGraphService KnowledgeGraph { get; }
+
+    IReviewQueueService ReviewQueue { get; }
+
+    IUserService Users { get; }
 }
 
 /// <summary>
@@ -146,6 +158,18 @@ public interface IBemClientWithRawResponse : IDisposable
     ISubscriptionServiceWithRawResponse Subscriptions { get; }
 
     IViewServiceWithRawResponse Views { get; }
+
+    IBucketServiceWithRawResponse Buckets { get; }
+
+    IEntityServiceWithRawResponse Entities { get; }
+
+    IEntityTypeServiceWithRawResponse EntityTypes { get; }
+
+    IKnowledgeGraphServiceWithRawResponse KnowledgeGraph { get; }
+
+    IReviewQueueServiceWithRawResponse ReviewQueue { get; }
+
+    IUserServiceWithRawResponse Users { get; }
 
     /// <summary>
     /// Sends a request to the Bem REST API.
