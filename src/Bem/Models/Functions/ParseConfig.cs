@@ -18,6 +18,29 @@ namespace Bem.Models.Functions;
 public sealed record class ParseConfig : JsonModel
 {
     /// <summary>
+    /// Optional bucket NAME that parse-extracted entities land in when no call-level
+    /// bucket is supplied. Lower precedence than a call-level bucket, higher than
+    /// the account+environment default.
+    /// </summary>
+    public string? DefaultBucket
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("defaultBucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("defaultBucket", value);
+        }
+    }
+
+    /// <summary>
     /// When true, extract named entities (people, organizations, products, studies,
     /// identifiers, etc.) and the relationships between them, and dedupe by canonical
     /// name within the document. When false, only `sections[]` is extracted; `entities[]`
@@ -92,6 +115,7 @@ public sealed record class ParseConfig : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
+        _ = this.DefaultBucket;
         _ = this.ExtractEntities;
         _ = this.LinkAcrossDocuments;
         _ = this.Schema;

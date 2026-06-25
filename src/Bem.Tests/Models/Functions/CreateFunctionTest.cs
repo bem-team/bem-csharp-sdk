@@ -189,6 +189,7 @@ public class CreateFunctionTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -421,6 +422,7 @@ public class CreateFunctionTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2785,6 +2787,7 @@ public class ParseTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2798,6 +2801,7 @@ public class ParseTest : TestBase
         ExtraConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         ParseConfig expectedParseConfig = new()
         {
+            DefaultBucket = "defaultBucket",
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2827,6 +2831,7 @@ public class ParseTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2850,6 +2855,7 @@ public class ParseTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2867,6 +2873,7 @@ public class ParseTest : TestBase
         ExtraConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         ParseConfig expectedParseConfig = new()
         {
+            DefaultBucket = "defaultBucket",
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2896,6 +2903,7 @@ public class ParseTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2980,6 +2988,7 @@ public class ParseTest : TestBase
             ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
