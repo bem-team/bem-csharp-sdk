@@ -36,6 +36,7 @@ public class WorkflowCallParamsTest : TestBase
                 },
             },
             Wait = true,
+            Bucket = "bucket",
             CallReferenceID = "callReferenceID",
             Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };
@@ -62,12 +63,14 @@ public class WorkflowCallParamsTest : TestBase
             },
         };
         bool expectedWait = true;
+        string expectedBucket = "bucket";
         string expectedCallReferenceID = "callReferenceID";
         JsonElement expectedMetadata = JsonSerializer.Deserialize<JsonElement>("{}");
 
         Assert.Equal(expectedWorkflowName, parameters.WorkflowName);
         Assert.Equal(expectedInput, parameters.Input);
         Assert.Equal(expectedWait, parameters.Wait);
+        Assert.Equal(expectedBucket, parameters.Bucket);
         Assert.Equal(expectedCallReferenceID, parameters.CallReferenceID);
         Assert.NotNull(parameters.Metadata);
         Assert.True(JsonElement.DeepEquals(expectedMetadata, parameters.Metadata.Value));
@@ -103,6 +106,8 @@ public class WorkflowCallParamsTest : TestBase
 
         Assert.Null(parameters.Wait);
         Assert.False(parameters.RawQueryData.ContainsKey("wait"));
+        Assert.Null(parameters.Bucket);
+        Assert.False(parameters.RawBodyData.ContainsKey("bucket"));
         Assert.Null(parameters.CallReferenceID);
         Assert.False(parameters.RawBodyData.ContainsKey("callReferenceID"));
         Assert.Null(parameters.Metadata);
@@ -138,12 +143,15 @@ public class WorkflowCallParamsTest : TestBase
 
             // Null should be interpreted as omitted for these properties
             Wait = null,
+            Bucket = null,
             CallReferenceID = null,
             Metadata = null,
         };
 
         Assert.Null(parameters.Wait);
         Assert.False(parameters.RawQueryData.ContainsKey("wait"));
+        Assert.Null(parameters.Bucket);
+        Assert.False(parameters.RawBodyData.ContainsKey("bucket"));
         Assert.Null(parameters.CallReferenceID);
         Assert.False(parameters.RawBodyData.ContainsKey("callReferenceID"));
         Assert.Null(parameters.Metadata);
@@ -216,6 +224,7 @@ public class WorkflowCallParamsTest : TestBase
                 },
             },
             Wait = true,
+            Bucket = "bucket",
             CallReferenceID = "callReferenceID",
             Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
         };

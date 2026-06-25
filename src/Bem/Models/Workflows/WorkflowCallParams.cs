@@ -124,6 +124,31 @@ public record class WorkflowCallParams : ParamsBase
     }
 
     /// <summary>
+    /// Optional bucket NAME that entities extracted by the workflow's parse function(s)
+    /// land in. Resolution precedence: this call-level bucket &gt; the parse function's
+    /// configured `defaultBucket` &gt; the account+environment default bucket. A
+    /// non-existent bucket name returns 400, but only when the workflow contains
+    /// a parse function; on a parse-free workflow it is ignored.
+    /// </summary>
+    public string? Bucket
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("bucket", value);
+        }
+    }
+
+    /// <summary>
     /// Your reference ID for tracking this call.
     /// </summary>
     public string? CallReferenceID
