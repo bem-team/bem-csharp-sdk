@@ -43,7 +43,8 @@ public record class CreateFunction : ModelBase
                 join: (x) => x.FunctionName,
                 payloadShaping: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
-                parse: (x) => x.FunctionName
+                parse: (x) => x.FunctionName,
+                render: (x) => x.FunctionName
             );
         }
     }
@@ -60,7 +61,8 @@ public record class CreateFunction : ModelBase
                 join: (x) => x.Type,
                 payloadShaping: (x) => x.Type,
                 enrich: (x) => x.Type,
-                parse: (x) => x.Type
+                parse: (x) => x.Type,
+                render: (x) => x.Type
             );
         }
     }
@@ -77,7 +79,8 @@ public record class CreateFunction : ModelBase
                 join: (x) => x.DisplayName,
                 payloadShaping: (x) => x.DisplayName,
                 enrich: (x) => x.DisplayName,
-                parse: (x) => x.DisplayName
+                parse: (x) => x.DisplayName,
+                render: (x) => x.DisplayName
             );
         }
     }
@@ -94,7 +97,8 @@ public record class CreateFunction : ModelBase
                 join: (x) => x.OutputSchema,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -111,7 +115,8 @@ public record class CreateFunction : ModelBase
                 join: (x) => x.OutputSchemaName,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -128,7 +133,8 @@ public record class CreateFunction : ModelBase
                 join: (x) => x.Description,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -176,6 +182,12 @@ public record class CreateFunction : ModelBase
     }
 
     public CreateFunction(Parse value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public CreateFunction(Render value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -355,6 +367,27 @@ public record class CreateFunction : ModelBase
     }
 
     /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="Render"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickRender(out var value)) {
+    ///     // `value` is of type `Render`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickRender([NotNullWhen(true)] out Render? value)
+    {
+        value = this.Value as Render;
+        return value != null;
+    }
+
+    /// <summary>
     /// Calls the function parameter corresponding to the variant the instance was constructed with.
     ///
     /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
@@ -375,7 +408,8 @@ public record class CreateFunction : ModelBase
     ///     (Join value) =&gt; {...},
     ///     (PayloadShaping value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
-    ///     (Parse value) =&gt; {...}
+    ///     (Parse value) =&gt; {...},
+    ///     (Render value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -388,7 +422,8 @@ public record class CreateFunction : ModelBase
         Action<Join> join,
         Action<PayloadShaping> payloadShaping,
         Action<Enrich> enrich,
-        Action<Parse> parse
+        Action<Parse> parse,
+        Action<Render> render
     )
     {
         switch (this.Value)
@@ -416,6 +451,9 @@ public record class CreateFunction : ModelBase
                 break;
             case Parse value:
                 parse(value);
+                break;
+            case Render value:
+                render(value);
                 break;
             default:
                 throw new BemInvalidDataException(
@@ -446,7 +484,8 @@ public record class CreateFunction : ModelBase
     ///     (Join value) =&gt; {...},
     ///     (PayloadShaping value) =&gt; {...},
     ///     (Enrich value) =&gt; {...},
-    ///     (Parse value) =&gt; {...}
+    ///     (Parse value) =&gt; {...},
+    ///     (Render value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -459,7 +498,8 @@ public record class CreateFunction : ModelBase
         Func<Join, T> join,
         Func<PayloadShaping, T> payloadShaping,
         Func<Enrich, T> enrich,
-        Func<Parse, T> parse
+        Func<Parse, T> parse,
+        Func<Render, T> render
     )
     {
         return this.Value switch
@@ -472,6 +512,7 @@ public record class CreateFunction : ModelBase
             PayloadShaping value => payloadShaping(value),
             Enrich value => enrich(value),
             Parse value => parse(value),
+            Render value => render(value),
             _ => throw new BemInvalidDataException(
                 "Data did not match any variant of CreateFunction"
             ),
@@ -493,6 +534,8 @@ public record class CreateFunction : ModelBase
     public static implicit operator CreateFunction(Enrich value) => new(value);
 
     public static implicit operator CreateFunction(Parse value) => new(value);
+
+    public static implicit operator CreateFunction(Render value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -518,7 +561,8 @@ public record class CreateFunction : ModelBase
             (join) => join.Validate(),
             (payloadShaping) => payloadShaping.Validate(),
             (enrich) => enrich.Validate(),
-            (parse) => parse.Validate()
+            (parse) => parse.Validate(),
+            (render) => render.Validate()
         );
     }
 
@@ -550,6 +594,7 @@ public record class CreateFunction : ModelBase
             PayloadShaping _ => 5,
             Enrich _ => 6,
             Parse _ => 7,
+            Render _ => 8,
             _ => -1,
         };
     }
@@ -700,6 +745,23 @@ sealed class CreateFunctionConverter : JsonConverter<CreateFunction>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<Parse>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "render":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<Render>(element, options);
                     if (deserialized != null)
                     {
                         return new(deserialized, element);
@@ -2666,4 +2728,301 @@ class ExtraConfigFromRaw : IFromRawJson<ExtraConfig>
     /// <inheritdoc/>
     public ExtraConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         ExtraConfig.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<Render, RenderFromRaw>))]
+public sealed record class Render : JsonModel
+{
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    /// <summary>
+    /// Request-side render configuration. Carries the template document as base64-encoded
+    /// `.docx` bytes: the server validates them, stores the template, and derives
+    /// the placeholder/style-id contract at create/update time, so clients never
+    /// submit `placeholders` or `styleIds`. The response shape (`RenderConfig`) returns
+    /// the derived contract.
+    /// </summary>
+    public required RenderConfig RenderConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<RenderConfig>("renderConfig");
+        }
+        init { this._rawData.Set("renderConfig", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.FunctionName;
+        this.RenderConfig.Validate();
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("render")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.DisplayName;
+        _ = this.Tags;
+    }
+
+    public Render()
+    {
+        this.Type = JsonSerializer.SerializeToElement("render");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Render(Render render)
+        : base(render) { }
+#pragma warning restore CS8618
+
+    public Render(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("render");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Render(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="RenderFromRaw.FromRawUnchecked"/>
+    public static Render FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class RenderFromRaw : IFromRawJson<Render>
+{
+    /// <inheritdoc/>
+    public Render FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Render.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// Request-side render configuration. Carries the template document as base64-encoded
+/// `.docx` bytes: the server validates them, stores the template, and derives the
+/// placeholder/style-id contract at create/update time, so clients never submit
+/// `placeholders` or `styleIds`. The response shape (`RenderConfig`) returns the
+/// derived contract.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<RenderConfig, RenderConfigFromRaw>))]
+public sealed record class RenderConfig : JsonModel
+{
+    public required Template Template
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<Template>("template");
+        }
+        init { this._rawData.Set("template", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        this.Template.Validate();
+    }
+
+    public RenderConfig() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public RenderConfig(RenderConfig renderConfig)
+        : base(renderConfig) { }
+#pragma warning restore CS8618
+
+    public RenderConfig(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    RenderConfig(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="RenderConfigFromRaw.FromRawUnchecked"/>
+    public static RenderConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public RenderConfig(Template template)
+        : this()
+    {
+        this.Template = template;
+    }
+}
+
+class RenderConfigFromRaw : IFromRawJson<RenderConfig>
+{
+    /// <inheritdoc/>
+    public RenderConfig FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        RenderConfig.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<Template, TemplateFromRaw>))]
+public sealed record class Template : JsonModel
+{
+    /// <summary>
+    /// Base64-encoded `.docx` bytes. In the Bem CLI, use `@path/to/file` to embed
+    /// it automatically.
+    /// </summary>
+    public required string Base64
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("base64");
+        }
+        init { this._rawData.Set("base64", value); }
+    }
+
+    /// <summary>
+    /// Original upload filename (e.g. `contract.docx`), stored for display only.
+    /// Does not affect where the template is stored.
+    /// </summary>
+    public string? Name
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("name");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("name", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Base64;
+        _ = this.Name;
+    }
+
+    public Template() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Template(Template template)
+        : base(template) { }
+#pragma warning restore CS8618
+
+    public Template(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Template(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="TemplateFromRaw.FromRawUnchecked"/>
+    public static Template FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public Template(string base64)
+        : this()
+    {
+        this.Base64 = base64;
+    }
+}
+
+class TemplateFromRaw : IFromRawJson<Template>
+{
+    /// <inheritdoc/>
+    public Template FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Template.FromRawUnchecked(rawData);
 }
