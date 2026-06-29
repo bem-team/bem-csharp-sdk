@@ -222,6 +222,32 @@ public sealed record class ErrorEvent : JsonModel
         }
     }
 
+    /// <summary>
+    /// Open, extensible error-kind label for typed transformation errors. The platform
+    /// emits these as plain strings and the set grows over time, so clients must
+    /// accept unknown values. For render functions the known kinds are `render_source_fetch`,
+    /// `render_template_fetch`, `render_image_unresolved`, `render_validation`,
+    /// `render_exception`, `render_upload`, and `render_contract`. Omitted for historical
+    /// events that pre-date the kind column and for non-transform errors.
+    /// </summary>
+    public string? Kind
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("kind");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("kind", value);
+        }
+    }
+
     public Metadata? Metadata
     {
         get
@@ -318,6 +344,7 @@ public sealed record class ErrorEvent : JsonModel
         _ = this.FunctionCallTryNumber;
         _ = this.FunctionVersionNum;
         this.InboundEmail?.Validate();
+        _ = this.Kind;
         this.Metadata?.Validate();
         _ = this.WorkflowID;
         _ = this.WorkflowName;

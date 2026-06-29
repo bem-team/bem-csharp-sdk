@@ -31,6 +31,7 @@ public class ErrorEventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
@@ -55,6 +56,7 @@ public class ErrorEventTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
+        string expectedKind = "kind";
         Metadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
@@ -72,6 +74,7 @@ public class ErrorEventTest : TestBase
         Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
         Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
         Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.Equal(expectedKind, model.Kind);
         Assert.Equal(expectedMetadata, model.Metadata);
         Assert.Equal(expectedWorkflowID, model.WorkflowID);
         Assert.Equal(expectedWorkflowName, model.WorkflowName);
@@ -101,6 +104,7 @@ public class ErrorEventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
@@ -139,6 +143,7 @@ public class ErrorEventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
@@ -170,6 +175,7 @@ public class ErrorEventTest : TestBase
             To = "to",
             DeliveredTo = "deliveredTo",
         };
+        string expectedKind = "kind";
         Metadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
         string expectedWorkflowID = "workflowID";
         string expectedWorkflowName = "workflowName";
@@ -187,6 +193,7 @@ public class ErrorEventTest : TestBase
         Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
         Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
         Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.Equal(expectedKind, deserialized.Kind);
         Assert.Equal(expectedMetadata, deserialized.Metadata);
         Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
         Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
@@ -216,6 +223,7 @@ public class ErrorEventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
@@ -251,6 +259,8 @@ public class ErrorEventTest : TestBase
         Assert.False(model.RawData.ContainsKey("functionVersionNum"));
         Assert.Null(model.InboundEmail);
         Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Kind);
+        Assert.False(model.RawData.ContainsKey("kind"));
         Assert.Null(model.Metadata);
         Assert.False(model.RawData.ContainsKey("metadata"));
         Assert.Null(model.WorkflowID);
@@ -295,6 +305,7 @@ public class ErrorEventTest : TestBase
             FunctionCallTryNumber = null,
             FunctionVersionNum = null,
             InboundEmail = null,
+            Kind = null,
             Metadata = null,
             WorkflowID = null,
             WorkflowName = null,
@@ -315,6 +326,8 @@ public class ErrorEventTest : TestBase
         Assert.False(model.RawData.ContainsKey("functionVersionNum"));
         Assert.Null(model.InboundEmail);
         Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Kind);
+        Assert.False(model.RawData.ContainsKey("kind"));
         Assert.Null(model.Metadata);
         Assert.False(model.RawData.ContainsKey("metadata"));
         Assert.Null(model.WorkflowID);
@@ -344,6 +357,7 @@ public class ErrorEventTest : TestBase
             FunctionCallTryNumber = null,
             FunctionVersionNum = null,
             InboundEmail = null,
+            Kind = null,
             Metadata = null,
             WorkflowID = null,
             WorkflowName = null,
@@ -376,6 +390,7 @@ public class ErrorEventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",

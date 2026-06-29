@@ -22,6 +22,7 @@ public enum FunctionType
     PayloadShaping,
     Enrich,
     Parse,
+    Render,
 }
 
 sealed class FunctionTypeConverter : JsonConverter<FunctionType>
@@ -45,6 +46,7 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
             "payload_shaping" => FunctionType.PayloadShaping,
             "enrich" => FunctionType.Enrich,
             "parse" => FunctionType.Parse,
+            "render" => FunctionType.Render,
             _ => (FunctionType)(-1),
         };
     }
@@ -70,6 +72,7 @@ sealed class FunctionTypeConverter : JsonConverter<FunctionType>
                 FunctionType.PayloadShaping => "payload_shaping",
                 FunctionType.Enrich => "enrich",
                 FunctionType.Parse => "parse",
+                FunctionType.Render => "render",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

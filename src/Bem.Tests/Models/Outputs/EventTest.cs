@@ -435,6 +435,7 @@ public class EventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
@@ -644,6 +645,39 @@ public class EventTest : TestBase
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Output = new() { BucketName = "bucketName", Key = "key" },
             WebhookOutput = new() { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void RenderValidationWorks()
+    {
+        Event value = new Render()
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
             WorkflowVersionNum = 0,
@@ -1099,6 +1133,7 @@ public class EventTest : TestBase
                 To = "to",
                 DeliveredTo = "deliveredTo",
             },
+            Kind = "kind",
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
@@ -1326,6 +1361,42 @@ public class EventTest : TestBase
             Metadata = new() { DurationFunctionToEventSeconds = 0 },
             S3Output = new() { BucketName = "bucketName", Key = "key" },
             WebhookOutput = new() { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Event>(element, ModelBase.SerializerOptions);
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void RenderSerializationRoundtripWorks()
+    {
+        Event value = new Render()
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
             WorkflowID = "workflowID",
             WorkflowName = "workflowName",
             WorkflowVersionNum = 0,
@@ -15864,6 +15935,571 @@ public class WebhookOutputTest : TestBase
         var model = new WebhookOutput { HttpResponseBody = "httpResponseBody", HttpStatusCode = 0 };
 
         WebhookOutput copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class RenderTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        double expectedDocxRenderSeconds = 0;
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedOutputDownloadUrl = "outputDownloadURL";
+        string expectedReferenceID = "referenceID";
+        double expectedValidationSeconds = 0;
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, RenderEventType> expectedEventType = RenderEventType.Render;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        RenderMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedDocxRenderSeconds, model.DocxRenderSeconds);
+        Assert.Equal(expectedEventID, model.EventID);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedOutputDownloadUrl, model.OutputDownloadUrl);
+        Assert.Equal(expectedReferenceID, model.ReferenceID);
+        Assert.Equal(expectedValidationSeconds, model.ValidationSeconds);
+        Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedEventType, model.EventType);
+        Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, model.InboundEmail);
+        Assert.Equal(expectedMetadata, model.Metadata);
+        Assert.Equal(expectedWorkflowID, model.WorkflowID);
+        Assert.Equal(expectedWorkflowName, model.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, model.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Render>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Render>(element, ModelBase.SerializerOptions);
+        Assert.NotNull(deserialized);
+
+        double expectedDocxRenderSeconds = 0;
+        string expectedEventID = "eventID";
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        string expectedOutputDownloadUrl = "outputDownloadURL";
+        string expectedReferenceID = "referenceID";
+        double expectedValidationSeconds = 0;
+        string expectedCallID = "callID";
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        ApiEnum<string, RenderEventType> expectedEventType = RenderEventType.Render;
+        string expectedFunctionCallID = "functionCallID";
+        long expectedFunctionCallTryNumber = 0;
+        long expectedFunctionVersionNum = 0;
+        Errors::InboundEmailEvent expectedInboundEmail = new()
+        {
+            From = "from",
+            Subject = "subject",
+            To = "to",
+            DeliveredTo = "deliveredTo",
+        };
+        RenderMetadata expectedMetadata = new() { DurationFunctionToEventSeconds = 0 };
+        string expectedWorkflowID = "workflowID";
+        string expectedWorkflowName = "workflowName";
+        long expectedWorkflowVersionNum = 0;
+
+        Assert.Equal(expectedDocxRenderSeconds, deserialized.DocxRenderSeconds);
+        Assert.Equal(expectedEventID, deserialized.EventID);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedOutputDownloadUrl, deserialized.OutputDownloadUrl);
+        Assert.Equal(expectedReferenceID, deserialized.ReferenceID);
+        Assert.Equal(expectedValidationSeconds, deserialized.ValidationSeconds);
+        Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedEventType, deserialized.EventType);
+        Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
+        Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
+        Assert.Equal(expectedMetadata, deserialized.Metadata);
+        Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
+        Assert.Equal(expectedWorkflowName, deserialized.WorkflowName);
+        Assert.Equal(expectedWorkflowVersionNum, deserialized.WorkflowVersionNum);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        Assert.Null(model.CallID);
+        Assert.False(model.RawData.ContainsKey("callID"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.EventType);
+        Assert.False(model.RawData.ContainsKey("eventType"));
+        Assert.Null(model.FunctionCallID);
+        Assert.False(model.RawData.ContainsKey("functionCallID"));
+        Assert.Null(model.FunctionCallTryNumber);
+        Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.InboundEmail);
+        Assert.False(model.RawData.ContainsKey("inboundEmail"));
+        Assert.Null(model.Metadata);
+        Assert.False(model.RawData.ContainsKey("metadata"));
+        Assert.Null(model.WorkflowID);
+        Assert.False(model.RawData.ContainsKey("workflowID"));
+        Assert.Null(model.WorkflowName);
+        Assert.False(model.RawData.ContainsKey("workflowName"));
+        Assert.Null(model.WorkflowVersionNum);
+        Assert.False(model.RawData.ContainsKey("workflowVersionNum"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+
+            // Null should be interpreted as omitted for these properties
+            CallID = null,
+            CreatedAt = null,
+            EventType = null,
+            FunctionCallID = null,
+            FunctionCallTryNumber = null,
+            FunctionVersionNum = null,
+            InboundEmail = null,
+            Metadata = null,
+            WorkflowID = null,
+            WorkflowName = null,
+            WorkflowVersionNum = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Render
+        {
+            DocxRenderSeconds = 0,
+            EventID = "eventID",
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            OutputDownloadUrl = "outputDownloadURL",
+            ReferenceID = "referenceID",
+            ValidationSeconds = 0,
+            CallID = "callID",
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            EventType = RenderEventType.Render,
+            FunctionCallID = "functionCallID",
+            FunctionCallTryNumber = 0,
+            FunctionVersionNum = 0,
+            InboundEmail = new()
+            {
+                From = "from",
+                Subject = "subject",
+                To = "to",
+                DeliveredTo = "deliveredTo",
+            },
+            Metadata = new() { DurationFunctionToEventSeconds = 0 },
+            WorkflowID = "workflowID",
+            WorkflowName = "workflowName",
+            WorkflowVersionNum = 0,
+        };
+
+        Render copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class RenderEventTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(RenderEventType.Render)]
+    public void Validation_Works(RenderEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, RenderEventType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, RenderEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(RenderEventType.Render)]
+    public void SerializationRoundtrip_Works(RenderEventType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, RenderEventType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, RenderEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, RenderEventType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, RenderEventType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class RenderMetadataTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new RenderMetadata { DurationFunctionToEventSeconds = 0 };
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(expectedDurationFunctionToEventSeconds, model.DurationFunctionToEventSeconds);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new RenderMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RenderMetadata>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new RenderMetadata { DurationFunctionToEventSeconds = 0 };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<RenderMetadata>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        double expectedDurationFunctionToEventSeconds = 0;
+
+        Assert.Equal(
+            expectedDurationFunctionToEventSeconds,
+            deserialized.DurationFunctionToEventSeconds
+        );
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new RenderMetadata { DurationFunctionToEventSeconds = 0 };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new RenderMetadata { };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new RenderMetadata { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new RenderMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        Assert.Null(model.DurationFunctionToEventSeconds);
+        Assert.False(model.RawData.ContainsKey("durationFunctionToEventSeconds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new RenderMetadata
+        {
+            // Null should be interpreted as omitted for these properties
+            DurationFunctionToEventSeconds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new RenderMetadata { DurationFunctionToEventSeconds = 0 };
+
+        RenderMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }

@@ -19,6 +19,7 @@ public class FunctionTypeTest : TestBase
     [InlineData(FunctionType.PayloadShaping)]
     [InlineData(FunctionType.Enrich)]
     [InlineData(FunctionType.Parse)]
+    [InlineData(FunctionType.Render)]
     public void Validation_Works(FunctionType rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -50,6 +51,7 @@ public class FunctionTypeTest : TestBase
     [InlineData(FunctionType.PayloadShaping)]
     [InlineData(FunctionType.Enrich)]
     [InlineData(FunctionType.Parse)]
+    [InlineData(FunctionType.Render)]
     public void SerializationRoundtrip_Works(FunctionType rawValue)
     {
         // force implicit conversion because Theory can't do that for us

@@ -649,6 +649,72 @@ public class FunctionTest : TestBase
     }
 
     [Fact]
+    public void RenderValidationWorks()
+    {
+        Function value = new FunctionRender()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        value.Validate();
+    }
+
+    [Fact]
     public void TransformSerializationRoundtripWorks()
     {
         Function value = new Transform()
@@ -1325,6 +1391,78 @@ public class FunctionTest : TestBase
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Function>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void RenderSerializationRoundtripWorks()
+    {
+        Function value = new FunctionRender()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
             },
             Tags = ["string"],
             UsedInWorkflows =
@@ -7956,6 +8094,1144 @@ public class FunctionParseExtraConfigTest : TestBase
         var model = new FunctionParseExtraConfig { EnableBoundingBoxes = true };
 
         FunctionParseExtraConfig copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionRenderTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("render");
+        long expectedVersionNum = 0;
+        FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        string expectedDisplayName = "displayName";
+        FunctionRenderRenderConfig expectedRenderConfig = new()
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+        List<string> expectedTags = ["string"];
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedVersionNum, model.VersionNum);
+        Assert.Equal(expectedAudit, model.Audit);
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedRenderConfig, model.RenderConfig);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+        Assert.NotNull(model.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, model.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], model.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionRender>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionRender>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("render");
+        long expectedVersionNum = 0;
+        FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        string expectedDisplayName = "displayName";
+        FunctionRenderRenderConfig expectedRenderConfig = new()
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+        List<string> expectedTags = ["string"];
+        List<WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedVersionNum, deserialized.VersionNum);
+        Assert.Equal(expectedAudit, deserialized.Audit);
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedRenderConfig, deserialized.RenderConfig);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+        Assert.NotNull(deserialized.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, deserialized.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], deserialized.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.RenderConfig);
+        Assert.False(model.RawData.ContainsKey("renderConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            DisplayName = null,
+            RenderConfig = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.RenderConfig);
+        Assert.False(model.RawData.ContainsKey("renderConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            DisplayName = null,
+            RenderConfig = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionRender
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        FunctionRender copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionRenderRenderConfigTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+
+        FunctionRenderRenderConfigTemplate expectedTemplate = new()
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        Assert.Equal(expectedTemplate, model.Template);
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionRenderRenderConfig>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionRenderRenderConfig>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        FunctionRenderRenderConfigTemplate expectedTemplate = new()
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        Assert.Equal(expectedTemplate, deserialized.Template);
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionRenderRenderConfig { };
+
+        Assert.Null(model.Template);
+        Assert.False(model.RawData.ContainsKey("template"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionRenderRenderConfig { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            // Null should be interpreted as omitted for these properties
+            Template = null,
+        };
+
+        Assert.Null(model.Template);
+        Assert.False(model.RawData.ContainsKey("template"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            // Null should be interpreted as omitted for these properties
+            Template = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionRenderRenderConfig
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+
+        FunctionRenderRenderConfig copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class FunctionRenderRenderConfigTemplateTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        string expectedDownloadUrl = "https://example.com";
+        List<ApiEnum<string, ListKind>> expectedListKinds = [ListKind.Decimal];
+        string expectedName = "name";
+        Placeholders expectedPlaceholders = new()
+        {
+            BlockKeys = ["string"],
+            StringKeys = ["string"],
+        };
+        List<string> expectedStyleIds = ["string"];
+        List<string> expectedTableStyleIds = ["string"];
+
+        Assert.Equal(expectedDownloadUrl, model.DownloadUrl);
+        Assert.NotNull(model.ListKinds);
+        Assert.Equal(expectedListKinds.Count, model.ListKinds.Count);
+        for (int i = 0; i < expectedListKinds.Count; i++)
+        {
+            Assert.Equal(expectedListKinds[i], model.ListKinds[i]);
+        }
+        Assert.Equal(expectedName, model.Name);
+        Assert.Equal(expectedPlaceholders, model.Placeholders);
+        Assert.NotNull(model.StyleIds);
+        Assert.Equal(expectedStyleIds.Count, model.StyleIds.Count);
+        for (int i = 0; i < expectedStyleIds.Count; i++)
+        {
+            Assert.Equal(expectedStyleIds[i], model.StyleIds[i]);
+        }
+        Assert.NotNull(model.TableStyleIds);
+        Assert.Equal(expectedTableStyleIds.Count, model.TableStyleIds.Count);
+        for (int i = 0; i < expectedTableStyleIds.Count; i++)
+        {
+            Assert.Equal(expectedTableStyleIds[i], model.TableStyleIds[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionRenderRenderConfigTemplate>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionRenderRenderConfigTemplate>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        string expectedDownloadUrl = "https://example.com";
+        List<ApiEnum<string, ListKind>> expectedListKinds = [ListKind.Decimal];
+        string expectedName = "name";
+        Placeholders expectedPlaceholders = new()
+        {
+            BlockKeys = ["string"],
+            StringKeys = ["string"],
+        };
+        List<string> expectedStyleIds = ["string"];
+        List<string> expectedTableStyleIds = ["string"];
+
+        Assert.Equal(expectedDownloadUrl, deserialized.DownloadUrl);
+        Assert.NotNull(deserialized.ListKinds);
+        Assert.Equal(expectedListKinds.Count, deserialized.ListKinds.Count);
+        for (int i = 0; i < expectedListKinds.Count; i++)
+        {
+            Assert.Equal(expectedListKinds[i], deserialized.ListKinds[i]);
+        }
+        Assert.Equal(expectedName, deserialized.Name);
+        Assert.Equal(expectedPlaceholders, deserialized.Placeholders);
+        Assert.NotNull(deserialized.StyleIds);
+        Assert.Equal(expectedStyleIds.Count, deserialized.StyleIds.Count);
+        for (int i = 0; i < expectedStyleIds.Count; i++)
+        {
+            Assert.Equal(expectedStyleIds[i], deserialized.StyleIds[i]);
+        }
+        Assert.NotNull(deserialized.TableStyleIds);
+        Assert.Equal(expectedTableStyleIds.Count, deserialized.TableStyleIds.Count);
+        for (int i = 0; i < expectedTableStyleIds.Count; i++)
+        {
+            Assert.Equal(expectedTableStyleIds[i], deserialized.TableStyleIds[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate { };
+
+        Assert.Null(model.DownloadUrl);
+        Assert.False(model.RawData.ContainsKey("downloadURL"));
+        Assert.Null(model.ListKinds);
+        Assert.False(model.RawData.ContainsKey("listKinds"));
+        Assert.Null(model.Name);
+        Assert.False(model.RawData.ContainsKey("name"));
+        Assert.Null(model.Placeholders);
+        Assert.False(model.RawData.ContainsKey("placeholders"));
+        Assert.Null(model.StyleIds);
+        Assert.False(model.RawData.ContainsKey("styleIds"));
+        Assert.Null(model.TableStyleIds);
+        Assert.False(model.RawData.ContainsKey("tableStyleIds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            // Null should be interpreted as omitted for these properties
+            DownloadUrl = null,
+            ListKinds = null,
+            Name = null,
+            Placeholders = null,
+            StyleIds = null,
+            TableStyleIds = null,
+        };
+
+        Assert.Null(model.DownloadUrl);
+        Assert.False(model.RawData.ContainsKey("downloadURL"));
+        Assert.Null(model.ListKinds);
+        Assert.False(model.RawData.ContainsKey("listKinds"));
+        Assert.Null(model.Name);
+        Assert.False(model.RawData.ContainsKey("name"));
+        Assert.Null(model.Placeholders);
+        Assert.False(model.RawData.ContainsKey("placeholders"));
+        Assert.Null(model.StyleIds);
+        Assert.False(model.RawData.ContainsKey("styleIds"));
+        Assert.Null(model.TableStyleIds);
+        Assert.False(model.RawData.ContainsKey("tableStyleIds"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            // Null should be interpreted as omitted for these properties
+            DownloadUrl = null,
+            ListKinds = null,
+            Name = null,
+            Placeholders = null,
+            StyleIds = null,
+            TableStyleIds = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new FunctionRenderRenderConfigTemplate
+        {
+            DownloadUrl = "https://example.com",
+            ListKinds = [ListKind.Decimal],
+            Name = "name",
+            Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+            StyleIds = ["string"],
+            TableStyleIds = ["string"],
+        };
+
+        FunctionRenderRenderConfigTemplate copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class ListKindTest : TestBase
+{
+    [Theory]
+    [InlineData(ListKind.Decimal)]
+    [InlineData(ListKind.Bullet)]
+    public void Validation_Works(ListKind rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ListKind> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ListKind>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(ListKind.Decimal)]
+    [InlineData(ListKind.Bullet)]
+    public void SerializationRoundtrip_Works(ListKind rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, ListKind> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ListKind>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ListKind>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ListKind>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class PlaceholdersTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Placeholders { BlockKeys = ["string"], StringKeys = ["string"] };
+
+        List<string> expectedBlockKeys = ["string"];
+        List<string> expectedStringKeys = ["string"];
+
+        Assert.Equal(expectedBlockKeys.Count, model.BlockKeys.Count);
+        for (int i = 0; i < expectedBlockKeys.Count; i++)
+        {
+            Assert.Equal(expectedBlockKeys[i], model.BlockKeys[i]);
+        }
+        Assert.Equal(expectedStringKeys.Count, model.StringKeys.Count);
+        for (int i = 0; i < expectedStringKeys.Count; i++)
+        {
+            Assert.Equal(expectedStringKeys[i], model.StringKeys[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Placeholders { BlockKeys = ["string"], StringKeys = ["string"] };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Placeholders>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Placeholders { BlockKeys = ["string"], StringKeys = ["string"] };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Placeholders>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        List<string> expectedBlockKeys = ["string"];
+        List<string> expectedStringKeys = ["string"];
+
+        Assert.Equal(expectedBlockKeys.Count, deserialized.BlockKeys.Count);
+        for (int i = 0; i < expectedBlockKeys.Count; i++)
+        {
+            Assert.Equal(expectedBlockKeys[i], deserialized.BlockKeys[i]);
+        }
+        Assert.Equal(expectedStringKeys.Count, deserialized.StringKeys.Count);
+        for (int i = 0; i < expectedStringKeys.Count; i++)
+        {
+            Assert.Equal(expectedStringKeys[i], deserialized.StringKeys[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Placeholders { BlockKeys = ["string"], StringKeys = ["string"] };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Placeholders { BlockKeys = ["string"], StringKeys = ["string"] };
+
+        Placeholders copied = new(model);
 
         Assert.Equal(model, copied);
     }
