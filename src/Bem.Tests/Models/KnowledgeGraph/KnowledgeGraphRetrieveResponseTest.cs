@@ -28,6 +28,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -51,6 +52,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 MentionCount = 0,
                 Type = "type",
             },
@@ -91,6 +93,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -128,6 +131,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -158,6 +162,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 MentionCount = 0,
                 Type = "type",
             },
@@ -198,6 +203,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -229,6 +235,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -260,6 +267,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -290,6 +298,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -324,6 +333,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -357,6 +367,7 @@ public class KnowledgeGraphRetrieveResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     MentionCount = 0,
                     Type = "type",
                 },
@@ -477,17 +488,20 @@ public class NodeTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             MentionCount = 0,
             Type = "type",
         };
 
         string expectedID = "id";
         string expectedCanonical = "canonical";
+        int expectedDepth = 0;
         int expectedMentionCount = 0;
         string expectedType = "type";
 
         Assert.Equal(expectedID, model.ID);
         Assert.Equal(expectedCanonical, model.Canonical);
+        Assert.Equal(expectedDepth, model.Depth);
         Assert.Equal(expectedMentionCount, model.MentionCount);
         Assert.Equal(expectedType, model.Type);
     }
@@ -499,6 +513,7 @@ public class NodeTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             MentionCount = 0,
             Type = "type",
         };
@@ -516,6 +531,7 @@ public class NodeTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             MentionCount = 0,
             Type = "type",
         };
@@ -526,11 +542,13 @@ public class NodeTest : TestBase
 
         string expectedID = "id";
         string expectedCanonical = "canonical";
+        int expectedDepth = 0;
         int expectedMentionCount = 0;
         string expectedType = "type";
 
         Assert.Equal(expectedID, deserialized.ID);
         Assert.Equal(expectedCanonical, deserialized.Canonical);
+        Assert.Equal(expectedDepth, deserialized.Depth);
         Assert.Equal(expectedMentionCount, deserialized.MentionCount);
         Assert.Equal(expectedType, deserialized.Type);
     }
@@ -542,6 +560,7 @@ public class NodeTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             MentionCount = 0,
             Type = "type",
         };
@@ -556,6 +575,7 @@ public class NodeTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             MentionCount = 0,
             Type = "type",
         };

@@ -273,6 +273,20 @@ public sealed record class SourceEntity : JsonModel
     }
 
     /// <summary>
+    /// Hops from the queried entity. This endpoint returns direct relations, so this
+    /// is 1 (a self-loop's far end is the queried entity itself, 0).
+    /// </summary>
+    public required int Depth
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<int>("depth");
+        }
+        init { this._rawData.Set("depth", value); }
+    }
+
+    /// <summary>
     /// Effective entity type.
     /// </summary>
     public required string Type
@@ -290,6 +304,7 @@ public sealed record class SourceEntity : JsonModel
     {
         _ = this.ID;
         _ = this.Canonical;
+        _ = this.Depth;
         _ = this.Type;
     }
 
@@ -467,6 +482,20 @@ public sealed record class TargetEntity : JsonModel
     }
 
     /// <summary>
+    /// Hops from the queried entity. This endpoint returns direct relations, so this
+    /// is 1 (a self-loop's far end is the queried entity itself, 0).
+    /// </summary>
+    public required int Depth
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<int>("depth");
+        }
+        init { this._rawData.Set("depth", value); }
+    }
+
+    /// <summary>
     /// Effective entity type.
     /// </summary>
     public required string Type
@@ -484,6 +513,7 @@ public sealed record class TargetEntity : JsonModel
     {
         _ = this.ID;
         _ = this.Canonical;
+        _ = this.Depth;
         _ = this.Type;
     }
 
