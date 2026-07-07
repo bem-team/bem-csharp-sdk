@@ -24,6 +24,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -39,6 +40,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -57,6 +59,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     Type = "type",
                 },
             },
@@ -72,6 +75,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     Type = "type",
                 },
             },
@@ -107,6 +111,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -122,6 +127,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -154,6 +160,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -169,6 +176,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -194,6 +202,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     Type = "type",
                 },
             },
@@ -209,6 +218,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                 {
                     ID = "id",
                     Canonical = "canonical",
+                    Depth = 0,
                     Type = "type",
                 },
             },
@@ -244,6 +254,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -259,6 +270,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -285,6 +297,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -300,6 +313,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -326,6 +340,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -341,6 +356,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -366,6 +382,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -381,6 +398,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -410,6 +428,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -425,6 +444,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -453,6 +473,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -468,6 +489,7 @@ public class EntityRetrieveRelationsResponseTest : TestBase
                     {
                         ID = "id",
                         Canonical = "canonical",
+                        Depth = 0,
                         Type = "type",
                     },
                 },
@@ -495,6 +517,7 @@ public class InboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -506,6 +529,7 @@ public class InboundTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -527,6 +551,7 @@ public class InboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -549,6 +574,7 @@ public class InboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -567,6 +593,7 @@ public class InboundTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -588,6 +615,7 @@ public class InboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -607,6 +635,7 @@ public class InboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -626,15 +655,18 @@ public class SourceEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
         string expectedID = "id";
         string expectedCanonical = "canonical";
+        int expectedDepth = 0;
         string expectedType = "type";
 
         Assert.Equal(expectedID, model.ID);
         Assert.Equal(expectedCanonical, model.Canonical);
+        Assert.Equal(expectedDepth, model.Depth);
         Assert.Equal(expectedType, model.Type);
     }
 
@@ -645,6 +677,7 @@ public class SourceEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -664,6 +697,7 @@ public class SourceEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -676,10 +710,12 @@ public class SourceEntityTest : TestBase
 
         string expectedID = "id";
         string expectedCanonical = "canonical";
+        int expectedDepth = 0;
         string expectedType = "type";
 
         Assert.Equal(expectedID, deserialized.ID);
         Assert.Equal(expectedCanonical, deserialized.Canonical);
+        Assert.Equal(expectedDepth, deserialized.Depth);
         Assert.Equal(expectedType, deserialized.Type);
     }
 
@@ -690,6 +726,7 @@ public class SourceEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -703,6 +740,7 @@ public class SourceEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -726,6 +764,7 @@ public class OutboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -737,6 +776,7 @@ public class OutboundTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -758,6 +798,7 @@ public class OutboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -780,6 +821,7 @@ public class OutboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -798,6 +840,7 @@ public class OutboundTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -819,6 +862,7 @@ public class OutboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -838,6 +882,7 @@ public class OutboundTest : TestBase
             {
                 ID = "id",
                 Canonical = "canonical",
+                Depth = 0,
                 Type = "type",
             },
         };
@@ -857,15 +902,18 @@ public class TargetEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
         string expectedID = "id";
         string expectedCanonical = "canonical";
+        int expectedDepth = 0;
         string expectedType = "type";
 
         Assert.Equal(expectedID, model.ID);
         Assert.Equal(expectedCanonical, model.Canonical);
+        Assert.Equal(expectedDepth, model.Depth);
         Assert.Equal(expectedType, model.Type);
     }
 
@@ -876,6 +924,7 @@ public class TargetEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -895,6 +944,7 @@ public class TargetEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -907,10 +957,12 @@ public class TargetEntityTest : TestBase
 
         string expectedID = "id";
         string expectedCanonical = "canonical";
+        int expectedDepth = 0;
         string expectedType = "type";
 
         Assert.Equal(expectedID, deserialized.ID);
         Assert.Equal(expectedCanonical, deserialized.Canonical);
+        Assert.Equal(expectedDepth, deserialized.Depth);
         Assert.Equal(expectedType, deserialized.Type);
     }
 
@@ -921,6 +973,7 @@ public class TargetEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 
@@ -934,6 +987,7 @@ public class TargetEntityTest : TestBase
         {
             ID = "id",
             Canonical = "canonical",
+            Depth = 0,
             Type = "type",
         };
 

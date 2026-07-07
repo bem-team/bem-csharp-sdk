@@ -270,6 +270,21 @@ public sealed record class Node : JsonModel
     }
 
     /// <summary>
+    /// Hops from the center node when the request centers the graph on one entity
+    /// (`nodeID`). The center is depth 0. When the request is uncentered (no `nodeID`),
+    /// this is 0 for every node.
+    /// </summary>
+    public required int Depth
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<int>("depth");
+        }
+        init { this._rawData.Set("depth", value); }
+    }
+
+    /// <summary>
     /// Total mentions of this entity across all parsed documents.
     /// </summary>
     public required int MentionCount
@@ -300,6 +315,7 @@ public sealed record class Node : JsonModel
     {
         _ = this.ID;
         _ = this.Canonical;
+        _ = this.Depth;
         _ = this.MentionCount;
         _ = this.Type;
     }

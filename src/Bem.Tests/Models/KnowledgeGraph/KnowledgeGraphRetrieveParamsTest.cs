@@ -14,6 +14,8 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
             Bucket = "bucket",
             Cursor = "cursor",
             Limit = 0,
+            MaxDepth = 0,
+            NodeID = "nodeID",
             Search = "search",
             Since = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = ["string"],
@@ -22,6 +24,8 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
         string expectedBucket = "bucket";
         string expectedCursor = "cursor";
         int expectedLimit = 0;
+        int expectedMaxDepth = 0;
+        string expectedNodeID = "nodeID";
         string expectedSearch = "search";
         DateTimeOffset expectedSince = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         List<string> expectedType = ["string"];
@@ -29,6 +33,8 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
         Assert.Equal(expectedBucket, parameters.Bucket);
         Assert.Equal(expectedCursor, parameters.Cursor);
         Assert.Equal(expectedLimit, parameters.Limit);
+        Assert.Equal(expectedMaxDepth, parameters.MaxDepth);
+        Assert.Equal(expectedNodeID, parameters.NodeID);
         Assert.Equal(expectedSearch, parameters.Search);
         Assert.Equal(expectedSince, parameters.Since);
         Assert.NotNull(parameters.Type);
@@ -50,6 +56,10 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("cursor"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
+        Assert.Null(parameters.MaxDepth);
+        Assert.False(parameters.RawQueryData.ContainsKey("maxDepth"));
+        Assert.Null(parameters.NodeID);
+        Assert.False(parameters.RawQueryData.ContainsKey("nodeID"));
         Assert.Null(parameters.Search);
         Assert.False(parameters.RawQueryData.ContainsKey("search"));
         Assert.Null(parameters.Since);
@@ -67,6 +77,8 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
             Bucket = null,
             Cursor = null,
             Limit = null,
+            MaxDepth = null,
+            NodeID = null,
             Search = null,
             Since = null,
             Type = null,
@@ -78,6 +90,10 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("cursor"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
+        Assert.Null(parameters.MaxDepth);
+        Assert.False(parameters.RawQueryData.ContainsKey("maxDepth"));
+        Assert.Null(parameters.NodeID);
+        Assert.False(parameters.RawQueryData.ContainsKey("nodeID"));
         Assert.Null(parameters.Search);
         Assert.False(parameters.RawQueryData.ContainsKey("search"));
         Assert.Null(parameters.Since);
@@ -94,6 +110,8 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
             Bucket = "bucket",
             Cursor = "cursor",
             Limit = 0,
+            MaxDepth = 0,
+            NodeID = "nodeID",
             Search = "search",
             Since = DateTimeOffset.Parse("2019-12-27T18:11:19.117+00:00"),
             Type = ["string"],
@@ -104,7 +122,7 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/knowledge-graph?bucket=bucket&cursor=cursor&limit=0&search=search&since=2019-12-27T18%3a11%3a19.117%2b00%3a00&type=string"
+                    "https://api.bem.ai/v3/knowledge-graph?bucket=bucket&cursor=cursor&limit=0&maxDepth=0&nodeID=nodeID&search=search&since=2019-12-27T18%3a11%3a19.117%2b00%3a00&type=string"
                 ),
                 url
             )
@@ -119,6 +137,8 @@ public class KnowledgeGraphRetrieveParamsTest : TestBase
             Bucket = "bucket",
             Cursor = "cursor",
             Limit = 0,
+            MaxDepth = 0,
+            NodeID = "nodeID",
             Search = "search",
             Since = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Type = ["string"],

@@ -83,6 +83,52 @@ public record class KnowledgeGraphRetrieveParams : ParamsBase
     }
 
     /// <summary>
+    /// Maximum hops from the center node. Only meaningful with `nodeID`. Defaults
+    /// to 2 and is clamped down to a system maximum (5).
+    /// </summary>
+    public int? MaxDepth
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<int>("maxDepth");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("maxDepth", value);
+        }
+    }
+
+    /// <summary>
+    /// Center the graph on this entity (`ent_...`) and only return the subgraph
+    /// within `maxDepth` hops of it; every node then carries its `depth` (hops from
+    /// the center, center = 0). Omit for the uncentered whole-graph view. `rootNodeID`
+    /// and `focusNodeID` are accepted as aliases.
+    /// </summary>
+    public string? NodeID
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("nodeID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("nodeID", value);
+        }
+    }
+
+    /// <summary>
     /// Case-insensitive substring match on canonical names. Both endpoints of an
     /// edge must match for the edge (and its nodes) to be returned.
     /// </summary>
