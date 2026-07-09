@@ -6,9 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Bem.Core;
-using Bem.Exceptions;
 
 namespace Bem.Models.Views;
 
@@ -43,16 +41,18 @@ public record class ViewCreateParams : ParamsBase
     /// <summary>
     /// List of aggregations defined for the view
     /// </summary>
-    public required IReadOnlyList<Aggregation> Aggregations
+    public required IReadOnlyList<ViewAggregation> Aggregations
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<ImmutableArray<Aggregation>>("aggregations");
+            return this._rawBodyData.GetNotNullStruct<ImmutableArray<ViewAggregation>>(
+                "aggregations"
+            );
         }
         init
         {
-            this._rawBodyData.Set<ImmutableArray<Aggregation>>(
+            this._rawBodyData.Set<ImmutableArray<ViewAggregation>>(
                 "aggregations",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -62,16 +62,16 @@ public record class ViewCreateParams : ParamsBase
     /// <summary>
     /// List of columns in the view
     /// </summary>
-    public required IReadOnlyList<Column> Columns
+    public required IReadOnlyList<ViewColumn> Columns
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<ImmutableArray<Column>>("columns");
+            return this._rawBodyData.GetNotNullStruct<ImmutableArray<ViewColumn>>("columns");
         }
         init
         {
-            this._rawBodyData.Set<ImmutableArray<Column>>(
+            this._rawBodyData.Set<ImmutableArray<ViewColumn>>(
                 "columns",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -81,16 +81,16 @@ public record class ViewCreateParams : ParamsBase
     /// <summary>
     /// List of filters applied to the view
     /// </summary>
-    public required IReadOnlyList<Filter> Filters
+    public required IReadOnlyList<ViewFilter> Filters
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<ImmutableArray<Filter>>("filters");
+            return this._rawBodyData.GetNotNullStruct<ImmutableArray<ViewFilter>>("filters");
         }
         init
         {
-            this._rawBodyData.Set<ImmutableArray<Filter>>(
+            this._rawBodyData.Set<ImmutableArray<ViewFilter>>(
                 "filters",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -100,18 +100,18 @@ public record class ViewCreateParams : ParamsBase
     /// <summary>
     /// List of functions that this view queries transformations from
     /// </summary>
-    public required IReadOnlyList<ViewCreateParamsFunction> Functions
+    public required IReadOnlyList<FunctionIdentifier> Functions
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<ImmutableArray<ViewCreateParamsFunction>>(
+            return this._rawBodyData.GetNotNullStruct<ImmutableArray<FunctionIdentifier>>(
                 "functions"
             );
         }
         init
         {
-            this._rawBodyData.Set<ImmutableArray<ViewCreateParamsFunction>>(
+            this._rawBodyData.Set<ImmutableArray<FunctionIdentifier>>(
                 "functions",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -260,588 +260,4 @@ public record class ViewCreateParams : ParamsBase
     {
         return 0;
     }
-}
-
-/// <summary>
-/// An aggregation definition for a view
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<Aggregation, AggregationFromRaw>))]
-public sealed record class Aggregation : JsonModel
-{
-    /// <summary>
-    /// Aggregation function to apply to a view column
-    /// </summary>
-    public required ApiEnum<string, Function> Function
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, Function>>("function");
-        }
-        init { this._rawData.Set("function", value); }
-    }
-
-    /// <summary>
-    /// Name of the aggregation
-    /// </summary>
-    public required string Name
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("name");
-        }
-        init { this._rawData.Set("name", value); }
-    }
-
-    /// <summary>
-    /// Name of the column to aggregate (required for count_distinct, sum, average,
-    /// min, max functions)
-    /// </summary>
-    public string? AggregateColumnName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("aggregateColumnName");
-        }
-        init { this._rawData.Set("aggregateColumnName", value); }
-    }
-
-    /// <summary>
-    /// How to display the aggregation results
-    /// </summary>
-    public ApiEnum<string, DisplayType>? DisplayType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ApiEnum<string, DisplayType>>("displayType");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("displayType", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of the column to group by (optional, for grouped aggregations)
-    /// </summary>
-    public string? GroupByColumnName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("groupByColumnName");
-        }
-        init { this._rawData.Set("groupByColumnName", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Function.Validate();
-        _ = this.Name;
-        _ = this.AggregateColumnName;
-        this.DisplayType?.Validate();
-        _ = this.GroupByColumnName;
-    }
-
-    public Aggregation() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Aggregation(Aggregation aggregation)
-        : base(aggregation) { }
-#pragma warning restore CS8618
-
-    public Aggregation(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Aggregation(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="AggregationFromRaw.FromRawUnchecked"/>
-    public static Aggregation FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class AggregationFromRaw : IFromRawJson<Aggregation>
-{
-    /// <inheritdoc/>
-    public Aggregation FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Aggregation.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Aggregation function to apply to a view column
-/// </summary>
-[JsonConverter(typeof(FunctionConverter))]
-public enum Function
-{
-    Count,
-    CountDistinct,
-    Sum,
-    Average,
-    Min,
-    Max,
-}
-
-sealed class FunctionConverter : JsonConverter<Function>
-{
-    public override Function Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "count" => Function.Count,
-            "count_distinct" => Function.CountDistinct,
-            "sum" => Function.Sum,
-            "average" => Function.Average,
-            "min" => Function.Min,
-            "max" => Function.Max,
-            _ => (Function)(-1),
-        };
-    }
-
-    public override void Write(Utf8JsonWriter writer, Function value, JsonSerializerOptions options)
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                Function.Count => "count",
-                Function.CountDistinct => "count_distinct",
-                Function.Sum => "sum",
-                Function.Average => "average",
-                Function.Min => "min",
-                Function.Max => "max",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// How to display the aggregation results
-/// </summary>
-[JsonConverter(typeof(DisplayTypeConverter))]
-public enum DisplayType
-{
-    Table,
-    BarChart,
-    PieChart,
-}
-
-sealed class DisplayTypeConverter : JsonConverter<DisplayType>
-{
-    public override DisplayType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "table" => DisplayType.Table,
-            "bar_chart" => DisplayType.BarChart,
-            "pie_chart" => DisplayType.PieChart,
-            _ => (DisplayType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        DisplayType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                DisplayType.Table => "table",
-                DisplayType.BarChart => "bar_chart",
-                DisplayType.PieChart => "pie_chart",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// A column definition in a view
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<Column, ColumnFromRaw>))]
-public sealed record class Column : JsonModel
-{
-    /// <summary>
-    /// Order in which this column should be displayed (0-based index)
-    /// </summary>
-    public required long DisplayOrderIndex
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("displayOrderIndex");
-        }
-        init { this._rawData.Set("displayOrderIndex", value); }
-    }
-
-    /// <summary>
-    /// Name of the column
-    /// </summary>
-    public required string Name
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("name");
-        }
-        init { this._rawData.Set("name", value); }
-    }
-
-    /// <summary>
-    /// JSON path to the value in the transformation output schema (e.g., ["invoiceDetails", "invoiceNumber"])
-    /// </summary>
-    public required IReadOnlyList<string> ValueSchemaPath
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<string>>("valueSchemaPath");
-        }
-        init
-        {
-            this._rawData.Set<ImmutableArray<string>>(
-                "valueSchemaPath",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.DisplayOrderIndex;
-        _ = this.Name;
-        _ = this.ValueSchemaPath;
-    }
-
-    public Column() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Column(Column column)
-        : base(column) { }
-#pragma warning restore CS8618
-
-    public Column(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Column(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="ColumnFromRaw.FromRawUnchecked"/>
-    public static Column FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class ColumnFromRaw : IFromRawJson<Column>
-{
-    /// <inheritdoc/>
-    public Column FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Column.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// A filter to apply to a view column
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<Filter, FilterFromRaw>))]
-public sealed record class Filter : JsonModel
-{
-    /// <summary>
-    /// Name of the column to filter on
-    /// </summary>
-    public required string ColumnName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("columnName");
-        }
-        init { this._rawData.Set("columnName", value); }
-    }
-
-    /// <summary>
-    /// Type of filter to apply to a view column
-    /// </summary>
-    public required ApiEnum<string, FilterType> FilterType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FilterType>>("filterType");
-        }
-        init { this._rawData.Set("filterType", value); }
-    }
-
-    /// <summary>
-    /// Numeric value for the filter (required for number filter types)
-    /// </summary>
-    public float? Number
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("number");
-        }
-        init { this._rawData.Set("number", value); }
-    }
-
-    /// <summary>
-    /// String value for the filter (required for string filter types)
-    /// </summary>
-    public string? String
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("string");
-        }
-        init { this._rawData.Set("string", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ColumnName;
-        this.FilterType.Validate();
-        _ = this.Number;
-        _ = this.String;
-    }
-
-    public Filter() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public Filter(Filter filter)
-        : base(filter) { }
-#pragma warning restore CS8618
-
-    public Filter(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    Filter(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FilterFromRaw.FromRawUnchecked"/>
-    public static Filter FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FilterFromRaw : IFromRawJson<Filter>
-{
-    /// <inheritdoc/>
-    public Filter FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        Filter.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Type of filter to apply to a view column
-/// </summary>
-[JsonConverter(typeof(FilterTypeConverter))]
-public enum FilterType
-{
-    EqualsString,
-    EqualsNumber,
-    LessThanNumber,
-    LessThanEqualNumber,
-    GreaterThanNumber,
-    GreaterThanEqualNumber,
-    IsNull,
-    IsNotNull,
-}
-
-sealed class FilterTypeConverter : JsonConverter<FilterType>
-{
-    public override FilterType Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "equals_string" => FilterType.EqualsString,
-            "equals_number" => FilterType.EqualsNumber,
-            "less_than_number" => FilterType.LessThanNumber,
-            "less_than_equal_number" => FilterType.LessThanEqualNumber,
-            "greater_than_number" => FilterType.GreaterThanNumber,
-            "greater_than_equal_number" => FilterType.GreaterThanEqualNumber,
-            "is_null" => FilterType.IsNull,
-            "is_not_null" => FilterType.IsNotNull,
-            _ => (FilterType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        FilterType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                FilterType.EqualsString => "equals_string",
-                FilterType.EqualsNumber => "equals_number",
-                FilterType.LessThanNumber => "less_than_number",
-                FilterType.LessThanEqualNumber => "less_than_equal_number",
-                FilterType.GreaterThanNumber => "greater_than_number",
-                FilterType.GreaterThanEqualNumber => "greater_than_equal_number",
-                FilterType.IsNull => "is_null",
-                FilterType.IsNotNull => "is_not_null",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<ViewCreateParamsFunction, ViewCreateParamsFunctionFromRaw>)
-)]
-public sealed record class ViewCreateParamsFunction : JsonModel
-{
-    /// <summary>
-    /// Unique identifier of function. Provide either id or name, not both.
-    /// </summary>
-    public string? ID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("id");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("id", value);
-        }
-    }
-
-    /// <summary>
-    /// Name of function. Must be UNIQUE on a per-environment basis. Provide either
-    /// id or name, not both.
-    /// </summary>
-    public string? Name
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("name");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("name", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ID;
-        _ = this.Name;
-    }
-
-    public ViewCreateParamsFunction() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public ViewCreateParamsFunction(ViewCreateParamsFunction viewCreateParamsFunction)
-        : base(viewCreateParamsFunction) { }
-#pragma warning restore CS8618
-
-    public ViewCreateParamsFunction(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    ViewCreateParamsFunction(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="ViewCreateParamsFunctionFromRaw.FromRawUnchecked"/>
-    public static ViewCreateParamsFunction FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class ViewCreateParamsFunctionFromRaw : IFromRawJson<ViewCreateParamsFunction>
-{
-    /// <inheritdoc/>
-    public ViewCreateParamsFunction FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ViewCreateParamsFunction.FromRawUnchecked(rawData);
 }

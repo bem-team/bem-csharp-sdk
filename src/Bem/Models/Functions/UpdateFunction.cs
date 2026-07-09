@@ -2559,12 +2559,12 @@ public sealed record class UpdateFunctionParse : JsonModel
     /// on Extract / Join — separated from `parseConfig` so the per-call Parse output
     /// shape stays distinct from operator-level execution flags.
     /// </summary>
-    public UpdateFunctionParseExtraConfig? ExtraConfig
+    public ParseExtraFunctionConfig? ExtraConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<UpdateFunctionParseExtraConfig>("extraConfig");
+            return this._rawData.GetNullableClass<ParseExtraFunctionConfig>("extraConfig");
         }
         init
         {
@@ -2703,92 +2703,6 @@ class UpdateFunctionParseFromRaw : IFromRawJson<UpdateFunctionParse>
         UpdateFunctionParse.FromRawUnchecked(rawData);
 }
 
-/// <summary>
-/// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface on
-/// Extract / Join — separated from `parseConfig` so the per-call Parse output shape
-/// stays distinct from operator-level execution flags.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        UpdateFunctionParseExtraConfig,
-        UpdateFunctionParseExtraConfigFromRaw
-    >)
-)]
-public sealed record class UpdateFunctionParseExtraConfig : JsonModel
-{
-    /// <summary>
-    /// When true, return per-section and per-entity-mention coordinates in the parse
-    /// event's `fieldBoundingBoxes` map (same shape as Extract: JSON Pointer key
-    /// → array of `{page, left, top, width, height}` with coordinates normalized
-    /// to [0, 1]). Keys are `/sections/{N}` and `/entities/{N}/occurrences/{M}` into
-    /// the parse output. Only applies to the open-ended discovery path (no `schema`)
-    /// and to vision input types. Bedrock-backed parse functions silently return
-    /// an empty map (no native bbox support). Defaults to false.
-    /// </summary>
-    public bool? EnableBoundingBoxes
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<bool>("enableBoundingBoxes");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("enableBoundingBoxes", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.EnableBoundingBoxes;
-    }
-
-    public UpdateFunctionParseExtraConfig() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public UpdateFunctionParseExtraConfig(
-        UpdateFunctionParseExtraConfig updateFunctionParseExtraConfig
-    )
-        : base(updateFunctionParseExtraConfig) { }
-#pragma warning restore CS8618
-
-    public UpdateFunctionParseExtraConfig(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    UpdateFunctionParseExtraConfig(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="UpdateFunctionParseExtraConfigFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionParseExtraConfig FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class UpdateFunctionParseExtraConfigFromRaw : IFromRawJson<UpdateFunctionParseExtraConfig>
-{
-    /// <inheritdoc/>
-    public UpdateFunctionParseExtraConfig FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => UpdateFunctionParseExtraConfig.FromRawUnchecked(rawData);
-}
-
 [JsonConverter(typeof(JsonModelConverter<UpdateFunctionRender, UpdateFunctionRenderFromRaw>))]
 public sealed record class UpdateFunctionRender : JsonModel
 {
@@ -2851,12 +2765,12 @@ public sealed record class UpdateFunctionRender : JsonModel
     /// submit `placeholders` or `styleIds`. The response shape (`RenderConfig`) returns
     /// the derived contract.
     /// </summary>
-    public UpdateFunctionRenderRenderConfig? RenderConfig
+    public RenderConfigInput? RenderConfig
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<UpdateFunctionRenderRenderConfig>("renderConfig");
+            return this._rawData.GetNullableClass<RenderConfigInput>("renderConfig");
         }
         init
         {
@@ -2947,185 +2861,4 @@ class UpdateFunctionRenderFromRaw : IFromRawJson<UpdateFunctionRender>
     public UpdateFunctionRender FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     ) => UpdateFunctionRender.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Request-side render configuration. Carries the template document as base64-encoded
-/// `.docx` bytes: the server validates them, stores the template, and derives the
-/// placeholder/style-id contract at create/update time, so clients never submit
-/// `placeholders` or `styleIds`. The response shape (`RenderConfig`) returns the
-/// derived contract.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        UpdateFunctionRenderRenderConfig,
-        UpdateFunctionRenderRenderConfigFromRaw
-    >)
-)]
-public sealed record class UpdateFunctionRenderRenderConfig : JsonModel
-{
-    public required UpdateFunctionRenderRenderConfigTemplate Template
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<UpdateFunctionRenderRenderConfigTemplate>(
-                "template"
-            );
-        }
-        init { this._rawData.Set("template", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Template.Validate();
-    }
-
-    public UpdateFunctionRenderRenderConfig() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public UpdateFunctionRenderRenderConfig(
-        UpdateFunctionRenderRenderConfig updateFunctionRenderRenderConfig
-    )
-        : base(updateFunctionRenderRenderConfig) { }
-#pragma warning restore CS8618
-
-    public UpdateFunctionRenderRenderConfig(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    UpdateFunctionRenderRenderConfig(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="UpdateFunctionRenderRenderConfigFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionRenderRenderConfig FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-
-    [SetsRequiredMembers]
-    public UpdateFunctionRenderRenderConfig(UpdateFunctionRenderRenderConfigTemplate template)
-        : this()
-    {
-        this.Template = template;
-    }
-}
-
-class UpdateFunctionRenderRenderConfigFromRaw : IFromRawJson<UpdateFunctionRenderRenderConfig>
-{
-    /// <inheritdoc/>
-    public UpdateFunctionRenderRenderConfig FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => UpdateFunctionRenderRenderConfig.FromRawUnchecked(rawData);
-}
-
-[JsonConverter(
-    typeof(JsonModelConverter<
-        UpdateFunctionRenderRenderConfigTemplate,
-        UpdateFunctionRenderRenderConfigTemplateFromRaw
-    >)
-)]
-public sealed record class UpdateFunctionRenderRenderConfigTemplate : JsonModel
-{
-    /// <summary>
-    /// Base64-encoded `.docx` bytes. In the Bem CLI, use `@path/to/file` to embed
-    /// it automatically.
-    /// </summary>
-    public required string Base64
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("base64");
-        }
-        init { this._rawData.Set("base64", value); }
-    }
-
-    /// <summary>
-    /// Original upload filename (e.g. `contract.docx`), stored for display only.
-    /// Does not affect where the template is stored.
-    /// </summary>
-    public string? Name
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("name");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("name", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Base64;
-        _ = this.Name;
-    }
-
-    public UpdateFunctionRenderRenderConfigTemplate() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public UpdateFunctionRenderRenderConfigTemplate(
-        UpdateFunctionRenderRenderConfigTemplate updateFunctionRenderRenderConfigTemplate
-    )
-        : base(updateFunctionRenderRenderConfigTemplate) { }
-#pragma warning restore CS8618
-
-    public UpdateFunctionRenderRenderConfigTemplate(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    UpdateFunctionRenderRenderConfigTemplate(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="UpdateFunctionRenderRenderConfigTemplateFromRaw.FromRawUnchecked"/>
-    public static UpdateFunctionRenderRenderConfigTemplate FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-
-    [SetsRequiredMembers]
-    public UpdateFunctionRenderRenderConfigTemplate(string base64)
-        : this()
-    {
-        this.Base64 = base64;
-    }
-}
-
-class UpdateFunctionRenderRenderConfigTemplateFromRaw
-    : IFromRawJson<UpdateFunctionRenderRenderConfigTemplate>
-{
-    /// <inheritdoc/>
-    public UpdateFunctionRenderRenderConfigTemplate FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => UpdateFunctionRenderRenderConfigTemplate.FromRawUnchecked(rawData);
 }

@@ -18,7 +18,7 @@ public class EntityBulkValidateResponseTest : TestBase
                 new()
                 {
                     EntityID = "entityID",
-                    Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                    Outcome = ResultOutcome.Validated,
                     Reason = "reason",
                 },
             ],
@@ -30,12 +30,12 @@ public class EntityBulkValidateResponseTest : TestBase
             },
         };
 
-        List<EntityBulkValidateResponseResult> expectedResults =
+        List<Result> expectedResults =
         [
             new()
             {
                 EntityID = "entityID",
-                Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                Outcome = ResultOutcome.Validated,
                 Reason = "reason",
             },
         ];
@@ -64,7 +64,7 @@ public class EntityBulkValidateResponseTest : TestBase
                 new()
                 {
                     EntityID = "entityID",
-                    Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                    Outcome = ResultOutcome.Validated,
                     Reason = "reason",
                 },
             ],
@@ -95,7 +95,7 @@ public class EntityBulkValidateResponseTest : TestBase
                 new()
                 {
                     EntityID = "entityID",
-                    Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                    Outcome = ResultOutcome.Validated,
                     Reason = "reason",
                 },
             ],
@@ -114,12 +114,12 @@ public class EntityBulkValidateResponseTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        List<EntityBulkValidateResponseResult> expectedResults =
+        List<Result> expectedResults =
         [
             new()
             {
                 EntityID = "entityID",
-                Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                Outcome = ResultOutcome.Validated,
                 Reason = "reason",
             },
         ];
@@ -148,7 +148,7 @@ public class EntityBulkValidateResponseTest : TestBase
                 new()
                 {
                     EntityID = "entityID",
-                    Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                    Outcome = ResultOutcome.Validated,
                     Reason = "reason",
                 },
             ],
@@ -173,7 +173,7 @@ public class EntityBulkValidateResponseTest : TestBase
                 new()
                 {
                     EntityID = "entityID",
-                    Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+                    Outcome = ResultOutcome.Validated,
                     Reason = "reason",
                 },
             ],
@@ -191,21 +191,20 @@ public class EntityBulkValidateResponseTest : TestBase
     }
 }
 
-public class EntityBulkValidateResponseResultTest : TestBase
+public class ResultTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
             Reason = "reason",
         };
 
         string expectedEntityID = "entityID";
-        ApiEnum<string, EntityBulkValidateResponseResultOutcome> expectedOutcome =
-            EntityBulkValidateResponseResultOutcome.Validated;
+        ApiEnum<string, ResultOutcome> expectedOutcome = ResultOutcome.Validated;
         string expectedReason = "reason";
 
         Assert.Equal(expectedEntityID, model.EntityID);
@@ -216,18 +215,15 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
             Reason = "reason",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<EntityBulkValidateResponseResult>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Result>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -235,23 +231,19 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
             Reason = "reason",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<EntityBulkValidateResponseResult>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Result>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         string expectedEntityID = "entityID";
-        ApiEnum<string, EntityBulkValidateResponseResultOutcome> expectedOutcome =
-            EntityBulkValidateResponseResultOutcome.Validated;
+        ApiEnum<string, ResultOutcome> expectedOutcome = ResultOutcome.Validated;
         string expectedReason = "reason";
 
         Assert.Equal(expectedEntityID, deserialized.EntityID);
@@ -262,10 +254,10 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
             Reason = "reason",
         };
 
@@ -275,11 +267,7 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new EntityBulkValidateResponseResult
-        {
-            EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
-        };
+        var model = new Result { EntityID = "entityID", Outcome = ResultOutcome.Validated };
 
         Assert.Null(model.Reason);
         Assert.False(model.RawData.ContainsKey("reason"));
@@ -288,11 +276,7 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new EntityBulkValidateResponseResult
-        {
-            EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
-        };
+        var model = new Result { EntityID = "entityID", Outcome = ResultOutcome.Validated };
 
         model.Validate();
     }
@@ -300,10 +284,10 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
 
             // Null should be interpreted as omitted for these properties
             Reason = null,
@@ -316,10 +300,10 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
 
             // Null should be interpreted as omitted for these properties
             Reason = null,
@@ -331,56 +315,58 @@ public class EntityBulkValidateResponseResultTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new EntityBulkValidateResponseResult
+        var model = new Result
         {
             EntityID = "entityID",
-            Outcome = EntityBulkValidateResponseResultOutcome.Validated,
+            Outcome = ResultOutcome.Validated,
             Reason = "reason",
         };
 
-        EntityBulkValidateResponseResult copied = new(model);
+        Result copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class EntityBulkValidateResponseResultOutcomeTest : TestBase
+public class ResultOutcomeTest : TestBase
 {
     [Theory]
-    [InlineData(EntityBulkValidateResponseResultOutcome.Validated)]
-    [InlineData(EntityBulkValidateResponseResultOutcome.Skipped)]
-    [InlineData(EntityBulkValidateResponseResultOutcome.RejectedRow)]
-    public void Validation_Works(EntityBulkValidateResponseResultOutcome rawValue)
+    [InlineData(ResultOutcome.Validated)]
+    [InlineData(ResultOutcome.Skipped)]
+    [InlineData(ResultOutcome.RejectedRow)]
+    public void Validation_Works(ResultOutcome rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EntityBulkValidateResponseResultOutcome> value = rawValue;
+        ApiEnum<string, ResultOutcome> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, EntityBulkValidateResponseResultOutcome>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ResultOutcome>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
 
         Assert.NotNull(value);
         Assert.Throws<BemInvalidDataException>(() => value.Validate());
     }
 
     [Theory]
-    [InlineData(EntityBulkValidateResponseResultOutcome.Validated)]
-    [InlineData(EntityBulkValidateResponseResultOutcome.Skipped)]
-    [InlineData(EntityBulkValidateResponseResultOutcome.RejectedRow)]
-    public void SerializationRoundtrip_Works(EntityBulkValidateResponseResultOutcome rawValue)
+    [InlineData(ResultOutcome.Validated)]
+    [InlineData(ResultOutcome.Skipped)]
+    [InlineData(ResultOutcome.RejectedRow)]
+    public void SerializationRoundtrip_Works(ResultOutcome rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EntityBulkValidateResponseResultOutcome> value = rawValue;
+        ApiEnum<string, ResultOutcome> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, EntityBulkValidateResponseResultOutcome>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ResultOutcome>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }
@@ -388,13 +374,15 @@ public class EntityBulkValidateResponseResultOutcomeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, EntityBulkValidateResponseResultOutcome>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
+        var value = JsonSerializer.Deserialize<ApiEnum<string, ResultOutcome>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, EntityBulkValidateResponseResultOutcome>
-        >(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, ResultOutcome>>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(value, deserialized);
     }

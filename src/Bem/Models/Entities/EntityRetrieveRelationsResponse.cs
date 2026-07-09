@@ -184,12 +184,12 @@ public sealed record class Inbound : JsonModel
     /// stable public id, the canonical name, and the effective type. The full entity
     /// is fetched separately via the entity detail / File System endpoints.
     /// </summary>
-    public required SourceEntity SourceEntity
+    public required RelatedEntity SourceEntity
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<SourceEntity>("sourceEntity");
+            return this._rawData.GetNotNullClass<RelatedEntity>("sourceEntity");
         }
         init { this._rawData.Set("sourceEntity", value); }
     }
@@ -236,111 +236,6 @@ class InboundFromRaw : IFromRawJson<Inbound>
     /// <inheritdoc/>
     public Inbound FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Inbound.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// A compact view of an entity sitting on the far end of a relation edge — the stable
-/// public id, the canonical name, and the effective type. The full entity is fetched
-/// separately via the entity detail / File System endpoints.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<SourceEntity, SourceEntityFromRaw>))]
-public sealed record class SourceEntity : JsonModel
-{
-    /// <summary>
-    /// Stable public identifier for the entity (`ent_...`).
-    /// </summary>
-    public required string ID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("id");
-        }
-        init { this._rawData.Set("id", value); }
-    }
-
-    /// <summary>
-    /// Canonical (most descriptive) surface form of the entity.
-    /// </summary>
-    public required string Canonical
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("canonical");
-        }
-        init { this._rawData.Set("canonical", value); }
-    }
-
-    /// <summary>
-    /// Hops from the queried entity. This endpoint returns direct relations, so this
-    /// is 1 (a self-loop's far end is the queried entity itself, 0).
-    /// </summary>
-    public required int Depth
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<int>("depth");
-        }
-        init { this._rawData.Set("depth", value); }
-    }
-
-    /// <summary>
-    /// Effective entity type.
-    /// </summary>
-    public required string Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ID;
-        _ = this.Canonical;
-        _ = this.Depth;
-        _ = this.Type;
-    }
-
-    public SourceEntity() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SourceEntity(SourceEntity sourceEntity)
-        : base(sourceEntity) { }
-#pragma warning restore CS8618
-
-    public SourceEntity(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SourceEntity(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SourceEntityFromRaw.FromRawUnchecked"/>
-    public static SourceEntity FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SourceEntityFromRaw : IFromRawJson<SourceEntity>
-{
-    /// <inheritdoc/>
-    public SourceEntity FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SourceEntity.FromRawUnchecked(rawData);
 }
 
 /// <summary>
@@ -393,12 +288,12 @@ public sealed record class Outbound : JsonModel
     /// stable public id, the canonical name, and the effective type. The full entity
     /// is fetched separately via the entity detail / File System endpoints.
     /// </summary>
-    public required TargetEntity TargetEntity
+    public required RelatedEntity TargetEntity
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<TargetEntity>("targetEntity");
+            return this._rawData.GetNotNullClass<RelatedEntity>("targetEntity");
         }
         init { this._rawData.Set("targetEntity", value); }
     }
@@ -445,109 +340,4 @@ class OutboundFromRaw : IFromRawJson<Outbound>
     /// <inheritdoc/>
     public Outbound FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Outbound.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// A compact view of an entity sitting on the far end of a relation edge — the stable
-/// public id, the canonical name, and the effective type. The full entity is fetched
-/// separately via the entity detail / File System endpoints.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<TargetEntity, TargetEntityFromRaw>))]
-public sealed record class TargetEntity : JsonModel
-{
-    /// <summary>
-    /// Stable public identifier for the entity (`ent_...`).
-    /// </summary>
-    public required string ID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("id");
-        }
-        init { this._rawData.Set("id", value); }
-    }
-
-    /// <summary>
-    /// Canonical (most descriptive) surface form of the entity.
-    /// </summary>
-    public required string Canonical
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("canonical");
-        }
-        init { this._rawData.Set("canonical", value); }
-    }
-
-    /// <summary>
-    /// Hops from the queried entity. This endpoint returns direct relations, so this
-    /// is 1 (a self-loop's far end is the queried entity itself, 0).
-    /// </summary>
-    public required int Depth
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<int>("depth");
-        }
-        init { this._rawData.Set("depth", value); }
-    }
-
-    /// <summary>
-    /// Effective entity type.
-    /// </summary>
-    public required string Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.ID;
-        _ = this.Canonical;
-        _ = this.Depth;
-        _ = this.Type;
-    }
-
-    public TargetEntity() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public TargetEntity(TargetEntity targetEntity)
-        : base(targetEntity) { }
-#pragma warning restore CS8618
-
-    public TargetEntity(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    TargetEntity(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="TargetEntityFromRaw.FromRawUnchecked"/>
-    public static TargetEntity FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class TargetEntityFromRaw : IFromRawJson<TargetEntity>
-{
-    /// <inheritdoc/>
-    public TargetEntity FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        TargetEntity.FromRawUnchecked(rawData);
 }

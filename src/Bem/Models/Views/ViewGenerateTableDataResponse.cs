@@ -106,16 +106,16 @@ public sealed record class Row : JsonModel
     /// <summary>
     /// Column entries for this row
     /// </summary>
-    public required IReadOnlyList<RowColumn> Columns
+    public required IReadOnlyList<Column> Columns
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<RowColumn>>("columns");
+            return this._rawData.GetNotNullStruct<ImmutableArray<Column>>("columns");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<RowColumn>>(
+            this._rawData.Set<ImmutableArray<Column>>(
                 "columns",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -184,8 +184,8 @@ class RowFromRaw : IFromRawJson<Row>
 /// <summary>
 /// A single column entry in a view table data row
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<RowColumn, RowColumnFromRaw>))]
-public sealed record class RowColumn : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Column, ColumnFromRaw>))]
+public sealed record class Column : JsonModel
 {
     /// <summary>
     /// Name of the column
@@ -203,12 +203,12 @@ public sealed record class RowColumn : JsonModel
     /// <summary>
     /// Value of the column (can be any JSON type)
     /// </summary>
-    public required RowColumnValue Value
+    public required ColumnValue Value
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<RowColumnValue>("value");
+            return this._rawData.GetNotNullClass<ColumnValue>("value");
         }
         init { this._rawData.Set("value", value); }
     }
@@ -220,46 +220,46 @@ public sealed record class RowColumn : JsonModel
         this.Value.Validate();
     }
 
-    public RowColumn() { }
+    public Column() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public RowColumn(RowColumn rowColumn)
-        : base(rowColumn) { }
+    public Column(Column column)
+        : base(column) { }
 #pragma warning restore CS8618
 
-    public RowColumn(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Column(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    RowColumn(FrozenDictionary<string, JsonElement> rawData)
+    Column(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="RowColumnFromRaw.FromRawUnchecked"/>
-    public static RowColumn FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    /// <inheritdoc cref="ColumnFromRaw.FromRawUnchecked"/>
+    public static Column FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class RowColumnFromRaw : IFromRawJson<RowColumn>
+class ColumnFromRaw : IFromRawJson<Column>
 {
     /// <inheritdoc/>
-    public RowColumn FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        RowColumn.FromRawUnchecked(rawData);
+    public Column FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Column.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Value of the column (can be any JSON type)
 /// </summary>
-[JsonConverter(typeof(RowColumnValueConverter))]
-public record class RowColumnValue : ModelBase
+[JsonConverter(typeof(ColumnValueConverter))]
+public record class ColumnValue : ModelBase
 {
     public object? Value { get; } = null;
 
@@ -276,31 +276,31 @@ public record class RowColumnValue : ModelBase
         }
     }
 
-    public RowColumnValue(string value, JsonElement? element = null)
+    public ColumnValue(string value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public RowColumnValue(double value, JsonElement? element = null)
+    public ColumnValue(double value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public RowColumnValue(bool value, JsonElement? element = null)
+    public ColumnValue(bool value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
     }
 
-    public RowColumnValue(IReadOnlyList<JsonElement> value, JsonElement? element = null)
+    public ColumnValue(IReadOnlyList<JsonElement> value, JsonElement? element = null)
     {
         this.Value = ImmutableArray.ToImmutableArray(value);
         this._element = element;
     }
 
-    public RowColumnValue(JsonElement element)
+    public ColumnValue(JsonElement element)
     {
         this._element = element;
         this.Value = element;
@@ -486,9 +486,7 @@ public record class RowColumnValue : ModelBase
                 jsonElements(value);
                 break;
             default:
-                throw new BemInvalidDataException(
-                    "Data did not match any variant of RowColumnValue"
-                );
+                throw new BemInvalidDataException("Data did not match any variant of ColumnValue");
         }
     }
 
@@ -534,23 +532,21 @@ public record class RowColumnValue : ModelBase
             JsonElement value => jsonElement(value),
             JsonElement value => jsonElement1(value),
             IReadOnlyList<JsonElement> value => jsonElements(value),
-            _ => throw new BemInvalidDataException(
-                "Data did not match any variant of RowColumnValue"
-            ),
+            _ => throw new BemInvalidDataException("Data did not match any variant of ColumnValue"),
         };
     }
 
-    public static implicit operator RowColumnValue(string value) => new(value);
+    public static implicit operator ColumnValue(string value) => new(value);
 
-    public static implicit operator RowColumnValue(double value) => new(value);
+    public static implicit operator ColumnValue(double value) => new(value);
 
-    public static implicit operator RowColumnValue(bool value) => new(value);
+    public static implicit operator ColumnValue(bool value) => new(value);
 
-    public static implicit operator RowColumnValue(JsonElement value) => new(value);
+    public static implicit operator ColumnValue(JsonElement value) => new(value);
 
-    public static implicit operator RowColumnValue(JsonElement value) => new(value);
+    public static implicit operator ColumnValue(JsonElement value) => new(value);
 
-    public static implicit operator RowColumnValue(List<JsonElement> value) =>
+    public static implicit operator ColumnValue(List<JsonElement> value) =>
         new((IReadOnlyList<JsonElement>)value);
 
     /// <summary>
@@ -567,11 +563,11 @@ public record class RowColumnValue : ModelBase
     {
         if (this.Value == null)
         {
-            throw new BemInvalidDataException("Data did not match any variant of RowColumnValue");
+            throw new BemInvalidDataException("Data did not match any variant of ColumnValue");
         }
     }
 
-    public virtual bool Equals(RowColumnValue? other) =>
+    public virtual bool Equals(ColumnValue? other) =>
         other != null
         && this.VariantIndex() == other.VariantIndex()
         && JsonElement.DeepEquals(this.Json, other.Json);
@@ -602,9 +598,9 @@ public record class RowColumnValue : ModelBase
     }
 }
 
-sealed class RowColumnValueConverter : JsonConverter<RowColumnValue>
+sealed class ColumnValueConverter : JsonConverter<ColumnValue>
 {
-    public override RowColumnValue? Read(
+    public override ColumnValue? Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -678,7 +674,7 @@ sealed class RowColumnValueConverter : JsonConverter<RowColumnValue>
 
     public override void Write(
         Utf8JsonWriter writer,
-        RowColumnValue value,
+        ColumnValue value,
         JsonSerializerOptions options
     )
     {

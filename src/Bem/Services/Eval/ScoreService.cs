@@ -47,7 +47,7 @@ public sealed class ScoreService : IScoreService
     }
 
     /// <inheritdoc/>
-    public async Task<ScoreRetrieveResponse> Retrieve(
+    public async Task<EvalScoreRun> Retrieve(
         ScoreRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -59,7 +59,7 @@ public sealed class ScoreService : IScoreService
     }
 
     /// <inheritdoc/>
-    public Task<ScoreRetrieveResponse> Retrieve(
+    public Task<EvalScoreRun> Retrieve(
         string scoreRunID,
         ScoreRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -71,7 +71,7 @@ public sealed class ScoreService : IScoreService
     }
 
     /// <inheritdoc/>
-    public async Task<ScoreCancelResponse> Cancel(
+    public async Task<EvalScoreRun> Cancel(
         ScoreCancelParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -83,7 +83,7 @@ public sealed class ScoreService : IScoreService
     }
 
     /// <inheritdoc/>
-    public Task<ScoreCancelResponse> Cancel(
+    public Task<EvalScoreRun> Cancel(
         string scoreRunID,
         ScoreCancelParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -140,7 +140,7 @@ public sealed class ScoreServiceWithRawResponse : IScoreServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ScoreRetrieveResponse>> Retrieve(
+    public async Task<HttpResponse<EvalScoreRun>> Retrieve(
         ScoreRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -160,20 +160,20 @@ public sealed class ScoreServiceWithRawResponse : IScoreServiceWithRawResponse
             response,
             async (token) =>
             {
-                var score = await response
-                    .Deserialize<ScoreRetrieveResponse>(token)
+                var evalScoreRun = await response
+                    .Deserialize<EvalScoreRun>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    score.Validate();
+                    evalScoreRun.Validate();
                 }
-                return score;
+                return evalScoreRun;
             }
         );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<ScoreRetrieveResponse>> Retrieve(
+    public Task<HttpResponse<EvalScoreRun>> Retrieve(
         string scoreRunID,
         ScoreRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -185,7 +185,7 @@ public sealed class ScoreServiceWithRawResponse : IScoreServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ScoreCancelResponse>> Cancel(
+    public async Task<HttpResponse<EvalScoreRun>> Cancel(
         ScoreCancelParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -205,20 +205,20 @@ public sealed class ScoreServiceWithRawResponse : IScoreServiceWithRawResponse
             response,
             async (token) =>
             {
-                var deserializedResponse = await response
-                    .Deserialize<ScoreCancelResponse>(token)
+                var evalScoreRun = await response
+                    .Deserialize<EvalScoreRun>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    deserializedResponse.Validate();
+                    evalScoreRun.Validate();
                 }
-                return deserializedResponse;
+                return evalScoreRun;
             }
         );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<ScoreCancelResponse>> Cancel(
+    public Task<HttpResponse<EvalScoreRun>> Cancel(
         string scoreRunID,
         ScoreCancelParams? parameters = null,
         CancellationToken cancellationToken = default

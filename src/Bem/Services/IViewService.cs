@@ -69,10 +69,7 @@ public interface IViewService
     /// <para>The new view is created at `versionNum: 1`. Subsequent updates produce new
     /// versions; the version-1 configuration remains addressable.</para>
     /// </summary>
-    Task<ViewCreateResponse> Create(
-        ViewCreateParams parameters,
-        CancellationToken cancellationToken = default
-    );
+    Task<View> Create(ViewCreateParams parameters, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// **Retrieve a view by ID.**
@@ -81,13 +78,13 @@ public interface IViewService
     /// the list of versions on the View object and re-request with the desired version
     /// pinned (versions are immutable once created).</para>
     /// </summary>
-    Task<ViewRetrieveResponse> Retrieve(
+    Task<View> Retrieve(
         ViewRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(ViewRetrieveParams, CancellationToken)"/>
-    Task<ViewRetrieveResponse> Retrieve(
+    Task<View> Retrieve(
         string viewID,
         ViewRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -100,13 +97,10 @@ public interface IViewService
     /// configuration is fully replacing — pass the complete view body, not a patch. The
     /// version number is auto-incremented.</para>
     /// </summary>
-    Task<ViewUpdateResponse> Update(
-        ViewUpdateParams parameters,
-        CancellationToken cancellationToken = default
-    );
+    Task<View> Update(ViewUpdateParams parameters, CancellationToken cancellationToken = default);
 
     /// <inheritdoc cref="Update(ViewUpdateParams, CancellationToken)"/>
-    Task<ViewUpdateResponse> Update(
+    Task<View> Update(
         string viewID,
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default
@@ -198,7 +192,7 @@ public interface IViewServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/views</c>, but is otherwise the
     /// same as <see cref="IViewService.Create(ViewCreateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ViewCreateResponse>> Create(
+    Task<HttpResponse<View>> Create(
         ViewCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -207,13 +201,13 @@ public interface IViewServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/views/{view_id}</c>, but is otherwise the
     /// same as <see cref="IViewService.Retrieve(ViewRetrieveParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ViewRetrieveResponse>> Retrieve(
+    Task<HttpResponse<View>> Retrieve(
         ViewRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(ViewRetrieveParams, CancellationToken)"/>
-    Task<HttpResponse<ViewRetrieveResponse>> Retrieve(
+    Task<HttpResponse<View>> Retrieve(
         string viewID,
         ViewRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -223,13 +217,13 @@ public interface IViewServiceWithRawResponse
     /// Returns a raw HTTP response for <c>put /v3/views/{view_id}</c>, but is otherwise the
     /// same as <see cref="IViewService.Update(ViewUpdateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ViewUpdateResponse>> Update(
+    Task<HttpResponse<View>> Update(
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Update(ViewUpdateParams, CancellationToken)"/>
-    Task<HttpResponse<ViewUpdateResponse>> Update(
+    Task<HttpResponse<View>> Update(
         string viewID,
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default

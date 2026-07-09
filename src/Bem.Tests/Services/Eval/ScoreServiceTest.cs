@@ -30,22 +30,22 @@ public class ScoreServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Retrieve_Works()
     {
-        var score = await this.client.Eval.Score.Retrieve(
+        var evalScoreRun = await this.client.Eval.Score.Retrieve(
             "scoreRunID",
             new(),
             TestContext.Current.CancellationToken
         );
-        score.Validate();
+        evalScoreRun.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Cancel_Works()
     {
-        var response = await this.client.Eval.Score.Cancel(
+        var evalScoreRun = await this.client.Eval.Score.Cancel(
             "scoreRunID",
             new(),
             TestContext.Current.CancellationToken
         );
-        response.Validate();
+        evalScoreRun.Validate();
     }
 }

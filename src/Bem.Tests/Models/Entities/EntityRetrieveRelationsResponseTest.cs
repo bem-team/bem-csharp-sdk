@@ -525,7 +525,7 @@ public class InboundTest : TestBase
         DateTimeOffset expectedFirstSeenAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         int expectedMentionCount = 0;
         string expectedRelationType = "relationType";
-        SourceEntity expectedSourceEntity = new()
+        RelatedEntity expectedSourceEntity = new()
         {
             ID = "id",
             Canonical = "canonical",
@@ -589,7 +589,7 @@ public class InboundTest : TestBase
         DateTimeOffset expectedFirstSeenAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         int expectedMentionCount = 0;
         string expectedRelationType = "relationType";
-        SourceEntity expectedSourceEntity = new()
+        RelatedEntity expectedSourceEntity = new()
         {
             ID = "id",
             Canonical = "canonical",
@@ -646,110 +646,6 @@ public class InboundTest : TestBase
     }
 }
 
-public class SourceEntityTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new SourceEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        string expectedID = "id";
-        string expectedCanonical = "canonical";
-        int expectedDepth = 0;
-        string expectedType = "type";
-
-        Assert.Equal(expectedID, model.ID);
-        Assert.Equal(expectedCanonical, model.Canonical);
-        Assert.Equal(expectedDepth, model.Depth);
-        Assert.Equal(expectedType, model.Type);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new SourceEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SourceEntity>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new SourceEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SourceEntity>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedID = "id";
-        string expectedCanonical = "canonical";
-        int expectedDepth = 0;
-        string expectedType = "type";
-
-        Assert.Equal(expectedID, deserialized.ID);
-        Assert.Equal(expectedCanonical, deserialized.Canonical);
-        Assert.Equal(expectedDepth, deserialized.Depth);
-        Assert.Equal(expectedType, deserialized.Type);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new SourceEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new SourceEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        SourceEntity copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
 public class OutboundTest : TestBase
 {
     [Fact]
@@ -772,7 +668,7 @@ public class OutboundTest : TestBase
         DateTimeOffset expectedFirstSeenAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         int expectedMentionCount = 0;
         string expectedRelationType = "relationType";
-        TargetEntity expectedTargetEntity = new()
+        RelatedEntity expectedTargetEntity = new()
         {
             ID = "id",
             Canonical = "canonical",
@@ -836,7 +732,7 @@ public class OutboundTest : TestBase
         DateTimeOffset expectedFirstSeenAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         int expectedMentionCount = 0;
         string expectedRelationType = "relationType";
-        TargetEntity expectedTargetEntity = new()
+        RelatedEntity expectedTargetEntity = new()
         {
             ID = "id",
             Canonical = "canonical",
@@ -888,110 +784,6 @@ public class OutboundTest : TestBase
         };
 
         Outbound copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class TargetEntityTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new TargetEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        string expectedID = "id";
-        string expectedCanonical = "canonical";
-        int expectedDepth = 0;
-        string expectedType = "type";
-
-        Assert.Equal(expectedID, model.ID);
-        Assert.Equal(expectedCanonical, model.Canonical);
-        Assert.Equal(expectedDepth, model.Depth);
-        Assert.Equal(expectedType, model.Type);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new TargetEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<TargetEntity>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new TargetEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<TargetEntity>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedID = "id";
-        string expectedCanonical = "canonical";
-        int expectedDepth = 0;
-        string expectedType = "type";
-
-        Assert.Equal(expectedID, deserialized.ID);
-        Assert.Equal(expectedCanonical, deserialized.Canonical);
-        Assert.Equal(expectedDepth, deserialized.Depth);
-        Assert.Equal(expectedType, deserialized.Type);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new TargetEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new TargetEntity
-        {
-            ID = "id",
-            Canonical = "canonical",
-            Depth = 0,
-            Type = "type",
-        };
-
-        TargetEntity copied = new(model);
 
         Assert.Equal(model, copied);
     }

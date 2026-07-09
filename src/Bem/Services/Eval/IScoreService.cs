@@ -89,13 +89,13 @@ public interface IScoreService
     /// populated incrementally — each pair's `fieldResults` appears as its underlying
     /// function call terminates.</para>
     /// </summary>
-    Task<ScoreRetrieveResponse> Retrieve(
+    Task<EvalScoreRun> Retrieve(
         ScoreRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(ScoreRetrieveParams, CancellationToken)"/>
-    Task<ScoreRetrieveResponse> Retrieve(
+    Task<EvalScoreRun> Retrieve(
         string scoreRunID,
         ScoreRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -108,13 +108,13 @@ public interface IScoreService
     /// allowed to finish (best-effort cancellation via the job queue); results from
     /// completed pairs may still appear in subsequent GETs.</para>
     /// </summary>
-    Task<ScoreCancelResponse> Cancel(
+    Task<EvalScoreRun> Cancel(
         ScoreCancelParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Cancel(ScoreCancelParams, CancellationToken)"/>
-    Task<ScoreCancelResponse> Cancel(
+    Task<EvalScoreRun> Cancel(
         string scoreRunID,
         ScoreCancelParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -147,13 +147,13 @@ public interface IScoreServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/eval/score/{scoreRunID}</c>, but is otherwise the
     /// same as <see cref="IScoreService.Retrieve(ScoreRetrieveParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ScoreRetrieveResponse>> Retrieve(
+    Task<HttpResponse<EvalScoreRun>> Retrieve(
         ScoreRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(ScoreRetrieveParams, CancellationToken)"/>
-    Task<HttpResponse<ScoreRetrieveResponse>> Retrieve(
+    Task<HttpResponse<EvalScoreRun>> Retrieve(
         string scoreRunID,
         ScoreRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -163,13 +163,13 @@ public interface IScoreServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/eval/score/{scoreRunID}/cancel</c>, but is otherwise the
     /// same as <see cref="IScoreService.Cancel(ScoreCancelParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ScoreCancelResponse>> Cancel(
+    Task<HttpResponse<EvalScoreRun>> Cancel(
         ScoreCancelParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Cancel(ScoreCancelParams, CancellationToken)"/>
-    Task<HttpResponse<ScoreCancelResponse>> Cancel(
+    Task<HttpResponse<EvalScoreRun>> Cancel(
         string scoreRunID,
         ScoreCancelParams? parameters = null,
         CancellationToken cancellationToken = default

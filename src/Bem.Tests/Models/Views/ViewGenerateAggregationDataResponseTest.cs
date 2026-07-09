@@ -18,7 +18,7 @@ public class ViewGenerateAggregationDataResponseTest : TestBase
             ],
         };
 
-        List<ViewGenerateAggregationDataResponseAggregation> expectedAggregations =
+        List<Aggregation> expectedAggregations =
         [
             new() { Groups = [new() { GroupName = "groupName", Value = 0 }], Name = "name" },
         ];
@@ -68,7 +68,7 @@ public class ViewGenerateAggregationDataResponseTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        List<ViewGenerateAggregationDataResponseAggregation> expectedAggregations =
+        List<Aggregation> expectedAggregations =
         [
             new() { Groups = [new() { GroupName = "groupName", Value = 0 }], Name = "name" },
         ];
@@ -111,12 +111,12 @@ public class ViewGenerateAggregationDataResponseTest : TestBase
     }
 }
 
-public class ViewGenerateAggregationDataResponseAggregationTest : TestBase
+public class AggregationTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new ViewGenerateAggregationDataResponseAggregation
+        var model = new Aggregation
         {
             Groups = [new() { GroupName = "groupName", Value = 0 }],
             Name = "name",
@@ -136,18 +136,17 @@ public class ViewGenerateAggregationDataResponseAggregationTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new ViewGenerateAggregationDataResponseAggregation
+        var model = new Aggregation
         {
             Groups = [new() { GroupName = "groupName", Value = 0 }],
             Name = "name",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<ViewGenerateAggregationDataResponseAggregation>(
-                json,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<Aggregation>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -155,18 +154,17 @@ public class ViewGenerateAggregationDataResponseAggregationTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new ViewGenerateAggregationDataResponseAggregation
+        var model = new Aggregation
         {
             Groups = [new() { GroupName = "groupName", Value = 0 }],
             Name = "name",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<ViewGenerateAggregationDataResponseAggregation>(
-                element,
-                ModelBase.SerializerOptions
-            );
+        var deserialized = JsonSerializer.Deserialize<Aggregation>(
+            element,
+            ModelBase.SerializerOptions
+        );
         Assert.NotNull(deserialized);
 
         List<Group> expectedGroups = [new() { GroupName = "groupName", Value = 0 }];
@@ -183,7 +181,7 @@ public class ViewGenerateAggregationDataResponseAggregationTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new ViewGenerateAggregationDataResponseAggregation
+        var model = new Aggregation
         {
             Groups = [new() { GroupName = "groupName", Value = 0 }],
             Name = "name",
@@ -195,13 +193,13 @@ public class ViewGenerateAggregationDataResponseAggregationTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new ViewGenerateAggregationDataResponseAggregation
+        var model = new Aggregation
         {
             Groups = [new() { GroupName = "groupName", Value = 0 }],
             Name = "name",
         };
 
-        ViewGenerateAggregationDataResponseAggregation copied = new(model);
+        Aggregation copied = new(model);
 
         Assert.Equal(model, copied);
     }

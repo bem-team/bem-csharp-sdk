@@ -45,7 +45,7 @@ public interface IBucketService
     /// <summary>
     /// Create a Bucket
     /// </summary>
-    Task<BucketCreateResponse> Create(
+    Task<BucketV3> Create(
         BucketCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -53,13 +53,13 @@ public interface IBucketService
     /// <summary>
     /// Get a Bucket
     /// </summary>
-    Task<BucketRetrieveResponse> Retrieve(
+    Task<BucketV3> Retrieve(
         BucketRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(BucketRetrieveParams, CancellationToken)"/>
-    Task<BucketRetrieveResponse> Retrieve(
+    Task<BucketV3> Retrieve(
         string bucketID,
         BucketRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -68,13 +68,13 @@ public interface IBucketService
     /// <summary>
     /// Update a Bucket
     /// </summary>
-    Task<BucketUpdateResponse> Update(
+    Task<BucketV3> Update(
         BucketUpdateParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Update(BucketUpdateParams, CancellationToken)"/>
-    Task<BucketUpdateResponse> Update(
+    Task<BucketV3> Update(
         string bucketID,
         BucketUpdateParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -118,7 +118,7 @@ public interface IBucketServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/buckets</c>, but is otherwise the
     /// same as <see cref="IBucketService.Create(BucketCreateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<BucketCreateResponse>> Create(
+    Task<HttpResponse<BucketV3>> Create(
         BucketCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -127,13 +127,13 @@ public interface IBucketServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/buckets/{bucketID}</c>, but is otherwise the
     /// same as <see cref="IBucketService.Retrieve(BucketRetrieveParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<BucketRetrieveResponse>> Retrieve(
+    Task<HttpResponse<BucketV3>> Retrieve(
         BucketRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(BucketRetrieveParams, CancellationToken)"/>
-    Task<HttpResponse<BucketRetrieveResponse>> Retrieve(
+    Task<HttpResponse<BucketV3>> Retrieve(
         string bucketID,
         BucketRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -143,13 +143,13 @@ public interface IBucketServiceWithRawResponse
     /// Returns a raw HTTP response for <c>patch /v3/buckets/{bucketID}</c>, but is otherwise the
     /// same as <see cref="IBucketService.Update(BucketUpdateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<BucketUpdateResponse>> Update(
+    Task<HttpResponse<BucketV3>> Update(
         BucketUpdateParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Update(BucketUpdateParams, CancellationToken)"/>
-    Task<HttpResponse<BucketUpdateResponse>> Update(
+    Task<HttpResponse<BucketV3>> Update(
         string bucketID,
         BucketUpdateParams? parameters = null,
         CancellationToken cancellationToken = default

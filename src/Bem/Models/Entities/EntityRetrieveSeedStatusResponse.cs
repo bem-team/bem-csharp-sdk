@@ -125,14 +125,12 @@ public sealed record class EntityRetrieveSeedStatusResponse : JsonModel
     /// <summary>
     /// Per-row outcomes. Present only once `status` is `completed`.
     /// </summary>
-    public IReadOnlyList<EntityRetrieveSeedStatusResponseResult>? Results
+    public IReadOnlyList<SeedRowResult>? Results
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<EntityRetrieveSeedStatusResponseResult>
-            >("results");
+            return this._rawData.GetNullableStruct<ImmutableArray<SeedRowResult>>("results");
         }
         init
         {
@@ -141,7 +139,7 @@ public sealed record class EntityRetrieveSeedStatusResponse : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<EntityRetrieveSeedStatusResponseResult>?>(
+            this._rawData.Set<ImmutableArray<SeedRowResult>?>(
                 "results",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -249,190 +247,6 @@ sealed class EntityRetrieveSeedStatusResponseStatusConverter
                 EntityRetrieveSeedStatusResponseStatus.Processing => "processing",
                 EntityRetrieveSeedStatusResponseStatus.Completed => "completed",
                 EntityRetrieveSeedStatusResponseStatus.Failed => "failed",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// The outcome of seeding one row.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        EntityRetrieveSeedStatusResponseResult,
-        EntityRetrieveSeedStatusResponseResultFromRaw
-    >)
-)]
-public sealed record class EntityRetrieveSeedStatusResponseResult : JsonModel
-{
-    /// <summary>
-    /// The canonical name from the input row.
-    /// </summary>
-    public required string Canonical
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("canonical");
-        }
-        init { this._rawData.Set("canonical", value); }
-    }
-
-    /// <summary>
-    /// What happened to this row: `created` (new entity), `merged-with` (matched
-    /// an existing entity), or `rejected` (see `reason`).
-    /// </summary>
-    public required ApiEnum<string, EntityRetrieveSeedStatusResponseResultOutcome> Outcome
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, EntityRetrieveSeedStatusResponseResultOutcome>
-            >("outcome");
-        }
-        init { this._rawData.Set("outcome", value); }
-    }
-
-    /// <summary>
-    /// Public ID (`ent_...`) of the created or merged entity. Absent when rejected.
-    /// </summary>
-    public string? EntityID
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("entityID");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("entityID", value);
-        }
-    }
-
-    /// <summary>
-    /// Human-readable explanation when `outcome` is `rejected`.
-    /// </summary>
-    public string? Reason
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<string>("reason");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("reason", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Canonical;
-        this.Outcome.Validate();
-        _ = this.EntityID;
-        _ = this.Reason;
-    }
-
-    public EntityRetrieveSeedStatusResponseResult() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public EntityRetrieveSeedStatusResponseResult(
-        EntityRetrieveSeedStatusResponseResult entityRetrieveSeedStatusResponseResult
-    )
-        : base(entityRetrieveSeedStatusResponseResult) { }
-#pragma warning restore CS8618
-
-    public EntityRetrieveSeedStatusResponseResult(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    EntityRetrieveSeedStatusResponseResult(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="EntityRetrieveSeedStatusResponseResultFromRaw.FromRawUnchecked"/>
-    public static EntityRetrieveSeedStatusResponseResult FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class EntityRetrieveSeedStatusResponseResultFromRaw
-    : IFromRawJson<EntityRetrieveSeedStatusResponseResult>
-{
-    /// <inheritdoc/>
-    public EntityRetrieveSeedStatusResponseResult FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => EntityRetrieveSeedStatusResponseResult.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// What happened to this row: `created` (new entity), `merged-with` (matched an existing
-/// entity), or `rejected` (see `reason`).
-/// </summary>
-[JsonConverter(typeof(EntityRetrieveSeedStatusResponseResultOutcomeConverter))]
-public enum EntityRetrieveSeedStatusResponseResultOutcome
-{
-    Created,
-    MergedWith,
-    Rejected,
-}
-
-sealed class EntityRetrieveSeedStatusResponseResultOutcomeConverter
-    : JsonConverter<EntityRetrieveSeedStatusResponseResultOutcome>
-{
-    public override EntityRetrieveSeedStatusResponseResultOutcome Read(
-        ref Utf8JsonReader reader,
-        Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "created" => EntityRetrieveSeedStatusResponseResultOutcome.Created,
-            "merged-with" => EntityRetrieveSeedStatusResponseResultOutcome.MergedWith,
-            "rejected" => EntityRetrieveSeedStatusResponseResultOutcome.Rejected,
-            _ => (EntityRetrieveSeedStatusResponseResultOutcome)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        EntityRetrieveSeedStatusResponseResultOutcome value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                EntityRetrieveSeedStatusResponseResultOutcome.Created => "created",
-                EntityRetrieveSeedStatusResponseResultOutcome.MergedWith => "merged-with",
-                EntityRetrieveSeedStatusResponseResultOutcome.Rejected => "rejected",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

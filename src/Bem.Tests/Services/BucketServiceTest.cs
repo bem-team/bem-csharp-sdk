@@ -7,33 +7,33 @@ public class BucketServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Create_Works()
     {
-        var bucket = await this.client.Buckets.Create(
+        var bucketV3 = await this.client.Buckets.Create(
             new() { Name = "invoices" },
             TestContext.Current.CancellationToken
         );
-        bucket.Validate();
+        bucketV3.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Retrieve_Works()
     {
-        var bucket = await this.client.Buckets.Retrieve(
+        var bucketV3 = await this.client.Buckets.Retrieve(
             "bucketID",
             new(),
             TestContext.Current.CancellationToken
         );
-        bucket.Validate();
+        bucketV3.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Update_Works()
     {
-        var bucket = await this.client.Buckets.Update(
+        var bucketV3 = await this.client.Buckets.Update(
             "bucketID",
             new(),
             TestContext.Current.CancellationToken
         );
-        bucket.Validate();
+        bucketV3.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]

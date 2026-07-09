@@ -43,7 +43,7 @@ public sealed class EntityTypeService : IEntityTypeService
     }
 
     /// <inheritdoc/>
-    public async Task<EntityTypeCreateResponse> Create(
+    public async Task<EntityType> Create(
         EntityTypeCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -55,7 +55,7 @@ public sealed class EntityTypeService : IEntityTypeService
     }
 
     /// <inheritdoc/>
-    public async Task<EntityTypeRetrieveResponse> Retrieve(
+    public async Task<EntityType> Retrieve(
         EntityTypeRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -67,7 +67,7 @@ public sealed class EntityTypeService : IEntityTypeService
     }
 
     /// <inheritdoc/>
-    public Task<EntityTypeRetrieveResponse> Retrieve(
+    public Task<EntityType> Retrieve(
         string typeID,
         EntityTypeRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -79,7 +79,7 @@ public sealed class EntityTypeService : IEntityTypeService
     }
 
     /// <inheritdoc/>
-    public async Task<EntityTypeUpdateResponse> Update(
+    public async Task<EntityType> Update(
         EntityTypeUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -91,7 +91,7 @@ public sealed class EntityTypeService : IEntityTypeService
     }
 
     /// <inheritdoc/>
-    public Task<EntityTypeUpdateResponse> Update(
+    public Task<EntityType> Update(
         string typeID,
         EntityTypeUpdateParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -164,7 +164,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<EntityTypeCreateResponse>> Create(
+    public async Task<HttpResponse<EntityType>> Create(
         EntityTypeCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -180,7 +180,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
             async (token) =>
             {
                 var entityType = await response
-                    .Deserialize<EntityTypeCreateResponse>(token)
+                    .Deserialize<EntityType>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
@@ -192,7 +192,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<EntityTypeRetrieveResponse>> Retrieve(
+    public async Task<HttpResponse<EntityType>> Retrieve(
         EntityTypeRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -213,7 +213,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
             async (token) =>
             {
                 var entityType = await response
-                    .Deserialize<EntityTypeRetrieveResponse>(token)
+                    .Deserialize<EntityType>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
@@ -225,7 +225,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<EntityTypeRetrieveResponse>> Retrieve(
+    public Task<HttpResponse<EntityType>> Retrieve(
         string typeID,
         EntityTypeRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -237,7 +237,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<EntityTypeUpdateResponse>> Update(
+    public async Task<HttpResponse<EntityType>> Update(
         EntityTypeUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -258,7 +258,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
             async (token) =>
             {
                 var entityType = await response
-                    .Deserialize<EntityTypeUpdateResponse>(token)
+                    .Deserialize<EntityType>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
@@ -270,7 +270,7 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<EntityTypeUpdateResponse>> Update(
+    public Task<HttpResponse<EntityType>> Update(
         string typeID,
         EntityTypeUpdateParams? parameters = null,
         CancellationToken cancellationToken = default
