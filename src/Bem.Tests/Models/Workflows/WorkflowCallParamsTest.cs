@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Bem.Core;
+using Bem.Models.Eval.Score;
 using Bem.Models.Workflows;
 using Outputs = Bem.Models.Outputs;
 
@@ -273,7 +274,7 @@ public class InputTest : TestBase
                 },
             ],
         };
-        SingleFile expectedSingleFile = new()
+        FileInput expectedSingleFile = new()
         {
             InputContent = "inputContent",
             InputType = Outputs::InputType.Csv,
@@ -353,7 +354,7 @@ public class InputTest : TestBase
                 },
             ],
         };
-        SingleFile expectedSingleFile = new()
+        FileInput expectedSingleFile = new()
         {
             InputContent = "inputContent",
             InputType = Outputs::InputType.Csv,
@@ -799,92 +800,6 @@ public class BatchFilesInputTest : TestBase
         };
 
         BatchFilesInput copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class SingleFileTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new SingleFile
-        {
-            InputContent = "inputContent",
-            InputType = Outputs::InputType.Csv,
-        };
-
-        string expectedInputContent = "inputContent";
-        ApiEnum<string, Outputs::InputType> expectedInputType = Outputs::InputType.Csv;
-
-        Assert.Equal(expectedInputContent, model.InputContent);
-        Assert.Equal(expectedInputType, model.InputType);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new SingleFile
-        {
-            InputContent = "inputContent",
-            InputType = Outputs::InputType.Csv,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SingleFile>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new SingleFile
-        {
-            InputContent = "inputContent",
-            InputType = Outputs::InputType.Csv,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<SingleFile>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedInputContent = "inputContent";
-        ApiEnum<string, Outputs::InputType> expectedInputType = Outputs::InputType.Csv;
-
-        Assert.Equal(expectedInputContent, deserialized.InputContent);
-        Assert.Equal(expectedInputType, deserialized.InputType);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new SingleFile
-        {
-            InputContent = "inputContent",
-            InputType = Outputs::InputType.Csv,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new SingleFile
-        {
-            InputContent = "inputContent",
-            InputType = Outputs::InputType.Csv,
-        };
-
-        SingleFile copied = new(model);
 
         Assert.Equal(model, copied);
     }

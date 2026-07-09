@@ -18,12 +18,12 @@ public class ReviewerServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Assign_Works()
     {
-        var response = await this.client.EntityTypes.Reviewers.Assign(
+        var reviewer = await this.client.EntityTypes.Reviewers.Assign(
             "typeID",
             new() { UserID = "usr_2xyz..." },
             TestContext.Current.CancellationToken
         );
-        response.Validate();
+        reviewer.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]

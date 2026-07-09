@@ -61,14 +61,12 @@ public sealed record class FunctionEstimateReviewRequirementsResponse : JsonMode
     /// <summary>
     /// Detailed performance metrics and analysis
     /// </summary>
-    public FunctionEstimateReviewRequirementsResponseMetrics? Metrics
+    public MetricsDetails? Metrics
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionEstimateReviewRequirementsResponseMetrics>(
-                "metrics"
-            );
+            return this._rawData.GetNullableClass<MetricsDetails>("metrics");
         }
         init
         {
@@ -522,12 +520,12 @@ public sealed record class ThresholdMatrix : JsonModel
     /// Precision confidence intervals by confidence level. Keys are confidence levels
     /// as strings ("90", "95", "99"). Values contain statistical confidence intervals.
     /// </summary>
-    public ThresholdMatrixPrecision? Precision
+    public Precision? Precision
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ThresholdMatrixPrecision>("precision");
+            return this._rawData.GetNullableClass<Precision>("precision");
         }
         init
         {
@@ -544,12 +542,12 @@ public sealed record class ThresholdMatrix : JsonModel
     /// Recall confidence intervals by confidence level. Keys are confidence levels
     /// as strings ("90", "95", "99"). Values contain statistical confidence intervals.
     /// </summary>
-    public ThresholdMatrixRecall? Recall
+    public Recall? Recall
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ThresholdMatrixRecall>("recall");
+            return this._rawData.GetNullableClass<Recall>("recall");
         }
         init
         {
@@ -628,12 +626,12 @@ public sealed record class AccuracyAboveThreshold : JsonModel
     /// distribution. For extreme rates or small sample sizes, Wilson confidence
     /// intervals may be more appropriate.</para>
     /// </summary>
-    public V95? A95
+    public RateConfidenceInterval? A95
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<V95>("95");
+            return this._rawData.GetNullableClass<RateConfidenceInterval>("95");
         }
         init
         {
@@ -691,128 +689,6 @@ class AccuracyAboveThresholdFromRaw : IFromRawJson<AccuracyAboveThreshold>
 }
 
 /// <summary>
-/// Confidence interval for a rate/proportion using Wald (normal approximation) method
-/// by default.
-///
-/// <para>Wald confidence intervals use the normal approximation to the binomial
-/// distribution. For extreme rates or small sample sizes, Wilson confidence intervals
-/// may be more appropriate.</para>
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<V95, V95FromRaw>))]
-public sealed record class V95 : JsonModel
-{
-    /// <summary>
-    /// Current number of samples/observations available
-    /// </summary>
-    public required long CurrentSample
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("currentSample");
-        }
-        init { this._rawData.Set("currentSample", value); }
-    }
-
-    /// <summary>
-    /// Minimum number of samples needed for reliable confidence interval calculation
-    /// </summary>
-    public required long SampleNeeded
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("sampleNeeded");
-        }
-        init { this._rawData.Set("sampleNeeded", value); }
-    }
-
-    /// <summary>
-    /// Lower bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiLower
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciLower");
-        }
-        init { this._rawData.Set("ciLower", value); }
-    }
-
-    /// <summary>
-    /// Upper bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiUpper
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciUpper");
-        }
-        init { this._rawData.Set("ciUpper", value); }
-    }
-
-    /// <summary>
-    /// Point estimate (observed rate) at the center of the interval (null if insufficient
-    /// sample size)
-    /// </summary>
-    public float? Mid
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("mid");
-        }
-        init { this._rawData.Set("mid", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CurrentSample;
-        _ = this.SampleNeeded;
-        _ = this.CiLower;
-        _ = this.CiUpper;
-        _ = this.Mid;
-    }
-
-    public V95() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public V95(V95 v95)
-        : base(v95) { }
-#pragma warning restore CS8618
-
-    public V95(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    V95(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="V95FromRaw.FromRawUnchecked"/>
-    public static V95 FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class V95FromRaw : IFromRawJson<V95>
-{
-    /// <inheritdoc/>
-    public V95 FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        V95.FromRawUnchecked(rawData);
-}
-
-/// <summary>
 /// False Discovery Rate confidence intervals by confidence level. Keys are confidence
 /// levels as strings ("90", "95", "99"). Values contain statistical confidence intervals.
 /// </summary>
@@ -827,12 +703,12 @@ public sealed record class FalseDiscoveryRate : JsonModel
     /// distribution. For extreme rates or small sample sizes, Wilson confidence
     /// intervals may be more appropriate.</para>
     /// </summary>
-    public FalseDiscoveryRateV95? F95
+    public RateConfidenceInterval? F95
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FalseDiscoveryRateV95>("95");
+            return this._rawData.GetNullableClass<RateConfidenceInterval>("95");
         }
         init
         {
@@ -889,131 +765,6 @@ class FalseDiscoveryRateFromRaw : IFromRawJson<FalseDiscoveryRate>
 }
 
 /// <summary>
-/// Confidence interval for a rate/proportion using Wald (normal approximation) method
-/// by default.
-///
-/// <para>Wald confidence intervals use the normal approximation to the binomial
-/// distribution. For extreme rates or small sample sizes, Wilson confidence intervals
-/// may be more appropriate.</para>
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<FalseDiscoveryRateV95, FalseDiscoveryRateV95FromRaw>))]
-public sealed record class FalseDiscoveryRateV95 : JsonModel
-{
-    /// <summary>
-    /// Current number of samples/observations available
-    /// </summary>
-    public required long CurrentSample
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("currentSample");
-        }
-        init { this._rawData.Set("currentSample", value); }
-    }
-
-    /// <summary>
-    /// Minimum number of samples needed for reliable confidence interval calculation
-    /// </summary>
-    public required long SampleNeeded
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("sampleNeeded");
-        }
-        init { this._rawData.Set("sampleNeeded", value); }
-    }
-
-    /// <summary>
-    /// Lower bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiLower
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciLower");
-        }
-        init { this._rawData.Set("ciLower", value); }
-    }
-
-    /// <summary>
-    /// Upper bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiUpper
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciUpper");
-        }
-        init { this._rawData.Set("ciUpper", value); }
-    }
-
-    /// <summary>
-    /// Point estimate (observed rate) at the center of the interval (null if insufficient
-    /// sample size)
-    /// </summary>
-    public float? Mid
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("mid");
-        }
-        init { this._rawData.Set("mid", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CurrentSample;
-        _ = this.SampleNeeded;
-        _ = this.CiLower;
-        _ = this.CiUpper;
-        _ = this.Mid;
-    }
-
-    public FalseDiscoveryRateV95() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FalseDiscoveryRateV95(FalseDiscoveryRateV95 falseDiscoveryRateV95)
-        : base(falseDiscoveryRateV95) { }
-#pragma warning restore CS8618
-
-    public FalseDiscoveryRateV95(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FalseDiscoveryRateV95(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FalseDiscoveryRateV95FromRaw.FromRawUnchecked"/>
-    public static FalseDiscoveryRateV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FalseDiscoveryRateV95FromRaw : IFromRawJson<FalseDiscoveryRateV95>
-{
-    /// <inheritdoc/>
-    public FalseDiscoveryRateV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FalseDiscoveryRateV95.FromRawUnchecked(rawData);
-}
-
-/// <summary>
 /// False Positive Rate confidence intervals by confidence level. Keys are confidence
 /// levels as strings ("90", "95", "99"). Values contain statistical confidence intervals.
 /// </summary>
@@ -1028,12 +779,12 @@ public sealed record class FalsePositiveRate : JsonModel
     /// distribution. For extreme rates or small sample sizes, Wilson confidence
     /// intervals may be more appropriate.</para>
     /// </summary>
-    public FalsePositiveRateV95? F95
+    public RateConfidenceInterval? F95
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FalsePositiveRateV95>("95");
+            return this._rawData.GetNullableClass<RateConfidenceInterval>("95");
         }
         init
         {
@@ -1090,138 +841,11 @@ class FalsePositiveRateFromRaw : IFromRawJson<FalsePositiveRate>
 }
 
 /// <summary>
-/// Confidence interval for a rate/proportion using Wald (normal approximation) method
-/// by default.
-///
-/// <para>Wald confidence intervals use the normal approximation to the binomial
-/// distribution. For extreme rates or small sample sizes, Wilson confidence intervals
-/// may be more appropriate.</para>
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<FalsePositiveRateV95, FalsePositiveRateV95FromRaw>))]
-public sealed record class FalsePositiveRateV95 : JsonModel
-{
-    /// <summary>
-    /// Current number of samples/observations available
-    /// </summary>
-    public required long CurrentSample
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("currentSample");
-        }
-        init { this._rawData.Set("currentSample", value); }
-    }
-
-    /// <summary>
-    /// Minimum number of samples needed for reliable confidence interval calculation
-    /// </summary>
-    public required long SampleNeeded
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("sampleNeeded");
-        }
-        init { this._rawData.Set("sampleNeeded", value); }
-    }
-
-    /// <summary>
-    /// Lower bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiLower
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciLower");
-        }
-        init { this._rawData.Set("ciLower", value); }
-    }
-
-    /// <summary>
-    /// Upper bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiUpper
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciUpper");
-        }
-        init { this._rawData.Set("ciUpper", value); }
-    }
-
-    /// <summary>
-    /// Point estimate (observed rate) at the center of the interval (null if insufficient
-    /// sample size)
-    /// </summary>
-    public float? Mid
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("mid");
-        }
-        init { this._rawData.Set("mid", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CurrentSample;
-        _ = this.SampleNeeded;
-        _ = this.CiLower;
-        _ = this.CiUpper;
-        _ = this.Mid;
-    }
-
-    public FalsePositiveRateV95() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FalsePositiveRateV95(FalsePositiveRateV95 falsePositiveRateV95)
-        : base(falsePositiveRateV95) { }
-#pragma warning restore CS8618
-
-    public FalsePositiveRateV95(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FalsePositiveRateV95(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FalsePositiveRateV95FromRaw.FromRawUnchecked"/>
-    public static FalsePositiveRateV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FalsePositiveRateV95FromRaw : IFromRawJson<FalsePositiveRateV95>
-{
-    /// <inheritdoc/>
-    public FalsePositiveRateV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FalsePositiveRateV95.FromRawUnchecked(rawData);
-}
-
-/// <summary>
 /// Precision confidence intervals by confidence level. Keys are confidence levels
 /// as strings ("90", "95", "99"). Values contain statistical confidence intervals.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<ThresholdMatrixPrecision, ThresholdMatrixPrecisionFromRaw>)
-)]
-public sealed record class ThresholdMatrixPrecision : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Precision, PrecisionFromRaw>))]
+public sealed record class Precision : JsonModel
 {
     /// <summary>
     /// Confidence interval for a rate/proportion using Wald (normal approximation)
@@ -1231,12 +855,12 @@ public sealed record class ThresholdMatrixPrecision : JsonModel
     /// distribution. For extreme rates or small sample sizes, Wilson confidence
     /// intervals may be more appropriate.</para>
     /// </summary>
-    public ThresholdMatrixPrecisionV95? P95
+    public RateConfidenceInterval? P95
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ThresholdMatrixPrecisionV95>("95");
+            return this._rawData.GetNullableClass<RateConfidenceInterval>("95");
         }
         init
         {
@@ -1255,177 +879,47 @@ public sealed record class ThresholdMatrixPrecision : JsonModel
         this.P95?.Validate();
     }
 
-    public ThresholdMatrixPrecision() { }
+    public Precision() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public ThresholdMatrixPrecision(ThresholdMatrixPrecision thresholdMatrixPrecision)
-        : base(thresholdMatrixPrecision) { }
+    public Precision(Precision precision)
+        : base(precision) { }
 #pragma warning restore CS8618
 
-    public ThresholdMatrixPrecision(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Precision(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ThresholdMatrixPrecision(FrozenDictionary<string, JsonElement> rawData)
+    Precision(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="ThresholdMatrixPrecisionFromRaw.FromRawUnchecked"/>
-    public static ThresholdMatrixPrecision FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="PrecisionFromRaw.FromRawUnchecked"/>
+    public static Precision FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class ThresholdMatrixPrecisionFromRaw : IFromRawJson<ThresholdMatrixPrecision>
+class PrecisionFromRaw : IFromRawJson<Precision>
 {
     /// <inheritdoc/>
-    public ThresholdMatrixPrecision FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ThresholdMatrixPrecision.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Confidence interval for a rate/proportion using Wald (normal approximation) method
-/// by default.
-///
-/// <para>Wald confidence intervals use the normal approximation to the binomial
-/// distribution. For extreme rates or small sample sizes, Wilson confidence intervals
-/// may be more appropriate.</para>
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<ThresholdMatrixPrecisionV95, ThresholdMatrixPrecisionV95FromRaw>)
-)]
-public sealed record class ThresholdMatrixPrecisionV95 : JsonModel
-{
-    /// <summary>
-    /// Current number of samples/observations available
-    /// </summary>
-    public required long CurrentSample
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("currentSample");
-        }
-        init { this._rawData.Set("currentSample", value); }
-    }
-
-    /// <summary>
-    /// Minimum number of samples needed for reliable confidence interval calculation
-    /// </summary>
-    public required long SampleNeeded
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("sampleNeeded");
-        }
-        init { this._rawData.Set("sampleNeeded", value); }
-    }
-
-    /// <summary>
-    /// Lower bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiLower
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciLower");
-        }
-        init { this._rawData.Set("ciLower", value); }
-    }
-
-    /// <summary>
-    /// Upper bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiUpper
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciUpper");
-        }
-        init { this._rawData.Set("ciUpper", value); }
-    }
-
-    /// <summary>
-    /// Point estimate (observed rate) at the center of the interval (null if insufficient
-    /// sample size)
-    /// </summary>
-    public float? Mid
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("mid");
-        }
-        init { this._rawData.Set("mid", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CurrentSample;
-        _ = this.SampleNeeded;
-        _ = this.CiLower;
-        _ = this.CiUpper;
-        _ = this.Mid;
-    }
-
-    public ThresholdMatrixPrecisionV95() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public ThresholdMatrixPrecisionV95(ThresholdMatrixPrecisionV95 thresholdMatrixPrecisionV95)
-        : base(thresholdMatrixPrecisionV95) { }
-#pragma warning restore CS8618
-
-    public ThresholdMatrixPrecisionV95(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    ThresholdMatrixPrecisionV95(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="ThresholdMatrixPrecisionV95FromRaw.FromRawUnchecked"/>
-    public static ThresholdMatrixPrecisionV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class ThresholdMatrixPrecisionV95FromRaw : IFromRawJson<ThresholdMatrixPrecisionV95>
-{
-    /// <inheritdoc/>
-    public ThresholdMatrixPrecisionV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ThresholdMatrixPrecisionV95.FromRawUnchecked(rawData);
+    public Precision FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Precision.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// Recall confidence intervals by confidence level. Keys are confidence levels as
 /// strings ("90", "95", "99"). Values contain statistical confidence intervals.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<ThresholdMatrixRecall, ThresholdMatrixRecallFromRaw>))]
-public sealed record class ThresholdMatrixRecall : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Recall, RecallFromRaw>))]
+public sealed record class Recall : JsonModel
 {
     /// <summary>
     /// Confidence interval for a rate/proportion using Wald (normal approximation)
@@ -1435,12 +929,12 @@ public sealed record class ThresholdMatrixRecall : JsonModel
     /// distribution. For extreme rates or small sample sizes, Wilson confidence
     /// intervals may be more appropriate.</para>
     /// </summary>
-    public ThresholdMatrixRecallV95? R95
+    public RateConfidenceInterval? R95
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<ThresholdMatrixRecallV95>("95");
+            return this._rawData.GetNullableClass<RateConfidenceInterval>("95");
         }
         init
         {
@@ -1459,824 +953,37 @@ public sealed record class ThresholdMatrixRecall : JsonModel
         this.R95?.Validate();
     }
 
-    public ThresholdMatrixRecall() { }
+    public Recall() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public ThresholdMatrixRecall(ThresholdMatrixRecall thresholdMatrixRecall)
-        : base(thresholdMatrixRecall) { }
+    public Recall(Recall recall)
+        : base(recall) { }
 #pragma warning restore CS8618
 
-    public ThresholdMatrixRecall(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Recall(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ThresholdMatrixRecall(FrozenDictionary<string, JsonElement> rawData)
+    Recall(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="ThresholdMatrixRecallFromRaw.FromRawUnchecked"/>
-    public static ThresholdMatrixRecall FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="RecallFromRaw.FromRawUnchecked"/>
+    public static Recall FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class ThresholdMatrixRecallFromRaw : IFromRawJson<ThresholdMatrixRecall>
+class RecallFromRaw : IFromRawJson<Recall>
 {
     /// <inheritdoc/>
-    public ThresholdMatrixRecall FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ThresholdMatrixRecall.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Confidence interval for a rate/proportion using Wald (normal approximation) method
-/// by default.
-///
-/// <para>Wald confidence intervals use the normal approximation to the binomial
-/// distribution. For extreme rates or small sample sizes, Wilson confidence intervals
-/// may be more appropriate.</para>
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<ThresholdMatrixRecallV95, ThresholdMatrixRecallV95FromRaw>)
-)]
-public sealed record class ThresholdMatrixRecallV95 : JsonModel
-{
-    /// <summary>
-    /// Current number of samples/observations available
-    /// </summary>
-    public required long CurrentSample
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("currentSample");
-        }
-        init { this._rawData.Set("currentSample", value); }
-    }
-
-    /// <summary>
-    /// Minimum number of samples needed for reliable confidence interval calculation
-    /// </summary>
-    public required long SampleNeeded
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("sampleNeeded");
-        }
-        init { this._rawData.Set("sampleNeeded", value); }
-    }
-
-    /// <summary>
-    /// Lower bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiLower
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciLower");
-        }
-        init { this._rawData.Set("ciLower", value); }
-    }
-
-    /// <summary>
-    /// Upper bound of the confidence interval (null if insufficient sample size)
-    /// </summary>
-    public float? CiUpper
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("ciUpper");
-        }
-        init { this._rawData.Set("ciUpper", value); }
-    }
-
-    /// <summary>
-    /// Point estimate (observed rate) at the center of the interval (null if insufficient
-    /// sample size)
-    /// </summary>
-    public float? Mid
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("mid");
-        }
-        init { this._rawData.Set("mid", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.CurrentSample;
-        _ = this.SampleNeeded;
-        _ = this.CiLower;
-        _ = this.CiUpper;
-        _ = this.Mid;
-    }
-
-    public ThresholdMatrixRecallV95() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public ThresholdMatrixRecallV95(ThresholdMatrixRecallV95 thresholdMatrixRecallV95)
-        : base(thresholdMatrixRecallV95) { }
-#pragma warning restore CS8618
-
-    public ThresholdMatrixRecallV95(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    ThresholdMatrixRecallV95(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="ThresholdMatrixRecallV95FromRaw.FromRawUnchecked"/>
-    public static ThresholdMatrixRecallV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class ThresholdMatrixRecallV95FromRaw : IFromRawJson<ThresholdMatrixRecallV95>
-{
-    /// <inheritdoc/>
-    public ThresholdMatrixRecallV95 FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ThresholdMatrixRecallV95.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Detailed performance metrics and analysis
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionEstimateReviewRequirementsResponseMetrics,
-        FunctionEstimateReviewRequirementsResponseMetricsFromRaw
-    >)
-)]
-public sealed record class FunctionEstimateReviewRequirementsResponseMetrics : JsonModel
-{
-    /// <summary>
-    /// Comprehensive performance metrics
-    /// </summary>
-    public FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics? AggregateMetrics
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics>(
-                "aggregateMetrics"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("aggregateMetrics", value);
-        }
-    }
-
-    /// <summary>
-    /// Enhanced field metrics with comprehensive analytics
-    /// </summary>
-    public IReadOnlyList<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric>? FieldMetrics
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<
-                ImmutableArray<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric>
-            >("fieldMetrics");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric>?>(
-                "fieldMetrics",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
-    /// Area Under the Precision-Recall Curve
-    /// </summary>
-    public float? PrecisionRecallAuc
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("precisionRecallAuc");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("precisionRecallAuc", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.AggregateMetrics?.Validate();
-        foreach (var item in this.FieldMetrics ?? [])
-        {
-            item.Validate();
-        }
-        _ = this.PrecisionRecallAuc;
-    }
-
-    public FunctionEstimateReviewRequirementsResponseMetrics() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionEstimateReviewRequirementsResponseMetrics(
-        FunctionEstimateReviewRequirementsResponseMetrics functionEstimateReviewRequirementsResponseMetrics
-    )
-        : base(functionEstimateReviewRequirementsResponseMetrics) { }
-#pragma warning restore CS8618
-
-    public FunctionEstimateReviewRequirementsResponseMetrics(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionEstimateReviewRequirementsResponseMetrics(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionEstimateReviewRequirementsResponseMetricsFromRaw.FromRawUnchecked"/>
-    public static FunctionEstimateReviewRequirementsResponseMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionEstimateReviewRequirementsResponseMetricsFromRaw
-    : IFromRawJson<FunctionEstimateReviewRequirementsResponseMetrics>
-{
-    /// <inheritdoc/>
-    public FunctionEstimateReviewRequirementsResponseMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionEstimateReviewRequirementsResponseMetrics.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Comprehensive performance metrics
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics,
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetricsFromRaw
-    >)
-)]
-public sealed record class FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-    : JsonModel
-{
-    /// <summary>
-    /// Overall accuracy
-    /// </summary>
-    public float? Accuracy
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("accuracy");
-        }
-        init { this._rawData.Set("accuracy", value); }
-    }
-
-    /// <summary>
-    /// F1 Score (harmonic mean of precision and recall)
-    /// </summary>
-    public float? F1Score
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("f1Score");
-        }
-        init { this._rawData.Set("f1Score", value); }
-    }
-
-    /// <summary>
-    /// False Negatives
-    /// </summary>
-    public long? Fn
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("fn");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("fn", value);
-        }
-    }
-
-    /// <summary>
-    /// False Positives
-    /// </summary>
-    public long? Fp
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("fp");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("fp", value);
-        }
-    }
-
-    /// <summary>
-    /// Precision (TP / (TP + FP))
-    /// </summary>
-    public float? Precision
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("precision");
-        }
-        init { this._rawData.Set("precision", value); }
-    }
-
-    /// <summary>
-    /// Recall (TP / (TP + FN))
-    /// </summary>
-    public float? Recall
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("recall");
-        }
-        init { this._rawData.Set("recall", value); }
-    }
-
-    /// <summary>
-    /// True Negatives
-    /// </summary>
-    public long? Tn
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("tn");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("tn", value);
-        }
-    }
-
-    /// <summary>
-    /// True Positives
-    /// </summary>
-    public long? Tp
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("tp");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("tp", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Accuracy;
-        _ = this.F1Score;
-        _ = this.Fn;
-        _ = this.Fp;
-        _ = this.Precision;
-        _ = this.Recall;
-        _ = this.Tn;
-        _ = this.Tp;
-    }
-
-    public FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics(
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics functionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-    )
-        : base(functionEstimateReviewRequirementsResponseMetricsAggregateMetrics) { }
-#pragma warning restore CS8618
-
-    public FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics(
-        FrozenDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionEstimateReviewRequirementsResponseMetricsAggregateMetricsFromRaw.FromRawUnchecked"/>
-    public static FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionEstimateReviewRequirementsResponseMetricsAggregateMetricsFromRaw
-    : IFromRawJson<FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics>
-{
-    /// <inheritdoc/>
-    public FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) =>
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Enhanced field metrics with comprehensive analytics
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetric,
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricFromRaw
-    >)
-)]
-public sealed record class FunctionEstimateReviewRequirementsResponseMetricsFieldMetric : JsonModel
-{
-    /// <summary>
-    /// JSON path to the field
-    /// </summary>
-    public required string FieldPath
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("fieldPath");
-        }
-        init { this._rawData.Set("fieldPath", value); }
-    }
-
-    /// <summary>
-    /// Comprehensive performance metrics
-    /// </summary>
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics? Metrics
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableClass<FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics>(
-                "metrics"
-            );
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("metrics", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.FieldPath;
-        this.Metrics?.Validate();
-    }
-
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetric() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetric(
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetric functionEstimateReviewRequirementsResponseMetricsFieldMetric
-    )
-        : base(functionEstimateReviewRequirementsResponseMetricsFieldMetric) { }
-#pragma warning restore CS8618
-
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetric(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionEstimateReviewRequirementsResponseMetricsFieldMetric(
-        FrozenDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionEstimateReviewRequirementsResponseMetricsFieldMetricFromRaw.FromRawUnchecked"/>
-    public static FunctionEstimateReviewRequirementsResponseMetricsFieldMetric FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-
-    [SetsRequiredMembers]
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetric(string fieldPath)
-        : this()
-    {
-        this.FieldPath = fieldPath;
-    }
-}
-
-class FunctionEstimateReviewRequirementsResponseMetricsFieldMetricFromRaw
-    : IFromRawJson<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric>
-{
-    /// <inheritdoc/>
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetric FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => FunctionEstimateReviewRequirementsResponseMetricsFieldMetric.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Comprehensive performance metrics
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics,
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetricsFromRaw
-    >)
-)]
-public sealed record class FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-    : JsonModel
-{
-    /// <summary>
-    /// Overall accuracy
-    /// </summary>
-    public float? Accuracy
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("accuracy");
-        }
-        init { this._rawData.Set("accuracy", value); }
-    }
-
-    /// <summary>
-    /// F1 Score (harmonic mean of precision and recall)
-    /// </summary>
-    public float? F1Score
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("f1Score");
-        }
-        init { this._rawData.Set("f1Score", value); }
-    }
-
-    /// <summary>
-    /// False Negatives
-    /// </summary>
-    public long? Fn
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("fn");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("fn", value);
-        }
-    }
-
-    /// <summary>
-    /// False Positives
-    /// </summary>
-    public long? Fp
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("fp");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("fp", value);
-        }
-    }
-
-    /// <summary>
-    /// Precision (TP / (TP + FP))
-    /// </summary>
-    public float? Precision
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("precision");
-        }
-        init { this._rawData.Set("precision", value); }
-    }
-
-    /// <summary>
-    /// Recall (TP / (TP + FN))
-    /// </summary>
-    public float? Recall
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<float>("recall");
-        }
-        init { this._rawData.Set("recall", value); }
-    }
-
-    /// <summary>
-    /// True Negatives
-    /// </summary>
-    public long? Tn
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("tn");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("tn", value);
-        }
-    }
-
-    /// <summary>
-    /// True Positives
-    /// </summary>
-    public long? Tp
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<long>("tp");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set("tp", value);
-        }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.Accuracy;
-        _ = this.F1Score;
-        _ = this.Fn;
-        _ = this.Fp;
-        _ = this.Precision;
-        _ = this.Recall;
-        _ = this.Tn;
-        _ = this.Tp;
-    }
-
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics(
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics functionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-    )
-        : base(functionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics) { }
-#pragma warning restore CS8618
-
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics(
-        FrozenDictionary<string, JsonElement> rawData
-    )
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetricsFromRaw.FromRawUnchecked"/>
-    public static FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetricsFromRaw
-    : IFromRawJson<FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics>
-{
-    /// <inheritdoc/>
-    public FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) =>
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics.FromRawUnchecked(
-            rawData
-        );
+    public Recall FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Recall.FromRawUnchecked(rawData);
 }

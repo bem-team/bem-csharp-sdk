@@ -22,18 +22,16 @@ public sealed record class ViewGenerateAggregationDataResponse : JsonModel
     /// <summary>
     /// Array of aggregation results
     /// </summary>
-    public required IReadOnlyList<ViewGenerateAggregationDataResponseAggregation> Aggregations
+    public required IReadOnlyList<Aggregation> Aggregations
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<
-                ImmutableArray<ViewGenerateAggregationDataResponseAggregation>
-            >("aggregations");
+            return this._rawData.GetNotNullStruct<ImmutableArray<Aggregation>>("aggregations");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<ViewGenerateAggregationDataResponseAggregation>>(
+            this._rawData.Set<ImmutableArray<Aggregation>>(
                 "aggregations",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -81,9 +79,7 @@ public sealed record class ViewGenerateAggregationDataResponse : JsonModel
     }
 
     [SetsRequiredMembers]
-    public ViewGenerateAggregationDataResponse(
-        IReadOnlyList<ViewGenerateAggregationDataResponseAggregation> aggregations
-    )
+    public ViewGenerateAggregationDataResponse(IReadOnlyList<Aggregation> aggregations)
         : this()
     {
         this.Aggregations = aggregations;
@@ -101,13 +97,8 @@ class ViewGenerateAggregationDataResponseFromRaw : IFromRawJson<ViewGenerateAggr
 /// <summary>
 /// Aggregation result for a single aggregation definition
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        ViewGenerateAggregationDataResponseAggregation,
-        ViewGenerateAggregationDataResponseAggregationFromRaw
-    >)
-)]
-public sealed record class ViewGenerateAggregationDataResponseAggregation : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Aggregation, AggregationFromRaw>))]
+public sealed record class Aggregation : JsonModel
 {
     /// <summary>
     /// Array of group results (single group for non-grouped aggregations)
@@ -151,47 +142,39 @@ public sealed record class ViewGenerateAggregationDataResponseAggregation : Json
         _ = this.Name;
     }
 
-    public ViewGenerateAggregationDataResponseAggregation() { }
+    public Aggregation() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public ViewGenerateAggregationDataResponseAggregation(
-        ViewGenerateAggregationDataResponseAggregation viewGenerateAggregationDataResponseAggregation
-    )
-        : base(viewGenerateAggregationDataResponseAggregation) { }
+    public Aggregation(Aggregation aggregation)
+        : base(aggregation) { }
 #pragma warning restore CS8618
 
-    public ViewGenerateAggregationDataResponseAggregation(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    public Aggregation(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ViewGenerateAggregationDataResponseAggregation(FrozenDictionary<string, JsonElement> rawData)
+    Aggregation(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="ViewGenerateAggregationDataResponseAggregationFromRaw.FromRawUnchecked"/>
-    public static ViewGenerateAggregationDataResponseAggregation FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="AggregationFromRaw.FromRawUnchecked"/>
+    public static Aggregation FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class ViewGenerateAggregationDataResponseAggregationFromRaw
-    : IFromRawJson<ViewGenerateAggregationDataResponseAggregation>
+class AggregationFromRaw : IFromRawJson<Aggregation>
 {
     /// <inheritdoc/>
-    public ViewGenerateAggregationDataResponseAggregation FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => ViewGenerateAggregationDataResponseAggregation.FromRawUnchecked(rawData);
+    public Aggregation FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Aggregation.FromRawUnchecked(rawData);
 }
 
 /// <summary>

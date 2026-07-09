@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using Bem.Core;
-using Bem.Exceptions;
 using Bem.Models.Views;
 
 namespace Bem.Tests.Models.Views;
@@ -19,10 +16,10 @@ public class ViewUpdateParamsTest : TestBase
             [
                 new()
                 {
-                    Function = ViewUpdateParamsAggregationFunction.Count,
+                    Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
-                    DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -40,7 +37,7 @@ public class ViewUpdateParamsTest : TestBase
                 new()
                 {
                     ColumnName = "columnName",
-                    FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                    FilterType = FilterType.EqualsString,
                     Number = 0,
                     String = "string",
                 },
@@ -51,18 +48,18 @@ public class ViewUpdateParamsTest : TestBase
         };
 
         string expectedViewID = "view_id";
-        List<ViewUpdateParamsAggregation> expectedAggregations =
+        List<ViewAggregation> expectedAggregations =
         [
             new()
             {
-                Function = ViewUpdateParamsAggregationFunction.Count,
+                Function = Function.Count,
                 Name = "name",
                 AggregateColumnName = "aggregateColumnName",
-                DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                DisplayType = DisplayType.Table,
                 GroupByColumnName = "groupByColumnName",
             },
         ];
-        List<ViewUpdateParamsColumn> expectedColumns =
+        List<ViewColumn> expectedColumns =
         [
             new()
             {
@@ -71,17 +68,17 @@ public class ViewUpdateParamsTest : TestBase
                 ValueSchemaPath = ["string"],
             },
         ];
-        List<ViewUpdateParamsFilter> expectedFilters =
+        List<ViewFilter> expectedFilters =
         [
             new()
             {
                 ColumnName = "columnName",
-                FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                FilterType = FilterType.EqualsString,
                 Number = 0,
                 String = "string",
             },
         ];
-        List<ViewUpdateParamsFunction> expectedFunctions = [new() { ID = "id", Name = "name" }];
+        List<FunctionIdentifier> expectedFunctions = [new() { ID = "id", Name = "name" }];
         string expectedName = "name";
         string expectedDescription = "description";
 
@@ -120,10 +117,10 @@ public class ViewUpdateParamsTest : TestBase
             [
                 new()
                 {
-                    Function = ViewUpdateParamsAggregationFunction.Count,
+                    Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
-                    DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -141,7 +138,7 @@ public class ViewUpdateParamsTest : TestBase
                 new()
                 {
                     ColumnName = "columnName",
-                    FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                    FilterType = FilterType.EqualsString,
                     Number = 0,
                     String = "string",
                 },
@@ -164,10 +161,10 @@ public class ViewUpdateParamsTest : TestBase
             [
                 new()
                 {
-                    Function = ViewUpdateParamsAggregationFunction.Count,
+                    Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
-                    DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -185,7 +182,7 @@ public class ViewUpdateParamsTest : TestBase
                 new()
                 {
                     ColumnName = "columnName",
-                    FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                    FilterType = FilterType.EqualsString,
                     Number = 0,
                     String = "string",
                 },
@@ -211,10 +208,10 @@ public class ViewUpdateParamsTest : TestBase
             [
                 new()
                 {
-                    Function = ViewUpdateParamsAggregationFunction.Count,
+                    Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
-                    DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -232,7 +229,7 @@ public class ViewUpdateParamsTest : TestBase
                 new()
                 {
                     ColumnName = "columnName",
-                    FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                    FilterType = FilterType.EqualsString,
                     Number = 0,
                     String = "string",
                 },
@@ -256,10 +253,10 @@ public class ViewUpdateParamsTest : TestBase
             [
                 new()
                 {
-                    Function = ViewUpdateParamsAggregationFunction.Count,
+                    Function = Function.Count,
                     Name = "name",
                     AggregateColumnName = "aggregateColumnName",
-                    DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                    DisplayType = DisplayType.Table,
                     GroupByColumnName = "groupByColumnName",
                 },
             ],
@@ -277,7 +274,7 @@ public class ViewUpdateParamsTest : TestBase
                 new()
                 {
                     ColumnName = "columnName",
-                    FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                    FilterType = FilterType.EqualsString,
                     Number = 0,
                     String = "string",
                 },
@@ -290,819 +287,5 @@ public class ViewUpdateParamsTest : TestBase
         ViewUpdateParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
-    }
-}
-
-public class ViewUpdateParamsAggregationTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        ApiEnum<string, ViewUpdateParamsAggregationFunction> expectedFunction =
-            ViewUpdateParamsAggregationFunction.Count;
-        string expectedName = "name";
-        string expectedAggregateColumnName = "aggregateColumnName";
-        ApiEnum<string, ViewUpdateParamsAggregationDisplayType> expectedDisplayType =
-            ViewUpdateParamsAggregationDisplayType.Table;
-        string expectedGroupByColumnName = "groupByColumnName";
-
-        Assert.Equal(expectedFunction, model.Function);
-        Assert.Equal(expectedName, model.Name);
-        Assert.Equal(expectedAggregateColumnName, model.AggregateColumnName);
-        Assert.Equal(expectedDisplayType, model.DisplayType);
-        Assert.Equal(expectedGroupByColumnName, model.GroupByColumnName);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsAggregation>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsAggregation>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        ApiEnum<string, ViewUpdateParamsAggregationFunction> expectedFunction =
-            ViewUpdateParamsAggregationFunction.Count;
-        string expectedName = "name";
-        string expectedAggregateColumnName = "aggregateColumnName";
-        ApiEnum<string, ViewUpdateParamsAggregationDisplayType> expectedDisplayType =
-            ViewUpdateParamsAggregationDisplayType.Table;
-        string expectedGroupByColumnName = "groupByColumnName";
-
-        Assert.Equal(expectedFunction, deserialized.Function);
-        Assert.Equal(expectedName, deserialized.Name);
-        Assert.Equal(expectedAggregateColumnName, deserialized.AggregateColumnName);
-        Assert.Equal(expectedDisplayType, deserialized.DisplayType);
-        Assert.Equal(expectedGroupByColumnName, deserialized.GroupByColumnName);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        Assert.Null(model.DisplayType);
-        Assert.False(model.RawData.ContainsKey("displayType"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            GroupByColumnName = "groupByColumnName",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayType = null,
-        };
-
-        Assert.Null(model.DisplayType);
-        Assert.False(model.RawData.ContainsKey("displayType"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            GroupByColumnName = "groupByColumnName",
-
-            // Null should be interpreted as omitted for these properties
-            DisplayType = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-        };
-
-        Assert.Null(model.AggregateColumnName);
-        Assert.False(model.RawData.ContainsKey("aggregateColumnName"));
-        Assert.Null(model.GroupByColumnName);
-        Assert.False(model.RawData.ContainsKey("groupByColumnName"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-
-            AggregateColumnName = null,
-            GroupByColumnName = null,
-        };
-
-        Assert.Null(model.AggregateColumnName);
-        Assert.True(model.RawData.ContainsKey("aggregateColumnName"));
-        Assert.Null(model.GroupByColumnName);
-        Assert.True(model.RawData.ContainsKey("groupByColumnName"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-
-            AggregateColumnName = null,
-            GroupByColumnName = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ViewUpdateParamsAggregation
-        {
-            Function = ViewUpdateParamsAggregationFunction.Count,
-            Name = "name",
-            AggregateColumnName = "aggregateColumnName",
-            DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
-            GroupByColumnName = "groupByColumnName",
-        };
-
-        ViewUpdateParamsAggregation copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ViewUpdateParamsAggregationFunctionTest : TestBase
-{
-    [Theory]
-    [InlineData(ViewUpdateParamsAggregationFunction.Count)]
-    [InlineData(ViewUpdateParamsAggregationFunction.CountDistinct)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Sum)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Average)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Min)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Max)]
-    public void Validation_Works(ViewUpdateParamsAggregationFunction rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewUpdateParamsAggregationFunction> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationFunction>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ViewUpdateParamsAggregationFunction.Count)]
-    [InlineData(ViewUpdateParamsAggregationFunction.CountDistinct)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Sum)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Average)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Min)]
-    [InlineData(ViewUpdateParamsAggregationFunction.Max)]
-    public void SerializationRoundtrip_Works(ViewUpdateParamsAggregationFunction rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewUpdateParamsAggregationFunction> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationFunction>
-        >(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationFunction>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationFunction>
-        >(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class ViewUpdateParamsAggregationDisplayTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(ViewUpdateParamsAggregationDisplayType.Table)]
-    [InlineData(ViewUpdateParamsAggregationDisplayType.BarChart)]
-    [InlineData(ViewUpdateParamsAggregationDisplayType.PieChart)]
-    public void Validation_Works(ViewUpdateParamsAggregationDisplayType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewUpdateParamsAggregationDisplayType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationDisplayType>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ViewUpdateParamsAggregationDisplayType.Table)]
-    [InlineData(ViewUpdateParamsAggregationDisplayType.BarChart)]
-    [InlineData(ViewUpdateParamsAggregationDisplayType.PieChart)]
-    public void SerializationRoundtrip_Works(ViewUpdateParamsAggregationDisplayType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewUpdateParamsAggregationDisplayType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationDisplayType>
-        >(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationDisplayType>
-        >(JsonSerializer.SerializeToElement("invalid value"), ModelBase.SerializerOptions);
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsAggregationDisplayType>
-        >(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class ViewUpdateParamsColumnTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsColumn
-        {
-            DisplayOrderIndex = 0,
-            Name = "name",
-            ValueSchemaPath = ["string"],
-        };
-
-        long expectedDisplayOrderIndex = 0;
-        string expectedName = "name";
-        List<string> expectedValueSchemaPath = ["string"];
-
-        Assert.Equal(expectedDisplayOrderIndex, model.DisplayOrderIndex);
-        Assert.Equal(expectedName, model.Name);
-        Assert.Equal(expectedValueSchemaPath.Count, model.ValueSchemaPath.Count);
-        for (int i = 0; i < expectedValueSchemaPath.Count; i++)
-        {
-            Assert.Equal(expectedValueSchemaPath[i], model.ValueSchemaPath[i]);
-        }
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsColumn
-        {
-            DisplayOrderIndex = 0,
-            Name = "name",
-            ValueSchemaPath = ["string"],
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsColumn>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ViewUpdateParamsColumn
-        {
-            DisplayOrderIndex = 0,
-            Name = "name",
-            ValueSchemaPath = ["string"],
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsColumn>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        long expectedDisplayOrderIndex = 0;
-        string expectedName = "name";
-        List<string> expectedValueSchemaPath = ["string"];
-
-        Assert.Equal(expectedDisplayOrderIndex, deserialized.DisplayOrderIndex);
-        Assert.Equal(expectedName, deserialized.Name);
-        Assert.Equal(expectedValueSchemaPath.Count, deserialized.ValueSchemaPath.Count);
-        for (int i = 0; i < expectedValueSchemaPath.Count; i++)
-        {
-            Assert.Equal(expectedValueSchemaPath[i], deserialized.ValueSchemaPath[i]);
-        }
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ViewUpdateParamsColumn
-        {
-            DisplayOrderIndex = 0,
-            Name = "name",
-            ValueSchemaPath = ["string"],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ViewUpdateParamsColumn
-        {
-            DisplayOrderIndex = 0,
-            Name = "name",
-            ValueSchemaPath = ["string"],
-        };
-
-        ViewUpdateParamsColumn copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ViewUpdateParamsFilterTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-            Number = 0,
-            String = "string",
-        };
-
-        string expectedColumnName = "columnName";
-        ApiEnum<string, ViewUpdateParamsFilterFilterType> expectedFilterType =
-            ViewUpdateParamsFilterFilterType.EqualsString;
-        float expectedNumber = 0;
-        string expectedString = "string";
-
-        Assert.Equal(expectedColumnName, model.ColumnName);
-        Assert.Equal(expectedFilterType, model.FilterType);
-        Assert.Equal(expectedNumber, model.Number);
-        Assert.Equal(expectedString, model.String);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-            Number = 0,
-            String = "string",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsFilter>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-            Number = 0,
-            String = "string",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsFilter>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedColumnName = "columnName";
-        ApiEnum<string, ViewUpdateParamsFilterFilterType> expectedFilterType =
-            ViewUpdateParamsFilterFilterType.EqualsString;
-        float expectedNumber = 0;
-        string expectedString = "string";
-
-        Assert.Equal(expectedColumnName, deserialized.ColumnName);
-        Assert.Equal(expectedFilterType, deserialized.FilterType);
-        Assert.Equal(expectedNumber, deserialized.Number);
-        Assert.Equal(expectedString, deserialized.String);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-            Number = 0,
-            String = "string",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-        };
-
-        Assert.Null(model.Number);
-        Assert.False(model.RawData.ContainsKey("number"));
-        Assert.Null(model.String);
-        Assert.False(model.RawData.ContainsKey("string"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-
-            Number = null,
-            String = null,
-        };
-
-        Assert.Null(model.Number);
-        Assert.True(model.RawData.ContainsKey("number"));
-        Assert.Null(model.String);
-        Assert.True(model.RawData.ContainsKey("string"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-
-            Number = null,
-            String = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ViewUpdateParamsFilter
-        {
-            ColumnName = "columnName",
-            FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
-            Number = 0,
-            String = "string",
-        };
-
-        ViewUpdateParamsFilter copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ViewUpdateParamsFilterFilterTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(ViewUpdateParamsFilterFilterType.EqualsString)]
-    [InlineData(ViewUpdateParamsFilterFilterType.EqualsNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.LessThanNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.LessThanEqualNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.GreaterThanNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.GreaterThanEqualNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.IsNull)]
-    [InlineData(ViewUpdateParamsFilterFilterType.IsNotNull)]
-    public void Validation_Works(ViewUpdateParamsFilterFilterType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewUpdateParamsFilterFilterType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ViewUpdateParamsFilterFilterType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(ViewUpdateParamsFilterFilterType.EqualsString)]
-    [InlineData(ViewUpdateParamsFilterFilterType.EqualsNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.LessThanNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.LessThanEqualNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.GreaterThanNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.GreaterThanEqualNumber)]
-    [InlineData(ViewUpdateParamsFilterFilterType.IsNull)]
-    [InlineData(ViewUpdateParamsFilterFilterType.IsNotNull)]
-    public void SerializationRoundtrip_Works(ViewUpdateParamsFilterFilterType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, ViewUpdateParamsFilterFilterType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsFilterFilterType>
-        >(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, ViewUpdateParamsFilterFilterType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<
-            ApiEnum<string, ViewUpdateParamsFilterFilterType>
-        >(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class ViewUpdateParamsFunctionTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsFunction { ID = "id", Name = "name" };
-
-        string expectedID = "id";
-        string expectedName = "name";
-
-        Assert.Equal(expectedID, model.ID);
-        Assert.Equal(expectedName, model.Name);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ViewUpdateParamsFunction { ID = "id", Name = "name" };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsFunction>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ViewUpdateParamsFunction { ID = "id", Name = "name" };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewUpdateParamsFunction>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedID = "id";
-        string expectedName = "name";
-
-        Assert.Equal(expectedID, deserialized.ID);
-        Assert.Equal(expectedName, deserialized.Name);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ViewUpdateParamsFunction { ID = "id", Name = "name" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ViewUpdateParamsFunction { };
-
-        Assert.Null(model.ID);
-        Assert.False(model.RawData.ContainsKey("id"));
-        Assert.Null(model.Name);
-        Assert.False(model.RawData.ContainsKey("name"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ViewUpdateParamsFunction { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new ViewUpdateParamsFunction
-        {
-            // Null should be interpreted as omitted for these properties
-            ID = null,
-            Name = null,
-        };
-
-        Assert.Null(model.ID);
-        Assert.False(model.RawData.ContainsKey("id"));
-        Assert.Null(model.Name);
-        Assert.False(model.RawData.ContainsKey("name"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ViewUpdateParamsFunction
-        {
-            // Null should be interpreted as omitted for these properties
-            ID = null,
-            Name = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ViewUpdateParamsFunction { ID = "id", Name = "name" };
-
-        ViewUpdateParamsFunction copied = new(model);
-
-        Assert.Equal(model, copied);
     }
 }

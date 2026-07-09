@@ -209,7 +209,7 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
         };
         string expectedFunctionName = "functionName";
         long expectedFunctionVersionNum = 0;
-        FunctionEstimateReviewRequirementsResponseMetrics expectedMetrics = new()
+        MetricsDetails expectedMetrics = new()
         {
             AggregateMetrics = new()
             {
@@ -588,7 +588,7 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
         };
         string expectedFunctionName = "functionName";
         long expectedFunctionVersionNum = 0;
-        FunctionEstimateReviewRequirementsResponseMetrics expectedMetrics = new()
+        MetricsDetails expectedMetrics = new()
         {
             AggregateMetrics = new()
             {
@@ -2124,7 +2124,7 @@ public class ThresholdMatrixTest : TestBase
                 Mid = 0,
             },
         };
-        ThresholdMatrixPrecision expectedPrecision = new()
+        Precision expectedPrecision = new()
         {
             P95 = new()
             {
@@ -2135,7 +2135,7 @@ public class ThresholdMatrixTest : TestBase
                 Mid = 0,
             },
         };
-        ThresholdMatrixRecall expectedRecall = new()
+        Recall expectedRecall = new()
         {
             R95 = new()
             {
@@ -2347,7 +2347,7 @@ public class ThresholdMatrixTest : TestBase
                 Mid = 0,
             },
         };
-        ThresholdMatrixPrecision expectedPrecision = new()
+        Precision expectedPrecision = new()
         {
             P95 = new()
             {
@@ -2358,7 +2358,7 @@ public class ThresholdMatrixTest : TestBase
                 Mid = 0,
             },
         };
-        ThresholdMatrixRecall expectedRecall = new()
+        Recall expectedRecall = new()
         {
             R95 = new()
             {
@@ -2634,7 +2634,7 @@ public class AccuracyAboveThresholdTest : TestBase
             },
         };
 
-        V95 expectedA95 = new()
+        RateConfidenceInterval expectedA95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -2692,7 +2692,7 @@ public class AccuracyAboveThresholdTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        V95 expectedA95 = new()
+        RateConfidenceInterval expectedA95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -2785,171 +2785,6 @@ public class AccuracyAboveThresholdTest : TestBase
     }
 }
 
-public class V95Test : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, model.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, model.SampleNeeded);
-        Assert.Equal(expectedCiLower, model.CiLower);
-        Assert.Equal(expectedCiUpper, model.CiUpper);
-        Assert.Equal(expectedMid, model.Mid);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<V95>(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<V95>(element, ModelBase.SerializerOptions);
-        Assert.NotNull(deserialized);
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, deserialized.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, deserialized.SampleNeeded);
-        Assert.Equal(expectedCiLower, deserialized.CiLower);
-        Assert.Equal(expectedCiUpper, deserialized.CiUpper);
-        Assert.Equal(expectedMid, deserialized.Mid);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new V95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        Assert.Null(model.CiLower);
-        Assert.False(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.False(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.False(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new V95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        Assert.Null(model.CiLower);
-        Assert.True(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.True(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.True(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new V95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        V95 copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
 public class FalseDiscoveryRateTest : TestBase
 {
     [Fact]
@@ -2967,7 +2802,7 @@ public class FalseDiscoveryRateTest : TestBase
             },
         };
 
-        FalseDiscoveryRateV95 expectedF95 = new()
+        RateConfidenceInterval expectedF95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3025,7 +2860,7 @@ public class FalseDiscoveryRateTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        FalseDiscoveryRateV95 expectedF95 = new()
+        RateConfidenceInterval expectedF95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3118,177 +2953,6 @@ public class FalseDiscoveryRateTest : TestBase
     }
 }
 
-public class FalseDiscoveryRateV95Test : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, model.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, model.SampleNeeded);
-        Assert.Equal(expectedCiLower, model.CiLower);
-        Assert.Equal(expectedCiUpper, model.CiUpper);
-        Assert.Equal(expectedMid, model.Mid);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalseDiscoveryRateV95>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalseDiscoveryRateV95>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, deserialized.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, deserialized.SampleNeeded);
-        Assert.Equal(expectedCiLower, deserialized.CiLower);
-        Assert.Equal(expectedCiUpper, deserialized.CiUpper);
-        Assert.Equal(expectedMid, deserialized.Mid);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FalseDiscoveryRateV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        Assert.Null(model.CiLower);
-        Assert.False(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.False(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.False(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FalseDiscoveryRateV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        Assert.Null(model.CiLower);
-        Assert.True(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.True(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.True(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FalseDiscoveryRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        FalseDiscoveryRateV95 copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
 public class FalsePositiveRateTest : TestBase
 {
     [Fact]
@@ -3306,7 +2970,7 @@ public class FalsePositiveRateTest : TestBase
             },
         };
 
-        FalsePositiveRateV95 expectedF95 = new()
+        RateConfidenceInterval expectedF95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3364,7 +3028,7 @@ public class FalsePositiveRateTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        FalsePositiveRateV95 expectedF95 = new()
+        RateConfidenceInterval expectedF95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3457,183 +3121,12 @@ public class FalsePositiveRateTest : TestBase
     }
 }
 
-public class FalsePositiveRateV95Test : TestBase
+public class PrecisionTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, model.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, model.SampleNeeded);
-        Assert.Equal(expectedCiLower, model.CiLower);
-        Assert.Equal(expectedCiUpper, model.CiUpper);
-        Assert.Equal(expectedMid, model.Mid);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalsePositiveRateV95>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalsePositiveRateV95>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, deserialized.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, deserialized.SampleNeeded);
-        Assert.Equal(expectedCiLower, deserialized.CiLower);
-        Assert.Equal(expectedCiUpper, deserialized.CiUpper);
-        Assert.Equal(expectedMid, deserialized.Mid);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FalsePositiveRateV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        Assert.Null(model.CiLower);
-        Assert.False(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.False(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.False(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FalsePositiveRateV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        Assert.Null(model.CiLower);
-        Assert.True(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.True(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.True(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FalsePositiveRateV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        FalsePositiveRateV95 copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ThresholdMatrixPrecisionTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             P95 = new()
             {
@@ -3645,7 +3138,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
             },
         };
 
-        ThresholdMatrixPrecisionV95 expectedP95 = new()
+        RateConfidenceInterval expectedP95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3660,7 +3153,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             P95 = new()
             {
@@ -3673,10 +3166,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixPrecision>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Precision>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -3684,7 +3174,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             P95 = new()
             {
@@ -3697,13 +3187,13 @@ public class ThresholdMatrixPrecisionTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixPrecision>(
+        var deserialized = JsonSerializer.Deserialize<Precision>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        ThresholdMatrixPrecisionV95 expectedP95 = new()
+        RateConfidenceInterval expectedP95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3718,7 +3208,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             P95 = new()
             {
@@ -3736,7 +3226,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new ThresholdMatrixPrecision { };
+        var model = new Precision { };
 
         Assert.Null(model.P95);
         Assert.False(model.RawData.ContainsKey("95"));
@@ -3745,7 +3235,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new ThresholdMatrixPrecision { };
+        var model = new Precision { };
 
         model.Validate();
     }
@@ -3753,7 +3243,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             // Null should be interpreted as omitted for these properties
             P95 = null,
@@ -3766,7 +3256,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             // Null should be interpreted as omitted for these properties
             P95 = null,
@@ -3778,7 +3268,7 @@ public class ThresholdMatrixPrecisionTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new ThresholdMatrixPrecision
+        var model = new Precision
         {
             P95 = new()
             {
@@ -3790,189 +3280,18 @@ public class ThresholdMatrixPrecisionTest : TestBase
             },
         };
 
-        ThresholdMatrixPrecision copied = new(model);
+        Precision copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class ThresholdMatrixPrecisionV95Test : TestBase
+public class RecallTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, model.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, model.SampleNeeded);
-        Assert.Equal(expectedCiLower, model.CiLower);
-        Assert.Equal(expectedCiUpper, model.CiUpper);
-        Assert.Equal(expectedMid, model.Mid);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixPrecisionV95>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixPrecisionV95>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, deserialized.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, deserialized.SampleNeeded);
-        Assert.Equal(expectedCiLower, deserialized.CiLower);
-        Assert.Equal(expectedCiUpper, deserialized.CiUpper);
-        Assert.Equal(expectedMid, deserialized.Mid);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        Assert.Null(model.CiLower);
-        Assert.False(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.False(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.False(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        Assert.Null(model.CiLower);
-        Assert.True(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.True(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.True(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ThresholdMatrixPrecisionV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        ThresholdMatrixPrecisionV95 copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ThresholdMatrixRecallTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             R95 = new()
             {
@@ -3984,7 +3303,7 @@ public class ThresholdMatrixRecallTest : TestBase
             },
         };
 
-        ThresholdMatrixRecallV95 expectedR95 = new()
+        RateConfidenceInterval expectedR95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -3999,7 +3318,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             R95 = new()
             {
@@ -4012,10 +3331,7 @@ public class ThresholdMatrixRecallTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixRecall>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Recall>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -4023,7 +3339,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             R95 = new()
             {
@@ -4036,13 +3352,10 @@ public class ThresholdMatrixRecallTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixRecall>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Recall>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
-        ThresholdMatrixRecallV95 expectedR95 = new()
+        RateConfidenceInterval expectedR95 = new()
         {
             CurrentSample = 0,
             SampleNeeded = 0,
@@ -4057,7 +3370,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             R95 = new()
             {
@@ -4075,7 +3388,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new ThresholdMatrixRecall { };
+        var model = new Recall { };
 
         Assert.Null(model.R95);
         Assert.False(model.RawData.ContainsKey("95"));
@@ -4084,7 +3397,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new ThresholdMatrixRecall { };
+        var model = new Recall { };
 
         model.Validate();
     }
@@ -4092,7 +3405,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             // Null should be interpreted as omitted for these properties
             R95 = null,
@@ -4105,7 +3418,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             // Null should be interpreted as omitted for these properties
             R95 = null,
@@ -4117,7 +3430,7 @@ public class ThresholdMatrixRecallTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new ThresholdMatrixRecall
+        var model = new Recall
         {
             R95 = new()
             {
@@ -4129,1348 +3442,7 @@ public class ThresholdMatrixRecallTest : TestBase
             },
         };
 
-        ThresholdMatrixRecall copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class ThresholdMatrixRecallV95Test : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, model.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, model.SampleNeeded);
-        Assert.Equal(expectedCiLower, model.CiLower);
-        Assert.Equal(expectedCiUpper, model.CiUpper);
-        Assert.Equal(expectedMid, model.Mid);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixRecallV95>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ThresholdMatrixRecallV95>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        long expectedCurrentSample = 0;
-        long expectedSampleNeeded = 0;
-        float expectedCiLower = 0;
-        float expectedCiUpper = 0;
-        float expectedMid = 0;
-
-        Assert.Equal(expectedCurrentSample, deserialized.CurrentSample);
-        Assert.Equal(expectedSampleNeeded, deserialized.SampleNeeded);
-        Assert.Equal(expectedCiLower, deserialized.CiLower);
-        Assert.Equal(expectedCiUpper, deserialized.CiUpper);
-        Assert.Equal(expectedMid, deserialized.Mid);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ThresholdMatrixRecallV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        Assert.Null(model.CiLower);
-        Assert.False(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.False(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.False(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ThresholdMatrixRecallV95 { CurrentSample = 0, SampleNeeded = 0 };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        Assert.Null(model.CiLower);
-        Assert.True(model.RawData.ContainsKey("ciLower"));
-        Assert.Null(model.CiUpper);
-        Assert.True(model.RawData.ContainsKey("ciUpper"));
-        Assert.Null(model.Mid);
-        Assert.True(model.RawData.ContainsKey("mid"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-
-            CiLower = null,
-            CiUpper = null,
-            Mid = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new ThresholdMatrixRecallV95
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        ThresholdMatrixRecallV95 copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionEstimateReviewRequirementsResponseMetricsTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            AggregateMetrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-            FieldMetrics =
-            [
-                new()
-                {
-                    FieldPath = "fieldPath",
-                    Metrics = new()
-                    {
-                        Accuracy = 0,
-                        F1Score = 0,
-                        Fn = 0,
-                        Fp = 0,
-                        Precision = 0,
-                        Recall = 0,
-                        Tn = 0,
-                        Tp = 0,
-                    },
-                },
-            ],
-            PrecisionRecallAuc = 0,
-        };
-
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics expectedAggregateMetrics =
-            new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            };
-        List<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric> expectedFieldMetrics =
-        [
-            new()
-            {
-                FieldPath = "fieldPath",
-                Metrics = new()
-                {
-                    Accuracy = 0,
-                    F1Score = 0,
-                    Fn = 0,
-                    Fp = 0,
-                    Precision = 0,
-                    Recall = 0,
-                    Tn = 0,
-                    Tp = 0,
-                },
-            },
-        ];
-        float expectedPrecisionRecallAuc = 0;
-
-        Assert.Equal(expectedAggregateMetrics, model.AggregateMetrics);
-        Assert.NotNull(model.FieldMetrics);
-        Assert.Equal(expectedFieldMetrics.Count, model.FieldMetrics.Count);
-        for (int i = 0; i < expectedFieldMetrics.Count; i++)
-        {
-            Assert.Equal(expectedFieldMetrics[i], model.FieldMetrics[i]);
-        }
-        Assert.Equal(expectedPrecisionRecallAuc, model.PrecisionRecallAuc);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            AggregateMetrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-            FieldMetrics =
-            [
-                new()
-                {
-                    FieldPath = "fieldPath",
-                    Metrics = new()
-                    {
-                        Accuracy = 0,
-                        F1Score = 0,
-                        Fn = 0,
-                        Fp = 0,
-                        Precision = 0,
-                        Recall = 0,
-                        Tn = 0,
-                        Tp = 0,
-                    },
-                },
-            ],
-            PrecisionRecallAuc = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetrics>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            AggregateMetrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-            FieldMetrics =
-            [
-                new()
-                {
-                    FieldPath = "fieldPath",
-                    Metrics = new()
-                    {
-                        Accuracy = 0,
-                        F1Score = 0,
-                        Fn = 0,
-                        Fp = 0,
-                        Precision = 0,
-                        Recall = 0,
-                        Tn = 0,
-                        Tp = 0,
-                    },
-                },
-            ],
-            PrecisionRecallAuc = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetrics>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics expectedAggregateMetrics =
-            new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            };
-        List<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric> expectedFieldMetrics =
-        [
-            new()
-            {
-                FieldPath = "fieldPath",
-                Metrics = new()
-                {
-                    Accuracy = 0,
-                    F1Score = 0,
-                    Fn = 0,
-                    Fp = 0,
-                    Precision = 0,
-                    Recall = 0,
-                    Tn = 0,
-                    Tp = 0,
-                },
-            },
-        ];
-        float expectedPrecisionRecallAuc = 0;
-
-        Assert.Equal(expectedAggregateMetrics, deserialized.AggregateMetrics);
-        Assert.NotNull(deserialized.FieldMetrics);
-        Assert.Equal(expectedFieldMetrics.Count, deserialized.FieldMetrics.Count);
-        for (int i = 0; i < expectedFieldMetrics.Count; i++)
-        {
-            Assert.Equal(expectedFieldMetrics[i], deserialized.FieldMetrics[i]);
-        }
-        Assert.Equal(expectedPrecisionRecallAuc, deserialized.PrecisionRecallAuc);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            AggregateMetrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-            FieldMetrics =
-            [
-                new()
-                {
-                    FieldPath = "fieldPath",
-                    Metrics = new()
-                    {
-                        Accuracy = 0,
-                        F1Score = 0,
-                        Fn = 0,
-                        Fp = 0,
-                        Precision = 0,
-                        Recall = 0,
-                        Tn = 0,
-                        Tp = 0,
-                    },
-                },
-            ],
-            PrecisionRecallAuc = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics { };
-
-        Assert.Null(model.AggregateMetrics);
-        Assert.False(model.RawData.ContainsKey("aggregateMetrics"));
-        Assert.Null(model.FieldMetrics);
-        Assert.False(model.RawData.ContainsKey("fieldMetrics"));
-        Assert.Null(model.PrecisionRecallAuc);
-        Assert.False(model.RawData.ContainsKey("precisionRecallAuc"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            // Null should be interpreted as omitted for these properties
-            AggregateMetrics = null,
-            FieldMetrics = null,
-            PrecisionRecallAuc = null,
-        };
-
-        Assert.Null(model.AggregateMetrics);
-        Assert.False(model.RawData.ContainsKey("aggregateMetrics"));
-        Assert.Null(model.FieldMetrics);
-        Assert.False(model.RawData.ContainsKey("fieldMetrics"));
-        Assert.Null(model.PrecisionRecallAuc);
-        Assert.False(model.RawData.ContainsKey("precisionRecallAuc"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            // Null should be interpreted as omitted for these properties
-            AggregateMetrics = null,
-            FieldMetrics = null,
-            PrecisionRecallAuc = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetrics
-        {
-            AggregateMetrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-            FieldMetrics =
-            [
-                new()
-                {
-                    FieldPath = "fieldPath",
-                    Metrics = new()
-                    {
-                        Accuracy = 0,
-                        F1Score = 0,
-                        Fn = 0,
-                        Fp = 0,
-                        Precision = 0,
-                        Recall = 0,
-                        Tn = 0,
-                        Tp = 0,
-                    },
-                },
-            ],
-            PrecisionRecallAuc = 0,
-        };
-
-        FunctionEstimateReviewRequirementsResponseMetrics copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionEstimateReviewRequirementsResponseMetricsAggregateMetricsTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        float expectedAccuracy = 0;
-        float expectedF1Score = 0;
-        long expectedFn = 0;
-        long expectedFp = 0;
-        float expectedPrecision = 0;
-        float expectedRecall = 0;
-        long expectedTn = 0;
-        long expectedTp = 0;
-
-        Assert.Equal(expectedAccuracy, model.Accuracy);
-        Assert.Equal(expectedF1Score, model.F1Score);
-        Assert.Equal(expectedFn, model.Fn);
-        Assert.Equal(expectedFp, model.Fp);
-        Assert.Equal(expectedPrecision, model.Precision);
-        Assert.Equal(expectedRecall, model.Recall);
-        Assert.Equal(expectedTn, model.Tn);
-        Assert.Equal(expectedTp, model.Tp);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        float expectedAccuracy = 0;
-        float expectedF1Score = 0;
-        long expectedFn = 0;
-        long expectedFp = 0;
-        float expectedPrecision = 0;
-        float expectedRecall = 0;
-        long expectedTn = 0;
-        long expectedTp = 0;
-
-        Assert.Equal(expectedAccuracy, deserialized.Accuracy);
-        Assert.Equal(expectedF1Score, deserialized.F1Score);
-        Assert.Equal(expectedFn, deserialized.Fn);
-        Assert.Equal(expectedFp, deserialized.Fp);
-        Assert.Equal(expectedPrecision, deserialized.Precision);
-        Assert.Equal(expectedRecall, deserialized.Recall);
-        Assert.Equal(expectedTn, deserialized.Tn);
-        Assert.Equal(expectedTp, deserialized.Tp);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-        };
-
-        Assert.Null(model.Fn);
-        Assert.False(model.RawData.ContainsKey("fn"));
-        Assert.Null(model.Fp);
-        Assert.False(model.RawData.ContainsKey("fp"));
-        Assert.Null(model.Tn);
-        Assert.False(model.RawData.ContainsKey("tn"));
-        Assert.Null(model.Tp);
-        Assert.False(model.RawData.ContainsKey("tp"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-
-            // Null should be interpreted as omitted for these properties
-            Fn = null,
-            Fp = null,
-            Tn = null,
-            Tp = null,
-        };
-
-        Assert.Null(model.Fn);
-        Assert.False(model.RawData.ContainsKey("fn"));
-        Assert.Null(model.Fp);
-        Assert.False(model.RawData.ContainsKey("fp"));
-        Assert.Null(model.Tn);
-        Assert.False(model.RawData.ContainsKey("tn"));
-        Assert.Null(model.Tp);
-        Assert.False(model.RawData.ContainsKey("tp"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-
-            // Null should be interpreted as omitted for these properties
-            Fn = null,
-            Fp = null,
-            Tn = null,
-            Tp = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        Assert.Null(model.Accuracy);
-        Assert.False(model.RawData.ContainsKey("accuracy"));
-        Assert.Null(model.F1Score);
-        Assert.False(model.RawData.ContainsKey("f1Score"));
-        Assert.Null(model.Precision);
-        Assert.False(model.RawData.ContainsKey("precision"));
-        Assert.Null(model.Recall);
-        Assert.False(model.RawData.ContainsKey("recall"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-
-            Accuracy = null,
-            F1Score = null,
-            Precision = null,
-            Recall = null,
-        };
-
-        Assert.Null(model.Accuracy);
-        Assert.True(model.RawData.ContainsKey("accuracy"));
-        Assert.Null(model.F1Score);
-        Assert.True(model.RawData.ContainsKey("f1Score"));
-        Assert.Null(model.Precision);
-        Assert.True(model.RawData.ContainsKey("precision"));
-        Assert.Null(model.Recall);
-        Assert.True(model.RawData.ContainsKey("recall"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-
-            Accuracy = null,
-            F1Score = null,
-            Precision = null,
-            Recall = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        FunctionEstimateReviewRequirementsResponseMetricsAggregateMetrics copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionEstimateReviewRequirementsResponseMetricsFieldMetricTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-            Metrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-        };
-
-        string expectedFieldPath = "fieldPath";
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics expectedMetrics = new()
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        Assert.Equal(expectedFieldPath, model.FieldPath);
-        Assert.Equal(expectedMetrics, model.Metrics);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-            Metrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-            Metrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetricsFieldMetric>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        string expectedFieldPath = "fieldPath";
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics expectedMetrics = new()
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        Assert.Equal(expectedFieldPath, deserialized.FieldPath);
-        Assert.Equal(expectedMetrics, deserialized.Metrics);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-            Metrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-        };
-
-        Assert.Null(model.Metrics);
-        Assert.False(model.RawData.ContainsKey("metrics"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-
-            // Null should be interpreted as omitted for these properties
-            Metrics = null,
-        };
-
-        Assert.Null(model.Metrics);
-        Assert.False(model.RawData.ContainsKey("metrics"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-
-            // Null should be interpreted as omitted for these properties
-            Metrics = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetric
-        {
-            FieldPath = "fieldPath",
-            Metrics = new()
-            {
-                Accuracy = 0,
-                F1Score = 0,
-                Fn = 0,
-                Fp = 0,
-                Precision = 0,
-                Recall = 0,
-                Tn = 0,
-                Tp = 0,
-            },
-        };
-
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetric copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetricsTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        float expectedAccuracy = 0;
-        float expectedF1Score = 0;
-        long expectedFn = 0;
-        long expectedFp = 0;
-        float expectedPrecision = 0;
-        float expectedRecall = 0;
-        long expectedTn = 0;
-        long expectedTp = 0;
-
-        Assert.Equal(expectedAccuracy, model.Accuracy);
-        Assert.Equal(expectedF1Score, model.F1Score);
-        Assert.Equal(expectedFn, model.Fn);
-        Assert.Equal(expectedFp, model.Fp);
-        Assert.Equal(expectedPrecision, model.Precision);
-        Assert.Equal(expectedRecall, model.Recall);
-        Assert.Equal(expectedTn, model.Tn);
-        Assert.Equal(expectedTp, model.Tp);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics>(
-                json,
-                ModelBase.SerializerOptions
-            );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized =
-            JsonSerializer.Deserialize<FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics>(
-                element,
-                ModelBase.SerializerOptions
-            );
-        Assert.NotNull(deserialized);
-
-        float expectedAccuracy = 0;
-        float expectedF1Score = 0;
-        long expectedFn = 0;
-        long expectedFp = 0;
-        float expectedPrecision = 0;
-        float expectedRecall = 0;
-        long expectedTn = 0;
-        long expectedTp = 0;
-
-        Assert.Equal(expectedAccuracy, deserialized.Accuracy);
-        Assert.Equal(expectedF1Score, deserialized.F1Score);
-        Assert.Equal(expectedFn, deserialized.Fn);
-        Assert.Equal(expectedFp, deserialized.Fp);
-        Assert.Equal(expectedPrecision, deserialized.Precision);
-        Assert.Equal(expectedRecall, deserialized.Recall);
-        Assert.Equal(expectedTn, deserialized.Tn);
-        Assert.Equal(expectedTp, deserialized.Tp);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-        };
-
-        Assert.Null(model.Fn);
-        Assert.False(model.RawData.ContainsKey("fn"));
-        Assert.Null(model.Fp);
-        Assert.False(model.RawData.ContainsKey("fp"));
-        Assert.Null(model.Tn);
-        Assert.False(model.RawData.ContainsKey("tn"));
-        Assert.Null(model.Tp);
-        Assert.False(model.RawData.ContainsKey("tp"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-
-            // Null should be interpreted as omitted for these properties
-            Fn = null,
-            Fp = null,
-            Tn = null,
-            Tp = null,
-        };
-
-        Assert.Null(model.Fn);
-        Assert.False(model.RawData.ContainsKey("fn"));
-        Assert.Null(model.Fp);
-        Assert.False(model.RawData.ContainsKey("fp"));
-        Assert.Null(model.Tn);
-        Assert.False(model.RawData.ContainsKey("tn"));
-        Assert.Null(model.Tp);
-        Assert.False(model.RawData.ContainsKey("tp"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Precision = 0,
-            Recall = 0,
-
-            // Null should be interpreted as omitted for these properties
-            Fn = null,
-            Fp = null,
-            Tn = null,
-            Tp = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        Assert.Null(model.Accuracy);
-        Assert.False(model.RawData.ContainsKey("accuracy"));
-        Assert.Null(model.F1Score);
-        Assert.False(model.RawData.ContainsKey("f1Score"));
-        Assert.Null(model.Precision);
-        Assert.False(model.RawData.ContainsKey("precision"));
-        Assert.Null(model.Recall);
-        Assert.False(model.RawData.ContainsKey("recall"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullAreSetToNull_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-
-            Accuracy = null,
-            F1Score = null,
-            Precision = null,
-            Recall = null,
-        };
-
-        Assert.Null(model.Accuracy);
-        Assert.True(model.RawData.ContainsKey("accuracy"));
-        Assert.Null(model.F1Score);
-        Assert.True(model.RawData.ContainsKey("f1Score"));
-        Assert.Null(model.Precision);
-        Assert.True(model.RawData.ContainsKey("precision"));
-        Assert.Null(model.Recall);
-        Assert.True(model.RawData.ContainsKey("recall"));
-    }
-
-    [Fact]
-    public void OptionalNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Fn = 0,
-            Fp = 0,
-            Tn = 0,
-            Tp = 0,
-
-            Accuracy = null,
-            F1Score = null,
-            Precision = null,
-            Recall = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics
-        {
-            Accuracy = 0,
-            F1Score = 0,
-            Fn = 0,
-            Fp = 0,
-            Precision = 0,
-            Recall = 0,
-            Tn = 0,
-            Tp = 0,
-        };
-
-        FunctionEstimateReviewRequirementsResponseMetricsFieldMetricMetrics copied = new(model);
+        Recall copied = new(model);
 
         Assert.Equal(model, copied);
     }

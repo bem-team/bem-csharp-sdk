@@ -58,13 +58,13 @@ public interface IReviewerService
     /// <summary>
     /// Assign a Reviewer
     /// </summary>
-    Task<ReviewerAssignResponse> Assign(
+    Task<Reviewer> Assign(
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Assign(ReviewerAssignParams, CancellationToken)"/>
-    Task<ReviewerAssignResponse> Assign(
+    Task<Reviewer> Assign(
         string typeID,
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default
@@ -116,13 +116,13 @@ public interface IReviewerServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/entity-types/{typeID}/reviewers</c>, but is otherwise the
     /// same as <see cref="IReviewerService.Assign(ReviewerAssignParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ReviewerAssignResponse>> Assign(
+    Task<HttpResponse<Reviewer>> Assign(
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Assign(ReviewerAssignParams, CancellationToken)"/>
-    Task<HttpResponse<ReviewerAssignResponse>> Assign(
+    Task<HttpResponse<Reviewer>> Assign(
         string typeID,
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default

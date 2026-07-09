@@ -204,7 +204,7 @@ public class UpdateFunctionTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
@@ -455,7 +455,7 @@ public class UpdateFunctionTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
@@ -2818,7 +2818,7 @@ public class UpdateFunctionParseTest : TestBase
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("parse");
         string expectedDisplayName = "displayName";
-        UpdateFunctionParseExtraConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
+        ParseExtraFunctionConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         string expectedFunctionName = "functionName";
         ParseConfig expectedParseConfig = new()
         {
@@ -2896,7 +2896,7 @@ public class UpdateFunctionParseTest : TestBase
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("parse");
         string expectedDisplayName = "displayName";
-        UpdateFunctionParseExtraConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
+        ParseExtraFunctionConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         string expectedFunctionName = "functionName";
         ParseConfig expectedParseConfig = new()
         {
@@ -3031,110 +3031,6 @@ public class UpdateFunctionParseTest : TestBase
     }
 }
 
-public class UpdateFunctionParseExtraConfigTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { EnableBoundingBoxes = true };
-
-        bool expectedEnableBoundingBoxes = true;
-
-        Assert.Equal(expectedEnableBoundingBoxes, model.EnableBoundingBoxes);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { EnableBoundingBoxes = true };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionParseExtraConfig>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { EnableBoundingBoxes = true };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionParseExtraConfig>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        bool expectedEnableBoundingBoxes = true;
-
-        Assert.Equal(expectedEnableBoundingBoxes, deserialized.EnableBoundingBoxes);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { EnableBoundingBoxes = true };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { };
-
-        Assert.Null(model.EnableBoundingBoxes);
-        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig
-        {
-            // Null should be interpreted as omitted for these properties
-            EnableBoundingBoxes = null,
-        };
-
-        Assert.Null(model.EnableBoundingBoxes);
-        Assert.False(model.RawData.ContainsKey("enableBoundingBoxes"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig
-        {
-            // Null should be interpreted as omitted for these properties
-            EnableBoundingBoxes = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new UpdateFunctionParseExtraConfig { EnableBoundingBoxes = true };
-
-        UpdateFunctionParseExtraConfig copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
 public class UpdateFunctionRenderTest : TestBase
 {
     [Fact]
@@ -3145,7 +3041,7 @@ public class UpdateFunctionRenderTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
@@ -3153,8 +3049,8 @@ public class UpdateFunctionRenderTest : TestBase
         JsonElement expectedType = JsonSerializer.SerializeToElement("render");
         string expectedDisplayName = "displayName";
         string expectedFunctionName = "functionName";
-        UpdateFunctionRenderRenderConfig expectedRenderConfig = new(
-            new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+        RenderConfigInput expectedRenderConfig = new(
+            new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
         );
         List<string> expectedTags = ["string"];
 
@@ -3178,7 +3074,7 @@ public class UpdateFunctionRenderTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
@@ -3200,7 +3096,7 @@ public class UpdateFunctionRenderTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
@@ -3215,8 +3111,8 @@ public class UpdateFunctionRenderTest : TestBase
         JsonElement expectedType = JsonSerializer.SerializeToElement("render");
         string expectedDisplayName = "displayName";
         string expectedFunctionName = "functionName";
-        UpdateFunctionRenderRenderConfig expectedRenderConfig = new(
-            new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+        RenderConfigInput expectedRenderConfig = new(
+            new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
         );
         List<string> expectedTags = ["string"];
 
@@ -3240,7 +3136,7 @@ public class UpdateFunctionRenderTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
@@ -3316,229 +3212,12 @@ public class UpdateFunctionRenderTest : TestBase
             DisplayName = "displayName",
             FunctionName = "functionName",
             RenderConfig = new(
-                new UpdateFunctionRenderRenderConfigTemplate() { Base64 = "base64", Name = "name" }
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
             ),
             Tags = ["string"],
         };
 
         UpdateFunctionRender copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class UpdateFunctionRenderRenderConfigTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfig
-        {
-            Template = new() { Base64 = "base64", Name = "name" },
-        };
-
-        UpdateFunctionRenderRenderConfigTemplate expectedTemplate = new()
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        Assert.Equal(expectedTemplate, model.Template);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfig
-        {
-            Template = new() { Base64 = "base64", Name = "name" },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRenderRenderConfig>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfig
-        {
-            Template = new() { Base64 = "base64", Name = "name" },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRenderRenderConfig>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        UpdateFunctionRenderRenderConfigTemplate expectedTemplate = new()
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        Assert.Equal(expectedTemplate, deserialized.Template);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfig
-        {
-            Template = new() { Base64 = "base64", Name = "name" },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfig
-        {
-            Template = new() { Base64 = "base64", Name = "name" },
-        };
-
-        UpdateFunctionRenderRenderConfig copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class UpdateFunctionRenderRenderConfigTemplateTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        string expectedBase64 = "base64";
-        string expectedName = "name";
-
-        Assert.Equal(expectedBase64, model.Base64);
-        Assert.Equal(expectedName, model.Name);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRenderRenderConfigTemplate>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRenderRenderConfigTemplate>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        string expectedBase64 = "base64";
-        string expectedName = "name";
-
-        Assert.Equal(expectedBase64, deserialized.Base64);
-        Assert.Equal(expectedName, deserialized.Name);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate { Base64 = "base64" };
-
-        Assert.Null(model.Name);
-        Assert.False(model.RawData.ContainsKey("name"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate { Base64 = "base64" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-
-            // Null should be interpreted as omitted for these properties
-            Name = null,
-        };
-
-        Assert.Null(model.Name);
-        Assert.False(model.RawData.ContainsKey("name"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-
-            // Null should be interpreted as omitted for these properties
-            Name = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new UpdateFunctionRenderRenderConfigTemplate
-        {
-            Base64 = "base64",
-            Name = "name",
-        };
-
-        UpdateFunctionRenderRenderConfigTemplate copied = new(model);
 
         Assert.Equal(model, copied);
     }

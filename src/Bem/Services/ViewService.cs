@@ -35,7 +35,7 @@ public sealed class ViewService : IViewService
     }
 
     /// <inheritdoc/>
-    public async Task<ViewCreateResponse> Create(
+    public async Task<View> Create(
         ViewCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -47,7 +47,7 @@ public sealed class ViewService : IViewService
     }
 
     /// <inheritdoc/>
-    public async Task<ViewRetrieveResponse> Retrieve(
+    public async Task<View> Retrieve(
         ViewRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -59,7 +59,7 @@ public sealed class ViewService : IViewService
     }
 
     /// <inheritdoc/>
-    public Task<ViewRetrieveResponse> Retrieve(
+    public Task<View> Retrieve(
         string viewID,
         ViewRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -71,7 +71,7 @@ public sealed class ViewService : IViewService
     }
 
     /// <inheritdoc/>
-    public async Task<ViewUpdateResponse> Update(
+    public async Task<View> Update(
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -83,7 +83,7 @@ public sealed class ViewService : IViewService
     }
 
     /// <inheritdoc/>
-    public Task<ViewUpdateResponse> Update(
+    public Task<View> Update(
         string viewID,
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default
@@ -165,7 +165,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ViewCreateResponse>> Create(
+    public async Task<HttpResponse<View>> Create(
         ViewCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -180,9 +180,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
             response,
             async (token) =>
             {
-                var view = await response
-                    .Deserialize<ViewCreateResponse>(token)
-                    .ConfigureAwait(false);
+                var view = await response.Deserialize<View>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
                     view.Validate();
@@ -193,7 +191,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ViewRetrieveResponse>> Retrieve(
+    public async Task<HttpResponse<View>> Retrieve(
         ViewRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -213,9 +211,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
             response,
             async (token) =>
             {
-                var view = await response
-                    .Deserialize<ViewRetrieveResponse>(token)
-                    .ConfigureAwait(false);
+                var view = await response.Deserialize<View>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
                     view.Validate();
@@ -226,7 +222,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<ViewRetrieveResponse>> Retrieve(
+    public Task<HttpResponse<View>> Retrieve(
         string viewID,
         ViewRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -238,7 +234,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ViewUpdateResponse>> Update(
+    public async Task<HttpResponse<View>> Update(
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -258,9 +254,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
             response,
             async (token) =>
             {
-                var view = await response
-                    .Deserialize<ViewUpdateResponse>(token)
-                    .ConfigureAwait(false);
+                var view = await response.Deserialize<View>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
                     view.Validate();
@@ -271,7 +265,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<ViewUpdateResponse>> Update(
+    public Task<HttpResponse<View>> Update(
         string viewID,
         ViewUpdateParams parameters,
         CancellationToken cancellationToken = default

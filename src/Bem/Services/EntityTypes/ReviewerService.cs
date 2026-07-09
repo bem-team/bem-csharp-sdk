@@ -59,7 +59,7 @@ public sealed class ReviewerService : IReviewerService
     }
 
     /// <inheritdoc/>
-    public async Task<ReviewerAssignResponse> Assign(
+    public async Task<Reviewer> Assign(
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -71,7 +71,7 @@ public sealed class ReviewerService : IReviewerService
     }
 
     /// <inheritdoc/>
-    public Task<ReviewerAssignResponse> Assign(
+    public Task<Reviewer> Assign(
         string typeID,
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default
@@ -163,7 +163,7 @@ public sealed class ReviewerServiceWithRawResponse : IReviewerServiceWithRawResp
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ReviewerAssignResponse>> Assign(
+    public async Task<HttpResponse<Reviewer>> Assign(
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -183,20 +183,18 @@ public sealed class ReviewerServiceWithRawResponse : IReviewerServiceWithRawResp
             response,
             async (token) =>
             {
-                var deserializedResponse = await response
-                    .Deserialize<ReviewerAssignResponse>(token)
-                    .ConfigureAwait(false);
+                var reviewer = await response.Deserialize<Reviewer>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    deserializedResponse.Validate();
+                    reviewer.Validate();
                 }
-                return deserializedResponse;
+                return reviewer;
             }
         );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<ReviewerAssignResponse>> Assign(
+    public Task<HttpResponse<Reviewer>> Assign(
         string typeID,
         ReviewerAssignParams parameters,
         CancellationToken cancellationToken = default

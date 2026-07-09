@@ -35,7 +35,7 @@ public sealed class BucketService : IBucketService
     }
 
     /// <inheritdoc/>
-    public async Task<BucketCreateResponse> Create(
+    public async Task<BucketV3> Create(
         BucketCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -47,7 +47,7 @@ public sealed class BucketService : IBucketService
     }
 
     /// <inheritdoc/>
-    public async Task<BucketRetrieveResponse> Retrieve(
+    public async Task<BucketV3> Retrieve(
         BucketRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -59,7 +59,7 @@ public sealed class BucketService : IBucketService
     }
 
     /// <inheritdoc/>
-    public Task<BucketRetrieveResponse> Retrieve(
+    public Task<BucketV3> Retrieve(
         string bucketID,
         BucketRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -71,7 +71,7 @@ public sealed class BucketService : IBucketService
     }
 
     /// <inheritdoc/>
-    public async Task<BucketUpdateResponse> Update(
+    public async Task<BucketV3> Update(
         BucketUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -83,7 +83,7 @@ public sealed class BucketService : IBucketService
     }
 
     /// <inheritdoc/>
-    public Task<BucketUpdateResponse> Update(
+    public Task<BucketV3> Update(
         string bucketID,
         BucketUpdateParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -143,7 +143,7 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<BucketCreateResponse>> Create(
+    public async Task<HttpResponse<BucketV3>> Create(
         BucketCreateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -158,20 +158,18 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
             response,
             async (token) =>
             {
-                var bucket = await response
-                    .Deserialize<BucketCreateResponse>(token)
-                    .ConfigureAwait(false);
+                var bucketV3 = await response.Deserialize<BucketV3>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    bucket.Validate();
+                    bucketV3.Validate();
                 }
-                return bucket;
+                return bucketV3;
             }
         );
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<BucketRetrieveResponse>> Retrieve(
+    public async Task<HttpResponse<BucketV3>> Retrieve(
         BucketRetrieveParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -191,20 +189,18 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
             response,
             async (token) =>
             {
-                var bucket = await response
-                    .Deserialize<BucketRetrieveResponse>(token)
-                    .ConfigureAwait(false);
+                var bucketV3 = await response.Deserialize<BucketV3>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    bucket.Validate();
+                    bucketV3.Validate();
                 }
-                return bucket;
+                return bucketV3;
             }
         );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<BucketRetrieveResponse>> Retrieve(
+    public Task<HttpResponse<BucketV3>> Retrieve(
         string bucketID,
         BucketRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -216,7 +212,7 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<BucketUpdateResponse>> Update(
+    public async Task<HttpResponse<BucketV3>> Update(
         BucketUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -236,20 +232,18 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
             response,
             async (token) =>
             {
-                var bucket = await response
-                    .Deserialize<BucketUpdateResponse>(token)
-                    .ConfigureAwait(false);
+                var bucketV3 = await response.Deserialize<BucketV3>(token).ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    bucket.Validate();
+                    bucketV3.Validate();
                 }
-                return bucket;
+                return bucketV3;
             }
         );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse<BucketUpdateResponse>> Update(
+    public Task<HttpResponse<BucketV3>> Update(
         string bucketID,
         BucketUpdateParams? parameters = null,
         CancellationToken cancellationToken = default

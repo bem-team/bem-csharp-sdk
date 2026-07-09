@@ -72,10 +72,10 @@ public class ViewServiceTest : TestBase
                 [
                     new()
                     {
-                        Function = ViewUpdateParamsAggregationFunction.Count,
+                        Function = Function.Count,
                         Name = "name",
                         AggregateColumnName = "aggregateColumnName",
-                        DisplayType = ViewUpdateParamsAggregationDisplayType.Table,
+                        DisplayType = DisplayType.Table,
                         GroupByColumnName = "groupByColumnName",
                     },
                 ],
@@ -93,7 +93,7 @@ public class ViewServiceTest : TestBase
                     new()
                     {
                         ColumnName = "columnName",
-                        FilterType = ViewUpdateParamsFilterFilterType.EqualsString,
+                        FilterType = FilterType.EqualsString,
                         Number = 0,
                         String = "string",
                     },
@@ -129,10 +129,10 @@ public class ViewServiceTest : TestBase
                 [
                     new()
                     {
-                        Function = ViewGenerateAggregationDataParamsAggregationFunction.Count,
+                        Function = Function.Count,
                         Name = "name",
                         AggregateColumnName = "aggregateColumnName",
-                        DisplayType = ViewGenerateAggregationDataParamsAggregationDisplayType.Table,
+                        DisplayType = DisplayType.Table,
                         GroupByColumnName = "groupByColumnName",
                     },
                 ],
@@ -150,7 +150,7 @@ public class ViewServiceTest : TestBase
                     new()
                     {
                         ColumnName = "columnName",
-                        FilterType = ViewGenerateAggregationDataParamsFilterFilterType.EqualsString,
+                        FilterType = FilterType.EqualsString,
                         Number = 0,
                         String = "string",
                     },
@@ -178,10 +178,10 @@ public class ViewServiceTest : TestBase
                 [
                     new()
                     {
-                        Function = ViewGenerateTableDataParamsAggregationFunction.Count,
+                        Function = Function.Count,
                         Name = "name",
                         AggregateColumnName = "aggregateColumnName",
-                        DisplayType = ViewGenerateTableDataParamsAggregationDisplayType.Table,
+                        DisplayType = DisplayType.Table,
                         GroupByColumnName = "groupByColumnName",
                     },
                 ],
@@ -199,7 +199,7 @@ public class ViewServiceTest : TestBase
                     new()
                     {
                         ColumnName = "columnName",
-                        FilterType = ViewGenerateTableDataParamsFilterFilterType.EqualsString,
+                        FilterType = FilterType.EqualsString,
                         Number = 0,
                         String = "string",
                     },

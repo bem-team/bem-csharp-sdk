@@ -48,7 +48,7 @@ public interface IEntityTypeService
     /// <summary>
     /// Create an Entity Type
     /// </summary>
-    Task<EntityTypeCreateResponse> Create(
+    Task<EntityType> Create(
         EntityTypeCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -56,13 +56,13 @@ public interface IEntityTypeService
     /// <summary>
     /// Get an Entity Type
     /// </summary>
-    Task<EntityTypeRetrieveResponse> Retrieve(
+    Task<EntityType> Retrieve(
         EntityTypeRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(EntityTypeRetrieveParams, CancellationToken)"/>
-    Task<EntityTypeRetrieveResponse> Retrieve(
+    Task<EntityType> Retrieve(
         string typeID,
         EntityTypeRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -71,13 +71,13 @@ public interface IEntityTypeService
     /// <summary>
     /// Update an Entity Type
     /// </summary>
-    Task<EntityTypeUpdateResponse> Update(
+    Task<EntityType> Update(
         EntityTypeUpdateParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Update(EntityTypeUpdateParams, CancellationToken)"/>
-    Task<EntityTypeUpdateResponse> Update(
+    Task<EntityType> Update(
         string typeID,
         EntityTypeUpdateParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -123,7 +123,7 @@ public interface IEntityTypeServiceWithRawResponse
     /// Returns a raw HTTP response for <c>post /v3/entity-types</c>, but is otherwise the
     /// same as <see cref="IEntityTypeService.Create(EntityTypeCreateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<EntityTypeCreateResponse>> Create(
+    Task<HttpResponse<EntityType>> Create(
         EntityTypeCreateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -132,13 +132,13 @@ public interface IEntityTypeServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/entity-types/{typeID}</c>, but is otherwise the
     /// same as <see cref="IEntityTypeService.Retrieve(EntityTypeRetrieveParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<EntityTypeRetrieveResponse>> Retrieve(
+    Task<HttpResponse<EntityType>> Retrieve(
         EntityTypeRetrieveParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Retrieve(EntityTypeRetrieveParams, CancellationToken)"/>
-    Task<HttpResponse<EntityTypeRetrieveResponse>> Retrieve(
+    Task<HttpResponse<EntityType>> Retrieve(
         string typeID,
         EntityTypeRetrieveParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -148,13 +148,13 @@ public interface IEntityTypeServiceWithRawResponse
     /// Returns a raw HTTP response for <c>patch /v3/entity-types/{typeID}</c>, but is otherwise the
     /// same as <see cref="IEntityTypeService.Update(EntityTypeUpdateParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<EntityTypeUpdateResponse>> Update(
+    Task<HttpResponse<EntityType>> Update(
         EntityTypeUpdateParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Update(EntityTypeUpdateParams, CancellationToken)"/>
-    Task<HttpResponse<EntityTypeUpdateResponse>> Update(
+    Task<HttpResponse<EntityType>> Update(
         string typeID,
         EntityTypeUpdateParams? parameters = null,
         CancellationToken cancellationToken = default

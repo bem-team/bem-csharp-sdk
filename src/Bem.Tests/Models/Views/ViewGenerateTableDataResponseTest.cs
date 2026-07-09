@@ -159,7 +159,7 @@ public class RowTest : TestBase
             EventID = "eventID",
         };
 
-        List<RowColumn> expectedColumns = [new() { ColumnName = "columnName", Value = "string" }];
+        List<Column> expectedColumns = [new() { ColumnName = "columnName", Value = "string" }];
         string expectedEventID = "eventID";
 
         Assert.Equal(expectedColumns.Count, model.Columns.Count);
@@ -198,7 +198,7 @@ public class RowTest : TestBase
         var deserialized = JsonSerializer.Deserialize<Row>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
-        List<RowColumn> expectedColumns = [new() { ColumnName = "columnName", Value = "string" }];
+        List<Column> expectedColumns = [new() { ColumnName = "columnName", Value = "string" }];
         string expectedEventID = "eventID";
 
         Assert.Equal(expectedColumns.Count, deserialized.Columns.Count);
@@ -236,15 +236,15 @@ public class RowTest : TestBase
     }
 }
 
-public class RowColumnTest : TestBase
+public class ColumnTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new RowColumn { ColumnName = "columnName", Value = "string" };
+        var model = new Column { ColumnName = "columnName", Value = "string" };
 
         string expectedColumnName = "columnName";
-        RowColumnValue expectedValue = "string";
+        ColumnValue expectedValue = "string";
 
         Assert.Equal(expectedColumnName, model.ColumnName);
         Assert.Equal(expectedValue, model.Value);
@@ -253,10 +253,10 @@ public class RowColumnTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new RowColumn { ColumnName = "columnName", Value = "string" };
+        var model = new Column { ColumnName = "columnName", Value = "string" };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumn>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Column>(json, ModelBase.SerializerOptions);
 
         Assert.Equal(model, deserialized);
     }
@@ -264,17 +264,14 @@ public class RowColumnTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new RowColumn { ColumnName = "columnName", Value = "string" };
+        var model = new Column { ColumnName = "columnName", Value = "string" };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumn>(
-            element,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<Column>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
         string expectedColumnName = "columnName";
-        RowColumnValue expectedValue = "string";
+        ColumnValue expectedValue = "string";
 
         Assert.Equal(expectedColumnName, deserialized.ColumnName);
         Assert.Equal(expectedValue, deserialized.Value);
@@ -283,7 +280,7 @@ public class RowColumnTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new RowColumn { ColumnName = "columnName", Value = "string" };
+        var model = new Column { ColumnName = "columnName", Value = "string" };
 
         model.Validate();
     }
@@ -291,64 +288,64 @@ public class RowColumnTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new RowColumn { ColumnName = "columnName", Value = "string" };
+        var model = new Column { ColumnName = "columnName", Value = "string" };
 
-        RowColumn copied = new(model);
+        Column copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class RowColumnValueTest : TestBase
+public class ColumnValueTest : TestBase
 {
     [Fact]
     public void StringValidationWorks()
     {
-        RowColumnValue value = "string";
+        ColumnValue value = "string";
         value.Validate();
     }
 
     [Fact]
     public void DoubleValidationWorks()
     {
-        RowColumnValue value = 0;
+        ColumnValue value = 0;
         value.Validate();
     }
 
     [Fact]
     public void BoolValidationWorks()
     {
-        RowColumnValue value = true;
+        ColumnValue value = true;
         value.Validate();
     }
 
     [Fact]
     public void JsonElementValidationWorks()
     {
-        RowColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
+        ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
         value.Validate();
     }
 
     [Fact]
     public void JsonElementValidationWorks1()
     {
-        RowColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
+        ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
         value.Validate();
     }
 
     [Fact]
     public void JsonElementsValidationWorks()
     {
-        RowColumnValue value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
+        ColumnValue value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
         value.Validate();
     }
 
     [Fact]
     public void StringSerializationRoundtripWorks()
     {
-        RowColumnValue value = "string";
+        ColumnValue value = "string";
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumnValue>(
+        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
             element,
             ModelBase.SerializerOptions
         );
@@ -359,9 +356,9 @@ public class RowColumnValueTest : TestBase
     [Fact]
     public void DoubleSerializationRoundtripWorks()
     {
-        RowColumnValue value = 0;
+        ColumnValue value = 0;
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumnValue>(
+        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
             element,
             ModelBase.SerializerOptions
         );
@@ -372,9 +369,9 @@ public class RowColumnValueTest : TestBase
     [Fact]
     public void BoolSerializationRoundtripWorks()
     {
-        RowColumnValue value = true;
+        ColumnValue value = true;
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumnValue>(
+        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
             element,
             ModelBase.SerializerOptions
         );
@@ -385,9 +382,9 @@ public class RowColumnValueTest : TestBase
     [Fact]
     public void JsonElementSerializationRoundtripWorks()
     {
-        RowColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
+        ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumnValue>(
+        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
             element,
             ModelBase.SerializerOptions
         );
@@ -398,9 +395,9 @@ public class RowColumnValueTest : TestBase
     [Fact]
     public void JsonElementSerializationRoundtripWorks1()
     {
-        RowColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
+        ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumnValue>(
+        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
             element,
             ModelBase.SerializerOptions
         );
@@ -411,9 +408,9 @@ public class RowColumnValueTest : TestBase
     [Fact]
     public void JsonElementsSerializationRoundtripWorks()
     {
-        RowColumnValue value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
+        ColumnValue value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<RowColumnValue>(
+        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
             element,
             ModelBase.SerializerOptions
         );

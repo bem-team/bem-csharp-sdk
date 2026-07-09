@@ -21,18 +21,16 @@ public sealed record class EntityBulkValidateResponse : JsonModel
     /// <summary>
     /// Per-row outcomes, in request order.
     /// </summary>
-    public required IReadOnlyList<EntityBulkValidateResponseResult> Results
+    public required IReadOnlyList<Result> Results
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<EntityBulkValidateResponseResult>>(
-                "results"
-            );
+            return this._rawData.GetNotNullStruct<ImmutableArray<Result>>("results");
         }
         init
         {
-            this._rawData.Set<ImmutableArray<EntityBulkValidateResponseResult>>(
+            this._rawData.Set<ImmutableArray<Result>>(
                 "results",
                 ImmutableArray.ToImmutableArray(value)
             );
@@ -103,13 +101,8 @@ class EntityBulkValidateResponseFromRaw : IFromRawJson<EntityBulkValidateRespons
 /// <summary>
 /// The outcome of validating one row.
 /// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        EntityBulkValidateResponseResult,
-        EntityBulkValidateResponseResultFromRaw
-    >)
-)]
-public sealed record class EntityBulkValidateResponseResult : JsonModel
+[JsonConverter(typeof(JsonModelConverter<Result, ResultFromRaw>))]
+public sealed record class Result : JsonModel
 {
     /// <summary>
     /// The `ent_...` ID from the request.
@@ -128,14 +121,12 @@ public sealed record class EntityBulkValidateResponseResult : JsonModel
     /// `validated` (transition applied), `skipped` (not found or not authorized),
     /// or `rejected-row` (the transition itself was illegal, e.g. already terminal).
     /// </summary>
-    public required ApiEnum<string, EntityBulkValidateResponseResultOutcome> Outcome
+    public required ApiEnum<string, ResultOutcome> Outcome
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, EntityBulkValidateResponseResultOutcome>
-            >("outcome");
+            return this._rawData.GetNotNullClass<ApiEnum<string, ResultOutcome>>("outcome");
         }
         init { this._rawData.Set("outcome", value); }
     }
@@ -169,62 +160,56 @@ public sealed record class EntityBulkValidateResponseResult : JsonModel
         _ = this.Reason;
     }
 
-    public EntityBulkValidateResponseResult() { }
+    public Result() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public EntityBulkValidateResponseResult(
-        EntityBulkValidateResponseResult entityBulkValidateResponseResult
-    )
-        : base(entityBulkValidateResponseResult) { }
+    public Result(Result result)
+        : base(result) { }
 #pragma warning restore CS8618
 
-    public EntityBulkValidateResponseResult(IReadOnlyDictionary<string, JsonElement> rawData)
+    public Result(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    EntityBulkValidateResponseResult(FrozenDictionary<string, JsonElement> rawData)
+    Result(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="EntityBulkValidateResponseResultFromRaw.FromRawUnchecked"/>
-    public static EntityBulkValidateResponseResult FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
+    /// <inheritdoc cref="ResultFromRaw.FromRawUnchecked"/>
+    public static Result FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
     }
 }
 
-class EntityBulkValidateResponseResultFromRaw : IFromRawJson<EntityBulkValidateResponseResult>
+class ResultFromRaw : IFromRawJson<Result>
 {
     /// <inheritdoc/>
-    public EntityBulkValidateResponseResult FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => EntityBulkValidateResponseResult.FromRawUnchecked(rawData);
+    public Result FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Result.FromRawUnchecked(rawData);
 }
 
 /// <summary>
 /// `validated` (transition applied), `skipped` (not found or not authorized), or
 /// `rejected-row` (the transition itself was illegal, e.g. already terminal).
 /// </summary>
-[JsonConverter(typeof(EntityBulkValidateResponseResultOutcomeConverter))]
-public enum EntityBulkValidateResponseResultOutcome
+[JsonConverter(typeof(ResultOutcomeConverter))]
+public enum ResultOutcome
 {
     Validated,
     Skipped,
     RejectedRow,
 }
 
-sealed class EntityBulkValidateResponseResultOutcomeConverter
-    : JsonConverter<EntityBulkValidateResponseResultOutcome>
+sealed class ResultOutcomeConverter : JsonConverter<ResultOutcome>
 {
-    public override EntityBulkValidateResponseResultOutcome Read(
+    public override ResultOutcome Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options
@@ -232,16 +217,16 @@ sealed class EntityBulkValidateResponseResultOutcomeConverter
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "validated" => EntityBulkValidateResponseResultOutcome.Validated,
-            "skipped" => EntityBulkValidateResponseResultOutcome.Skipped,
-            "rejected-row" => EntityBulkValidateResponseResultOutcome.RejectedRow,
-            _ => (EntityBulkValidateResponseResultOutcome)(-1),
+            "validated" => ResultOutcome.Validated,
+            "skipped" => ResultOutcome.Skipped,
+            "rejected-row" => ResultOutcome.RejectedRow,
+            _ => (ResultOutcome)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        EntityBulkValidateResponseResultOutcome value,
+        ResultOutcome value,
         JsonSerializerOptions options
     )
     {
@@ -249,9 +234,9 @@ sealed class EntityBulkValidateResponseResultOutcomeConverter
             writer,
             value switch
             {
-                EntityBulkValidateResponseResultOutcome.Validated => "validated",
-                EntityBulkValidateResponseResultOutcome.Skipped => "skipped",
-                EntityBulkValidateResponseResultOutcome.RejectedRow => "rejected-row",
+                ResultOutcome.Validated => "validated",
+                ResultOutcome.Skipped => "skipped",
+                ResultOutcome.RejectedRow => "rejected-row",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
