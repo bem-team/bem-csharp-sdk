@@ -245,8 +245,8 @@ public sealed record class Endpoint : JsonModel
     ///
     /// <para>When set, the candidates fetched from the endpoint are passed to an
     /// LLM with these instructions, which selects the best match(es) and returns
-    /// them with confidence scores. Each injected result has the shape `{ data, confidence,
-    /// reasoning? }`.</para>
+    /// them ranked best-first. Each injected result has the shape `{ data, rank,
+    /// confidence, reasoning? }` (rank is 1-based, 1 = best).</para>
     ///
     /// <para>When omitted, the raw fetched value is injected without any LLM involvement.</para>
     /// </summary>
