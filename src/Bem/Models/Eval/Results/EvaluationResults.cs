@@ -30,7 +30,7 @@ public sealed record class EvaluationResults : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("results");
+            return this._rawData.GetNotAbsentElement("results");
         }
         init { this._rawData.Set("results", value); }
     }

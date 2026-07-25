@@ -1089,7 +1089,7 @@ public sealed record class Transform : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -1356,7 +1356,7 @@ public sealed record class FunctionExtract : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -1618,7 +1618,7 @@ public sealed record class Analyze : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -2960,7 +2960,7 @@ public sealed record class FunctionJoin : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }

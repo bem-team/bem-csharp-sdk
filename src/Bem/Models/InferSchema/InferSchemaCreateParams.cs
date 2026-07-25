@@ -58,7 +58,7 @@ public record class InferSchemaCreateParams : ParamsBase
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<JsonElement>("file");
+            return this._rawBodyData.GetNotAbsentElement("file");
         }
         init { this._rawBodyData.Set("file", value); }
     }

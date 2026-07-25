@@ -64,7 +64,7 @@ public sealed record class RegressionApplyCorrectionsResponse : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("errors");
+            return this._rawData.GetNotAbsentElement("errors");
         }
         init { this._rawData.Set("errors", value); }
     }
