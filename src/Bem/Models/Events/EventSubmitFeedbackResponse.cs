@@ -22,7 +22,7 @@ public sealed record class EventSubmitFeedbackResponse : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("correction");
+            return this._rawData.GetNotAbsentElement("correction");
         }
         init { this._rawData.Set("correction", value); }
     }

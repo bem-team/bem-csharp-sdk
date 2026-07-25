@@ -22,7 +22,7 @@ public sealed record class EnrichWebhookEvent : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("enrichedContent");
+            return this._rawData.GetNotAbsentElement("enrichedContent");
         }
         init { this._rawData.Set("enrichedContent", value); }
     }

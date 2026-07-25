@@ -1771,7 +1771,7 @@ public sealed record class Transform : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }
@@ -3486,7 +3486,7 @@ public sealed record class Extract : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }
@@ -4779,7 +4779,7 @@ public sealed record class Parse : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }
@@ -6059,7 +6059,7 @@ public sealed record class Analyze : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }
@@ -9522,7 +9522,7 @@ public sealed record class Join : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }
@@ -10138,7 +10138,7 @@ public sealed record class Enrich : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("enrichedContent");
+            return this._rawData.GetNotAbsentElement("enrichedContent");
         }
         init { this._rawData.Set("enrichedContent", value); }
     }
@@ -10650,7 +10650,7 @@ public sealed record class PayloadShaping : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }
@@ -11127,7 +11127,7 @@ public sealed record class Evaluation : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("result");
+            return this._rawData.GetNotAbsentElement("result");
         }
         init { this._rawData.Set("result", value); }
     }

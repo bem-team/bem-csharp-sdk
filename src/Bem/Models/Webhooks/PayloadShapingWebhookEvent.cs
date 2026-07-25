@@ -82,7 +82,7 @@ public sealed record class PayloadShapingWebhookEvent : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("transformedContent");
+            return this._rawData.GetNotAbsentElement("transformedContent");
         }
         init { this._rawData.Set("transformedContent", value); }
     }

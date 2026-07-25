@@ -101,7 +101,7 @@ public sealed record class Connector : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("paragonConfiguration");
+            return this._rawData.GetNotAbsentElement("paragonConfiguration");
         }
         init { this._rawData.Set("paragonConfiguration", value); }
     }

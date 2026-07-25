@@ -238,7 +238,7 @@ public sealed record class Pair : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("expected");
+            return this._rawData.GetNotAbsentElement("expected");
         }
         init { this._rawData.Set("expected", value); }
     }

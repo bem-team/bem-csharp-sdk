@@ -424,7 +424,7 @@ public sealed record class Paragon : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("configuration");
+            return this._rawData.GetNotAbsentElement("configuration");
         }
         init { this._rawData.Set("configuration", value); }
     }

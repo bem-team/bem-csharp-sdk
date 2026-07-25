@@ -93,7 +93,7 @@ public sealed record class EvaluationWebhookEvent : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("result");
+            return this._rawData.GetNotAbsentElement("result");
         }
         init { this._rawData.Set("result", value); }
     }

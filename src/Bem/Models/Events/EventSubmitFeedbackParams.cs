@@ -40,7 +40,7 @@ public record class EventSubmitFeedbackParams : ParamsBase
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<JsonElement>("correction");
+            return this._rawBodyData.GetNotAbsentElement("correction");
         }
         init { this._rawBodyData.Set("correction", value); }
     }
