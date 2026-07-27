@@ -237,6 +237,7 @@ public class FunctionTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -960,6 +961,7 @@ public class FunctionTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3189,6 +3191,7 @@ public class FunctionClassifyTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3252,6 +3255,7 @@ public class FunctionClassifyTest : TestBase
             },
         };
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
         List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
@@ -3277,6 +3281,7 @@ public class FunctionClassifyTest : TestBase
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, model.NativeVisualInput);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -3345,6 +3350,7 @@ public class FunctionClassifyTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3421,6 +3427,7 @@ public class FunctionClassifyTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3491,6 +3498,7 @@ public class FunctionClassifyTest : TestBase
             },
         };
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
         List<WorkflowUsageInfo> expectedUsedInWorkflows =
         [
@@ -3516,6 +3524,7 @@ public class FunctionClassifyTest : TestBase
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, deserialized.NativeVisualInput);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -3584,6 +3593,7 @@ public class FunctionClassifyTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3629,6 +3639,8 @@ public class FunctionClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("audit"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
         Assert.Null(model.UsedInWorkflows);
@@ -3690,6 +3702,7 @@ public class FunctionClassifyTest : TestBase
             // Null should be interpreted as omitted for these properties
             Audit = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
             UsedInWorkflows = null,
         };
@@ -3698,6 +3711,8 @@ public class FunctionClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("audit"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
         Assert.Null(model.UsedInWorkflows);
@@ -3731,6 +3746,7 @@ public class FunctionClassifyTest : TestBase
             // Null should be interpreted as omitted for these properties
             Audit = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
             UsedInWorkflows = null,
         };
@@ -3792,6 +3808,7 @@ public class FunctionClassifyTest : TestBase
                 },
             },
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [

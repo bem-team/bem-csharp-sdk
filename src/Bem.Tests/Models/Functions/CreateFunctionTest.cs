@@ -46,6 +46,7 @@ public class CreateFunctionTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
         value.Validate();
@@ -258,6 +259,7 @@ public class CreateFunctionTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -733,6 +735,7 @@ public class ClassifyTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -753,6 +756,7 @@ public class ClassifyTest : TestBase
         ];
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, model.FunctionName);
@@ -765,6 +769,7 @@ public class ClassifyTest : TestBase
         }
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, model.NativeVisualInput);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -794,6 +799,7 @@ public class ClassifyTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -824,6 +830,7 @@ public class ClassifyTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -851,6 +858,7 @@ public class ClassifyTest : TestBase
         ];
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
 
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
@@ -863,6 +871,7 @@ public class ClassifyTest : TestBase
         }
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, deserialized.NativeVisualInput);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -892,6 +901,7 @@ public class ClassifyTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -909,6 +919,8 @@ public class ClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("description"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -932,6 +944,7 @@ public class ClassifyTest : TestBase
             Classifications = null,
             Description = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
         };
 
@@ -941,6 +954,8 @@ public class ClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("description"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -956,6 +971,7 @@ public class ClassifyTest : TestBase
             Classifications = null,
             Description = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
         };
 
@@ -983,6 +999,7 @@ public class ClassifyTest : TestBase
             ],
             Description = "description",
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
