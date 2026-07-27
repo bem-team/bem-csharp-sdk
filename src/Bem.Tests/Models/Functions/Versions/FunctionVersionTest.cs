@@ -243,6 +243,7 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -978,6 +979,7 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3270,6 +3272,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3334,6 +3337,7 @@ public class ClassifyTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
         List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
@@ -3360,6 +3364,7 @@ public class ClassifyTest : TestBase
         Assert.Equal(expectedAudit, model.Audit);
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, model.NativeVisualInput);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -3429,6 +3434,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3503,6 +3509,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3574,6 +3581,7 @@ public class ClassifyTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
         List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
@@ -3600,6 +3608,7 @@ public class ClassifyTest : TestBase
         Assert.Equal(expectedAudit, deserialized.Audit);
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, deserialized.NativeVisualInput);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -3669,6 +3678,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3716,6 +3726,8 @@ public class ClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
         Assert.Null(model.UsedInWorkflows);
@@ -3778,6 +3790,7 @@ public class ClassifyTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
             UsedInWorkflows = null,
         };
@@ -3788,6 +3801,8 @@ public class ClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
         Assert.Null(model.UsedInWorkflows);
@@ -3822,6 +3837,7 @@ public class ClassifyTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
             UsedInWorkflows = null,
         };
@@ -3884,6 +3900,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [

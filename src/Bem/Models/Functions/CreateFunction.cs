@@ -1137,6 +1137,29 @@ public sealed record class Classify : JsonModel
     }
 
     /// <summary>
+    /// When true, image and PDF inputs are sent directly to the model for routing
+    /// instead of being OCR'd to text first. Defaults to true for new classify functions
+    /// and false for the legacy route type.
+    /// </summary>
+    public bool? NativeVisualInput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("nativeVisualInput");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("nativeVisualInput", value);
+        }
+    }
+
+    /// <summary>
     /// Array of tags to categorize and organize functions.
     /// </summary>
     public IReadOnlyList<string>? Tags
@@ -1174,6 +1197,7 @@ public sealed record class Classify : JsonModel
         }
         _ = this.Description;
         _ = this.DisplayName;
+        _ = this.NativeVisualInput;
         _ = this.Tags;
     }
 

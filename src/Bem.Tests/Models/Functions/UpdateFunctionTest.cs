@@ -46,6 +46,7 @@ public class UpdateFunctionTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
         value.Validate();
@@ -255,6 +256,7 @@ public class UpdateFunctionTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -732,6 +734,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -752,6 +755,7 @@ public class UpdateFunctionClassifyTest : TestBase
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
         string expectedFunctionName = "functionName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
@@ -764,6 +768,7 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedNativeVisualInput, model.NativeVisualInput);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -793,6 +798,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -826,6 +832,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -853,6 +860,7 @@ public class UpdateFunctionClassifyTest : TestBase
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
         string expectedFunctionName = "functionName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
@@ -865,6 +873,7 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedNativeVisualInput, deserialized.NativeVisualInput);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -894,6 +903,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -913,6 +923,8 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -935,6 +947,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = null,
             DisplayName = null,
             FunctionName = null,
+            NativeVisualInput = null,
             Tags = null,
         };
 
@@ -946,6 +959,8 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -960,6 +975,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = null,
             DisplayName = null,
             FunctionName = null,
+            NativeVisualInput = null,
             Tags = null,
         };
 
@@ -987,6 +1003,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
