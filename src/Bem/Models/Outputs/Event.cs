@@ -1992,6 +1992,11 @@ public sealed record class Transform : JsonModel
 
     /// <summary>
     /// The input type of the content you're sending for transformation.
+    ///
+    /// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format
+    /// under a different extension — and is normalized to `jpeg`, so responses and
+    /// webhooks report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves
+    /// the same way.</para>
     /// </summary>
     public ApiEnum<string, InputType>? InputType
     {
@@ -3728,6 +3733,11 @@ public sealed record class Extract : JsonModel
 
     /// <summary>
     /// The input type of the content you're sending for transformation.
+    ///
+    /// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format
+    /// under a different extension — and is normalized to `jpeg`, so responses and
+    /// webhooks report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves
+    /// the same way.</para>
     /// </summary>
     public ApiEnum<string, InputType>? InputType
     {
@@ -5020,6 +5030,11 @@ public sealed record class Parse : JsonModel
 
     /// <summary>
     /// The input type of the content you're sending for transformation.
+    ///
+    /// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format
+    /// under a different extension — and is normalized to `jpeg`, so responses and
+    /// webhooks report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves
+    /// the same way.</para>
     /// </summary>
     public ApiEnum<string, InputType>? InputType
     {

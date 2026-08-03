@@ -40,12 +40,15 @@ namespace Bem.Models.Functions;
 /// scoreType? }, ...]` - `rank` is 1-based (1 = best) - `confidence` is the LLM's
 /// 0–1 score. It is present only for entries the LLM ranked and **omitted** for backfilled
 /// entries (see below) — a missing `confidence` means "not ranked by the LLM", not
-/// a score of 0 - `score` is the original retrieval score and `scoreType` says which
-/// metric it is (`"cosineDistance"` for semantic search, `"hybridScore"` for hybrid);
-/// both included only when `includeScore` is set - Length is `min(candidates surviving
-/// the scoreThreshold filter, topK)`. The LLM re-orders the survivors; if it ranks
-/// fewer than that length, the remaining survivors are backfilled in retrieval (score)
-/// order with `confidence` omitted</para>
+/// a score of 0 - `score` is the retrieval score and `scoreType` says which metric
+/// it is: `"cosineDistance"` for semantic or `"hybridScore"` for hybrid. Both are
+/// 0–2 dissimilarities where **lower = better** — hybrid's Reciprocal Rank Fusion
+/// score is mapped onto the same scale as cosine distance (0 = top of both rankings).
+/// Included only when `includeScore` is set - Results are de-duplicated by item payload,
+/// so they are distinct. Length is `min(distinct candidates retrieved, topK)`; semantic
+/// additionally drops candidates beyond `scoreThreshold`. The LLM re-orders the
+/// survivors; if it ranks fewer than that length, the remaining survivors are backfilled
+/// in retrieval (score) order with `confidence` omitted</para>
 ///
 /// <para>**Result Format (endpoint source, no matchInstructions):** - Always an array;
 /// the raw fetched value is the single element</para>
@@ -133,13 +136,13 @@ public sealed record class EnrichStep : JsonModel
     }
 
     /// <summary>
-    /// Whether to include cosine distance scores in results. Cosine distance ranges
-    /// from 0.0 (perfect match) to 2.0 (completely dissimilar). Lower scores indicate
-    /// better semantic similarity.
+    /// Whether to include retrieval scores in results.
     ///
-    /// <para>When enabled, each result includes a `score` field with `scoreType`
-    /// identifying the metric (`"cosineDistance"` for semantic mode, `"hybridScore"`
-    /// for hybrid mode).</para>
+    /// <para>When enabled, each result includes a `score` field and a `scoreType`
+    /// identifying the metric: - `"cosineDistance"` (semantic): 0.0 (perfect match)
+    /// to 2.0 (completely dissimilar) — lower is better. - `"hybridScore"` (hybrid):
+    /// an RRF score mapped onto cosine distance's 0–2 scale — lower is better (0.0
+    /// = top of both rankings).</para>
     /// </summary>
     public bool? IncludeScore
     {
@@ -185,8 +188,11 @@ public sealed record class EnrichStep : JsonModel
     /// Maximum cosine distance threshold for filtering results (default: 0.6). Results
     /// with cosine distance above this threshold are excluded.
     ///
-    /// <para>**Only applies to `semantic` and `hybrid` search modes.** Exact search
-    /// does not use cosine distance and ignores this setting.</para>
+    /// <para>**Applies to `semantic` and `hybrid` search modes.** For `hybrid`, the
+    /// Reciprocal Rank Fusion score is mapped onto the same 0–2 dissimilarity scale
+    /// as cosine distance, so a single threshold works for both. `exact` uses keyword
+    /// matching and ignores this setting. Note the default `0.6` is calibrated for
+    /// cosine distance and is relatively strict for hybrid.</para>
     ///
     /// <para>Cosine distance ranges from 0.0 (identical) to 2.0 (opposite): - 0.0
     /// - 0.3: Very similar (strict threshold, high-quality matches only) - 0.3 -
@@ -225,9 +231,11 @@ public sealed record class EnrichStep : JsonModel
     /// for exact identifiers. - Use for: SKU numbers, routing numbers, account IDs,
     /// exact tags - Example: "SKU-12345" only matches items containing that exact text</para>
     ///
-    /// <para>**hybrid**: Combined search using 20% semantic + 80% sparse embeddings
-    /// (keyword-based). - Use for: Tags, categories, partial identifiers - Example:
-    /// Balances semantic meaning with exact keyword matching</para>
+    /// <para>**hybrid**: Fuses the dense (semantic) and sparse (keyword) rankings
+    /// with weighted Reciprocal Rank Fusion (k=60, 0.5 dense / 0.5 sparse). Because
+    /// RRF combines rank positions rather than raw scores, semantic meaning and
+    /// exact-token overlap contribute on the same scale. - Use for: Tags, categories,
+    /// partial identifiers - Example: Balances semantic meaning with exact keyword matching</para>
     /// </summary>
     public ApiEnum<string, SearchMode>? SearchMode
     {
@@ -274,8 +282,10 @@ public sealed record class EnrichStep : JsonModel
 
     /// <summary>
     /// Number of top matching results to return per query (default: 1). Results
-    /// are always returned as an array (list) and automatically sorted by cosine
-    /// distance (best match = lowest distance first).
+    /// are always returned as an array (list), sorted best match first (by cosine
+    /// distance for `semantic`/`exact`, or by fused relevance score for `hybrid`).
+    /// Duplicate items are collapsed, so results are distinct: you get `topK` distinct
+    /// matches unless the collection contains fewer.
     ///
     /// <para>- 1: Returns array with single best match: `[{...}]` - &gt;1: Returns
     /// array with multiple matches: `[{...}, {...}, ...]`</para>
@@ -365,9 +375,11 @@ class EnrichStepFromRaw : IFromRawJson<EnrichStep>
 /// exact identifiers. - Use for: SKU numbers, routing numbers, account IDs, exact
 /// tags - Example: "SKU-12345" only matches items containing that exact text</para>
 ///
-/// <para>**hybrid**: Combined search using 20% semantic + 80% sparse embeddings
-/// (keyword-based). - Use for: Tags, categories, partial identifiers - Example:
-/// Balances semantic meaning with exact keyword matching</para>
+/// <para>**hybrid**: Fuses the dense (semantic) and sparse (keyword) rankings with
+/// weighted Reciprocal Rank Fusion (k=60, 0.5 dense / 0.5 sparse). Because RRF combines
+/// rank positions rather than raw scores, semantic meaning and exact-token overlap
+/// contribute on the same scale. - Use for: Tags, categories, partial identifiers
+/// - Example: Balances semantic meaning with exact keyword matching</para>
 /// </summary>
 [JsonConverter(typeof(SearchModeConverter))]
 public enum SearchMode

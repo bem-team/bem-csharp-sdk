@@ -7,6 +7,10 @@ namespace Bem.Models.Outputs;
 
 /// <summary>
 /// The input type of the content you're sending for transformation.
+///
+/// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format under
+/// a different extension — and is normalized to `jpeg`, so responses and webhooks
+/// report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves the same way.</para>
 /// </summary>
 [JsonConverter(typeof(InputTypeConverter))]
 public enum InputType
@@ -16,6 +20,7 @@ public enum InputType
     Email,
     Heic,
     Html,
+    Jfif,
     Jpeg,
     Json,
     Heif,
@@ -49,6 +54,7 @@ sealed class InputTypeConverter : JsonConverter<InputType>
             "email" => InputType.Email,
             "heic" => InputType.Heic,
             "html" => InputType.Html,
+            "jfif" => InputType.Jfif,
             "jpeg" => InputType.Jpeg,
             "json" => InputType.Json,
             "heif" => InputType.Heif,
@@ -84,6 +90,7 @@ sealed class InputTypeConverter : JsonConverter<InputType>
                 InputType.Email => "email",
                 InputType.Heic => "heic",
                 InputType.Html => "html",
+                InputType.Jfif => "jfif",
                 InputType.Jpeg => "jpeg",
                 InputType.Json => "json",
                 InputType.Heif => "heif",
