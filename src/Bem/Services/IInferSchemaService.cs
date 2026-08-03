@@ -52,8 +52,8 @@ public interface IInferSchemaService
     ///
     /// <para>## Supported file types</para>
     ///
-    /// <para>PDF, PNG, JPEG, HEIC, HEIF, WebP, CSV, XLS, XLSX, DOCX, JSON, HTML, XML,
-    /// EML, plain text, WAV, MP3, M4A, MP4.</para>
+    /// <para>PDF, PNG, JPEG (including JFIF), HEIC, HEIF, WebP, CSV, XLS, XLSX, DOCX,
+    /// JSON, HTML, XML, EML, plain text, WAV, MP3, M4A, MP4.</para>
     ///
     /// <para>## File size limit</para>
     ///

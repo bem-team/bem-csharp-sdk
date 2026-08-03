@@ -67,8 +67,9 @@ namespace Bem.Models.Workflows;
 /// Do **not** use `--wait true` (with a space) — the `true` will be parsed as an
 /// unexpected positional argument.</para>
 ///
-/// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jpeg,
-/// json, m4a, mp3, pdf, png, text, wav, webp, xls, xlsx, xml.</para>
+/// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jfif,
+/// jpeg, json, m4a, mp3, mov, mp4, pdf, png, pptx, text, wav, webp, xls, xlsx, xml.
+/// `jfif` (and `jpg`) are normalized to `jpeg`.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -500,6 +501,11 @@ public sealed record class BatchFilesInput : JsonModel
 
     /// <summary>
     /// The input type of the content you're sending for transformation.
+    ///
+    /// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format
+    /// under a different extension — and is normalized to `jpeg`, so responses and
+    /// webhooks report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves
+    /// the same way.</para>
     /// </summary>
     public required ApiEnum<string, Outputs::InputType> InputType
     {
