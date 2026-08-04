@@ -15,14 +15,7 @@ public class ScoreCreateParamsTest : TestBase
         var parameters = new ScoreCreateParams
         {
             FunctionName = "functionName",
-            Pairs =
-            [
-                new()
-                {
-                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-                },
-            ],
+            DatasetID = "datasetID",
             FunctionVersionNum = 0,
             MatchConfig = new()
             {
@@ -32,17 +25,18 @@ public class ScoreCreateParamsTest : TestBase
                 NumericTolerance = 0,
                 StringMatch = StringMatch.Exact,
             },
+            Pairs =
+            [
+                new()
+                {
+                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
+                },
+            ],
         };
 
         string expectedFunctionName = "functionName";
-        List<Pair> expectedPairs =
-        [
-            new()
-            {
-                Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-            },
-        ];
+        string expectedDatasetID = "datasetID";
         long expectedFunctionVersionNum = 0;
         EvalMatchConfig expectedMatchConfig = new()
         {
@@ -52,37 +46,40 @@ public class ScoreCreateParamsTest : TestBase
             NumericTolerance = 0,
             StringMatch = StringMatch.Exact,
         };
+        List<Pair> expectedPairs =
+        [
+            new()
+            {
+                Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
+            },
+        ];
 
         Assert.Equal(expectedFunctionName, parameters.FunctionName);
+        Assert.Equal(expectedDatasetID, parameters.DatasetID);
+        Assert.Equal(expectedFunctionVersionNum, parameters.FunctionVersionNum);
+        Assert.Equal(expectedMatchConfig, parameters.MatchConfig);
+        Assert.NotNull(parameters.Pairs);
         Assert.Equal(expectedPairs.Count, parameters.Pairs.Count);
         for (int i = 0; i < expectedPairs.Count; i++)
         {
             Assert.Equal(expectedPairs[i], parameters.Pairs[i]);
         }
-        Assert.Equal(expectedFunctionVersionNum, parameters.FunctionVersionNum);
-        Assert.Equal(expectedMatchConfig, parameters.MatchConfig);
     }
 
     [Fact]
     public void OptionalNonNullableParamsUnsetAreNotSet_Works()
     {
-        var parameters = new ScoreCreateParams
-        {
-            FunctionName = "functionName",
-            Pairs =
-            [
-                new()
-                {
-                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-                },
-            ],
-        };
+        var parameters = new ScoreCreateParams { FunctionName = "functionName" };
 
+        Assert.Null(parameters.DatasetID);
+        Assert.False(parameters.RawBodyData.ContainsKey("datasetID"));
         Assert.Null(parameters.FunctionVersionNum);
         Assert.False(parameters.RawBodyData.ContainsKey("functionVersionNum"));
         Assert.Null(parameters.MatchConfig);
         Assert.False(parameters.RawBodyData.ContainsKey("matchConfig"));
+        Assert.Null(parameters.Pairs);
+        Assert.False(parameters.RawBodyData.ContainsKey("pairs"));
     }
 
     [Fact]
@@ -91,41 +88,28 @@ public class ScoreCreateParamsTest : TestBase
         var parameters = new ScoreCreateParams
         {
             FunctionName = "functionName",
-            Pairs =
-            [
-                new()
-                {
-                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-                },
-            ],
 
             // Null should be interpreted as omitted for these properties
+            DatasetID = null,
             FunctionVersionNum = null,
             MatchConfig = null,
+            Pairs = null,
         };
 
+        Assert.Null(parameters.DatasetID);
+        Assert.False(parameters.RawBodyData.ContainsKey("datasetID"));
         Assert.Null(parameters.FunctionVersionNum);
         Assert.False(parameters.RawBodyData.ContainsKey("functionVersionNum"));
         Assert.Null(parameters.MatchConfig);
         Assert.False(parameters.RawBodyData.ContainsKey("matchConfig"));
+        Assert.Null(parameters.Pairs);
+        Assert.False(parameters.RawBodyData.ContainsKey("pairs"));
     }
 
     [Fact]
     public void Url_Works()
     {
-        ScoreCreateParams parameters = new()
-        {
-            FunctionName = "functionName",
-            Pairs =
-            [
-                new()
-                {
-                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-                },
-            ],
-        };
+        ScoreCreateParams parameters = new() { FunctionName = "functionName" };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
@@ -138,14 +122,7 @@ public class ScoreCreateParamsTest : TestBase
         var parameters = new ScoreCreateParams
         {
             FunctionName = "functionName",
-            Pairs =
-            [
-                new()
-                {
-                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-                },
-            ],
+            DatasetID = "datasetID",
             FunctionVersionNum = 0,
             MatchConfig = new()
             {
@@ -155,6 +132,14 @@ public class ScoreCreateParamsTest : TestBase
                 NumericTolerance = 0,
                 StringMatch = StringMatch.Exact,
             },
+            Pairs =
+            [
+                new()
+                {
+                    Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
+                },
+            ],
         };
 
         ScoreCreateParams copied = new(parameters);
