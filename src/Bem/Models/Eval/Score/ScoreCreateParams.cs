@@ -52,21 +52,27 @@ public record class ScoreCreateParams : ParamsBase
     }
 
     /// <summary>
-    /// Up to 1000 pairs per request.
+    /// A saved Golden Data Set (`gds_…`) to score against. Mutually exclusive with
+    /// `pairs`; provide exactly one. Its input / corrected / schema columns are
+    /// resolved by column role. When it carries a `schema`-role column, scoring types
+    /// each row against that ground-truth schema instead of the function's own schema
+    /// — so results hold up as functions/schemas evolve.
     /// </summary>
-    public required IReadOnlyList<Pair> Pairs
+    public string? DatasetID
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullStruct<ImmutableArray<Pair>>("pairs");
+            return this._rawBodyData.GetNullableClass<string>("datasetID");
         }
         init
         {
-            this._rawBodyData.Set<ImmutableArray<Pair>>(
-                "pairs",
-                ImmutableArray.ToImmutableArray(value)
-            );
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("datasetID", value);
         }
     }
 
@@ -110,6 +116,31 @@ public record class ScoreCreateParams : ParamsBase
             }
 
             this._rawBodyData.Set("matchConfig", value);
+        }
+    }
+
+    /// <summary>
+    /// Inline `(input, expected)` pairs to score, up to 1000 per request. Mutually
+    /// exclusive with `datasetID`; provide exactly one.
+    /// </summary>
+    public IReadOnlyList<Pair>? Pairs
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<ImmutableArray<Pair>>("pairs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set<ImmutableArray<Pair>?>(
+                "pairs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
         }
     }
 

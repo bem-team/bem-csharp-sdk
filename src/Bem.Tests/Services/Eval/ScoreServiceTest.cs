@@ -1,6 +1,4 @@
-using System.Text.Json;
 using System.Threading.Tasks;
-using Bem.Models.Outputs;
 
 namespace Bem.Tests.Services.Eval;
 
@@ -10,18 +8,7 @@ public class ScoreServiceTest : TestBase
     public async Task Create_Works()
     {
         var score = await this.client.Eval.Score.Create(
-            new()
-            {
-                FunctionName = "functionName",
-                Pairs =
-                [
-                    new()
-                    {
-                        Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
-                        Input = new() { InputContent = "inputContent", InputType = InputType.Csv },
-                    },
-                ],
-            },
+            new() { FunctionName = "functionName" },
             TestContext.Current.CancellationToken
         );
         score.Validate();
