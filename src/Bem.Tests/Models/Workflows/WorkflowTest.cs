@@ -56,6 +56,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
@@ -136,6 +137,7 @@ public class WorkflowTest : TestBase
                 Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
             },
         ];
+        bool expectedRestricted = true;
         DateTimeOffset expectedUpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         long expectedVersionNum = 0;
         WorkflowAudit expectedAudit = new()
@@ -191,6 +193,7 @@ public class WorkflowTest : TestBase
         {
             Assert.Equal(expectedNodes[i], model.Nodes[i]);
         }
+        Assert.Equal(expectedRestricted, model.Restricted);
         Assert.Equal(expectedUpdatedAt, model.UpdatedAt);
         Assert.Equal(expectedVersionNum, model.VersionNum);
         Assert.Equal(expectedAudit, model.Audit);
@@ -252,6 +255,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
@@ -343,6 +347,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
@@ -430,6 +435,7 @@ public class WorkflowTest : TestBase
                 Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
             },
         ];
+        bool expectedRestricted = true;
         DateTimeOffset expectedUpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         long expectedVersionNum = 0;
         WorkflowAudit expectedAudit = new()
@@ -485,6 +491,7 @@ public class WorkflowTest : TestBase
         {
             Assert.Equal(expectedNodes[i], deserialized.Nodes[i]);
         }
+        Assert.Equal(expectedRestricted, deserialized.Restricted);
         Assert.Equal(expectedUpdatedAt, deserialized.UpdatedAt);
         Assert.Equal(expectedVersionNum, deserialized.VersionNum);
         Assert.Equal(expectedAudit, deserialized.Audit);
@@ -546,6 +553,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
@@ -634,6 +642,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
         };
@@ -696,6 +705,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
         };
@@ -751,6 +761,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
 
@@ -819,6 +830,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
 
@@ -880,6 +892,7 @@ public class WorkflowTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()

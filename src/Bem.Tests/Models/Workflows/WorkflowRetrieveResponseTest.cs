@@ -58,6 +58,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                         Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
+                Restricted = true,
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
@@ -142,6 +143,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
@@ -234,6 +236,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                         Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
+                Restricted = true,
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
@@ -332,6 +335,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                         Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
+                Restricted = true,
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
@@ -423,6 +427,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                     Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                 },
             ],
+            Restricted = true,
             UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             VersionNum = 0,
             Audit = new()
@@ -515,6 +520,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                         Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
+                Restricted = true,
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
@@ -655,6 +661,7 @@ public class WorkflowRetrieveResponseTest : TestBase
                         Metadata = JsonSerializer.Deserialize<JsonElement>("{}"),
                     },
                 ],
+                Restricted = true,
                 UpdatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 VersionNum = 0,
                 Audit = new()
