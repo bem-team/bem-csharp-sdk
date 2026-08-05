@@ -126,6 +126,23 @@ public sealed record class Workflow : JsonModel
     }
 
     /// <summary>
+    /// Whether this workflow is hidden from other members of the account in the bem
+    /// web app. When true, only account owners and admins and explicitly granted
+    /// users see the workflow and its calls, outputs, and errors in the app. This
+    /// is a UI-visibility control: API keys are not scoped to workflows, so an environment
+    /// API key still reads a restricted workflow and its data.
+    /// </summary>
+    public required bool Restricted
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<bool>("restricted");
+        }
+        init { this._rawData.Set("restricted", value); }
+    }
+
+    /// <summary>
     /// The date and time the workflow was last updated.
     /// </summary>
     public required DateTimeOffset UpdatedAt
@@ -257,6 +274,7 @@ public sealed record class Workflow : JsonModel
         {
             item.Validate();
         }
+        _ = this.Restricted;
         _ = this.UpdatedAt;
         _ = this.VersionNum;
         this.Audit?.Validate();
