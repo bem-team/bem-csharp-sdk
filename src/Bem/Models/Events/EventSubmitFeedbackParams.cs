@@ -19,7 +19,8 @@ namespace Bem.Models.Events;
 ///
 /// <para>Submitting feedback again for the same event overwrites the previous correction.</para>
 ///
-/// <para>Unsupported function types (split, enrich) return `400`.</para>
+/// <para>Unsupported function types (split) return `400`. Enrich events use `POST
+/// /v3/events/{eventID}/enrich-feedback` instead.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that

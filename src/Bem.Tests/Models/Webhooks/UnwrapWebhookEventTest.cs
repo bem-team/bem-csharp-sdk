@@ -326,6 +326,7 @@ public class UnwrapWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",
@@ -856,6 +857,7 @@ public class UnwrapWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",
