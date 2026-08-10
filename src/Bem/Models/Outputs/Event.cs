@@ -10335,6 +10335,28 @@ public sealed record class Enrich : JsonModel
     }
 
     /// <summary>
+    /// The client-submitted ground-truth re-ranking of this output's candidates,
+    /// if any (see `POST /v3/events/{eventID}/enrich-feedback`). Omitted when not set.
+    /// </summary>
+    public JsonElement? GroundTruth
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<JsonElement>("groundTruth");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("groundTruth", value);
+        }
+    }
+
+    /// <summary>
     /// The inbound email that triggered this event.
     /// </summary>
     public InboundEmailEvent? InboundEmail
@@ -10450,6 +10472,7 @@ public sealed record class Enrich : JsonModel
         _ = this.FunctionCallID;
         _ = this.FunctionCallTryNumber;
         _ = this.FunctionVersionNum;
+        _ = this.GroundTruth;
         this.InboundEmail?.Validate();
         this.Metadata?.Validate();
         _ = this.WorkflowID;

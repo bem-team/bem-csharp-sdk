@@ -45,7 +45,8 @@ public interface IEventService
     /// <para>Submitting feedback again for the same event overwrites the previous
     /// correction.</para>
     ///
-    /// <para>Unsupported function types (split, enrich) return `400`.</para>
+    /// <para>Unsupported function types (split) return `400`. Enrich events use `POST
+    /// /v3/events/{eventID}/enrich-feedback` instead.</para>
     /// </summary>
     Task<EventSubmitFeedbackResponse> SubmitFeedback(
         EventSubmitFeedbackParams parameters,
