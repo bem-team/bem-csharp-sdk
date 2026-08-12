@@ -15,14 +15,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -35,11 +27,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -54,29 +47,20 @@ public class EvalScoreRunTest : TestBase
             Status = EvalScoreRunStatus.Pending,
             Aggregate = new()
             {
-                ExactMatches = 0,
                 Extras = 0,
                 F1 = 0,
-                FuzzyMatches = 0,
-                Misses = 0,
+                Matches = 0,
+                Mismatches = 0,
+                Missing = 0,
                 Precision = 0,
                 Recall = 0,
                 TotalFieldsActual = 0,
                 TotalFieldsExpected = 0,
-                WithinTolerance = 0,
             },
         };
 
         string expectedFunctionName = "functionName";
         long expectedFunctionVersionNum = 0;
-        EvalMatchConfig expectedMatchConfig = new()
-        {
-            ArrayMatch = ArrayMatch.ByIndex,
-            FuzzyThreshold = 0,
-            IgnorePaths = ["string"],
-            NumericTolerance = 0,
-            StringMatch = StringMatch.Exact,
-        };
         List<PerPair> expectedPerPair =
         [
             new()
@@ -89,11 +73,12 @@ public class EvalScoreRunTest : TestBase
                 [
                     new()
                     {
-                        Match = Match.Exact,
+                        Match = Match.Match1,
                         Path = "path",
                         Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                         Delta = 0,
                         Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        Similarity = 0,
                     },
                 ],
             },
@@ -108,21 +93,19 @@ public class EvalScoreRunTest : TestBase
         ApiEnum<string, EvalScoreRunStatus> expectedStatus = EvalScoreRunStatus.Pending;
         Aggregate expectedAggregate = new()
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
-        Assert.Equal(expectedMatchConfig, model.MatchConfig);
         Assert.Equal(expectedPerPair.Count, model.PerPair.Count);
         for (int i = 0; i < expectedPerPair.Count; i++)
         {
@@ -141,14 +124,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -161,11 +136,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -180,16 +156,15 @@ public class EvalScoreRunTest : TestBase
             Status = EvalScoreRunStatus.Pending,
             Aggregate = new()
             {
-                ExactMatches = 0,
                 Extras = 0,
                 F1 = 0,
-                FuzzyMatches = 0,
-                Misses = 0,
+                Matches = 0,
+                Mismatches = 0,
+                Missing = 0,
                 Precision = 0,
                 Recall = 0,
                 TotalFieldsActual = 0,
                 TotalFieldsExpected = 0,
-                WithinTolerance = 0,
             },
         };
 
@@ -209,14 +184,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -229,11 +196,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -248,16 +216,15 @@ public class EvalScoreRunTest : TestBase
             Status = EvalScoreRunStatus.Pending,
             Aggregate = new()
             {
-                ExactMatches = 0,
                 Extras = 0,
                 F1 = 0,
-                FuzzyMatches = 0,
-                Misses = 0,
+                Matches = 0,
+                Mismatches = 0,
+                Missing = 0,
                 Precision = 0,
                 Recall = 0,
                 TotalFieldsActual = 0,
                 TotalFieldsExpected = 0,
-                WithinTolerance = 0,
             },
         };
 
@@ -270,14 +237,6 @@ public class EvalScoreRunTest : TestBase
 
         string expectedFunctionName = "functionName";
         long expectedFunctionVersionNum = 0;
-        EvalMatchConfig expectedMatchConfig = new()
-        {
-            ArrayMatch = ArrayMatch.ByIndex,
-            FuzzyThreshold = 0,
-            IgnorePaths = ["string"],
-            NumericTolerance = 0,
-            StringMatch = StringMatch.Exact,
-        };
         List<PerPair> expectedPerPair =
         [
             new()
@@ -290,11 +249,12 @@ public class EvalScoreRunTest : TestBase
                 [
                     new()
                     {
-                        Match = Match.Exact,
+                        Match = Match.Match1,
                         Path = "path",
                         Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                         Delta = 0,
                         Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        Similarity = 0,
                     },
                 ],
             },
@@ -309,21 +269,19 @@ public class EvalScoreRunTest : TestBase
         ApiEnum<string, EvalScoreRunStatus> expectedStatus = EvalScoreRunStatus.Pending;
         Aggregate expectedAggregate = new()
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
-        Assert.Equal(expectedMatchConfig, deserialized.MatchConfig);
         Assert.Equal(expectedPerPair.Count, deserialized.PerPair.Count);
         for (int i = 0; i < expectedPerPair.Count; i++)
         {
@@ -342,14 +300,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -362,11 +312,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -381,16 +332,15 @@ public class EvalScoreRunTest : TestBase
             Status = EvalScoreRunStatus.Pending,
             Aggregate = new()
             {
-                ExactMatches = 0,
                 Extras = 0,
                 F1 = 0,
-                FuzzyMatches = 0,
-                Misses = 0,
+                Matches = 0,
+                Mismatches = 0,
+                Missing = 0,
                 Precision = 0,
                 Recall = 0,
                 TotalFieldsActual = 0,
                 TotalFieldsExpected = 0,
-                WithinTolerance = 0,
             },
         };
 
@@ -404,14 +354,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -424,11 +366,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -454,14 +397,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -474,11 +409,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -503,14 +439,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -523,11 +451,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -556,14 +485,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -576,11 +497,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -608,14 +530,6 @@ public class EvalScoreRunTest : TestBase
         {
             FunctionName = "functionName",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             PerPair =
             [
                 new()
@@ -628,11 +542,12 @@ public class EvalScoreRunTest : TestBase
                     [
                         new()
                         {
-                            Match = Match.Exact,
+                            Match = Match.Match1,
                             Path = "path",
                             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                             Delta = 0,
                             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                            Similarity = 0,
                         },
                     ],
                 },
@@ -647,16 +562,15 @@ public class EvalScoreRunTest : TestBase
             Status = EvalScoreRunStatus.Pending,
             Aggregate = new()
             {
-                ExactMatches = 0,
                 Extras = 0,
                 F1 = 0,
-                FuzzyMatches = 0,
-                Misses = 0,
+                Matches = 0,
+                Mismatches = 0,
+                Missing = 0,
                 Precision = 0,
                 Recall = 0,
                 TotalFieldsActual = 0,
                 TotalFieldsExpected = 0,
-                WithinTolerance = 0,
             },
         };
 
@@ -681,11 +595,12 @@ public class PerPairTest : TestBase
             [
                 new()
                 {
-                    Match = Match.Exact,
+                    Match = Match.Match1,
                     Path = "path",
                     Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                     Delta = 0,
                     Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Similarity = 0,
                 },
             ],
         };
@@ -698,11 +613,12 @@ public class PerPairTest : TestBase
         [
             new()
             {
-                Match = Match.Exact,
+                Match = Match.Match1,
                 Path = "path",
                 Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                 Delta = 0,
                 Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                Similarity = 0,
             },
         ];
 
@@ -731,11 +647,12 @@ public class PerPairTest : TestBase
             [
                 new()
                 {
-                    Match = Match.Exact,
+                    Match = Match.Match1,
                     Path = "path",
                     Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                     Delta = 0,
                     Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Similarity = 0,
                 },
             ],
         };
@@ -759,11 +676,12 @@ public class PerPairTest : TestBase
             [
                 new()
                 {
-                    Match = Match.Exact,
+                    Match = Match.Match1,
                     Path = "path",
                     Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                     Delta = 0,
                     Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Similarity = 0,
                 },
             ],
         };
@@ -783,11 +701,12 @@ public class PerPairTest : TestBase
         [
             new()
             {
-                Match = Match.Exact,
+                Match = Match.Match1,
                 Path = "path",
                 Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                 Delta = 0,
                 Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                Similarity = 0,
             },
         ];
 
@@ -816,11 +735,12 @@ public class PerPairTest : TestBase
             [
                 new()
                 {
-                    Match = Match.Exact,
+                    Match = Match.Match1,
                     Path = "path",
                     Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                     Delta = 0,
                     Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Similarity = 0,
                 },
             ],
         };
@@ -901,11 +821,12 @@ public class PerPairTest : TestBase
             [
                 new()
                 {
-                    Match = Match.Exact,
+                    Match = Match.Match1,
                     Path = "path",
                     Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
                     Delta = 0,
                     Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    Similarity = 0,
                 },
             ],
         };
@@ -985,18 +906,20 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
             Delta = 0,
             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Similarity = 0,
         };
 
-        ApiEnum<string, Match> expectedMatch = Match.Exact;
+        ApiEnum<string, Match> expectedMatch = Match.Match1;
         string expectedPath = "path";
         JsonElement expectedActual = JsonSerializer.Deserialize<JsonElement>("{}");
         double expectedDelta = 0;
         JsonElement expectedExpected = JsonSerializer.Deserialize<JsonElement>("{}");
+        double expectedSimilarity = 0;
 
         Assert.Equal(expectedMatch, model.Match);
         Assert.Equal(expectedPath, model.Path);
@@ -1005,6 +928,7 @@ public class FieldResultTest : TestBase
         Assert.Equal(expectedDelta, model.Delta);
         Assert.NotNull(model.Expected);
         Assert.True(JsonElement.DeepEquals(expectedExpected, model.Expected.Value));
+        Assert.Equal(expectedSimilarity, model.Similarity);
     }
 
     [Fact]
@@ -1012,11 +936,12 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
             Delta = 0,
             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Similarity = 0,
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -1033,11 +958,12 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
             Delta = 0,
             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Similarity = 0,
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -1047,11 +973,12 @@ public class FieldResultTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        ApiEnum<string, Match> expectedMatch = Match.Exact;
+        ApiEnum<string, Match> expectedMatch = Match.Match1;
         string expectedPath = "path";
         JsonElement expectedActual = JsonSerializer.Deserialize<JsonElement>("{}");
         double expectedDelta = 0;
         JsonElement expectedExpected = JsonSerializer.Deserialize<JsonElement>("{}");
+        double expectedSimilarity = 0;
 
         Assert.Equal(expectedMatch, deserialized.Match);
         Assert.Equal(expectedPath, deserialized.Path);
@@ -1060,6 +987,7 @@ public class FieldResultTest : TestBase
         Assert.Equal(expectedDelta, deserialized.Delta);
         Assert.NotNull(deserialized.Expected);
         Assert.True(JsonElement.DeepEquals(expectedExpected, deserialized.Expected.Value));
+        Assert.Equal(expectedSimilarity, deserialized.Similarity);
     }
 
     [Fact]
@@ -1067,11 +995,12 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
             Delta = 0,
             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Similarity = 0,
         };
 
         model.Validate();
@@ -1080,7 +1009,7 @@ public class FieldResultTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FieldResult { Match = Match.Exact, Path = "path" };
+        var model = new FieldResult { Match = Match.Match1, Path = "path" };
 
         Assert.Null(model.Actual);
         Assert.False(model.RawData.ContainsKey("actual"));
@@ -1088,12 +1017,14 @@ public class FieldResultTest : TestBase
         Assert.False(model.RawData.ContainsKey("delta"));
         Assert.Null(model.Expected);
         Assert.False(model.RawData.ContainsKey("expected"));
+        Assert.Null(model.Similarity);
+        Assert.False(model.RawData.ContainsKey("similarity"));
     }
 
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FieldResult { Match = Match.Exact, Path = "path" };
+        var model = new FieldResult { Match = Match.Match1, Path = "path" };
 
         model.Validate();
     }
@@ -1103,13 +1034,14 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
 
             // Null should be interpreted as omitted for these properties
             Actual = null,
             Delta = null,
             Expected = null,
+            Similarity = null,
         };
 
         Assert.Null(model.Actual);
@@ -1118,6 +1050,8 @@ public class FieldResultTest : TestBase
         Assert.False(model.RawData.ContainsKey("delta"));
         Assert.Null(model.Expected);
         Assert.False(model.RawData.ContainsKey("expected"));
+        Assert.Null(model.Similarity);
+        Assert.False(model.RawData.ContainsKey("similarity"));
     }
 
     [Fact]
@@ -1125,13 +1059,14 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
 
             // Null should be interpreted as omitted for these properties
             Actual = null,
             Delta = null,
             Expected = null,
+            Similarity = null,
         };
 
         model.Validate();
@@ -1142,11 +1077,12 @@ public class FieldResultTest : TestBase
     {
         var model = new FieldResult
         {
-            Match = Match.Exact,
+            Match = Match.Match1,
             Path = "path",
             Actual = JsonSerializer.Deserialize<JsonElement>("{}"),
             Delta = 0,
             Expected = JsonSerializer.Deserialize<JsonElement>("{}"),
+            Similarity = 0,
         };
 
         FieldResult copied = new(model);
@@ -1158,10 +1094,9 @@ public class FieldResultTest : TestBase
 public class MatchTest : TestBase
 {
     [Theory]
-    [InlineData(Match.Exact)]
-    [InlineData(Match.WithinTolerance)]
-    [InlineData(Match.FuzzyMatch)]
-    [InlineData(Match.Miss)]
+    [InlineData(Match.Match1)]
+    [InlineData(Match.Mismatch)]
+    [InlineData(Match.Missing)]
     [InlineData(Match.Extra)]
     public void Validation_Works(Match rawValue)
     {
@@ -1183,10 +1118,9 @@ public class MatchTest : TestBase
     }
 
     [Theory]
-    [InlineData(Match.Exact)]
-    [InlineData(Match.WithinTolerance)]
-    [InlineData(Match.FuzzyMatch)]
-    [InlineData(Match.Miss)]
+    [InlineData(Match.Match1)]
+    [InlineData(Match.Mismatch)]
+    [InlineData(Match.Missing)]
     [InlineData(Match.Extra)]
     public void SerializationRoundtrip_Works(Match rawValue)
     {
@@ -1318,39 +1252,36 @@ public class AggregateTest : TestBase
     {
         var model = new Aggregate
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
-        long expectedExactMatches = 0;
         long expectedExtras = 0;
         double expectedF1 = 0;
-        long expectedFuzzyMatches = 0;
-        long expectedMisses = 0;
+        long expectedMatches = 0;
+        long expectedMismatches = 0;
+        long expectedMissing = 0;
         double expectedPrecision = 0;
         double expectedRecall = 0;
         long expectedTotalFieldsActual = 0;
         long expectedTotalFieldsExpected = 0;
-        long expectedWithinTolerance = 0;
 
-        Assert.Equal(expectedExactMatches, model.ExactMatches);
         Assert.Equal(expectedExtras, model.Extras);
         Assert.Equal(expectedF1, model.F1);
-        Assert.Equal(expectedFuzzyMatches, model.FuzzyMatches);
-        Assert.Equal(expectedMisses, model.Misses);
+        Assert.Equal(expectedMatches, model.Matches);
+        Assert.Equal(expectedMismatches, model.Mismatches);
+        Assert.Equal(expectedMissing, model.Missing);
         Assert.Equal(expectedPrecision, model.Precision);
         Assert.Equal(expectedRecall, model.Recall);
         Assert.Equal(expectedTotalFieldsActual, model.TotalFieldsActual);
         Assert.Equal(expectedTotalFieldsExpected, model.TotalFieldsExpected);
-        Assert.Equal(expectedWithinTolerance, model.WithinTolerance);
     }
 
     [Fact]
@@ -1358,16 +1289,15 @@ public class AggregateTest : TestBase
     {
         var model = new Aggregate
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -1381,16 +1311,15 @@ public class AggregateTest : TestBase
     {
         var model = new Aggregate
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -1400,27 +1329,25 @@ public class AggregateTest : TestBase
         );
         Assert.NotNull(deserialized);
 
-        long expectedExactMatches = 0;
         long expectedExtras = 0;
         double expectedF1 = 0;
-        long expectedFuzzyMatches = 0;
-        long expectedMisses = 0;
+        long expectedMatches = 0;
+        long expectedMismatches = 0;
+        long expectedMissing = 0;
         double expectedPrecision = 0;
         double expectedRecall = 0;
         long expectedTotalFieldsActual = 0;
         long expectedTotalFieldsExpected = 0;
-        long expectedWithinTolerance = 0;
 
-        Assert.Equal(expectedExactMatches, deserialized.ExactMatches);
         Assert.Equal(expectedExtras, deserialized.Extras);
         Assert.Equal(expectedF1, deserialized.F1);
-        Assert.Equal(expectedFuzzyMatches, deserialized.FuzzyMatches);
-        Assert.Equal(expectedMisses, deserialized.Misses);
+        Assert.Equal(expectedMatches, deserialized.Matches);
+        Assert.Equal(expectedMismatches, deserialized.Mismatches);
+        Assert.Equal(expectedMissing, deserialized.Missing);
         Assert.Equal(expectedPrecision, deserialized.Precision);
         Assert.Equal(expectedRecall, deserialized.Recall);
         Assert.Equal(expectedTotalFieldsActual, deserialized.TotalFieldsActual);
         Assert.Equal(expectedTotalFieldsExpected, deserialized.TotalFieldsExpected);
-        Assert.Equal(expectedWithinTolerance, deserialized.WithinTolerance);
     }
 
     [Fact]
@@ -1428,16 +1355,15 @@ public class AggregateTest : TestBase
     {
         var model = new Aggregate
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
         model.Validate();
@@ -1448,16 +1374,15 @@ public class AggregateTest : TestBase
     {
         var model = new Aggregate
         {
-            ExactMatches = 0,
             Extras = 0,
             F1 = 0,
-            FuzzyMatches = 0,
-            Misses = 0,
+            Matches = 0,
+            Mismatches = 0,
+            Missing = 0,
             Precision = 0,
             Recall = 0,
             TotalFieldsActual = 0,
             TotalFieldsExpected = 0,
-            WithinTolerance = 0,
         };
 
         Aggregate copied = new(model);

@@ -11,8 +11,17 @@ namespace Bem.Models.Eval.Score;
 /// <summary>
 /// **Get the status and per-pair results of a score run.**
 ///
-/// <para>Returns `aggregate` only once `status` reaches `completed`. `perPair` is
-/// populated incrementally — each pair's `fieldResults` appears as its underlying
+/// <para>The comparison happens here, not in the run: the function's output is compared
+/// against the expected value on every read, under the configuration supplied below.
+/// Re-reading the same run with different settings returns different metrics and
+/// costs nothing — no model calls are repeated.</para>
+///
+/// <para>Comparison is exact and takes no configuration: a value matches the expected
+/// one or it is a miss. It is still redone on every read, so the numbers reflect
+/// the stored data as it is now.</para>
+///
+/// <para>Returns `aggregate` once `status` reaches `completed` or `error`. `perPair`
+/// is populated incrementally — each pair's `fieldResults` appears as its underlying
 /// function call terminates.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with

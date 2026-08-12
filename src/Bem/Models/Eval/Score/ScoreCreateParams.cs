@@ -21,10 +21,8 @@ namespace Bem.Models.Eval.Score;
 /// <para>Scoring runs asynchronously. The response carries a `scoreRunID`; poll `GET
 /// /v3/eval/score/{scoreRunID}` until `status` is one of `completed`, `error`, or `cancelled`.</para>
 ///
-/// <para>`matchConfig` controls comparator behavior: - `numericTolerance`: relative
-/// tolerance for numeric fields (0 = exact) - `stringMatch`: `exact` (default) or
-/// `fuzzy` (Levenshtein ratio) - `arrayMatch`: `by-index` (default; only mode in
-/// P0) - `ignorePaths`: JSON Pointer paths to skip, supports `*` wildcards</para>
+/// <para>This request says only *what to extract*. How the output is compared against
+/// the expected value happens on the GET, recomputed from stored JSON each time.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -95,27 +93,6 @@ public record class ScoreCreateParams : ParamsBase
             }
 
             this._rawBodyData.Set("functionVersionNum", value);
-        }
-    }
-
-    /// <summary>
-    /// Comparator configuration. All fields optional; conservative defaults.
-    /// </summary>
-    public EvalMatchConfig? MatchConfig
-    {
-        get
-        {
-            this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableClass<EvalMatchConfig>("matchConfig");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawBodyData.Set("matchConfig", value);
         }
     }
 

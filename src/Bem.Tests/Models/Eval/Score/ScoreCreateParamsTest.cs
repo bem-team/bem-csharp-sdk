@@ -17,14 +17,6 @@ public class ScoreCreateParamsTest : TestBase
             FunctionName = "functionName",
             DatasetID = "datasetID",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             Pairs =
             [
                 new()
@@ -38,14 +30,6 @@ public class ScoreCreateParamsTest : TestBase
         string expectedFunctionName = "functionName";
         string expectedDatasetID = "datasetID";
         long expectedFunctionVersionNum = 0;
-        EvalMatchConfig expectedMatchConfig = new()
-        {
-            ArrayMatch = ArrayMatch.ByIndex,
-            FuzzyThreshold = 0,
-            IgnorePaths = ["string"],
-            NumericTolerance = 0,
-            StringMatch = StringMatch.Exact,
-        };
         List<Pair> expectedPairs =
         [
             new()
@@ -58,7 +42,6 @@ public class ScoreCreateParamsTest : TestBase
         Assert.Equal(expectedFunctionName, parameters.FunctionName);
         Assert.Equal(expectedDatasetID, parameters.DatasetID);
         Assert.Equal(expectedFunctionVersionNum, parameters.FunctionVersionNum);
-        Assert.Equal(expectedMatchConfig, parameters.MatchConfig);
         Assert.NotNull(parameters.Pairs);
         Assert.Equal(expectedPairs.Count, parameters.Pairs.Count);
         for (int i = 0; i < expectedPairs.Count; i++)
@@ -76,8 +59,6 @@ public class ScoreCreateParamsTest : TestBase
         Assert.False(parameters.RawBodyData.ContainsKey("datasetID"));
         Assert.Null(parameters.FunctionVersionNum);
         Assert.False(parameters.RawBodyData.ContainsKey("functionVersionNum"));
-        Assert.Null(parameters.MatchConfig);
-        Assert.False(parameters.RawBodyData.ContainsKey("matchConfig"));
         Assert.Null(parameters.Pairs);
         Assert.False(parameters.RawBodyData.ContainsKey("pairs"));
     }
@@ -92,7 +73,6 @@ public class ScoreCreateParamsTest : TestBase
             // Null should be interpreted as omitted for these properties
             DatasetID = null,
             FunctionVersionNum = null,
-            MatchConfig = null,
             Pairs = null,
         };
 
@@ -100,8 +80,6 @@ public class ScoreCreateParamsTest : TestBase
         Assert.False(parameters.RawBodyData.ContainsKey("datasetID"));
         Assert.Null(parameters.FunctionVersionNum);
         Assert.False(parameters.RawBodyData.ContainsKey("functionVersionNum"));
-        Assert.Null(parameters.MatchConfig);
-        Assert.False(parameters.RawBodyData.ContainsKey("matchConfig"));
         Assert.Null(parameters.Pairs);
         Assert.False(parameters.RawBodyData.ContainsKey("pairs"));
     }
@@ -124,14 +102,6 @@ public class ScoreCreateParamsTest : TestBase
             FunctionName = "functionName",
             DatasetID = "datasetID",
             FunctionVersionNum = 0,
-            MatchConfig = new()
-            {
-                ArrayMatch = ArrayMatch.ByIndex,
-                FuzzyThreshold = 0,
-                IgnorePaths = ["string"],
-                NumericTolerance = 0,
-                StringMatch = StringMatch.Exact,
-            },
             Pairs =
             [
                 new()
