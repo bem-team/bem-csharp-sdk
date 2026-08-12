@@ -111,8 +111,6 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Webhooks::Operation>(),
             new ApiEnumConverter<string, Webhooks::CollectionProcessingWebhookEventStatus>(),
             new ApiEnumConverter<string, Webhooks::CollectionProcessingWebhookEventEventType>(),
-            new ApiEnumConverter<string, Score::ArrayMatch>(),
-            new ApiEnumConverter<string, Score::StringMatch>(),
             new ApiEnumConverter<string, Score::Status>(),
             new ApiEnumConverter<string, Score::Match>(),
             new ApiEnumConverter<string, Score::EvalScoreRunStatus>(),

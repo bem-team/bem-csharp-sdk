@@ -72,10 +72,9 @@ public interface IScoreService
     /// `GET /v3/eval/score/{scoreRunID}` until `status` is one of `completed`, `error`,
     /// or `cancelled`.</para>
     ///
-    /// <para>`matchConfig` controls comparator behavior: - `numericTolerance`: relative
-    /// tolerance for numeric fields (0 = exact) - `stringMatch`: `exact` (default) or
-    /// `fuzzy` (Levenshtein ratio) - `arrayMatch`: `by-index` (default; only mode in
-    /// P0) - `ignorePaths`: JSON Pointer paths to skip, supports `*` wildcards</para>
+    /// <para>This request says only *what to extract*. How the output is compared
+    /// against the expected value happens on the GET, recomputed from stored JSON each
+    /// time.</para>
     /// </summary>
     Task<ScoreCreateResponse> Create(
         ScoreCreateParams parameters,
@@ -85,9 +84,18 @@ public interface IScoreService
     /// <summary>
     /// **Get the status and per-pair results of a score run.**
     ///
-    /// <para>Returns `aggregate` only once `status` reaches `completed`. `perPair` is
-    /// populated incrementally — each pair's `fieldResults` appears as its underlying
-    /// function call terminates.</para>
+    /// <para>The comparison happens here, not in the run: the function's output is
+    /// compared against the expected value on every read, under the configuration
+    /// supplied below. Re-reading the same run with different settings returns
+    /// different metrics and costs nothing — no model calls are repeated.</para>
+    ///
+    /// <para>Comparison is exact and takes no configuration: a value matches the
+    /// expected one or it is a miss. It is still redone on every read, so the numbers
+    /// reflect the stored data as it is now.</para>
+    ///
+    /// <para>Returns `aggregate` once `status` reaches `completed` or `error`.
+    /// `perPair` is populated incrementally — each pair's `fieldResults` appears as its
+    /// underlying function call terminates.</para>
     /// </summary>
     Task<EvalScoreRun> Retrieve(
         ScoreRetrieveParams parameters,

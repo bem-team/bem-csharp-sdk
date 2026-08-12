@@ -12,6 +12,10 @@ namespace Bem.Models.Eval.Score;
 
 /// <summary>
 /// Full status payload returned by `GET /v3/eval/score/{scoreRunID}`.
+///
+/// <para>Scoring takes no configuration: a value matches the expected one or it
+/// is a miss. The comparison is still recomputed on every read from the stored JSON,
+/// so the numbers reflect the data as it is now rather than as it was when the run executed.</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<EvalScoreRun, EvalScoreRunFromRaw>))]
 public sealed record class EvalScoreRun : JsonModel
@@ -37,20 +41,7 @@ public sealed record class EvalScoreRun : JsonModel
     }
 
     /// <summary>
-    /// Comparator configuration. All fields optional; conservative defaults.
-    /// </summary>
-    public required EvalMatchConfig MatchConfig
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<EvalMatchConfig>("matchConfig");
-        }
-        init { this._rawData.Set("matchConfig", value); }
-    }
-
-    /// <summary>
-    /// Per-pair results. `fieldResults` appears once a pair has been compared.
+    /// Per-pair results. `fieldResults` appears once a pair has an output to compare.
     /// </summary>
     public required IReadOnlyList<PerPair> PerPair
     {
@@ -132,7 +123,6 @@ public sealed record class EvalScoreRun : JsonModel
     {
         _ = this.FunctionName;
         _ = this.FunctionVersionNum;
-        this.MatchConfig.Validate();
         foreach (var item in this.PerPair)
         {
             item.Validate();
@@ -377,10 +367,10 @@ sealed class StatusConverter : JsonConverter<Status>
 public sealed record class FieldResult : JsonModel
 {
     /// <summary>
-    /// Classification: - `exact`: both present and deep-equal - `within_tolerance`:
-    /// both numbers, within configured tolerance - `fuzzy_match`: both strings,
-    /// Levenshtein ratio above threshold - `miss`: expected present, actual absent
-    /// or different - `extra`: actual present, expected absent
+    /// Classification, in the same vocabulary the model-comparison endpoint reports.
+    /// Comparison is exact — a value matches or it does not: - `match`: both present
+    /// and deep-equal - `mismatch`: both present, different - `missing`: expected
+    /// present, actual absent - `extra`: actual present, expected absent
     /// </summary>
     public required ApiEnum<string, Match> Match
     {
@@ -424,7 +414,9 @@ public sealed record class FieldResult : JsonModel
     }
 
     /// <summary>
-    /// Populated for numeric comparisons; `actual - expected`.
+    /// Populated for every non-identical numeric pair; `actual - expected`. Reported
+    /// as evidence only — numbers have no threshold, so a delta tells you how far
+    /// off a value was without ever excusing it.
     /// </summary>
     public double? Delta
     {
@@ -462,6 +454,29 @@ public sealed record class FieldResult : JsonModel
         }
     }
 
+    /// <summary>
+    /// Populated for every non-identical string pair; the Levenshtein ratio in `[0,
+    /// 1]`. Reported as evidence: it says how close a wrong value was, which never
+    /// makes it right.
+    /// </summary>
+    public double? Similarity
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<double>("similarity");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("similarity", value);
+        }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
@@ -470,6 +485,7 @@ public sealed record class FieldResult : JsonModel
         _ = this.Actual;
         _ = this.Delta;
         _ = this.Expected;
+        _ = this.Similarity;
     }
 
     public FieldResult() { }
@@ -508,18 +524,17 @@ class FieldResultFromRaw : IFromRawJson<FieldResult>
 }
 
 /// <summary>
-/// Classification: - `exact`: both present and deep-equal - `within_tolerance`: both
-/// numbers, within configured tolerance - `fuzzy_match`: both strings, Levenshtein
-/// ratio above threshold - `miss`: expected present, actual absent or different
-/// - `extra`: actual present, expected absent
+/// Classification, in the same vocabulary the model-comparison endpoint reports.
+/// Comparison is exact — a value matches or it does not: - `match`: both present
+/// and deep-equal - `mismatch`: both present, different - `missing`: expected present,
+/// actual absent - `extra`: actual present, expected absent
 /// </summary>
 [JsonConverter(typeof(MatchConverter))]
 public enum Match
 {
-    Exact,
-    WithinTolerance,
-    FuzzyMatch,
-    Miss,
+    Match1,
+    Mismatch,
+    Missing,
     Extra,
 }
 
@@ -533,10 +548,9 @@ sealed class MatchConverter : JsonConverter<Match>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "exact" => Match.Exact,
-            "within_tolerance" => Match.WithinTolerance,
-            "fuzzy_match" => Match.FuzzyMatch,
-            "miss" => Match.Miss,
+            "match" => Match.Match1,
+            "mismatch" => Match.Mismatch,
+            "missing" => Match.Missing,
             "extra" => Match.Extra,
             _ => (Match)(-1),
         };
@@ -548,10 +562,9 @@ sealed class MatchConverter : JsonConverter<Match>
             writer,
             value switch
             {
-                Match.Exact => "exact",
-                Match.WithinTolerance => "within_tolerance",
-                Match.FuzzyMatch => "fuzzy_match",
-                Match.Miss => "miss",
+                Match.Match1 => "match",
+                Match.Mismatch => "mismatch",
+                Match.Missing => "missing",
                 Match.Extra => "extra",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
@@ -650,16 +663,6 @@ class ProgressFromRaw : IFromRawJson<global::Bem.Models.Eval.Score.Progress>
 [JsonConverter(typeof(JsonModelConverter<Aggregate, AggregateFromRaw>))]
 public sealed record class Aggregate : JsonModel
 {
-    public required long ExactMatches
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("exactMatches");
-        }
-        init { this._rawData.Set("exactMatches", value); }
-    }
-
     public required long Extras
     {
         get
@@ -680,24 +683,34 @@ public sealed record class Aggregate : JsonModel
         init { this._rawData.Set("f1", value); }
     }
 
-    public required long FuzzyMatches
+    public required long Matches
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("fuzzyMatches");
+            return this._rawData.GetNotNullStruct<long>("matches");
         }
-        init { this._rawData.Set("fuzzyMatches", value); }
+        init { this._rawData.Set("matches", value); }
     }
 
-    public required long Misses
+    public required long Mismatches
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("misses");
+            return this._rawData.GetNotNullStruct<long>("mismatches");
         }
-        init { this._rawData.Set("misses", value); }
+        init { this._rawData.Set("mismatches", value); }
+    }
+
+    public required long Missing
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("missing");
+        }
+        init { this._rawData.Set("missing", value); }
     }
 
     public required double Precision
@@ -740,29 +753,18 @@ public sealed record class Aggregate : JsonModel
         init { this._rawData.Set("totalFieldsExpected", value); }
     }
 
-    public required long WithinTolerance
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("withinTolerance");
-        }
-        init { this._rawData.Set("withinTolerance", value); }
-    }
-
     /// <inheritdoc/>
     public override void Validate()
     {
-        _ = this.ExactMatches;
         _ = this.Extras;
         _ = this.F1;
-        _ = this.FuzzyMatches;
-        _ = this.Misses;
+        _ = this.Matches;
+        _ = this.Mismatches;
+        _ = this.Missing;
         _ = this.Precision;
         _ = this.Recall;
         _ = this.TotalFieldsActual;
         _ = this.TotalFieldsExpected;
-        _ = this.WithinTolerance;
     }
 
     public Aggregate() { }
