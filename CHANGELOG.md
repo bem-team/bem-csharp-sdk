@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.12.0 (2026-08-12)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **api:** api update ([a33701b](https://github.com/bem-team/bem-csharp-sdk/commit/a33701ba5ad954bb4d5877319b64dae2e67d5e1e))
+* **api:** api update ([8ac2f08](https://github.com/bem-team/bem-csharp-sdk/commit/8ac2f089b5439e779cafcf519f1890ddbdadb75b))
+* **api:** api update ([7e3f8f0](https://github.com/bem-team/bem-csharp-sdk/commit/7e3f8f0d5c1af8c9d21ea230da27e63b4177cff8))
+* **api:** api update ([eab5bc5](https://github.com/bem-team/bem-csharp-sdk/commit/eab5bc5b12fc3d8e5ccd5f4d2318cda20c47d87c))
+* **api:** api update ([0382641](https://github.com/bem-team/bem-csharp-sdk/commit/0382641731a0610ab74f64a942e25548013c02c2))
+* **api:** api update ([e579c6c](https://github.com/bem-team/bem-csharp-sdk/commit/e579c6c6a17595a31a33512b707b31a836600397))
+* **api:** api update ([e8c9f5b](https://github.com/bem-team/bem-csharp-sdk/commit/e8c9f5b849e11dc43ca035a677a02f26a00d7712))
+* **api:** api update ([0d79d2d](https://github.com/bem-team/bem-csharp-sdk/commit/0d79d2d17da2db50d8790125160fece7e9ebda42))
+* **api:** api update ([4235bc5](https://github.com/bem-team/bem-csharp-sdk/commit/4235bc530d183a498f76dd38fb2c4cee9e61996b))
+* **api:** api update ([69862fc](https://github.com/bem-team/bem-csharp-sdk/commit/69862fc98b6e183fd9e2d1dd98e24601a020f4a7))
+* **api:** api update ([6aa09c6](https://github.com/bem-team/bem-csharp-sdk/commit/6aa09c6579ab2e46621d651d750a76c4d53935a9))
+* **api:** api update ([8f6ee08](https://github.com/bem-team/bem-csharp-sdk/commit/8f6ee08a205f61819475a586bec6b00bbb6d0469))
+* **api:** api update ([1412f7e](https://github.com/bem-team/bem-csharp-sdk/commit/1412f7e0e5c7a2a24645abd4e55619c6d37cac43))
+* **api:** api update ([e7f4c69](https://github.com/bem-team/bem-csharp-sdk/commit/e7f4c69213c6682816bc17ae11c82dd3131fc100))
+* **api:** api update ([eb8eef1](https://github.com/bem-team/bem-csharp-sdk/commit/eb8eef1e3b80c31100f49cc271d9bfa094f19b72))
+* **api:** api update ([228c909](https://github.com/bem-team/bem-csharp-sdk/commit/228c909e85783cc127dea93fa7ad949a0c92e965))
+* **api:** api update ([e6b45e3](https://github.com/bem-team/bem-csharp-sdk/commit/e6b45e3882991da48a7aeacdc974c5940a01e81c))
+* **api:** api update ([8f1a30f](https://github.com/bem-team/bem-csharp-sdk/commit/8f1a30f3fabac091c706f2913fac8cc53ea08788))
+* **api:** function regression and view endpoint support ([e8b5e2e](https://github.com/bem-team/bem-csharp-sdk/commit/e8b5e2ec02f7d396c4679463fc138429d9ddd44a))
+* **api:** manual updates ([efd3adc](https://github.com/bem-team/bem-csharp-sdk/commit/efd3adc4a28b7a7c3bec3ec42aa3fcbdaf8ea89e))
+* **api:** memory v1 and bulk scoring updates ([42868fc](https://github.com/bem-team/bem-csharp-sdk/commit/42868fc78a96aee8b1a4b33e475209bff6598f0d))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([8f5f3dd](https://github.com/bem-team/bem-csharp-sdk/commit/8f5f3ddc9830bbeec0ee0c9bf479f1969aeee747))
+
+
+### Bug Fixes
+
+* **client:** tolerate JSON null in required untyped fields and prefer more specific union variants ([a4a6e3a](https://github.com/bem-team/bem-csharp-sdk/commit/a4a6e3a6570a5e3b06b09dc3a546c9436ee557f8))
+* **csharp:** resolve ambiguity in parsing query strings ([b90de20](https://github.com/bem-team/bem-csharp-sdk/commit/b90de2024be1d2586790c1581b8f49c01c03f180))
+
 ## 0.11.0 (2026-05-14)
 
 Full Changelog: [v0.10.1...v0.11.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.10.1...v0.11.0)
