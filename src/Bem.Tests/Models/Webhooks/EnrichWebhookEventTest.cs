@@ -25,6 +25,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",
@@ -50,6 +51,7 @@ public class EnrichWebhookEventTest : TestBase
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
+        JsonElement expectedGroundTruth = JsonSerializer.Deserialize<JsonElement>("{}");
         InboundEmailEvent expectedInboundEmail = new()
         {
             From = "from",
@@ -73,6 +75,8 @@ public class EnrichWebhookEventTest : TestBase
         Assert.Equal(expectedFunctionCallID, model.FunctionCallID);
         Assert.Equal(expectedFunctionCallTryNumber, model.FunctionCallTryNumber);
         Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
+        Assert.NotNull(model.GroundTruth);
+        Assert.True(JsonElement.DeepEquals(expectedGroundTruth, model.GroundTruth.Value));
         Assert.Equal(expectedInboundEmail, model.InboundEmail);
         Assert.Equal(expectedMetadata, model.Metadata);
         Assert.Equal(expectedWorkflowID, model.WorkflowID);
@@ -96,6 +100,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",
@@ -134,6 +139,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",
@@ -166,6 +172,7 @@ public class EnrichWebhookEventTest : TestBase
         string expectedFunctionCallID = "functionCallID";
         long expectedFunctionCallTryNumber = 0;
         long expectedFunctionVersionNum = 0;
+        JsonElement expectedGroundTruth = JsonSerializer.Deserialize<JsonElement>("{}");
         InboundEmailEvent expectedInboundEmail = new()
         {
             From = "from",
@@ -189,6 +196,8 @@ public class EnrichWebhookEventTest : TestBase
         Assert.Equal(expectedFunctionCallID, deserialized.FunctionCallID);
         Assert.Equal(expectedFunctionCallTryNumber, deserialized.FunctionCallTryNumber);
         Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
+        Assert.NotNull(deserialized.GroundTruth);
+        Assert.True(JsonElement.DeepEquals(expectedGroundTruth, deserialized.GroundTruth.Value));
         Assert.Equal(expectedInboundEmail, deserialized.InboundEmail);
         Assert.Equal(expectedMetadata, deserialized.Metadata);
         Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
@@ -212,6 +221,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",
@@ -252,6 +262,8 @@ public class EnrichWebhookEventTest : TestBase
         Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
         Assert.Null(model.FunctionVersionNum);
         Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.GroundTruth);
+        Assert.False(model.RawData.ContainsKey("groundTruth"));
         Assert.Null(model.InboundEmail);
         Assert.False(model.RawData.ContainsKey("inboundEmail"));
         Assert.Null(model.Metadata);
@@ -297,6 +309,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = null,
             FunctionCallTryNumber = null,
             FunctionVersionNum = null,
+            GroundTruth = null,
             InboundEmail = null,
             Metadata = null,
             WorkflowID = null,
@@ -316,6 +329,8 @@ public class EnrichWebhookEventTest : TestBase
         Assert.False(model.RawData.ContainsKey("functionCallTryNumber"));
         Assert.Null(model.FunctionVersionNum);
         Assert.False(model.RawData.ContainsKey("functionVersionNum"));
+        Assert.Null(model.GroundTruth);
+        Assert.False(model.RawData.ContainsKey("groundTruth"));
         Assert.Null(model.InboundEmail);
         Assert.False(model.RawData.ContainsKey("inboundEmail"));
         Assert.Null(model.Metadata);
@@ -346,6 +361,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = null,
             FunctionCallTryNumber = null,
             FunctionVersionNum = null,
+            GroundTruth = null,
             InboundEmail = null,
             Metadata = null,
             WorkflowID = null,
@@ -372,6 +388,7 @@ public class EnrichWebhookEventTest : TestBase
             FunctionCallID = "functionCallID",
             FunctionCallTryNumber = 0,
             FunctionVersionNum = 0,
+            GroundTruth = JsonSerializer.Deserialize<JsonElement>("{}"),
             InboundEmail = new()
             {
                 From = "from",

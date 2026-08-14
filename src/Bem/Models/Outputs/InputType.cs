@@ -7,6 +7,10 @@ namespace Bem.Models.Outputs;
 
 /// <summary>
 /// The input type of the content you're sending for transformation.
+///
+/// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format under
+/// a different extension — and is normalized to `jpeg`, so responses and webhooks
+/// report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves the same way.</para>
 /// </summary>
 [JsonConverter(typeof(InputTypeConverter))]
 public enum InputType
@@ -16,13 +20,17 @@ public enum InputType
     Email,
     Heic,
     Html,
+    Jfif,
     Jpeg,
     Json,
     Heif,
     M4a,
+    Mov,
     Mp3,
+    Mp4,
     Pdf,
     Png,
+    Pptx,
     Text,
     Wav,
     Webp,
@@ -46,13 +54,17 @@ sealed class InputTypeConverter : JsonConverter<InputType>
             "email" => InputType.Email,
             "heic" => InputType.Heic,
             "html" => InputType.Html,
+            "jfif" => InputType.Jfif,
             "jpeg" => InputType.Jpeg,
             "json" => InputType.Json,
             "heif" => InputType.Heif,
             "m4a" => InputType.M4a,
+            "mov" => InputType.Mov,
             "mp3" => InputType.Mp3,
+            "mp4" => InputType.Mp4,
             "pdf" => InputType.Pdf,
             "png" => InputType.Png,
+            "pptx" => InputType.Pptx,
             "text" => InputType.Text,
             "wav" => InputType.Wav,
             "webp" => InputType.Webp,
@@ -78,13 +90,17 @@ sealed class InputTypeConverter : JsonConverter<InputType>
                 InputType.Email => "email",
                 InputType.Heic => "heic",
                 InputType.Html => "html",
+                InputType.Jfif => "jfif",
                 InputType.Jpeg => "jpeg",
                 InputType.Json => "json",
                 InputType.Heif => "heif",
                 InputType.M4a => "m4a",
+                InputType.Mov => "mov",
                 InputType.Mp3 => "mp3",
+                InputType.Mp4 => "mp4",
                 InputType.Pdf => "pdf",
                 InputType.Png => "png",
+                InputType.Pptx => "pptx",
                 InputType.Text => "text",
                 InputType.Wav => "wav",
                 InputType.Webp => "webp",

@@ -33,12 +33,19 @@ public sealed class EvalService : IEvalService
 
         _withRawResponse = new(() => new EvalServiceWithRawResponse(client.WithRawResponse));
         _results = new(() => new ResultService(client));
+        _score = new(() => new ScoreService(client));
     }
 
     readonly Lazy<IResultService> _results;
     public IResultService Results
     {
         get { return _results.Value; }
+    }
+
+    readonly Lazy<IScoreService> _score;
+    public IScoreService Score
+    {
+        get { return _score.Value; }
     }
 
     /// <inheritdoc/>
@@ -70,12 +77,19 @@ public sealed class EvalServiceWithRawResponse : IEvalServiceWithRawResponse
         _client = client;
 
         _results = new(() => new ResultServiceWithRawResponse(client));
+        _score = new(() => new ScoreServiceWithRawResponse(client));
     }
 
     readonly Lazy<IResultServiceWithRawResponse> _results;
     public IResultServiceWithRawResponse Results
     {
         get { return _results.Value; }
+    }
+
+    readonly Lazy<IScoreServiceWithRawResponse> _score;
+    public IScoreServiceWithRawResponse Score
+    {
+        get { return _score.Value; }
     }
 
     /// <inheritdoc/>

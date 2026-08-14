@@ -5,11 +5,15 @@ using Bem.Models.Connectors;
 using Bem.Models.Fs;
 using Bem.Models.Functions;
 using Calls = Bem.Models.Calls;
+using Entities = Bem.Models.Entities;
 using Errors = Bem.Models.Errors;
 using Events = Bem.Models.Events;
 using Outputs = Bem.Models.Outputs;
+using Score = Bem.Models.Eval.Score;
 using Subscriptions = Bem.Models.Subscriptions;
+using Synonyms = Bem.Models.Entities.Synonyms;
 using Versions = Bem.Models.Functions.Versions;
+using Views = Bem.Models.Views;
 using Webhooks = Bem.Models.Webhooks;
 using Workflows = Bem.Models.Workflows;
 using WorkflowsVersions = Bem.Models.Workflows.Versions;
@@ -35,14 +39,20 @@ public abstract record class ModelBase
             new FrozenDictionaryConverterFactory(),
             new ApiEnumConverter<string, SplitType>(),
             new ApiEnumConverter<string, JoinType>(),
+            new ApiEnumConverter<string, Method>(),
             new ApiEnumConverter<string, SearchMode>(),
+            new ApiEnumConverter<string, Source>(),
             new ApiEnumConverter<string, FunctionSplitSplitType>(),
             new ApiEnumConverter<string, FunctionJoinJoinType>(),
             new ApiEnumConverter<string, FunctionType>(),
+            new ApiEnumConverter<string, ListKind>(),
             new ApiEnumConverter<string, SendDestinationType>(),
             new ApiEnumConverter<string, UpdateFunctionSplitSplitType>(),
             new ApiEnumConverter<string, UpdateFunctionJoinJoinType>(),
             new ApiEnumConverter<string, SortOrder>(),
+            new ApiEnumConverter<string, ConfidenceMethod>(),
+            new ApiEnumConverter<string, EvaluationVersion>(),
+            new ApiEnumConverter<string, FunctionGetMetricsParamsSortOrder>(),
             new ApiEnumConverter<string, Versions::SplitType>(),
             new ApiEnumConverter<string, Versions::JoinType>(),
             new ApiEnumConverter<string, Calls::CallStatus>(),
@@ -73,6 +83,7 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Outputs::CollectionProcessingEventType>(),
             new ApiEnumConverter<string, Outputs::DeliveryStatus>(),
             new ApiEnumConverter<string, Outputs::SendEventType>(),
+            new ApiEnumConverter<string, Outputs::RenderEventType>(),
             new ApiEnumConverter<string, Outputs::InputType>(),
             new ApiEnumConverter<string, Outputs::SortOrder>(),
             new ApiEnumConverter<string, Workflows::Operation>(),
@@ -100,12 +111,28 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Webhooks::Operation>(),
             new ApiEnumConverter<string, Webhooks::CollectionProcessingWebhookEventStatus>(),
             new ApiEnumConverter<string, Webhooks::CollectionProcessingWebhookEventEventType>(),
+            new ApiEnumConverter<string, Score::Status>(),
+            new ApiEnumConverter<string, Score::Match>(),
+            new ApiEnumConverter<string, Score::EvalScoreRunStatus>(),
             new ApiEnumConverter<string, FsOp>(),
             new ApiEnumConverter<string, ConnectorType>(),
             new ApiEnumConverter<string, Subscriptions::SubscriptionV3Type>(),
             new ApiEnumConverter<string, Subscriptions::Type>(),
             new ApiEnumConverter<string, Subscriptions::SubscriptionUpdateParamsType>(),
             new ApiEnumConverter<string, Subscriptions::SortOrder>(),
+            new ApiEnumConverter<string, Views::Function>(),
+            new ApiEnumConverter<string, Views::DisplayType>(),
+            new ApiEnumConverter<string, Views::FilterType>(),
+            new ApiEnumConverter<string, Views::SortOrder>(),
+            new ApiEnumConverter<string, Entities::Outcome>(),
+            new ApiEnumConverter<string, Entities::EntityUpdateResponseStatus>(),
+            new ApiEnumConverter<string, Entities::ResultOutcome>(),
+            new ApiEnumConverter<string, Entities::EntityRetrieveSeedStatusResponseStatus>(),
+            new ApiEnumConverter<string, Entities::Status>(),
+            new ApiEnumConverter<string, Entities::OnConflict>(),
+            new ApiEnumConverter<string, Entities::EntityBulkValidateParamsStatus>(),
+            new ApiEnumConverter<string, Entities::Direction>(),
+            new ApiEnumConverter<string, Synonyms::Source>(),
         },
     };
 

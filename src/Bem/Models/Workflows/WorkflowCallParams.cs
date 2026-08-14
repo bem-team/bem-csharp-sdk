@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
+using Bem.Models.Eval.Score;
 using Outputs = Bem.Models.Outputs;
 
 namespace Bem.Models.Workflows;
@@ -66,8 +67,9 @@ namespace Bem.Models.Workflows;
 /// Do **not** use `--wait true` (with a space) — the `true` will be parsed as an
 /// unexpected positional argument.</para>
 ///
-/// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jpeg,
-/// json, m4a, mp3, pdf, png, text, wav, webp, xls, xlsx, xml.</para>
+/// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jfif,
+/// jpeg, json, m4a, mp3, mov, mp4, pdf, png, pptx, text, wav, webp, xls, xlsx, xml.
+/// `jfif` (and `jpg`) are normalized to `jpeg`.</para>
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -120,6 +122,31 @@ public record class WorkflowCallParams : ParamsBase
             }
 
             this._rawQueryData.Set("wait", value);
+        }
+    }
+
+    /// <summary>
+    /// Optional bucket NAME that entities extracted by the workflow's parse function(s)
+    /// land in. Resolution precedence: this call-level bucket &gt; the parse function's
+    /// configured `defaultBucket` &gt; the account+environment default bucket. A
+    /// non-existent bucket name returns 400, but only when the workflow contains
+    /// a parse function; on a parse-free workflow it is ignored.
+    /// </summary>
+    public string? Bucket
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<string>("bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("bucket", value);
         }
     }
 
@@ -323,12 +350,12 @@ public sealed record class Input : JsonModel
     /// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
     /// "@file.pdf", "inputType": "pdf"}' --wait`</para>
     /// </summary>
-    public SingleFile? SingleFile
+    public FileInput? SingleFile
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableClass<SingleFile>("singleFile");
+            return this._rawData.GetNullableClass<FileInput>("singleFile");
         }
         init
         {
@@ -474,6 +501,11 @@ public sealed record class BatchFilesInput : JsonModel
 
     /// <summary>
     /// The input type of the content you're sending for transformation.
+    ///
+    /// <para>`jfif` is accepted as an alias for `jpeg` — JFIF is the same format
+    /// under a different extension — and is normalized to `jpeg`, so responses and
+    /// webhooks report `jpeg` for a JFIF upload. The undeclared alias `jpg` behaves
+    /// the same way.</para>
     /// </summary>
     public required ApiEnum<string, Outputs::InputType> InputType
     {
@@ -544,83 +576,4 @@ class BatchFilesInputFromRaw : IFromRawJson<BatchFilesInput>
     /// <inheritdoc/>
     public BatchFilesInput FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         BatchFilesInput.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// A single file input with base64-encoded content.
-///
-/// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
-/// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
-/// "@file.pdf", "inputType": "pdf"}' --wait`</para>
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<SingleFile, SingleFileFromRaw>))]
-public sealed record class SingleFile : JsonModel
-{
-    /// <summary>
-    /// Base64-encoded file content. In the Bem CLI, use `@path/to/file` to embed
-    /// file contents automatically.
-    /// </summary>
-    public required string InputContent
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("inputContent");
-        }
-        init { this._rawData.Set("inputContent", value); }
-    }
-
-    /// <summary>
-    /// The input type of the content you're sending for transformation.
-    /// </summary>
-    public required ApiEnum<string, Outputs::InputType> InputType
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, Outputs::InputType>>("inputType");
-        }
-        init { this._rawData.Set("inputType", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        _ = this.InputContent;
-        this.InputType.Validate();
-    }
-
-    public SingleFile() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public SingleFile(SingleFile singleFile)
-        : base(singleFile) { }
-#pragma warning restore CS8618
-
-    public SingleFile(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    SingleFile(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="SingleFileFromRaw.FromRawUnchecked"/>
-    public static SingleFile FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class SingleFileFromRaw : IFromRawJson<SingleFile>
-{
-    /// <inheritdoc/>
-    public SingleFile FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        SingleFile.FromRawUnchecked(rawData);
 }

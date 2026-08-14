@@ -237,8 +237,9 @@ public interface IWorkflowService
     /// Do **not** use `--wait true` (with a space) — the `true` will be parsed as an
     /// unexpected positional argument.</para>
     ///
-    /// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jpeg,
-    /// json, m4a, mp3, pdf, png, text, wav, webp, xls, xlsx, xml.</para>
+    /// <para>Supported `inputType` values: csv, docx, email, heic, heif, html, jfif,
+    /// jpeg, json, m4a, mp3, mov, mp4, pdf, png, pptx, text, wav, webp, xls, xlsx, xml.
+    /// `jfif` (and `jpg`) are normalized to `jpeg`.</para>
     /// </summary>
     Task<CallGetResponse> Call(
         WorkflowCallParams parameters,

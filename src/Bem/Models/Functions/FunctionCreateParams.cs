@@ -12,9 +12,9 @@ namespace Bem.Models.Functions;
 /// <summary>
 /// **Create a function.**
 ///
-/// <para>The function type (`extract`, `classify`, `split`, `join`, `enrich`, or
-/// `payload_shaping`) determines which configuration fields are required — see [Function
-/// types overview](/guide/function-types/overview) for the per-type contract.</para>
+/// <para>The function `type` determines which configuration fields are required —
+/// see the `CreateFunctionV3` discriminated union and [Function types overview](/guide/function-types/overview)
+/// for the per-type contract.</para>
 ///
 /// <para>The response contains both `functionID` and `functionName`. Either is a
 /// stable handle you can use elsewhere; most workflows reference functions by `functionName`

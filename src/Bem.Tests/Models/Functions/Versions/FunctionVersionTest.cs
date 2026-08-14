@@ -243,6 +243,7 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -453,21 +454,44 @@ public class FunctionVersionTest : TestBase
     {
         FunctionVersion value = new Enrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -614,11 +638,80 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void RenderValidationWorks()
+    {
+        FunctionVersion value = new Render()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
             },
             Tags = ["string"],
             UsedInWorkflows =
@@ -886,6 +979,7 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -1120,21 +1214,44 @@ public class FunctionVersionTest : TestBase
     {
         FunctionVersion value = new Enrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -1293,11 +1410,86 @@ public class FunctionVersionTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<FunctionVersion>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void RenderSerializationRoundtripWorks()
+    {
+        FunctionVersion value = new Render()
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
             },
             Tags = ["string"],
             UsedInWorkflows =
@@ -3080,6 +3272,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3144,6 +3337,7 @@ public class ClassifyTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
         List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
@@ -3170,6 +3364,7 @@ public class ClassifyTest : TestBase
         Assert.Equal(expectedAudit, model.Audit);
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, model.NativeVisualInput);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -3239,6 +3434,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3313,6 +3509,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3384,6 +3581,7 @@ public class ClassifyTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
         List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
         [
@@ -3410,6 +3608,7 @@ public class ClassifyTest : TestBase
         Assert.Equal(expectedAudit, deserialized.Audit);
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedNativeVisualInput, deserialized.NativeVisualInput);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -3479,6 +3678,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -3526,6 +3726,8 @@ public class ClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
         Assert.Null(model.UsedInWorkflows);
@@ -3588,6 +3790,7 @@ public class ClassifyTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
             UsedInWorkflows = null,
         };
@@ -3598,6 +3801,8 @@ public class ClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
         Assert.Null(model.UsedInWorkflows);
@@ -3632,6 +3837,7 @@ public class ClassifyTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            NativeVisualInput = null,
             Tags = null,
             UsedInWorkflows = null,
         };
@@ -3694,6 +3900,7 @@ public class ClassifyTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            NativeVisualInput = true,
             Tags = ["string"],
             UsedInWorkflows =
             [
@@ -5929,21 +6136,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -5992,21 +6222,44 @@ public class EnrichTest : TestBase
             ],
         };
 
-        Functions::EnrichConfig expectedConfig = new(
+        Functions::EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = Functions::SearchMode.Semantic,
+                    Source = Functions::Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Functions::Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
@@ -6082,21 +6335,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6156,21 +6432,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6223,21 +6522,44 @@ public class EnrichTest : TestBase
         var deserialized = JsonSerializer.Deserialize<Enrich>(element, ModelBase.SerializerOptions);
         Assert.NotNull(deserialized);
 
-        Functions::EnrichConfig expectedConfig = new(
+        Functions::EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = Functions::SearchMode.Semantic,
+                    Source = Functions::Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Functions::Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
         string expectedFunctionID = "functionID";
         string expectedFunctionName = "functionName";
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
@@ -6313,21 +6635,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6384,21 +6729,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6421,21 +6789,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6449,21 +6840,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6493,21 +6907,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -6528,21 +6965,44 @@ public class EnrichTest : TestBase
     {
         var model = new Enrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = Functions::SearchMode.Semantic,
+                        Source = Functions::Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Functions::Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
             FunctionID = "functionID",
             FunctionName = "functionName",
             VersionNum = 0,
@@ -7166,8 +7626,10 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7221,8 +7683,13 @@ public class ParseTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        Functions::ParseExtraFunctionConfig expectedExtraConfig = new()
+        {
+            EnableBoundingBoxes = true,
+        };
         Functions::ParseConfig expectedParseConfig = new()
         {
+            DefaultBucket = "defaultBucket",
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7246,6 +7713,7 @@ public class ParseTest : TestBase
         Assert.Equal(expectedAudit, model.Audit);
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedExtraConfig, model.ExtraConfig);
         Assert.Equal(expectedParseConfig, model.ParseConfig);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
@@ -7301,8 +7769,10 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7366,8 +7836,10 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7425,8 +7897,13 @@ public class ParseTest : TestBase
         };
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         string expectedDisplayName = "displayName";
+        Functions::ParseExtraFunctionConfig expectedExtraConfig = new()
+        {
+            EnableBoundingBoxes = true,
+        };
         Functions::ParseConfig expectedParseConfig = new()
         {
+            DefaultBucket = "defaultBucket",
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7450,6 +7927,7 @@ public class ParseTest : TestBase
         Assert.Equal(expectedAudit, deserialized.Audit);
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedExtraConfig, deserialized.ExtraConfig);
         Assert.Equal(expectedParseConfig, deserialized.ParseConfig);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
@@ -7505,8 +7983,10 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7543,6 +8023,8 @@ public class ParseTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ExtraConfig);
+        Assert.False(model.RawData.ContainsKey("extraConfig"));
         Assert.Null(model.ParseConfig);
         Assert.False(model.RawData.ContainsKey("parseConfig"));
         Assert.Null(model.Tags);
@@ -7577,6 +8059,7 @@ public class ParseTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            ExtraConfig = null,
             ParseConfig = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -7588,6 +8071,8 @@ public class ParseTest : TestBase
         Assert.False(model.RawData.ContainsKey("createdAt"));
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ExtraConfig);
+        Assert.False(model.RawData.ContainsKey("extraConfig"));
         Assert.Null(model.ParseConfig);
         Assert.False(model.RawData.ContainsKey("parseConfig"));
         Assert.Null(model.Tags);
@@ -7609,6 +8094,7 @@ public class ParseTest : TestBase
             Audit = null,
             CreatedAt = null,
             DisplayName = null,
+            ExtraConfig = null,
             ParseConfig = null,
             Tags = null,
             UsedInWorkflows = null,
@@ -7657,8 +8143,10 @@ public class ParseTest : TestBase
             },
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -7677,6 +8165,606 @@ public class ParseTest : TestBase
         };
 
         Parse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class RenderTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("render");
+        long expectedVersionNum = 0;
+        Functions::FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedDisplayName = "displayName";
+        Functions::RenderConfig expectedRenderConfig = new()
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [Functions::ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+        List<string> expectedTags = ["string"];
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedVersionNum, model.VersionNum);
+        Assert.Equal(expectedAudit, model.Audit);
+        Assert.Equal(expectedCreatedAt, model.CreatedAt);
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedRenderConfig, model.RenderConfig);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+        Assert.NotNull(model.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, model.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], model.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Render>(json, ModelBase.SerializerOptions);
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Render>(element, ModelBase.SerializerOptions);
+        Assert.NotNull(deserialized);
+
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        JsonElement expectedType = JsonSerializer.SerializeToElement("render");
+        long expectedVersionNum = 0;
+        Functions::FunctionAudit expectedAudit = new()
+        {
+            FunctionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            FunctionLastUpdatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+            VersionCreatedBy = new()
+            {
+                CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                UserActionID = "userActionID",
+                ApiKeyName = "apiKeyName",
+                EmailAddress = "emailAddress",
+                UserEmail = "userEmail",
+                UserID = "userID",
+            },
+        };
+        DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedDisplayName = "displayName";
+        Functions::RenderConfig expectedRenderConfig = new()
+        {
+            Template = new()
+            {
+                DownloadUrl = "https://example.com",
+                ListKinds = [Functions::ListKind.Decimal],
+                Name = "name",
+                Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                StyleIds = ["string"],
+                TableStyleIds = ["string"],
+            },
+        };
+        List<string> expectedTags = ["string"];
+        List<Functions::WorkflowUsageInfo> expectedUsedInWorkflows =
+        [
+            new()
+            {
+                CurrentVersionNum = 0,
+                UsedInWorkflowVersionNums = [0],
+                WorkflowID = "workflowID",
+                WorkflowName = "workflowName",
+            },
+        ];
+
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedVersionNum, deserialized.VersionNum);
+        Assert.Equal(expectedAudit, deserialized.Audit);
+        Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedRenderConfig, deserialized.RenderConfig);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+        Assert.NotNull(deserialized.UsedInWorkflows);
+        Assert.Equal(expectedUsedInWorkflows.Count, deserialized.UsedInWorkflows.Count);
+        for (int i = 0; i < expectedUsedInWorkflows.Count; i++)
+        {
+            Assert.Equal(expectedUsedInWorkflows[i], deserialized.UsedInWorkflows[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.RenderConfig);
+        Assert.False(model.RawData.ContainsKey("renderConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            CreatedAt = null,
+            DisplayName = null,
+            RenderConfig = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        Assert.Null(model.Audit);
+        Assert.False(model.RawData.ContainsKey("audit"));
+        Assert.Null(model.CreatedAt);
+        Assert.False(model.RawData.ContainsKey("createdAt"));
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.RenderConfig);
+        Assert.False(model.RawData.ContainsKey("renderConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+        Assert.Null(model.UsedInWorkflows);
+        Assert.False(model.RawData.ContainsKey("usedInWorkflows"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+
+            // Null should be interpreted as omitted for these properties
+            Audit = null,
+            CreatedAt = null,
+            DisplayName = null,
+            RenderConfig = null,
+            Tags = null,
+            UsedInWorkflows = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new Render
+        {
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            VersionNum = 0,
+            Audit = new()
+            {
+                FunctionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                FunctionLastUpdatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+                VersionCreatedBy = new()
+                {
+                    CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    UserActionID = "userActionID",
+                    ApiKeyName = "apiKeyName",
+                    EmailAddress = "emailAddress",
+                    UserEmail = "userEmail",
+                    UserID = "userID",
+                },
+            },
+            CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            DisplayName = "displayName",
+            RenderConfig = new()
+            {
+                Template = new()
+                {
+                    DownloadUrl = "https://example.com",
+                    ListKinds = [Functions::ListKind.Decimal],
+                    Name = "name",
+                    Placeholders = new() { BlockKeys = ["string"], StringKeys = ["string"] },
+                    StyleIds = ["string"],
+                    TableStyleIds = ["string"],
+                },
+            },
+            Tags = ["string"],
+            UsedInWorkflows =
+            [
+                new()
+                {
+                    CurrentVersionNum = 0,
+                    UsedInWorkflowVersionNums = [0],
+                    WorkflowID = "workflowID",
+                    WorkflowName = "workflowName",
+                },
+            ],
+        };
+
+        Render copied = new(model);
 
         Assert.Equal(model, copied);
     }

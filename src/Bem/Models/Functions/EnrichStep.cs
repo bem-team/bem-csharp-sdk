@@ -12,42 +12,68 @@ namespace Bem.Models.Functions;
 /// <summary>
 /// Single enrichment step configuration.
 ///
-/// <para>**Process Flow:** 1. Extract values from `sourceField` using JMESPath 2.
-/// Perform search against the specified collection (semantic, exact, or hybrid based
-/// on `searchMode`) 3. Return top K matches sorted by relevance (best match first)
-/// 4. Inject results into `targetField`</para>
+/// <para>**Process Flow (collection source):** 1. Extract values from `sourceField`
+/// using JMESPath 2. Perform search against the specified collection (semantic, exact,
+/// or hybrid based on `searchMode`) 3. Return top K matches sorted by relevance (best
+/// match first) 4. Inject results into `targetField`</para>
 ///
-/// <para>**Search Modes:** - `semantic` (default): Vector similarity search - best
-/// for natural language and conceptual matching - `exact`: Exact keyword matching
-/// - best for SKU numbers, IDs, routing numbers - `hybrid`: Combined semantic +
-/// keyword search - best for tags and categories</para>
+/// <para>**Process Flow (endpoint source):** 1. Extract values from `sourceField`
+/// using JMESPath 2. Call the named endpoint once per extracted value, following
+/// pagination if `nextPagePath`/`nextPageParam` are configured on the endpoint 3.
+/// Optionally apply LLM agent reasoning to rank candidates (`matchInstructions`),
+/// batching across all fetched pages in groups of `maxCandidates` 4. Inject results
+/// into `targetField`</para>
 ///
-/// <para>**Result Format:** - Results are always returned as an array (list), regardless
-/// of `topK` value - Array is sorted by relevance (best match first) - Each result
-/// contains `data` (the collection item) and optionally `cosineDistance` - With `topK=1`:
-/// Returns array with single best match: `[{data: {...}, cosineDistance: 0.15}]`
-/// - With `topK&gt;1`: Returns array with multiple matches sorted by relevance</para>
+/// <para>**Collection Search Modes** (`source: "collection"` only): - `semantic`
+/// (default): Vector similarity search — best for natural language and conceptual
+/// matching - `exact`: Exact keyword matching — best for SKU numbers, IDs, routing
+/// numbers - `hybrid`: Combined semantic + keyword search — best for tags and categories</para>
+///
+/// <para>**Result Format (collection source, exact mode — no re-ranking):** - Always
+/// an array sorted by relevance (best match first) - Each element: `{ id, data }`</para>
+///
+/// <para>**Result Format (collection source, semantic/hybrid — re-ranking always
+/// on):** - Re-ranking uses a fixed, built-in instruction to the LLM (rank the candidates
+/// by how well each matches the source value); it is not configurable per step -
+/// Array of matches, best first: `[{ id, data, rank, confidence?, reasoning?, score?,
+/// scoreType? }, ...]` - `id` is the collection item the match came from (e.g. `"clitm_…"`)
+/// — a durable handle that survives edits to the item's data, and joins directly
+/// against the collection. Where the same payload spans several rows (results are
+/// de-duplicated by payload, and the uniqueness constraint is per collection + embedding
+/// model), the oldest is the representative. It is how a candidate is referenced
+/// when submitting ground-truth re-rankings via `POST /v3/events/{eventID}/enrich-feedback`
+/// - `rank` is 1-based (1 = best) - `confidence` is the LLM's 0–1 score. It is present
+/// only for entries the LLM ranked and **omitted** for backfilled entries (see below)
+/// — a missing `confidence` means "not ranked by the LLM", not a score of 0 - `score`
+/// is the retrieval score and `scoreType` says which metric it is: `"cosineDistance"`
+/// for semantic or `"hybridScore"` for hybrid. Both are 0–2 dissimilarities where
+/// **lower = better** — hybrid's Reciprocal Rank Fusion score is mapped onto the
+/// same scale as cosine distance (0 = top of both rankings). Included only when `includeScore`
+/// is set - Results are de-duplicated by item payload, so they are distinct. Length
+/// is `min(distinct candidates retrieved, topK)`; semantic additionally drops candidates
+/// beyond `scoreThreshold`. The LLM re-orders the survivors; if it ranks fewer than
+/// that length, the remaining survivors are backfilled in retrieval (score) order
+/// with `confidence` omitted</para>
+///
+/// <para>**Result Format (endpoint source, no matchInstructions):** - Always an array;
+/// the raw fetched value is the single element - These elements are the raw fetched
+/// values, so they carry no `id`. Ground-truth re-ranking references candidates by
+/// `id`, so a field enriched this way cannot be re-ranked</para>
+///
+/// <para>**Result Format (endpoint source, with matchInstructions):** - Array of
+/// LLM-ranked matches, best first: `[{ id, data, rank, confidence, reasoning? },
+/// ...]` - `rank` is 1-based (1 = best); `confidence` is the LLM's 0–1 score - `id`
+/// is a content hash of `data` (e.g. `"h_a5fef997ef9f8992"`) — identical data always
+/// yields the same id. Endpoint candidates have no collection item to name, so unlike
+/// collection matches they are identified by content; the `h_` prefix tells the
+/// two apart - Length capped by `enrichEndpoint.matchTopK` (default 1)</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<EnrichStep, EnrichStepFromRaw>))]
 public sealed record class EnrichStep : JsonModel
 {
     /// <summary>
-    /// Name of the collection to search against. The collection must exist and contain
-    /// items. Supports hierarchical paths when used with `includeSubcollections`.
-    /// </summary>
-    public required string CollectionName
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("collectionName");
-        }
-        init { this._rawData.Set("collectionName", value); }
-    }
-
-    /// <summary>
-    /// JMESPath expression to extract source data for semantic search. Can extract
-    /// single values or arrays. All extracted values will be used for search.
+    /// JMESPath expression to extract source data. Can extract a single value or
+    /// an array. Each extracted value is looked up independently.
     /// </summary>
     public required string SourceField
     {
@@ -75,12 +101,58 @@ public sealed record class EnrichStep : JsonModel
     }
 
     /// <summary>
-    /// Whether to include cosine distance scores in results. Cosine distance ranges
-    /// from 0.0 (perfect match) to 2.0 (completely dissimilar). Lower scores indicate
-    /// better semantic similarity.
+    /// Name of the collection to search against. Required when `source` is `"collection"`.
+    /// The collection must exist and contain items. Supports hierarchical paths
+    /// when used with `includeSubcollections`.
+    /// </summary>
+    public string? CollectionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("collectionName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("collectionName", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of an endpoint defined in `enrichConfig.endpoints`. Required when `source`
+    /// is `"endpoint"`.
+    /// </summary>
+    public string? EndpointName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("endpointName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("endpointName", value);
+        }
+    }
+
+    /// <summary>
+    /// Whether to include retrieval scores in results.
     ///
-    /// <para>When enabled, each result includes a `cosine_distance` field (semantic
-    /// mode) or a `hybrid_score` field (hybrid mode).</para>
+    /// <para>When enabled, each result includes a `score` field and a `scoreType`
+    /// identifying the metric: - `"cosineDistance"` (semantic): 0.0 (perfect match)
+    /// to 2.0 (completely dissimilar) — lower is better. - `"hybridScore"` (hybrid):
+    /// an RRF score mapped onto cosine distance's 0–2 scale — lower is better (0.0
+    /// = top of both rankings).</para>
     /// </summary>
     public bool? IncludeScore
     {
@@ -126,8 +198,11 @@ public sealed record class EnrichStep : JsonModel
     /// Maximum cosine distance threshold for filtering results (default: 0.6). Results
     /// with cosine distance above this threshold are excluded.
     ///
-    /// <para>**Only applies to `semantic` and `hybrid` search modes.** Exact search
-    /// does not use cosine distance and ignores this setting.</para>
+    /// <para>**Applies to `semantic` and `hybrid` search modes.** For `hybrid`, the
+    /// Reciprocal Rank Fusion score is mapped onto the same 0–2 dissimilarity scale
+    /// as cosine distance, so a single threshold works for both. `exact` uses keyword
+    /// matching and ignores this setting. Note the default `0.6` is calibrated for
+    /// cosine distance and is relatively strict for hybrid.</para>
     ///
     /// <para>Cosine distance ranges from 0.0 (identical) to 2.0 (opposite): - 0.0
     /// - 0.3: Very similar (strict threshold, high-quality matches only) - 0.3 -
@@ -166,9 +241,11 @@ public sealed record class EnrichStep : JsonModel
     /// for exact identifiers. - Use for: SKU numbers, routing numbers, account IDs,
     /// exact tags - Example: "SKU-12345" only matches items containing that exact text</para>
     ///
-    /// <para>**hybrid**: Combined search using 20% semantic + 80% sparse embeddings
-    /// (keyword-based). - Use for: Tags, categories, partial identifiers - Example:
-    /// Balances semantic meaning with exact keyword matching</para>
+    /// <para>**hybrid**: Fuses the dense (semantic) and sparse (keyword) rankings
+    /// with weighted Reciprocal Rank Fusion (k=60, 0.5 dense / 0.5 sparse). Because
+    /// RRF combines rank positions rather than raw scores, semantic meaning and
+    /// exact-token overlap contribute on the same scale. - Use for: Tags, categories,
+    /// partial identifiers - Example: Balances semantic meaning with exact keyword matching</para>
     /// </summary>
     public ApiEnum<string, SearchMode>? SearchMode
     {
@@ -189,12 +266,45 @@ public sealed record class EnrichStep : JsonModel
     }
 
     /// <summary>
+    /// Where to fetch enrichment data from (default: `"collection"`).
+    ///
+    /// <para>- `"collection"`: Vector/keyword search against a BEM collection. Requires
+    /// `collectionName`. - `"endpoint"`: HTTP call to a named endpoint defined in
+    /// `enrichConfig.endpoints`. Requires `endpointName`.</para>
+    /// </summary>
+    public ApiEnum<string, Source>? Source
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, Source>>("source");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("source", value);
+        }
+    }
+
+    /// <summary>
     /// Number of top matching results to return per query (default: 1). Results
-    /// are always returned as an array (list) and automatically sorted by cosine
-    /// distance (best match = lowest distance first).
+    /// are always returned as an array (list), sorted best match first (by cosine
+    /// distance for `semantic`/`exact`, or by fused relevance score for `hybrid`).
+    /// Duplicate items are collapsed, so results are distinct: you get `topK` distinct
+    /// matches unless the collection contains fewer.
     ///
     /// <para>- 1: Returns array with single best match: `[{...}]` - &gt;1: Returns
     /// array with multiple matches: `[{...}, {...}, ...]`</para>
+    ///
+    /// <para>When re-ranking is on (the default for `semantic`/`hybrid`), `topK`
+    /// is still the number of results returned — re-ranking changes their order,
+    /// not the count. The candidate pool the LLM chooses from is widened internally
+    /// to at least 5, so even `topK: 1` re-ranks a real pool and returns the single
+    /// best match.</para>
     /// </summary>
     public long? TopK
     {
@@ -217,13 +327,15 @@ public sealed record class EnrichStep : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        _ = this.CollectionName;
         _ = this.SourceField;
         _ = this.TargetField;
+        _ = this.CollectionName;
+        _ = this.EndpointName;
         _ = this.IncludeScore;
         _ = this.IncludeSubcollections;
         _ = this.ScoreThreshold;
         this.SearchMode?.Validate();
+        this.Source?.Validate();
         _ = this.TopK;
     }
 
@@ -273,9 +385,11 @@ class EnrichStepFromRaw : IFromRawJson<EnrichStep>
 /// exact identifiers. - Use for: SKU numbers, routing numbers, account IDs, exact
 /// tags - Example: "SKU-12345" only matches items containing that exact text</para>
 ///
-/// <para>**hybrid**: Combined search using 20% semantic + 80% sparse embeddings
-/// (keyword-based). - Use for: Tags, categories, partial identifiers - Example:
-/// Balances semantic meaning with exact keyword matching</para>
+/// <para>**hybrid**: Fuses the dense (semantic) and sparse (keyword) rankings with
+/// weighted Reciprocal Rank Fusion (k=60, 0.5 dense / 0.5 sparse). Because RRF combines
+/// rank positions rather than raw scores, semantic meaning and exact-token overlap
+/// contribute on the same scale. - Use for: Tags, categories, partial identifiers
+/// - Example: Balances semantic meaning with exact keyword matching</para>
 /// </summary>
 [JsonConverter(typeof(SearchModeConverter))]
 public enum SearchMode
@@ -315,6 +429,53 @@ sealed class SearchModeConverter : JsonConverter<SearchMode>
                 SearchMode.Semantic => "semantic",
                 SearchMode.Exact => "exact",
                 SearchMode.Hybrid => "hybrid",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Where to fetch enrichment data from (default: `"collection"`).
+///
+/// <para>- `"collection"`: Vector/keyword search against a BEM collection. Requires
+/// `collectionName`. - `"endpoint"`: HTTP call to a named endpoint defined in `enrichConfig.endpoints`.
+/// Requires `endpointName`.</para>
+/// </summary>
+[JsonConverter(typeof(SourceConverter))]
+public enum Source
+{
+    Collection,
+    Endpoint,
+}
+
+sealed class SourceConverter : JsonConverter<Source>
+{
+    public override Source Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "collection" => Source.Collection,
+            "endpoint" => Source.Endpoint,
+            _ => (Source)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Source value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                Source.Collection => "collection",
+                Source.Endpoint => "endpoint",
                 _ => throw new BemInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

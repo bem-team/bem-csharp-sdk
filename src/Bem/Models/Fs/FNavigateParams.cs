@@ -123,6 +123,29 @@ public record class FNavigateParams : ParamsBase
     }
 
     /// <summary>
+    /// Request-scoping concerns that are orthogonal to the op itself. Carried on
+    /// a `context` object so future scoping hints (e.g. as-of timestamps, read consistency)
+    /// can slot in without reshaping the op-specific fields.
+    /// </summary>
+    public Context? Context
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<Context>("context");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("context", value);
+        }
+    }
+
+    /// <summary>
     /// When true, return only the hit count without snippet payload. Cheaper than
     /// fetching matches when the agent only wants a yes/no.
     /// </summary>
@@ -492,6 +515,86 @@ public record class FNavigateParams : ParamsBase
     {
         return 0;
     }
+}
+
+/// <summary>
+/// Request-scoping concerns that are orthogonal to the op itself. Carried on a `context`
+/// object so future scoping hints (e.g. as-of timestamps, read consistency) can
+/// slot in without reshaping the op-specific fields.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Context, ContextFromRaw>))]
+public sealed record class Context : JsonModel
+{
+    /// <summary>
+    /// Bucket KSUID (prefix `bkt_`) to scope the request to — a named partition of
+    /// the knowledge graph within the caller's account+environment.
+    ///
+    /// <para>**Optional.** Omitting it (or passing an empty value) leaves the request
+    /// UNSCOPED: memory-level reads (`find` / `open` / `xref`) return entities across
+    /// every bucket in the account+environment, so pre-bucket callers keep their
+    /// original all-entities behavior unchanged. (Writes are different: a parse call
+    /// with no bucket targets the account default bucket.) When a bucket IS supplied,
+    /// memory-level ops return only entities in that bucket; doc-level ops (`ls`/`cat`/`head`/`stat`/`grep`)
+    /// are unaffected either way — documents are not bucket-partitioned. A bucket
+    /// that does not belong to the caller's account+environment is rejected.</para>
+    /// </summary>
+    public string? Bucket
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("bucket", value);
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Bucket;
+    }
+
+    public Context() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Context(Context context)
+        : base(context) { }
+#pragma warning restore CS8618
+
+    public Context(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Context(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="ContextFromRaw.FromRawUnchecked"/>
+    public static Context FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class ContextFromRaw : IFromRawJson<Context>
+{
+    /// <inheritdoc/>
+    public Context FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Context.FromRawUnchecked(rawData);
 }
 
 /// <summary>

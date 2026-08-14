@@ -327,9 +327,9 @@ This can also be used to set a documented parameter to an undocumented or not ye
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
-using Bem.Models.Functions.Copy;
+using Bem.Models.Functions;
 
-var parameters = CopyCreateParams.FromRawUnchecked
+var parameters = FunctionCompareMetricsParams.FromRawUnchecked
 (
 
     rawHeaderData: new Dictionary<string, JsonElement>(),
@@ -337,7 +337,7 @@ var parameters = CopyCreateParams.FromRawUnchecked
     rawBodyData: new Dictionary<string, JsonElement>
     {
         {
-            "sourceFunctionName",
+            "functionName",
             JsonSerializer.SerializeToElement("custom value")
         }
     }

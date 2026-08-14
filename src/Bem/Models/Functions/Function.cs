@@ -47,7 +47,8 @@ public record class Function : ModelBase
                 join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -66,7 +67,8 @@ public record class Function : ModelBase
                 join: (x) => x.FunctionID,
                 payloadShaping: (x) => x.FunctionID,
                 enrich: (x) => x.FunctionID,
-                parse: (x) => x.FunctionID
+                parse: (x) => x.FunctionID,
+                render: (x) => x.FunctionID
             );
         }
     }
@@ -85,7 +87,8 @@ public record class Function : ModelBase
                 join: (x) => x.FunctionName,
                 payloadShaping: (x) => x.FunctionName,
                 enrich: (x) => x.FunctionName,
-                parse: (x) => x.FunctionName
+                parse: (x) => x.FunctionName,
+                render: (x) => x.FunctionName
             );
         }
     }
@@ -104,7 +107,8 @@ public record class Function : ModelBase
                 join: (x) => x.OutputSchema,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -123,7 +127,8 @@ public record class Function : ModelBase
                 join: (x) => x.OutputSchemaName,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -142,7 +147,8 @@ public record class Function : ModelBase
                 join: (x) => x.Type,
                 payloadShaping: (x) => x.Type,
                 enrich: (x) => x.Type,
-                parse: (x) => x.Type
+                parse: (x) => x.Type,
+                render: (x) => x.Type
             );
         }
     }
@@ -161,7 +167,8 @@ public record class Function : ModelBase
                 join: (x) => x.VersionNum,
                 payloadShaping: (x) => x.VersionNum,
                 enrich: (x) => x.VersionNum,
-                parse: (x) => x.VersionNum
+                parse: (x) => x.VersionNum,
+                render: (x) => x.VersionNum
             );
         }
     }
@@ -180,7 +187,8 @@ public record class Function : ModelBase
                 join: (x) => x.Audit,
                 payloadShaping: (x) => x.Audit,
                 enrich: (x) => x.Audit,
-                parse: (x) => x.Audit
+                parse: (x) => x.Audit,
+                render: (x) => x.Audit
             );
         }
     }
@@ -199,7 +207,8 @@ public record class Function : ModelBase
                 join: (x) => x.DisplayName,
                 payloadShaping: (x) => x.DisplayName,
                 enrich: (x) => x.DisplayName,
-                parse: (x) => x.DisplayName
+                parse: (x) => x.DisplayName,
+                render: (x) => x.DisplayName
             );
         }
     }
@@ -218,7 +227,8 @@ public record class Function : ModelBase
                 join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -237,7 +247,8 @@ public record class Function : ModelBase
                 join: (_) => null,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -256,7 +267,8 @@ public record class Function : ModelBase
                 join: (x) => x.Description,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -316,6 +328,12 @@ public record class Function : ModelBase
     }
 
     public Function(FunctionParse value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public Function(FunctionRender value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -537,6 +555,27 @@ public record class Function : ModelBase
     }
 
     /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="FunctionRender"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickRender(out var value)) {
+    ///     // `value` is of type `FunctionRender`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickRender([NotNullWhen(true)] out FunctionRender? value)
+    {
+        value = this.Value as FunctionRender;
+        return value != null;
+    }
+
+    /// <summary>
     /// Calls the function parameter corresponding to the variant the instance was constructed with.
     ///
     /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
@@ -559,7 +598,8 @@ public record class Function : ModelBase
     ///     (FunctionJoin value) =&gt; {...},
     ///     (FunctionPayloadShaping value) =&gt; {...},
     ///     (FunctionEnrich value) =&gt; {...},
-    ///     (FunctionParse value) =&gt; {...}
+    ///     (FunctionParse value) =&gt; {...},
+    ///     (FunctionRender value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -574,7 +614,8 @@ public record class Function : ModelBase
         Action<FunctionJoin> join,
         Action<FunctionPayloadShaping> payloadShaping,
         Action<FunctionEnrich> enrich,
-        Action<FunctionParse> parse
+        Action<FunctionParse> parse,
+        Action<FunctionRender> render
     )
     {
         switch (this.Value)
@@ -609,6 +650,9 @@ public record class Function : ModelBase
             case FunctionParse value:
                 parse(value);
                 break;
+            case FunctionRender value:
+                render(value);
+                break;
             default:
                 throw new BemInvalidDataException("Data did not match any variant of Function");
         }
@@ -638,7 +682,8 @@ public record class Function : ModelBase
     ///     (FunctionJoin value) =&gt; {...},
     ///     (FunctionPayloadShaping value) =&gt; {...},
     ///     (FunctionEnrich value) =&gt; {...},
-    ///     (FunctionParse value) =&gt; {...}
+    ///     (FunctionParse value) =&gt; {...},
+    ///     (FunctionRender value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -653,7 +698,8 @@ public record class Function : ModelBase
         Func<FunctionJoin, T> join,
         Func<FunctionPayloadShaping, T> payloadShaping,
         Func<FunctionEnrich, T> enrich,
-        Func<FunctionParse, T> parse
+        Func<FunctionParse, T> parse,
+        Func<FunctionRender, T> render
     )
     {
         return this.Value switch
@@ -668,6 +714,7 @@ public record class Function : ModelBase
             FunctionPayloadShaping value => payloadShaping(value),
             FunctionEnrich value => enrich(value),
             FunctionParse value => parse(value),
+            FunctionRender value => render(value),
             _ => throw new BemInvalidDataException("Data did not match any variant of Function"),
         };
     }
@@ -691,6 +738,8 @@ public record class Function : ModelBase
     public static implicit operator Function(FunctionEnrich value) => new(value);
 
     public static implicit operator Function(FunctionParse value) => new(value);
+
+    public static implicit operator Function(FunctionRender value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -718,7 +767,8 @@ public record class Function : ModelBase
             (join) => join.Validate(),
             (payloadShaping) => payloadShaping.Validate(),
             (enrich) => enrich.Validate(),
-            (parse) => parse.Validate()
+            (parse) => parse.Validate(),
+            (render) => render.Validate()
         );
     }
 
@@ -752,6 +802,7 @@ public record class Function : ModelBase
             FunctionPayloadShaping _ => 7,
             FunctionEnrich _ => 8,
             FunctionParse _ => 9,
+            FunctionRender _ => 10,
             _ => -1,
         };
     }
@@ -957,6 +1008,23 @@ sealed class FunctionConverter : JsonConverter<Function>
 
                 return new(element);
             }
+            case "render":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<FunctionRender>(element, options);
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
             default:
             {
                 return new Function(element);
@@ -1021,7 +1089,7 @@ public sealed record class Transform : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -1288,7 +1356,7 @@ public sealed record class FunctionExtract : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -1550,7 +1618,7 @@ public sealed record class Analyze : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -1905,6 +1973,29 @@ public sealed record class FunctionClassify : JsonModel
     }
 
     /// <summary>
+    /// When true, image and PDF inputs are sent directly to the model for routing
+    /// instead of being OCR'd to text first. Defaults to true for new classify functions
+    /// and false for the legacy route type.
+    /// </summary>
+    public bool? NativeVisualInput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("nativeVisualInput");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("nativeVisualInput", value);
+        }
+    }
+
+    /// <summary>
     /// Array of tags to categorize and organize functions.
     /// </summary>
     public IReadOnlyList<string>? Tags
@@ -1972,6 +2063,7 @@ public sealed record class FunctionClassify : JsonModel
         _ = this.VersionNum;
         this.Audit?.Validate();
         _ = this.DisplayName;
+        _ = this.NativeVisualInput;
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
         {
@@ -2892,7 +2984,7 @@ public sealed record class FunctionJoin : JsonModel
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<JsonElement>("outputSchema");
+            return this._rawData.GetNotAbsentElement("outputSchema");
         }
         init { this._rawData.Set("outputSchema", value); }
     }
@@ -3368,25 +3460,32 @@ class FunctionPayloadShapingFromRaw : IFromRawJson<FunctionPayloadShaping>
 public sealed record class FunctionEnrich : JsonModel
 {
     /// <summary>
-    /// Configuration for enrich function with semantic search steps.
+    /// Configuration for an enrich function.
     ///
     /// <para>**How Enrich Functions Work:**</para>
     ///
-    /// <para>Enrich functions use semantic search to augment JSON data with relevant
-    /// information from collections. They take JSON input (typically from a transform
-    /// function), extract specified fields, perform vector-based semantic search
-    /// against collections, and inject the results back into the data.</para>
+    /// <para>Enrich functions augment JSON input with data from external sources.
+    /// They take JSON input (typically from a previous function), extract specified
+    /// fields, fetch or search for matching data, and inject the results back into
+    /// the JSON.</para>
     ///
-    /// <para>**Input Requirements:** - Must receive JSON input (typically uploaded
-    /// to S3 from a previous function) - Can be chained after transform or other
-    /// functions that produce JSON output</para>
+    /// <para>**Data Sources:** - **Collections** (`source: "collection"`): Vector/keyword
+    /// search against a BEM collection. Best for semantic matching against pre-indexed
+    /// documents. - **Endpoints** (`source: "endpoint"`): HTTP call to any user-provided
+    /// REST API. Best for looking up live data from CRMs, ERPs, or other external
+    /// systems. Optionally uses LLM agent reasoning to rank candidates returned
+    /// by the endpoint.</para>
+    ///
+    /// <para>**Input Requirements:** - Must receive JSON input (typically from a
+    /// previous function's output)</para>
     ///
     /// <para>**Example Use Cases:** - Match product descriptions to SKU codes from
-    /// a product catalog - Enrich customer data with account information - Link order
-    /// line items to inventory records</para>
+    /// a product catalog collection - Enrich customer data with account details
+    /// from a CRM endpoint - Use LLM agent reasoning to fuzzy-match line item descriptions
+    /// to catalog products</para>
     ///
-    /// <para>**Configuration:** - Define one or more enrichment steps - Each step
-    /// extracts values, searches a collection, and injects results - Steps are executed sequentially</para>
+    /// <para>**Configuration:** - Define named endpoints (for endpoint-source steps)
+    /// - Define one or more enrichment steps; steps are executed sequentially</para>
     /// </summary>
     public required EnrichConfig Config
     {
@@ -3694,6 +3793,29 @@ public sealed record class FunctionParse : JsonModel
     }
 
     /// <summary>
+    /// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface
+    /// on Extract / Join — separated from `parseConfig` so the per-call Parse output
+    /// shape stays distinct from operator-level execution flags.
+    /// </summary>
+    public ParseExtraFunctionConfig? ExtraConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ParseExtraFunctionConfig>("extraConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("extraConfig", value);
+        }
+    }
+
+    /// <summary>
     /// Per-version configuration for a Parse function.
     ///
     /// <para>Parse renders document pages (PDF, image) via vision LLM and emits structured
@@ -3780,6 +3902,7 @@ public sealed record class FunctionParse : JsonModel
         _ = this.VersionNum;
         this.Audit?.Validate();
         _ = this.DisplayName;
+        this.ExtraConfig?.Validate();
         this.ParseConfig?.Validate();
         _ = this.Tags;
         foreach (var item in this.UsedInWorkflows ?? [])
@@ -3826,4 +3949,235 @@ class FunctionParseFromRaw : IFromRawJson<FunctionParse>
     /// <inheritdoc/>
     public FunctionParse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         FunctionParse.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<FunctionRender, FunctionRenderFromRaw>))]
+public sealed record class FunctionRender : JsonModel
+{
+    /// <summary>
+    /// Unique identifier of function.
+    /// </summary>
+    public required string FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionID");
+        }
+        init { this._rawData.Set("functionID", value); }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public required string FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("functionName");
+        }
+        init { this._rawData.Set("functionName", value); }
+    }
+
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Version number of function.
+    /// </summary>
+    public required long VersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<long>("versionNum");
+        }
+        init { this._rawData.Set("versionNum", value); }
+    }
+
+    /// <summary>
+    /// Audit trail information for the function.
+    /// </summary>
+    public FunctionAudit? Audit
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<FunctionAudit>("audit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("audit", value);
+        }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Per-version configuration for a Render function.
+    ///
+    /// <para>Render emits a `.docx` from schema-typed JSON by composing the JSON
+    /// into a `.docx` template. The template document is stored server-side; this
+    /// response exposes only the contract derived from it. Schema validation runs
+    /// internally in the ML service against the bundled core schema; no customer-supplied
+    /// schema rides this surface.</para>
+    /// </summary>
+    public RenderConfig? RenderConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<RenderConfig>("renderConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("renderConfig", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// List of workflows that use this function.
+    /// </summary>
+    public IReadOnlyList<WorkflowUsageInfo>? UsedInWorkflows
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<WorkflowUsageInfo>>(
+                "usedInWorkflows"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<WorkflowUsageInfo>?>(
+                "usedInWorkflows",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("render")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.VersionNum;
+        this.Audit?.Validate();
+        _ = this.DisplayName;
+        this.RenderConfig?.Validate();
+        _ = this.Tags;
+        foreach (var item in this.UsedInWorkflows ?? [])
+        {
+            item.Validate();
+        }
+    }
+
+    public FunctionRender()
+    {
+        this.Type = JsonSerializer.SerializeToElement("render");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public FunctionRender(FunctionRender functionRender)
+        : base(functionRender) { }
+#pragma warning restore CS8618
+
+    public FunctionRender(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("render");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    FunctionRender(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="FunctionRenderFromRaw.FromRawUnchecked"/>
+    public static FunctionRender FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class FunctionRenderFromRaw : IFromRawJson<FunctionRender>
+{
+    /// <inheritdoc/>
+    public FunctionRender FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        FunctionRender.FromRawUnchecked(rawData);
 }

@@ -56,7 +56,8 @@ public record class UpdateFunction : ModelBase
                 join: (x) => x.Type,
                 payloadShaping: (x) => x.Type,
                 enrich: (x) => x.Type,
-                parse: (x) => x.Type
+                parse: (x) => x.Type,
+                render: (x) => x.Type
             );
         }
     }
@@ -73,7 +74,8 @@ public record class UpdateFunction : ModelBase
                 join: (x) => x.DisplayName,
                 payloadShaping: (x) => x.DisplayName,
                 enrich: (_) => null,
-                parse: (x) => x.DisplayName
+                parse: (x) => x.DisplayName,
+                render: (x) => x.DisplayName
             );
         }
     }
@@ -90,7 +92,8 @@ public record class UpdateFunction : ModelBase
                 join: (x) => x.FunctionName,
                 payloadShaping: (x) => x.FunctionName,
                 enrich: (_) => null,
-                parse: (x) => x.FunctionName
+                parse: (x) => x.FunctionName,
+                render: (x) => x.FunctionName
             );
         }
     }
@@ -107,7 +110,8 @@ public record class UpdateFunction : ModelBase
                 join: (x) => x.OutputSchema,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -124,7 +128,8 @@ public record class UpdateFunction : ModelBase
                 join: (x) => x.OutputSchemaName,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -141,7 +146,8 @@ public record class UpdateFunction : ModelBase
                 join: (x) => x.Description,
                 payloadShaping: (_) => null,
                 enrich: (_) => null,
-                parse: (_) => null
+                parse: (_) => null,
+                render: (_) => null
             );
         }
     }
@@ -189,6 +195,12 @@ public record class UpdateFunction : ModelBase
     }
 
     public UpdateFunction(UpdateFunctionParse value, JsonElement? element = null)
+    {
+        this.Value = value;
+        this._element = element;
+    }
+
+    public UpdateFunction(UpdateFunctionRender value, JsonElement? element = null)
     {
         this.Value = value;
         this._element = element;
@@ -368,6 +380,27 @@ public record class UpdateFunction : ModelBase
     }
 
     /// <summary>
+    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
+    /// type <see cref="UpdateFunctionRender"/>.
+    ///
+    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
+    ///
+    /// <example>
+    /// <code>
+    /// if (instance.TryPickRender(out var value)) {
+    ///     // `value` is of type `UpdateFunctionRender`
+    ///     Console.WriteLine(value);
+    /// }
+    /// </code>
+    /// </example>
+    /// </summary>
+    public bool TryPickRender([NotNullWhen(true)] out UpdateFunctionRender? value)
+    {
+        value = this.Value as UpdateFunctionRender;
+        return value != null;
+    }
+
+    /// <summary>
     /// Calls the function parameter corresponding to the variant the instance was constructed with.
     ///
     /// <para>Use the <c>TryPick</c> method(s) if you don't need to handle every variant, or <see cref="Match"/>
@@ -388,7 +421,8 @@ public record class UpdateFunction : ModelBase
     ///     (UpdateFunctionJoin value) =&gt; {...},
     ///     (UpdateFunctionPayloadShaping value) =&gt; {...},
     ///     (UpdateFunctionEnrich value) =&gt; {...},
-    ///     (UpdateFunctionParse value) =&gt; {...}
+    ///     (UpdateFunctionParse value) =&gt; {...},
+    ///     (UpdateFunctionRender value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -401,7 +435,8 @@ public record class UpdateFunction : ModelBase
         Action<UpdateFunctionJoin> join,
         Action<UpdateFunctionPayloadShaping> payloadShaping,
         Action<UpdateFunctionEnrich> enrich,
-        Action<UpdateFunctionParse> parse
+        Action<UpdateFunctionParse> parse,
+        Action<UpdateFunctionRender> render
     )
     {
         switch (this.Value)
@@ -429,6 +464,9 @@ public record class UpdateFunction : ModelBase
                 break;
             case UpdateFunctionParse value:
                 parse(value);
+                break;
+            case UpdateFunctionRender value:
+                render(value);
                 break;
             default:
                 throw new BemInvalidDataException(
@@ -459,7 +497,8 @@ public record class UpdateFunction : ModelBase
     ///     (UpdateFunctionJoin value) =&gt; {...},
     ///     (UpdateFunctionPayloadShaping value) =&gt; {...},
     ///     (UpdateFunctionEnrich value) =&gt; {...},
-    ///     (UpdateFunctionParse value) =&gt; {...}
+    ///     (UpdateFunctionParse value) =&gt; {...},
+    ///     (UpdateFunctionRender value) =&gt; {...}
     /// );
     /// </code>
     /// </example>
@@ -472,7 +511,8 @@ public record class UpdateFunction : ModelBase
         Func<UpdateFunctionJoin, T> join,
         Func<UpdateFunctionPayloadShaping, T> payloadShaping,
         Func<UpdateFunctionEnrich, T> enrich,
-        Func<UpdateFunctionParse, T> parse
+        Func<UpdateFunctionParse, T> parse,
+        Func<UpdateFunctionRender, T> render
     )
     {
         return this.Value switch
@@ -485,6 +525,7 @@ public record class UpdateFunction : ModelBase
             UpdateFunctionPayloadShaping value => payloadShaping(value),
             UpdateFunctionEnrich value => enrich(value),
             UpdateFunctionParse value => parse(value),
+            UpdateFunctionRender value => render(value),
             _ => throw new BemInvalidDataException(
                 "Data did not match any variant of UpdateFunction"
             ),
@@ -507,6 +548,8 @@ public record class UpdateFunction : ModelBase
     public static implicit operator UpdateFunction(UpdateFunctionEnrich value) => new(value);
 
     public static implicit operator UpdateFunction(UpdateFunctionParse value) => new(value);
+
+    public static implicit operator UpdateFunction(UpdateFunctionRender value) => new(value);
 
     /// <summary>
     /// Validates that the instance was constructed with a known variant and that this variant is valid
@@ -532,7 +575,8 @@ public record class UpdateFunction : ModelBase
             (join) => join.Validate(),
             (payloadShaping) => payloadShaping.Validate(),
             (enrich) => enrich.Validate(),
-            (parse) => parse.Validate()
+            (parse) => parse.Validate(),
+            (render) => render.Validate()
         );
     }
 
@@ -564,6 +608,7 @@ public record class UpdateFunction : ModelBase
             UpdateFunctionPayloadShaping _ => 5,
             UpdateFunctionEnrich _ => 6,
             UpdateFunctionParse _ => 7,
+            UpdateFunctionRender _ => 8,
             _ => -1,
         };
     }
@@ -735,6 +780,26 @@ sealed class UpdateFunctionConverter : JsonConverter<UpdateFunction>
                 try
                 {
                     var deserialized = JsonSerializer.Deserialize<UpdateFunctionParse>(
+                        element,
+                        options
+                    );
+                    if (deserialized != null)
+                    {
+                        return new(deserialized, element);
+                    }
+                }
+                catch (JsonException)
+                {
+                    // ignore
+                }
+
+                return new(element);
+            }
+            case "render":
+            {
+                try
+                {
+                    var deserialized = JsonSerializer.Deserialize<UpdateFunctionRender>(
                         element,
                         options
                     );
@@ -1138,6 +1203,29 @@ public sealed record class UpdateFunctionClassify : JsonModel
     }
 
     /// <summary>
+    /// When true, image and PDF inputs are sent directly to the model for routing
+    /// instead of being OCR'd to text first. Defaults to true for new classify functions
+    /// and false for the legacy route type.
+    /// </summary>
+    public bool? NativeVisualInput
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("nativeVisualInput");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("nativeVisualInput", value);
+        }
+    }
+
+    /// <summary>
     /// Array of tags to categorize and organize functions.
     /// </summary>
     public IReadOnlyList<string>? Tags
@@ -1175,6 +1263,7 @@ public sealed record class UpdateFunctionClassify : JsonModel
         _ = this.Description;
         _ = this.DisplayName;
         _ = this.FunctionName;
+        _ = this.NativeVisualInput;
         _ = this.Tags;
     }
 
@@ -2357,25 +2446,32 @@ public sealed record class UpdateFunctionEnrich : JsonModel
     }
 
     /// <summary>
-    /// Configuration for enrich function with semantic search steps.
+    /// Configuration for an enrich function.
     ///
     /// <para>**How Enrich Functions Work:**</para>
     ///
-    /// <para>Enrich functions use semantic search to augment JSON data with relevant
-    /// information from collections. They take JSON input (typically from a transform
-    /// function), extract specified fields, perform vector-based semantic search
-    /// against collections, and inject the results back into the data.</para>
+    /// <para>Enrich functions augment JSON input with data from external sources.
+    /// They take JSON input (typically from a previous function), extract specified
+    /// fields, fetch or search for matching data, and inject the results back into
+    /// the JSON.</para>
     ///
-    /// <para>**Input Requirements:** - Must receive JSON input (typically uploaded
-    /// to S3 from a previous function) - Can be chained after transform or other
-    /// functions that produce JSON output</para>
+    /// <para>**Data Sources:** - **Collections** (`source: "collection"`): Vector/keyword
+    /// search against a BEM collection. Best for semantic matching against pre-indexed
+    /// documents. - **Endpoints** (`source: "endpoint"`): HTTP call to any user-provided
+    /// REST API. Best for looking up live data from CRMs, ERPs, or other external
+    /// systems. Optionally uses LLM agent reasoning to rank candidates returned
+    /// by the endpoint.</para>
+    ///
+    /// <para>**Input Requirements:** - Must receive JSON input (typically from a
+    /// previous function's output)</para>
     ///
     /// <para>**Example Use Cases:** - Match product descriptions to SKU codes from
-    /// a product catalog - Enrich customer data with account information - Link order
-    /// line items to inventory records</para>
+    /// a product catalog collection - Enrich customer data with account details
+    /// from a CRM endpoint - Use LLM agent reasoning to fuzzy-match line item descriptions
+    /// to catalog products</para>
     ///
-    /// <para>**Configuration:** - Define one or more enrichment steps - Each step
-    /// extracts values, searches a collection, and injects results - Steps are executed sequentially</para>
+    /// <para>**Configuration:** - Define named endpoints (for endpoint-source steps)
+    /// - Define one or more enrichment steps; steps are executed sequentially</para>
     /// </summary>
     public EnrichConfig? Config
     {
@@ -2483,6 +2579,29 @@ public sealed record class UpdateFunctionParse : JsonModel
     }
 
     /// <summary>
+    /// Cross-cutting toggles for Parse functions. Mirrors the `extraConfig` surface
+    /// on Extract / Join — separated from `parseConfig` so the per-call Parse output
+    /// shape stays distinct from operator-level execution flags.
+    /// </summary>
+    public ParseExtraFunctionConfig? ExtraConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ParseExtraFunctionConfig>("extraConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("extraConfig", value);
+        }
+    }
+
+    /// <summary>
     /// Name of function. Must be UNIQUE on a per-environment basis.
     /// </summary>
     public string? FunctionName
@@ -2560,6 +2679,7 @@ public sealed record class UpdateFunctionParse : JsonModel
             throw new BemInvalidDataException("Invalid value given for constant");
         }
         _ = this.DisplayName;
+        this.ExtraConfig?.Validate();
         _ = this.FunctionName;
         this.ParseConfig?.Validate();
         _ = this.Tags;
@@ -2605,4 +2725,164 @@ class UpdateFunctionParseFromRaw : IFromRawJson<UpdateFunctionParse>
     /// <inheritdoc/>
     public UpdateFunctionParse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         UpdateFunctionParse.FromRawUnchecked(rawData);
+}
+
+[JsonConverter(typeof(JsonModelConverter<UpdateFunctionRender, UpdateFunctionRenderFromRaw>))]
+public sealed record class UpdateFunctionRender : JsonModel
+{
+    public JsonElement Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullStruct<JsonElement>("type");
+        }
+        init { this._rawData.Set("type", value); }
+    }
+
+    /// <summary>
+    /// Display name of function. Human-readable name to help you identify the function.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of function. Must be UNIQUE on a per-environment basis.
+    /// </summary>
+    public string? FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionName", value);
+        }
+    }
+
+    /// <summary>
+    /// Request-side render configuration. Carries the template document as base64-encoded
+    /// `.docx` bytes: the server validates them, stores the template, and derives
+    /// the placeholder/style-id contract at create/update time, so clients never
+    /// submit `placeholders` or `styleIds`. The response shape (`RenderConfig`) returns
+    /// the derived contract.
+    /// </summary>
+    public RenderConfigInput? RenderConfig
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<RenderConfigInput>("renderConfig");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("renderConfig", value);
+        }
+    }
+
+    /// <summary>
+    /// Array of tags to categorize and organize functions.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        if (!JsonElement.DeepEquals(this.Type, JsonSerializer.SerializeToElement("render")))
+        {
+            throw new BemInvalidDataException("Invalid value given for constant");
+        }
+        _ = this.DisplayName;
+        _ = this.FunctionName;
+        this.RenderConfig?.Validate();
+        _ = this.Tags;
+    }
+
+    public UpdateFunctionRender()
+    {
+        this.Type = JsonSerializer.SerializeToElement("render");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public UpdateFunctionRender(UpdateFunctionRender updateFunctionRender)
+        : base(updateFunctionRender) { }
+#pragma warning restore CS8618
+
+    public UpdateFunctionRender(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+
+        this.Type = JsonSerializer.SerializeToElement("render");
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    UpdateFunctionRender(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="UpdateFunctionRenderFromRaw.FromRawUnchecked"/>
+    public static UpdateFunctionRender FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    )
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class UpdateFunctionRenderFromRaw : IFromRawJson<UpdateFunctionRender>
+{
+    /// <inheritdoc/>
+    public UpdateFunctionRender FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => UpdateFunctionRender.FromRawUnchecked(rawData);
 }

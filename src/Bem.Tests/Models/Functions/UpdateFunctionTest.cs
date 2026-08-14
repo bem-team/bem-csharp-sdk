@@ -46,6 +46,7 @@ public class UpdateFunctionTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
         value.Validate();
@@ -134,21 +135,44 @@ public class UpdateFunctionTest : TestBase
     {
         UpdateFunction value = new UpdateFunctionEnrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
         value.Validate();
     }
@@ -159,13 +183,30 @@ public class UpdateFunctionTest : TestBase
         UpdateFunction value = new UpdateFunctionParse()
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
             },
+            Tags = ["string"],
+        };
+        value.Validate();
+    }
+
+    [Fact]
+    public void RenderValidationWorks()
+    {
+        UpdateFunction value = new UpdateFunctionRender()
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
             Tags = ["string"],
         };
         value.Validate();
@@ -215,6 +256,7 @@ public class UpdateFunctionTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -333,21 +375,44 @@ public class UpdateFunctionTest : TestBase
     {
         UpdateFunction value = new UpdateFunctionEnrich()
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<UpdateFunction>(
@@ -364,13 +429,36 @@ public class UpdateFunctionTest : TestBase
         UpdateFunction value = new UpdateFunctionParse()
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
             },
+            Tags = ["string"],
+        };
+        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UpdateFunction>(
+            element,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void RenderSerializationRoundtripWorks()
+    {
+        UpdateFunction value = new UpdateFunctionRender()
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
             Tags = ["string"],
         };
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
@@ -646,6 +734,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -666,6 +755,7 @@ public class UpdateFunctionClassifyTest : TestBase
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
         string expectedFunctionName = "functionName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
@@ -678,6 +768,7 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.Equal(expectedDescription, model.Description);
         Assert.Equal(expectedDisplayName, model.DisplayName);
         Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedNativeVisualInput, model.NativeVisualInput);
         Assert.NotNull(model.Tags);
         Assert.Equal(expectedTags.Count, model.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -707,6 +798,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -740,6 +832,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -767,6 +860,7 @@ public class UpdateFunctionClassifyTest : TestBase
         string expectedDescription = "description";
         string expectedDisplayName = "displayName";
         string expectedFunctionName = "functionName";
+        bool expectedNativeVisualInput = true;
         List<string> expectedTags = ["string"];
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
@@ -779,6 +873,7 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.Equal(expectedDescription, deserialized.Description);
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedNativeVisualInput, deserialized.NativeVisualInput);
         Assert.NotNull(deserialized.Tags);
         Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
         for (int i = 0; i < expectedTags.Count; i++)
@@ -808,6 +903,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -827,6 +923,8 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -849,6 +947,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = null,
             DisplayName = null,
             FunctionName = null,
+            NativeVisualInput = null,
             Tags = null,
         };
 
@@ -860,6 +959,8 @@ public class UpdateFunctionClassifyTest : TestBase
         Assert.False(model.RawData.ContainsKey("displayName"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.NativeVisualInput);
+        Assert.False(model.RawData.ContainsKey("nativeVisualInput"));
         Assert.Null(model.Tags);
         Assert.False(model.RawData.ContainsKey("tags"));
     }
@@ -874,6 +975,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = null,
             DisplayName = null,
             FunctionName = null,
+            NativeVisualInput = null,
             Tags = null,
         };
 
@@ -901,6 +1003,7 @@ public class UpdateFunctionClassifyTest : TestBase
             Description = "description",
             DisplayName = "displayName",
             FunctionName = "functionName",
+            NativeVisualInput = true,
             Tags = ["string"],
         };
 
@@ -2335,39 +2438,85 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
-        EnrichConfig expectedConfig = new(
+        EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = SearchMode.Semantic,
+                    Source = Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedConfig, model.Config);
@@ -2378,21 +2527,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -2409,21 +2581,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -2434,21 +2629,44 @@ public class UpdateFunctionEnrichTest : TestBase
         Assert.NotNull(deserialized);
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("enrich");
-        EnrichConfig expectedConfig = new(
+        EnrichConfig expectedConfig = new()
+        {
+            Steps =
             [
                 new()
                 {
-                    CollectionName = "collectionName",
                     SourceField = "sourceField",
                     TargetField = "targetField",
+                    CollectionName = "collectionName",
+                    EndpointName = "endpointName",
                     IncludeScore = true,
                     IncludeSubcollections = true,
                     ScoreThreshold = 0,
                     SearchMode = SearchMode.Semantic,
+                    Source = Source.Collection,
                     TopK = 1,
                 },
-            ]
-        );
+            ],
+            Endpoints =
+            [
+                new()
+                {
+                    Method = Method.Get,
+                    Name = "name",
+                    Url = "url",
+                    BodyTemplate = "bodyTemplate",
+                    Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                    MatchInstructions = "matchInstructions",
+                    MatchTopK = 1,
+                    MaxCandidates = 1,
+                    MaxPages = 1,
+                    NextPageParam = "nextPageParam",
+                    NextPagePath = "nextPagePath",
+                    QueryParam = "queryParam",
+                    ResponsePath = "responsePath",
+                },
+            ],
+        };
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedConfig, deserialized.Config);
@@ -2459,21 +2677,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         model.Validate();
@@ -2526,21 +2767,44 @@ public class UpdateFunctionEnrichTest : TestBase
     {
         var model = new UpdateFunctionEnrich
         {
-            Config = new(
+            Config = new()
+            {
+                Steps =
                 [
                     new()
                     {
-                        CollectionName = "collectionName",
                         SourceField = "sourceField",
                         TargetField = "targetField",
+                        CollectionName = "collectionName",
+                        EndpointName = "endpointName",
                         IncludeScore = true,
                         IncludeSubcollections = true,
                         ScoreThreshold = 0,
                         SearchMode = SearchMode.Semantic,
+                        Source = Source.Collection,
                         TopK = 1,
                     },
-                ]
-            ),
+                ],
+                Endpoints =
+                [
+                    new()
+                    {
+                        Method = Method.Get,
+                        Name = "name",
+                        Url = "url",
+                        BodyTemplate = "bodyTemplate",
+                        Headers = JsonSerializer.Deserialize<JsonElement>("{}"),
+                        MatchInstructions = "matchInstructions",
+                        MatchTopK = 1,
+                        MaxCandidates = 1,
+                        MaxPages = 1,
+                        NextPageParam = "nextPageParam",
+                        NextPagePath = "nextPagePath",
+                        QueryParam = "queryParam",
+                        ResponsePath = "responsePath",
+                    },
+                ],
+            },
         };
 
         UpdateFunctionEnrich copied = new(model);
@@ -2557,9 +2821,11 @@ public class UpdateFunctionParseTest : TestBase
         var model = new UpdateFunctionParse
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2569,9 +2835,11 @@ public class UpdateFunctionParseTest : TestBase
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("parse");
         string expectedDisplayName = "displayName";
+        ParseExtraFunctionConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         string expectedFunctionName = "functionName";
         ParseConfig expectedParseConfig = new()
         {
+            DefaultBucket = "defaultBucket",
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2580,6 +2848,7 @@ public class UpdateFunctionParseTest : TestBase
 
         Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
         Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedExtraConfig, model.ExtraConfig);
         Assert.Equal(expectedFunctionName, model.FunctionName);
         Assert.Equal(expectedParseConfig, model.ParseConfig);
         Assert.NotNull(model.Tags);
@@ -2596,9 +2865,11 @@ public class UpdateFunctionParseTest : TestBase
         var model = new UpdateFunctionParse
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2621,9 +2892,11 @@ public class UpdateFunctionParseTest : TestBase
         var model = new UpdateFunctionParse
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2640,9 +2913,11 @@ public class UpdateFunctionParseTest : TestBase
 
         JsonElement expectedType = JsonSerializer.SerializeToElement("parse");
         string expectedDisplayName = "displayName";
+        ParseExtraFunctionConfig expectedExtraConfig = new() { EnableBoundingBoxes = true };
         string expectedFunctionName = "functionName";
         ParseConfig expectedParseConfig = new()
         {
+            DefaultBucket = "defaultBucket",
             ExtractEntities = true,
             LinkAcrossDocuments = true,
             Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2651,6 +2926,7 @@ public class UpdateFunctionParseTest : TestBase
 
         Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
         Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedExtraConfig, deserialized.ExtraConfig);
         Assert.Equal(expectedFunctionName, deserialized.FunctionName);
         Assert.Equal(expectedParseConfig, deserialized.ParseConfig);
         Assert.NotNull(deserialized.Tags);
@@ -2667,9 +2943,11 @@ public class UpdateFunctionParseTest : TestBase
         var model = new UpdateFunctionParse
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2687,6 +2965,8 @@ public class UpdateFunctionParseTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ExtraConfig);
+        Assert.False(model.RawData.ContainsKey("extraConfig"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
         Assert.Null(model.ParseConfig);
@@ -2710,6 +2990,7 @@ public class UpdateFunctionParseTest : TestBase
         {
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            ExtraConfig = null,
             FunctionName = null,
             ParseConfig = null,
             Tags = null,
@@ -2717,6 +2998,8 @@ public class UpdateFunctionParseTest : TestBase
 
         Assert.Null(model.DisplayName);
         Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.ExtraConfig);
+        Assert.False(model.RawData.ContainsKey("extraConfig"));
         Assert.Null(model.FunctionName);
         Assert.False(model.RawData.ContainsKey("functionName"));
         Assert.Null(model.ParseConfig);
@@ -2732,6 +3015,7 @@ public class UpdateFunctionParseTest : TestBase
         {
             // Null should be interpreted as omitted for these properties
             DisplayName = null,
+            ExtraConfig = null,
             FunctionName = null,
             ParseConfig = null,
             Tags = null,
@@ -2746,9 +3030,11 @@ public class UpdateFunctionParseTest : TestBase
         var model = new UpdateFunctionParse
         {
             DisplayName = "displayName",
+            ExtraConfig = new() { EnableBoundingBoxes = true },
             FunctionName = "functionName",
             ParseConfig = new()
             {
+                DefaultBucket = "defaultBucket",
                 ExtractEntities = true,
                 LinkAcrossDocuments = true,
                 Schema = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -2757,6 +3043,198 @@ public class UpdateFunctionParseTest : TestBase
         };
 
         UpdateFunctionParse copied = new(model);
+
+        Assert.Equal(model, copied);
+    }
+}
+
+public class UpdateFunctionRenderTest : TestBase
+{
+    [Fact]
+    public void FieldRoundtrip_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
+            Tags = ["string"],
+        };
+
+        JsonElement expectedType = JsonSerializer.SerializeToElement("render");
+        string expectedDisplayName = "displayName";
+        string expectedFunctionName = "functionName";
+        RenderConfigInput expectedRenderConfig = new(
+            new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+        );
+        List<string> expectedTags = ["string"];
+
+        Assert.True(JsonElement.DeepEquals(expectedType, model.Type));
+        Assert.Equal(expectedDisplayName, model.DisplayName);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedRenderConfig, model.RenderConfig);
+        Assert.NotNull(model.Tags);
+        Assert.Equal(expectedTags.Count, model.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], model.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void SerializationRoundtrip_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
+            Tags = ["string"],
+        };
+
+        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRender>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(model, deserialized);
+    }
+
+    [Fact]
+    public void FieldRoundtripThroughSerialization_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
+            Tags = ["string"],
+        };
+
+        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<UpdateFunctionRender>(
+            element,
+            ModelBase.SerializerOptions
+        );
+        Assert.NotNull(deserialized);
+
+        JsonElement expectedType = JsonSerializer.SerializeToElement("render");
+        string expectedDisplayName = "displayName";
+        string expectedFunctionName = "functionName";
+        RenderConfigInput expectedRenderConfig = new(
+            new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+        );
+        List<string> expectedTags = ["string"];
+
+        Assert.True(JsonElement.DeepEquals(expectedType, deserialized.Type));
+        Assert.Equal(expectedDisplayName, deserialized.DisplayName);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedRenderConfig, deserialized.RenderConfig);
+        Assert.NotNull(deserialized.Tags);
+        Assert.Equal(expectedTags.Count, deserialized.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], deserialized.Tags[i]);
+        }
+    }
+
+    [Fact]
+    public void Validation_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
+            Tags = ["string"],
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
+    {
+        var model = new UpdateFunctionRender { };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.RenderConfig);
+        Assert.False(model.RawData.ContainsKey("renderConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesUnsetValidation_Works()
+    {
+        var model = new UpdateFunctionRender { };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            FunctionName = null,
+            RenderConfig = null,
+            Tags = null,
+        };
+
+        Assert.Null(model.DisplayName);
+        Assert.False(model.RawData.ContainsKey("displayName"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.RenderConfig);
+        Assert.False(model.RawData.ContainsKey("renderConfig"));
+        Assert.Null(model.Tags);
+        Assert.False(model.RawData.ContainsKey("tags"));
+    }
+
+    [Fact]
+    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            // Null should be interpreted as omitted for these properties
+            DisplayName = null,
+            FunctionName = null,
+            RenderConfig = null,
+            Tags = null,
+        };
+
+        model.Validate();
+    }
+
+    [Fact]
+    public void CopyConstructor_Works()
+    {
+        var model = new UpdateFunctionRender
+        {
+            DisplayName = "displayName",
+            FunctionName = "functionName",
+            RenderConfig = new(
+                new RenderConfigInputTemplate() { Base64 = "base64", Name = "name" }
+            ),
+            Tags = ["string"],
+        };
+
+        UpdateFunctionRender copied = new(model);
 
         Assert.Equal(model, copied);
     }
