@@ -18,6 +18,10 @@ namespace Bem.Models.Workflows;
 /// <para>Functions referenced by the deleted workflow are not removed — they remain
 /// available to other workflows or for direct reference.</para>
 ///
+/// <para>Any connectors attached to the workflow are torn down first. Teardown is
+/// best-effort: per-connector failures are reported in `connectorErrors` but do not
+/// block the deletion, so check that array rather than relying on the status code alone.</para>
+///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
 /// cause existing derived classes to break.</para>

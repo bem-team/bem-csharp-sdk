@@ -14,15 +14,22 @@ public class FunctionGetMetricsParamsTest : TestBase
     {
         var parameters = new FunctionGetMetricsParams
         {
+            DisplayName = "displayName",
             EndingBefore = "endingBefore",
             FunctionIds = ["string"],
             FunctionNames = ["string"],
             Limit = 1,
             SortOrder = FunctionGetMetricsParamsSortOrder.Asc,
             StartingAfter = "startingAfter",
+            Tags = ["string"],
             Types = [FunctionType.Transform],
+            WorkflowIds = ["string"],
+            WorkflowIDVersionNums = ["string"],
+            WorkflowNames = ["string"],
+            WorkflowNameVersionNums = ["string"],
         };
 
+        string expectedDisplayName = "displayName";
         string expectedEndingBefore = "endingBefore";
         List<string> expectedFunctionIds = ["string"];
         List<string> expectedFunctionNames = ["string"];
@@ -30,8 +37,14 @@ public class FunctionGetMetricsParamsTest : TestBase
         ApiEnum<string, FunctionGetMetricsParamsSortOrder> expectedSortOrder =
             FunctionGetMetricsParamsSortOrder.Asc;
         string expectedStartingAfter = "startingAfter";
+        List<string> expectedTags = ["string"];
         List<ApiEnum<string, FunctionType>> expectedTypes = [FunctionType.Transform];
+        List<string> expectedWorkflowIds = ["string"];
+        List<string> expectedWorkflowIDVersionNums = ["string"];
+        List<string> expectedWorkflowNames = ["string"];
+        List<string> expectedWorkflowNameVersionNums = ["string"];
 
+        Assert.Equal(expectedDisplayName, parameters.DisplayName);
         Assert.Equal(expectedEndingBefore, parameters.EndingBefore);
         Assert.NotNull(parameters.FunctionIds);
         Assert.Equal(expectedFunctionIds.Count, parameters.FunctionIds.Count);
@@ -48,11 +61,44 @@ public class FunctionGetMetricsParamsTest : TestBase
         Assert.Equal(expectedLimit, parameters.Limit);
         Assert.Equal(expectedSortOrder, parameters.SortOrder);
         Assert.Equal(expectedStartingAfter, parameters.StartingAfter);
+        Assert.NotNull(parameters.Tags);
+        Assert.Equal(expectedTags.Count, parameters.Tags.Count);
+        for (int i = 0; i < expectedTags.Count; i++)
+        {
+            Assert.Equal(expectedTags[i], parameters.Tags[i]);
+        }
         Assert.NotNull(parameters.Types);
         Assert.Equal(expectedTypes.Count, parameters.Types.Count);
         for (int i = 0; i < expectedTypes.Count; i++)
         {
             Assert.Equal(expectedTypes[i], parameters.Types[i]);
+        }
+        Assert.NotNull(parameters.WorkflowIds);
+        Assert.Equal(expectedWorkflowIds.Count, parameters.WorkflowIds.Count);
+        for (int i = 0; i < expectedWorkflowIds.Count; i++)
+        {
+            Assert.Equal(expectedWorkflowIds[i], parameters.WorkflowIds[i]);
+        }
+        Assert.NotNull(parameters.WorkflowIDVersionNums);
+        Assert.Equal(expectedWorkflowIDVersionNums.Count, parameters.WorkflowIDVersionNums.Count);
+        for (int i = 0; i < expectedWorkflowIDVersionNums.Count; i++)
+        {
+            Assert.Equal(expectedWorkflowIDVersionNums[i], parameters.WorkflowIDVersionNums[i]);
+        }
+        Assert.NotNull(parameters.WorkflowNames);
+        Assert.Equal(expectedWorkflowNames.Count, parameters.WorkflowNames.Count);
+        for (int i = 0; i < expectedWorkflowNames.Count; i++)
+        {
+            Assert.Equal(expectedWorkflowNames[i], parameters.WorkflowNames[i]);
+        }
+        Assert.NotNull(parameters.WorkflowNameVersionNums);
+        Assert.Equal(
+            expectedWorkflowNameVersionNums.Count,
+            parameters.WorkflowNameVersionNums.Count
+        );
+        for (int i = 0; i < expectedWorkflowNameVersionNums.Count; i++)
+        {
+            Assert.Equal(expectedWorkflowNameVersionNums[i], parameters.WorkflowNameVersionNums[i]);
         }
     }
 
@@ -61,6 +107,8 @@ public class FunctionGetMetricsParamsTest : TestBase
     {
         var parameters = new FunctionGetMetricsParams { };
 
+        Assert.Null(parameters.DisplayName);
+        Assert.False(parameters.RawQueryData.ContainsKey("displayName"));
         Assert.Null(parameters.EndingBefore);
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
         Assert.Null(parameters.FunctionIds);
@@ -73,8 +121,18 @@ public class FunctionGetMetricsParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("sortOrder"));
         Assert.Null(parameters.StartingAfter);
         Assert.False(parameters.RawQueryData.ContainsKey("startingAfter"));
+        Assert.Null(parameters.Tags);
+        Assert.False(parameters.RawQueryData.ContainsKey("tags"));
         Assert.Null(parameters.Types);
         Assert.False(parameters.RawQueryData.ContainsKey("types"));
+        Assert.Null(parameters.WorkflowIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowIDs"));
+        Assert.Null(parameters.WorkflowIDVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowIDVersionNums"));
+        Assert.Null(parameters.WorkflowNames);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowNames"));
+        Assert.Null(parameters.WorkflowNameVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowNameVersionNums"));
     }
 
     [Fact]
@@ -83,15 +141,23 @@ public class FunctionGetMetricsParamsTest : TestBase
         var parameters = new FunctionGetMetricsParams
         {
             // Null should be interpreted as omitted for these properties
+            DisplayName = null,
             EndingBefore = null,
             FunctionIds = null,
             FunctionNames = null,
             Limit = null,
             SortOrder = null,
             StartingAfter = null,
+            Tags = null,
             Types = null,
+            WorkflowIds = null,
+            WorkflowIDVersionNums = null,
+            WorkflowNames = null,
+            WorkflowNameVersionNums = null,
         };
 
+        Assert.Null(parameters.DisplayName);
+        Assert.False(parameters.RawQueryData.ContainsKey("displayName"));
         Assert.Null(parameters.EndingBefore);
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
         Assert.Null(parameters.FunctionIds);
@@ -104,8 +170,18 @@ public class FunctionGetMetricsParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("sortOrder"));
         Assert.Null(parameters.StartingAfter);
         Assert.False(parameters.RawQueryData.ContainsKey("startingAfter"));
+        Assert.Null(parameters.Tags);
+        Assert.False(parameters.RawQueryData.ContainsKey("tags"));
         Assert.Null(parameters.Types);
         Assert.False(parameters.RawQueryData.ContainsKey("types"));
+        Assert.Null(parameters.WorkflowIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowIDs"));
+        Assert.Null(parameters.WorkflowIDVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowIDVersionNums"));
+        Assert.Null(parameters.WorkflowNames);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowNames"));
+        Assert.Null(parameters.WorkflowNameVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowNameVersionNums"));
     }
 
     [Fact]
@@ -113,13 +189,19 @@ public class FunctionGetMetricsParamsTest : TestBase
     {
         FunctionGetMetricsParams parameters = new()
         {
+            DisplayName = "displayName",
             EndingBefore = "endingBefore",
             FunctionIds = ["string"],
             FunctionNames = ["string"],
             Limit = 1,
             SortOrder = FunctionGetMetricsParamsSortOrder.Asc,
             StartingAfter = "startingAfter",
+            Tags = ["string"],
             Types = [FunctionType.Transform],
+            WorkflowIds = ["string"],
+            WorkflowIDVersionNums = ["string"],
+            WorkflowNames = ["string"],
+            WorkflowNameVersionNums = ["string"],
         };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
@@ -127,7 +209,7 @@ public class FunctionGetMetricsParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/functions/metrics?endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&sortOrder=asc&startingAfter=startingAfter&types=transform"
+                    "https://api.bem.ai/v3/functions/metrics?displayName=displayName&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&sortOrder=asc&startingAfter=startingAfter&tags=string&types=transform&workflowIDs=string&workflowIDVersionNums=string&workflowNames=string&workflowNameVersionNums=string"
                 ),
                 url
             )
@@ -139,13 +221,19 @@ public class FunctionGetMetricsParamsTest : TestBase
     {
         var parameters = new FunctionGetMetricsParams
         {
+            DisplayName = "displayName",
             EndingBefore = "endingBefore",
             FunctionIds = ["string"],
             FunctionNames = ["string"],
             Limit = 1,
             SortOrder = FunctionGetMetricsParamsSortOrder.Asc,
             StartingAfter = "startingAfter",
+            Tags = ["string"],
             Types = [FunctionType.Transform],
+            WorkflowIds = ["string"],
+            WorkflowIDVersionNums = ["string"],
+            WorkflowNames = ["string"],
+            WorkflowNameVersionNums = ["string"],
         };
 
         FunctionGetMetricsParams copied = new(parameters);

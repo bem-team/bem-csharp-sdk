@@ -23,7 +23,9 @@ namespace Bem.Models.Workflows;
 /// case-insensitive substring match. - `tags`: returns workflows tagged with any
 /// of the supplied tags. - `functionIDs` / `functionNames`: returns only workflows
 /// that reference the named functions in any node. Useful for "which workflows depend
-/// on this function?" lookups before changing or deleting a function.</para>
+/// on this function?" lookups before changing or deleting a function. - `functionIDVersionNums`
+/// / `functionNameVersionNums`: the same lookup narrowed to nodes pinned to a specific
+/// function version.</para>
 ///
 /// <para>## Pagination</para>
 ///
@@ -93,6 +95,33 @@ public record class WorkflowListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Return only workflows with a node pinned to a specific function version.
+    /// Each entry is `&lt;functionID&gt;.&lt;versionNum&gt;` — for example `fn_2c9AXIj48cUYJtCuv1gsQtHGDzK.4`.
+    /// </summary>
+    public IReadOnlyList<string>? FunctionIDVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "functionIDVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "functionIDVersionNums",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
     public IReadOnlyList<string>? FunctionNames
     {
         get
@@ -109,6 +138,34 @@ public record class WorkflowListParams : ParamsBase
 
             this._rawQueryData.Set<ImmutableArray<string>?>(
                 "functionNames",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Return only workflows with a node pinned to a specific function version,
+    /// keyed by function name. Each entry is `&lt;functionName&gt;.&lt;versionNum&gt;`
+    /// — for example `invoice-extract.4`.
+    /// </summary>
+    public IReadOnlyList<string>? FunctionNameVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "functionNameVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "functionNameVersionNums",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }

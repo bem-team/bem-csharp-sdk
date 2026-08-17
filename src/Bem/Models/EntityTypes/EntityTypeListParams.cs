@@ -60,6 +60,27 @@ public record class EntityTypeListParams : ParamsBase
     }
 
     /// <summary>
+    /// Case-insensitive substring match on the entity type name.
+    /// </summary>
+    public string? Name
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("name");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("name", value);
+        }
+    }
+
+    /// <summary>
     /// Filter to the direct children of this parent type (`ety_...`).
     /// </summary>
     public string? ParentTypeID

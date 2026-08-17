@@ -18,26 +18,32 @@ public class FunctionListParamsTest : TestBase
             EndingBefore = "endingBefore",
             FunctionIds = ["string"],
             FunctionNames = ["string"],
+            IncludeExtraSettings = true,
             Limit = 1,
             SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
             Tags = ["string"],
             Types = [FunctionType.Transform],
             WorkflowIds = ["string"],
+            WorkflowIDVersionNums = ["string"],
             WorkflowNames = ["string"],
+            WorkflowNameVersionNums = ["string"],
         };
 
         string expectedDisplayName = "displayName";
         string expectedEndingBefore = "endingBefore";
         List<string> expectedFunctionIds = ["string"];
         List<string> expectedFunctionNames = ["string"];
+        bool expectedIncludeExtraSettings = true;
         long expectedLimit = 1;
         ApiEnum<string, SortOrder> expectedSortOrder = SortOrder.Asc;
         string expectedStartingAfter = "startingAfter";
         List<string> expectedTags = ["string"];
         List<ApiEnum<string, FunctionType>> expectedTypes = [FunctionType.Transform];
         List<string> expectedWorkflowIds = ["string"];
+        List<string> expectedWorkflowIDVersionNums = ["string"];
         List<string> expectedWorkflowNames = ["string"];
+        List<string> expectedWorkflowNameVersionNums = ["string"];
 
         Assert.Equal(expectedDisplayName, parameters.DisplayName);
         Assert.Equal(expectedEndingBefore, parameters.EndingBefore);
@@ -53,6 +59,7 @@ public class FunctionListParamsTest : TestBase
         {
             Assert.Equal(expectedFunctionNames[i], parameters.FunctionNames[i]);
         }
+        Assert.Equal(expectedIncludeExtraSettings, parameters.IncludeExtraSettings);
         Assert.Equal(expectedLimit, parameters.Limit);
         Assert.Equal(expectedSortOrder, parameters.SortOrder);
         Assert.Equal(expectedStartingAfter, parameters.StartingAfter);
@@ -74,11 +81,26 @@ public class FunctionListParamsTest : TestBase
         {
             Assert.Equal(expectedWorkflowIds[i], parameters.WorkflowIds[i]);
         }
+        Assert.NotNull(parameters.WorkflowIDVersionNums);
+        Assert.Equal(expectedWorkflowIDVersionNums.Count, parameters.WorkflowIDVersionNums.Count);
+        for (int i = 0; i < expectedWorkflowIDVersionNums.Count; i++)
+        {
+            Assert.Equal(expectedWorkflowIDVersionNums[i], parameters.WorkflowIDVersionNums[i]);
+        }
         Assert.NotNull(parameters.WorkflowNames);
         Assert.Equal(expectedWorkflowNames.Count, parameters.WorkflowNames.Count);
         for (int i = 0; i < expectedWorkflowNames.Count; i++)
         {
             Assert.Equal(expectedWorkflowNames[i], parameters.WorkflowNames[i]);
+        }
+        Assert.NotNull(parameters.WorkflowNameVersionNums);
+        Assert.Equal(
+            expectedWorkflowNameVersionNums.Count,
+            parameters.WorkflowNameVersionNums.Count
+        );
+        for (int i = 0; i < expectedWorkflowNameVersionNums.Count; i++)
+        {
+            Assert.Equal(expectedWorkflowNameVersionNums[i], parameters.WorkflowNameVersionNums[i]);
         }
     }
 
@@ -95,6 +117,8 @@ public class FunctionListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
         Assert.Null(parameters.FunctionNames);
         Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
+        Assert.Null(parameters.IncludeExtraSettings);
+        Assert.False(parameters.RawQueryData.ContainsKey("includeExtraSettings"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
         Assert.Null(parameters.SortOrder);
@@ -107,8 +131,12 @@ public class FunctionListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("types"));
         Assert.Null(parameters.WorkflowIds);
         Assert.False(parameters.RawQueryData.ContainsKey("workflowIDs"));
+        Assert.Null(parameters.WorkflowIDVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowIDVersionNums"));
         Assert.Null(parameters.WorkflowNames);
         Assert.False(parameters.RawQueryData.ContainsKey("workflowNames"));
+        Assert.Null(parameters.WorkflowNameVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowNameVersionNums"));
     }
 
     [Fact]
@@ -121,13 +149,16 @@ public class FunctionListParamsTest : TestBase
             EndingBefore = null,
             FunctionIds = null,
             FunctionNames = null,
+            IncludeExtraSettings = null,
             Limit = null,
             SortOrder = null,
             StartingAfter = null,
             Tags = null,
             Types = null,
             WorkflowIds = null,
+            WorkflowIDVersionNums = null,
             WorkflowNames = null,
+            WorkflowNameVersionNums = null,
         };
 
         Assert.Null(parameters.DisplayName);
@@ -138,6 +169,8 @@ public class FunctionListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
         Assert.Null(parameters.FunctionNames);
         Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
+        Assert.Null(parameters.IncludeExtraSettings);
+        Assert.False(parameters.RawQueryData.ContainsKey("includeExtraSettings"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
         Assert.Null(parameters.SortOrder);
@@ -150,8 +183,12 @@ public class FunctionListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("types"));
         Assert.Null(parameters.WorkflowIds);
         Assert.False(parameters.RawQueryData.ContainsKey("workflowIDs"));
+        Assert.Null(parameters.WorkflowIDVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowIDVersionNums"));
         Assert.Null(parameters.WorkflowNames);
         Assert.False(parameters.RawQueryData.ContainsKey("workflowNames"));
+        Assert.Null(parameters.WorkflowNameVersionNums);
+        Assert.False(parameters.RawQueryData.ContainsKey("workflowNameVersionNums"));
     }
 
     [Fact]
@@ -163,13 +200,16 @@ public class FunctionListParamsTest : TestBase
             EndingBefore = "endingBefore",
             FunctionIds = ["string"],
             FunctionNames = ["string"],
+            IncludeExtraSettings = true,
             Limit = 1,
             SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
             Tags = ["string"],
             Types = [FunctionType.Transform],
             WorkflowIds = ["string"],
+            WorkflowIDVersionNums = ["string"],
             WorkflowNames = ["string"],
+            WorkflowNameVersionNums = ["string"],
         };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
@@ -177,7 +217,7 @@ public class FunctionListParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/functions?displayName=displayName&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&sortOrder=asc&startingAfter=startingAfter&tags=string&types=transform&workflowIDs=string&workflowNames=string"
+                    "https://api.bem.ai/v3/functions?displayName=displayName&endingBefore=endingBefore&functionIDs=string&functionNames=string&includeExtraSettings=true&limit=1&sortOrder=asc&startingAfter=startingAfter&tags=string&types=transform&workflowIDs=string&workflowIDVersionNums=string&workflowNames=string&workflowNameVersionNums=string"
                 ),
                 url
             )
@@ -193,13 +233,16 @@ public class FunctionListParamsTest : TestBase
             EndingBefore = "endingBefore",
             FunctionIds = ["string"],
             FunctionNames = ["string"],
+            IncludeExtraSettings = true,
             Limit = 1,
             SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
             Tags = ["string"],
             Types = [FunctionType.Transform],
             WorkflowIds = ["string"],
+            WorkflowIDVersionNums = ["string"],
             WorkflowNames = ["string"],
+            WorkflowNameVersionNums = ["string"],
         };
 
         FunctionListParams copied = new(parameters);

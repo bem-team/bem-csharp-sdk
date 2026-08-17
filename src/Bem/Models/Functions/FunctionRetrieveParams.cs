@@ -22,6 +22,28 @@ public record class FunctionRetrieveParams : ParamsBase
 {
     public string? FunctionName { get; init; }
 
+    /// <summary>
+    /// Populate the function's `extraConfig` block. Omitted or `false` by default,
+    /// in which case `extraConfig` is absent from the response.
+    /// </summary>
+    public bool? IncludeExtraSettings
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<bool>("includeExtraSettings");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("includeExtraSettings", value);
+        }
+    }
+
     public FunctionRetrieveParams() { }
 
 #pragma warning disable CS8618

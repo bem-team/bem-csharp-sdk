@@ -66,11 +66,12 @@ public class WorkflowServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task Delete_Works()
     {
-        await this.client.Workflows.Delete(
+        var workflow = await this.client.Workflows.Delete(
             "workflowName",
             new(),
             TestContext.Current.CancellationToken
         );
+        workflow.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]
