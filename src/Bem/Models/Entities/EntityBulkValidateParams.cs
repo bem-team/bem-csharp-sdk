@@ -61,6 +61,28 @@ public record class EntityBulkValidateParams : ParamsBase
         init { this._rawBodyData.Set("status", value); }
     }
 
+    /// <summary>
+    /// Optional bucket public ID (`bkt_...`) to scope the lookup to. Omit for the
+    /// default bucket.
+    /// </summary>
+    public string? Bucket
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("bucket", value);
+        }
+    }
+
     public EntityBulkValidateParams() { }
 
 #pragma warning disable CS8618

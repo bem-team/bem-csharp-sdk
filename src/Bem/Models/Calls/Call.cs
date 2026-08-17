@@ -8,18 +8,23 @@ using System.Text.Json.Serialization;
 using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.Errors;
+using Bem.Models.Functions;
 using Bem.Models.Outputs;
 
 namespace Bem.Models.Calls;
 
 /// <summary>
-/// A workflow call returned by the V3 API.
+/// A call returned by the V3 API.
 ///
 /// <para>Compared to the V2 `Call` model: - Terminal outputs are split into `outputs`
-/// (non-error events) and `errors` (error events) - `callType` and function-scoped
-/// fields are removed — V3 calls are always workflow calls - The deprecated `functionCalls`
+/// (non-error events) and `errors` (error events) - The deprecated `functionCalls`
 /// field is removed (use `GET /v3/calls/{callID}/trace`) - `url` and `traceUrl` hint
 /// fields are included for resource discovery</para>
+///
+/// <para>Most calls are workflow calls, and `POST /v3/workflows/{workflowName}/call`
+/// only ever creates those. `GET /v3/calls` and `GET /v3/calls/{callID}` also return
+/// direct and adhoc function calls, which carry the function-scoped fields instead
+/// of the workflow-scoped ones — read `callType` to tell them apart.</para>
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Call, CallFromRaw>))]
 public sealed record class Call : JsonModel
@@ -35,6 +40,23 @@ public sealed record class Call : JsonModel
             return this._rawData.GetNotNullClass<string>("callID");
         }
         init { this._rawData.Set("callID", value); }
+    }
+
+    /// <summary>
+    /// What kind of call this is. Always present.
+    ///
+    /// <para>- `workflow` — created by `POST /v3/workflows/{workflowName}/call`;
+    /// carries the `workflow*` fields. - `direct_function` / `adhoc_function` —
+    /// a call against a single function; carries the `function*` fields instead.</para>
+    /// </summary>
+    public required ApiEnum<string, CallCallType> CallType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, CallCallType>>("callType");
+        }
+        init { this._rawData.Set("callType", value); }
     }
 
     /// <summary>
@@ -167,6 +189,90 @@ public sealed record class Call : JsonModel
     }
 
     /// <summary>
+    /// Unique identifier of the function. Only set for function calls.
+    /// </summary>
+    public string? FunctionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionID");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionID", value);
+        }
+    }
+
+    /// <summary>
+    /// Name of the function. Only set for function calls.
+    /// </summary>
+    public string? FunctionName
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("functionName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionName", value);
+        }
+    }
+
+    /// <summary>
+    /// The type of the function.
+    /// </summary>
+    public ApiEnum<string, FunctionType>? FunctionType
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<ApiEnum<string, FunctionType>>("functionType");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionType", value);
+        }
+    }
+
+    /// <summary>
+    /// Version number of the function. Only set for function calls.
+    /// </summary>
+    public long? FunctionVersionNum
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("functionVersionNum");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("functionVersionNum", value);
+        }
+    }
+
+    /// <summary>
     /// Input to the main function call.
     /// </summary>
     public global::Bem.Models.Calls.Input? Input
@@ -209,7 +315,7 @@ public sealed record class Call : JsonModel
     }
 
     /// <summary>
-    /// Unique identifier of the workflow.
+    /// Unique identifier of the workflow. Only set when `callType` is `workflow`.
     /// </summary>
     public string? WorkflowID
     {
@@ -230,7 +336,7 @@ public sealed record class Call : JsonModel
     }
 
     /// <summary>
-    /// Name of the workflow.
+    /// Name of the workflow. Only set when `callType` is `workflow`.
     /// </summary>
     public string? WorkflowName
     {
@@ -251,7 +357,7 @@ public sealed record class Call : JsonModel
     }
 
     /// <summary>
-    /// Version number of the workflow.
+    /// Version number of the workflow. Only set when `callType` is `workflow`.
     /// </summary>
     public long? WorkflowVersionNum
     {
@@ -275,6 +381,7 @@ public sealed record class Call : JsonModel
     public override void Validate()
     {
         _ = this.CallID;
+        this.CallType.Validate();
         _ = this.CreatedAt;
         foreach (var item in this.Errors)
         {
@@ -288,6 +395,10 @@ public sealed record class Call : JsonModel
         _ = this.Url;
         _ = this.CallReferenceID;
         _ = this.FinishedAt;
+        _ = this.FunctionID;
+        _ = this.FunctionName;
+        this.FunctionType?.Validate();
+        _ = this.FunctionVersionNum;
         this.Input?.Validate();
         this.Status?.Validate();
         _ = this.WorkflowID;
@@ -328,6 +439,60 @@ class CallFromRaw : IFromRawJson<Call>
     /// <inheritdoc/>
     public Call FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
         Call.FromRawUnchecked(rawData);
+}
+
+/// <summary>
+/// What kind of call this is. Always present.
+///
+/// <para>- `workflow` — created by `POST /v3/workflows/{workflowName}/call`; carries
+/// the `workflow*` fields. - `direct_function` / `adhoc_function` — a call against
+/// a single function; carries the `function*` fields instead.</para>
+/// </summary>
+[JsonConverter(typeof(CallCallTypeConverter))]
+public enum CallCallType
+{
+    Workflow,
+    DirectFunction,
+    AdhocFunction,
+}
+
+sealed class CallCallTypeConverter : JsonConverter<CallCallType>
+{
+    public override CallCallType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "workflow" => CallCallType.Workflow,
+            "direct_function" => CallCallType.DirectFunction,
+            "adhoc_function" => CallCallType.AdhocFunction,
+            _ => (CallCallType)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        CallCallType value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                CallCallType.Workflow => "workflow",
+                CallCallType.DirectFunction => "direct_function",
+                CallCallType.AdhocFunction => "adhoc_function",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
 }
 
 /// <summary>

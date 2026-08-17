@@ -19,7 +19,9 @@ namespace Bem.Models.Calls;
 /// <para>## Filtering</para>
 ///
 /// <para>- `callIDs`: Specific call identifiers - `referenceIDs`: Your custom reference
-/// IDs - `workflowIDs` / `workflowNames`: Filter by workflow</para>
+/// IDs - `workflowIDs` / `workflowNames`: Filter by workflow - `functionIDs` / `functionNames`:
+/// Filter by function (function calls only) - `callTypes`: Restrict to workflow calls
+/// or to function calls</para>
 ///
 /// <para>## Pagination</para>
 ///
@@ -52,6 +54,32 @@ public record class CallListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Filter by call type. Omit to return every call regardless of type.
+    /// </summary>
+    public IReadOnlyList<ApiEnum<string, CallType>>? CallTypes
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<ApiEnum<string, CallType>>>(
+                "callTypes"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<ApiEnum<string, CallType>>?>(
+                "callTypes",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
     public string? EndingBefore
     {
         get
@@ -67,6 +95,55 @@ public record class CallListParams : ParamsBase
             }
 
             this._rawQueryData.Set("endingBefore", value);
+        }
+    }
+
+    /// <summary>
+    /// Filter by function API ID. Only matches function calls — workflow calls carry
+    /// no function reference of their own.
+    /// </summary>
+    public IReadOnlyList<string>? FunctionIds
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("functionIDs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "functionIDs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Filter by function name. Only matches function calls.
+    /// </summary>
+    public IReadOnlyList<string>? FunctionNames
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("functionNames");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "functionNames",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
         }
     }
 
@@ -321,6 +398,49 @@ public record class CallListParams : ParamsBase
     public override int GetHashCode()
     {
         return 0;
+    }
+}
+
+[JsonConverter(typeof(CallTypeConverter))]
+public enum CallType
+{
+    Workflow,
+    DirectFunction,
+    AdhocFunction,
+}
+
+sealed class CallTypeConverter : JsonConverter<CallType>
+{
+    public override CallType Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "workflow" => CallType.Workflow,
+            "direct_function" => CallType.DirectFunction,
+            "adhoc_function" => CallType.AdhocFunction,
+            _ => (CallType)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, CallType value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                CallType.Workflow => "workflow",
+                CallType.DirectFunction => "direct_function",
+                CallType.AdhocFunction => "adhoc_function",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }
 

@@ -15,7 +15,10 @@ public class CallListParamsTest : TestBase
         var parameters = new CallListParams
         {
             CallIds = ["string"],
+            CallTypes = [CallType.Workflow],
             EndingBefore = "endingBefore",
+            FunctionIds = ["string"],
+            FunctionNames = ["string"],
             Limit = 1,
             ReferenceIds = ["string"],
             ReferenceIDSubstring = "referenceIDSubstring",
@@ -27,7 +30,10 @@ public class CallListParamsTest : TestBase
         };
 
         List<string> expectedCallIds = ["string"];
+        List<ApiEnum<string, CallType>> expectedCallTypes = [CallType.Workflow];
         string expectedEndingBefore = "endingBefore";
+        List<string> expectedFunctionIds = ["string"];
+        List<string> expectedFunctionNames = ["string"];
         long expectedLimit = 1;
         List<string> expectedReferenceIds = ["string"];
         string expectedReferenceIDSubstring = "referenceIDSubstring";
@@ -43,7 +49,25 @@ public class CallListParamsTest : TestBase
         {
             Assert.Equal(expectedCallIds[i], parameters.CallIds[i]);
         }
+        Assert.NotNull(parameters.CallTypes);
+        Assert.Equal(expectedCallTypes.Count, parameters.CallTypes.Count);
+        for (int i = 0; i < expectedCallTypes.Count; i++)
+        {
+            Assert.Equal(expectedCallTypes[i], parameters.CallTypes[i]);
+        }
         Assert.Equal(expectedEndingBefore, parameters.EndingBefore);
+        Assert.NotNull(parameters.FunctionIds);
+        Assert.Equal(expectedFunctionIds.Count, parameters.FunctionIds.Count);
+        for (int i = 0; i < expectedFunctionIds.Count; i++)
+        {
+            Assert.Equal(expectedFunctionIds[i], parameters.FunctionIds[i]);
+        }
+        Assert.NotNull(parameters.FunctionNames);
+        Assert.Equal(expectedFunctionNames.Count, parameters.FunctionNames.Count);
+        for (int i = 0; i < expectedFunctionNames.Count; i++)
+        {
+            Assert.Equal(expectedFunctionNames[i], parameters.FunctionNames[i]);
+        }
         Assert.Equal(expectedLimit, parameters.Limit);
         Assert.NotNull(parameters.ReferenceIds);
         Assert.Equal(expectedReferenceIds.Count, parameters.ReferenceIds.Count);
@@ -81,8 +105,14 @@ public class CallListParamsTest : TestBase
 
         Assert.Null(parameters.CallIds);
         Assert.False(parameters.RawQueryData.ContainsKey("callIDs"));
+        Assert.Null(parameters.CallTypes);
+        Assert.False(parameters.RawQueryData.ContainsKey("callTypes"));
         Assert.Null(parameters.EndingBefore);
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
+        Assert.Null(parameters.FunctionIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
+        Assert.Null(parameters.FunctionNames);
+        Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
         Assert.Null(parameters.ReferenceIds);
@@ -108,7 +138,10 @@ public class CallListParamsTest : TestBase
         {
             // Null should be interpreted as omitted for these properties
             CallIds = null,
+            CallTypes = null,
             EndingBefore = null,
+            FunctionIds = null,
+            FunctionNames = null,
             Limit = null,
             ReferenceIds = null,
             ReferenceIDSubstring = null,
@@ -121,8 +154,14 @@ public class CallListParamsTest : TestBase
 
         Assert.Null(parameters.CallIds);
         Assert.False(parameters.RawQueryData.ContainsKey("callIDs"));
+        Assert.Null(parameters.CallTypes);
+        Assert.False(parameters.RawQueryData.ContainsKey("callTypes"));
         Assert.Null(parameters.EndingBefore);
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
+        Assert.Null(parameters.FunctionIds);
+        Assert.False(parameters.RawQueryData.ContainsKey("functionIDs"));
+        Assert.Null(parameters.FunctionNames);
+        Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
         Assert.Null(parameters.ReferenceIds);
@@ -147,7 +186,10 @@ public class CallListParamsTest : TestBase
         CallListParams parameters = new()
         {
             CallIds = ["string"],
+            CallTypes = [CallType.Workflow],
             EndingBefore = "endingBefore",
+            FunctionIds = ["string"],
+            FunctionNames = ["string"],
             Limit = 1,
             ReferenceIds = ["string"],
             ReferenceIDSubstring = "referenceIDSubstring",
@@ -163,7 +205,7 @@ public class CallListParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/calls?callIDs=string&endingBefore=endingBefore&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&statuses=pending&workflowIDs=string&workflowNames=string"
+                    "https://api.bem.ai/v3/calls?callIDs=string&callTypes=workflow&endingBefore=endingBefore&functionIDs=string&functionNames=string&limit=1&referenceIDs=string&referenceIDSubstring=referenceIDSubstring&sortOrder=asc&startingAfter=startingAfter&statuses=pending&workflowIDs=string&workflowNames=string"
                 ),
                 url
             )
@@ -176,7 +218,10 @@ public class CallListParamsTest : TestBase
         var parameters = new CallListParams
         {
             CallIds = ["string"],
+            CallTypes = [CallType.Workflow],
             EndingBefore = "endingBefore",
+            FunctionIds = ["string"],
+            FunctionNames = ["string"],
             Limit = 1,
             ReferenceIds = ["string"],
             ReferenceIDSubstring = "referenceIDSubstring",
@@ -190,6 +235,66 @@ public class CallListParamsTest : TestBase
         CallListParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
+    }
+}
+
+public class CallTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(CallType.Workflow)]
+    [InlineData(CallType.DirectFunction)]
+    [InlineData(CallType.AdhocFunction)]
+    public void Validation_Works(CallType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, CallType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, CallType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(CallType.Workflow)]
+    [InlineData(CallType.DirectFunction)]
+    [InlineData(CallType.AdhocFunction)]
+    public void SerializationRoundtrip_Works(CallType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, CallType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, CallType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, CallType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, CallType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
     }
 }
 

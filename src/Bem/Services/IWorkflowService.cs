@@ -149,7 +149,8 @@ public interface IWorkflowService
     /// tagged with any of the supplied tags. - `functionIDs` / `functionNames`: returns
     /// only workflows that reference the named functions in any node. Useful for "which
     /// workflows depend on this function?" lookups before changing or deleting a
-    /// function.</para>
+    /// function. - `functionIDVersionNums` / `functionNameVersionNums`: the same lookup
+    /// narrowed to nodes pinned to a specific function version.</para>
     ///
     /// <para>## Pagination</para>
     ///
@@ -170,11 +171,19 @@ public interface IWorkflowService
     ///
     /// <para>Functions referenced by the deleted workflow are not removed — they remain
     /// available to other workflows or for direct reference.</para>
+    ///
+    /// <para>Any connectors attached to the workflow are torn down first. Teardown is
+    /// best-effort: per-connector failures are reported in `connectorErrors` but do not
+    /// block the deletion, so check that array rather than relying on the status code
+    /// alone.</para>
     /// </summary>
-    Task Delete(WorkflowDeleteParams parameters, CancellationToken cancellationToken = default);
+    Task<WorkflowDeleteResponse> Delete(
+        WorkflowDeleteParams parameters,
+        CancellationToken cancellationToken = default
+    );
 
     /// <inheritdoc cref="Delete(WorkflowDeleteParams, CancellationToken)"/>
-    Task Delete(
+    Task<WorkflowDeleteResponse> Delete(
         string workflowName,
         WorkflowDeleteParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -339,13 +348,13 @@ public interface IWorkflowServiceWithRawResponse
     /// Returns a raw HTTP response for <c>delete /v3/workflows/{workflowName}</c>, but is otherwise the
     /// same as <see cref="IWorkflowService.Delete(WorkflowDeleteParams, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse> Delete(
+    Task<HttpResponse<WorkflowDeleteResponse>> Delete(
         WorkflowDeleteParams parameters,
         CancellationToken cancellationToken = default
     );
 
     /// <inheritdoc cref="Delete(WorkflowDeleteParams, CancellationToken)"/>
-    Task<HttpResponse> Delete(
+    Task<HttpResponse<WorkflowDeleteResponse>> Delete(
         string workflowName,
         WorkflowDeleteParams? parameters = null,
         CancellationToken cancellationToken = default

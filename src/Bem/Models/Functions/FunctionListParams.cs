@@ -25,7 +25,8 @@ namespace Bem.Models.Functions;
 /// and `send` types remain readable via this filter. - `tags`: returns functions
 /// tagged with any of the supplied tags. - `workflowIDs` / `workflowNames`: returns
 /// only functions referenced by the named workflows. Useful for "what functions does
-/// this workflow depend on?" lookups.</para>
+/// this workflow depend on?" lookups. - `workflowIDVersionNums` / `workflowNameVersionNums`:
+/// the same lookup pinned to a specific workflow version.</para>
 ///
 /// <para>## Pagination</para>
 ///
@@ -113,6 +114,28 @@ public record class FunctionListParams : ParamsBase
                 "functionNames",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
+        }
+    }
+
+    /// <summary>
+    /// Populate each function's `extraConfig` block. Omitted or `false` by default,
+    /// in which case `extraConfig` is absent from the response.
+    /// </summary>
+    public bool? IncludeExtraSettings
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<bool>("includeExtraSettings");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("includeExtraSettings", value);
         }
     }
 
@@ -235,6 +258,33 @@ public record class FunctionListParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Return only functions referenced by a specific workflow version. Each entry
+    /// is `&lt;workflowID&gt;.&lt;versionNum&gt;` — for example `wf_2c9AXIj48cUYJtCuv1gsQtHGDzK.3`.
+    /// </summary>
+    public IReadOnlyList<string>? WorkflowIDVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "workflowIDVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "workflowIDVersionNums",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
     public IReadOnlyList<string>? WorkflowNames
     {
         get
@@ -251,6 +301,34 @@ public record class FunctionListParams : ParamsBase
 
             this._rawQueryData.Set<ImmutableArray<string>?>(
                 "workflowNames",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Return only functions referenced by a specific workflow version, keyed by
+    /// workflow name. Each entry is `&lt;workflowName&gt;.&lt;versionNum&gt;` —
+    /// for example `invoice-pipeline.3`.
+    /// </summary>
+    public IReadOnlyList<string>? WorkflowNameVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "workflowNameVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "workflowNameVersionNums",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }

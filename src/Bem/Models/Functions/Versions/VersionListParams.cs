@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Bem.Core;
+using Bem.Exceptions;
 
 namespace Bem.Models.Functions.Versions;
 
@@ -22,6 +24,78 @@ namespace Bem.Models.Functions.Versions;
 public record class VersionListParams : ParamsBase
 {
     public string? FunctionName { get; init; }
+
+    public long? EndingBefore
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<long>("endingBefore");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("endingBefore", value);
+        }
+    }
+
+    public long? Limit
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<long>("limit");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("limit", value);
+        }
+    }
+
+    public ApiEnum<string, SortOrder>? SortOrder
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<ApiEnum<string, SortOrder>>("sortOrder");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("sortOrder", value);
+        }
+    }
+
+    public long? StartingAfter
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<long>("startingAfter");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("startingAfter", value);
+        }
+    }
 
     public VersionListParams() { }
 
@@ -122,5 +196,49 @@ public record class VersionListParams : ParamsBase
     public override int GetHashCode()
     {
         return 0;
+    }
+}
+
+[JsonConverter(typeof(SortOrderConverter))]
+public enum SortOrder
+{
+    Asc,
+    Desc,
+}
+
+sealed class SortOrderConverter : JsonConverter<SortOrder>
+{
+    public override SortOrder Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "asc" => SortOrder.Asc,
+            "desc" => SortOrder.Desc,
+            _ => (SortOrder)(-1),
+        };
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        SortOrder value,
+        JsonSerializerOptions options
+    )
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                SortOrder.Asc => "asc",
+                SortOrder.Desc => "desc",
+                _ => throw new BemInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
     }
 }

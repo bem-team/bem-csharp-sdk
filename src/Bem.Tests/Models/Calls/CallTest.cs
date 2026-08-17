@@ -5,6 +5,7 @@ using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.Calls;
 using Bem.Models.Errors;
+using Bem.Models.Functions;
 using Outputs = Bem.Models.Outputs;
 
 namespace Bem.Tests.Models.Calls;
@@ -17,6 +18,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -126,6 +128,10 @@ public class CallTest : TestBase
             Url = "url",
             CallReferenceID = "callReferenceID",
             FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            FunctionType = FunctionType.Transform,
+            FunctionVersionNum = 0,
             Input = new()
             {
                 BatchFiles = new()
@@ -149,6 +155,7 @@ public class CallTest : TestBase
         };
 
         string expectedCallID = "callID";
+        ApiEnum<string, CallCallType> expectedCallType = CallCallType.Workflow;
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         List<ErrorEvent> expectedErrors =
         [
@@ -258,6 +265,10 @@ public class CallTest : TestBase
         string expectedUrl = "url";
         string expectedCallReferenceID = "callReferenceID";
         DateTimeOffset expectedFinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        ApiEnum<string, FunctionType> expectedFunctionType = FunctionType.Transform;
+        long expectedFunctionVersionNum = 0;
         Input expectedInput = new()
         {
             BatchFiles = new()
@@ -280,6 +291,7 @@ public class CallTest : TestBase
         long expectedWorkflowVersionNum = 0;
 
         Assert.Equal(expectedCallID, model.CallID);
+        Assert.Equal(expectedCallType, model.CallType);
         Assert.Equal(expectedCreatedAt, model.CreatedAt);
         Assert.Equal(expectedErrors.Count, model.Errors.Count);
         for (int i = 0; i < expectedErrors.Count; i++)
@@ -295,6 +307,10 @@ public class CallTest : TestBase
         Assert.Equal(expectedUrl, model.Url);
         Assert.Equal(expectedCallReferenceID, model.CallReferenceID);
         Assert.Equal(expectedFinishedAt, model.FinishedAt);
+        Assert.Equal(expectedFunctionID, model.FunctionID);
+        Assert.Equal(expectedFunctionName, model.FunctionName);
+        Assert.Equal(expectedFunctionType, model.FunctionType);
+        Assert.Equal(expectedFunctionVersionNum, model.FunctionVersionNum);
         Assert.Equal(expectedInput, model.Input);
         Assert.Equal(expectedStatus, model.Status);
         Assert.Equal(expectedWorkflowID, model.WorkflowID);
@@ -308,6 +324,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -417,6 +434,10 @@ public class CallTest : TestBase
             Url = "url",
             CallReferenceID = "callReferenceID",
             FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            FunctionType = FunctionType.Transform,
+            FunctionVersionNum = 0,
             Input = new()
             {
                 BatchFiles = new()
@@ -451,6 +472,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -560,6 +582,10 @@ public class CallTest : TestBase
             Url = "url",
             CallReferenceID = "callReferenceID",
             FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            FunctionType = FunctionType.Transform,
+            FunctionVersionNum = 0,
             Input = new()
             {
                 BatchFiles = new()
@@ -587,6 +613,7 @@ public class CallTest : TestBase
         Assert.NotNull(deserialized);
 
         string expectedCallID = "callID";
+        ApiEnum<string, CallCallType> expectedCallType = CallCallType.Workflow;
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         List<ErrorEvent> expectedErrors =
         [
@@ -696,6 +723,10 @@ public class CallTest : TestBase
         string expectedUrl = "url";
         string expectedCallReferenceID = "callReferenceID";
         DateTimeOffset expectedFinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
+        string expectedFunctionID = "functionID";
+        string expectedFunctionName = "functionName";
+        ApiEnum<string, FunctionType> expectedFunctionType = FunctionType.Transform;
+        long expectedFunctionVersionNum = 0;
         Input expectedInput = new()
         {
             BatchFiles = new()
@@ -718,6 +749,7 @@ public class CallTest : TestBase
         long expectedWorkflowVersionNum = 0;
 
         Assert.Equal(expectedCallID, deserialized.CallID);
+        Assert.Equal(expectedCallType, deserialized.CallType);
         Assert.Equal(expectedCreatedAt, deserialized.CreatedAt);
         Assert.Equal(expectedErrors.Count, deserialized.Errors.Count);
         for (int i = 0; i < expectedErrors.Count; i++)
@@ -733,6 +765,10 @@ public class CallTest : TestBase
         Assert.Equal(expectedUrl, deserialized.Url);
         Assert.Equal(expectedCallReferenceID, deserialized.CallReferenceID);
         Assert.Equal(expectedFinishedAt, deserialized.FinishedAt);
+        Assert.Equal(expectedFunctionID, deserialized.FunctionID);
+        Assert.Equal(expectedFunctionName, deserialized.FunctionName);
+        Assert.Equal(expectedFunctionType, deserialized.FunctionType);
+        Assert.Equal(expectedFunctionVersionNum, deserialized.FunctionVersionNum);
         Assert.Equal(expectedInput, deserialized.Input);
         Assert.Equal(expectedStatus, deserialized.Status);
         Assert.Equal(expectedWorkflowID, deserialized.WorkflowID);
@@ -746,6 +782,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -855,6 +892,10 @@ public class CallTest : TestBase
             Url = "url",
             CallReferenceID = "callReferenceID",
             FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            FunctionType = FunctionType.Transform,
+            FunctionVersionNum = 0,
             Input = new()
             {
                 BatchFiles = new()
@@ -886,6 +927,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -999,6 +1041,14 @@ public class CallTest : TestBase
         Assert.False(model.RawData.ContainsKey("callReferenceID"));
         Assert.Null(model.FinishedAt);
         Assert.False(model.RawData.ContainsKey("finishedAt"));
+        Assert.Null(model.FunctionID);
+        Assert.False(model.RawData.ContainsKey("functionID"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.FunctionType);
+        Assert.False(model.RawData.ContainsKey("functionType"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
         Assert.Null(model.Input);
         Assert.False(model.RawData.ContainsKey("input"));
         Assert.Null(model.Status);
@@ -1017,6 +1067,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -1135,6 +1186,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -1246,6 +1298,10 @@ public class CallTest : TestBase
             // Null should be interpreted as omitted for these properties
             CallReferenceID = null,
             FinishedAt = null,
+            FunctionID = null,
+            FunctionName = null,
+            FunctionType = null,
+            FunctionVersionNum = null,
             Input = null,
             Status = null,
             WorkflowID = null,
@@ -1257,6 +1313,14 @@ public class CallTest : TestBase
         Assert.False(model.RawData.ContainsKey("callReferenceID"));
         Assert.Null(model.FinishedAt);
         Assert.False(model.RawData.ContainsKey("finishedAt"));
+        Assert.Null(model.FunctionID);
+        Assert.False(model.RawData.ContainsKey("functionID"));
+        Assert.Null(model.FunctionName);
+        Assert.False(model.RawData.ContainsKey("functionName"));
+        Assert.Null(model.FunctionType);
+        Assert.False(model.RawData.ContainsKey("functionType"));
+        Assert.Null(model.FunctionVersionNum);
+        Assert.False(model.RawData.ContainsKey("functionVersionNum"));
         Assert.Null(model.Input);
         Assert.False(model.RawData.ContainsKey("input"));
         Assert.Null(model.Status);
@@ -1275,6 +1339,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -1386,6 +1451,10 @@ public class CallTest : TestBase
             // Null should be interpreted as omitted for these properties
             CallReferenceID = null,
             FinishedAt = null,
+            FunctionID = null,
+            FunctionName = null,
+            FunctionType = null,
+            FunctionVersionNum = null,
             Input = null,
             Status = null,
             WorkflowID = null,
@@ -1402,6 +1471,7 @@ public class CallTest : TestBase
         var model = new Call
         {
             CallID = "callID",
+            CallType = CallCallType.Workflow,
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             Errors =
             [
@@ -1511,6 +1581,10 @@ public class CallTest : TestBase
             Url = "url",
             CallReferenceID = "callReferenceID",
             FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+            FunctionID = "functionID",
+            FunctionName = "functionName",
+            FunctionType = FunctionType.Transform,
+            FunctionVersionNum = 0,
             Input = new()
             {
                 BatchFiles = new()
@@ -1536,6 +1610,66 @@ public class CallTest : TestBase
         Call copied = new(model);
 
         Assert.Equal(model, copied);
+    }
+}
+
+public class CallCallTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(CallCallType.Workflow)]
+    [InlineData(CallCallType.DirectFunction)]
+    [InlineData(CallCallType.AdhocFunction)]
+    public void Validation_Works(CallCallType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, CallCallType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, CallCallType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<BemInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(CallCallType.Workflow)]
+    [InlineData(CallCallType.DirectFunction)]
+    [InlineData(CallCallType.AdhocFunction)]
+    public void SerializationRoundtrip_Works(CallCallType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, CallCallType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, CallCallType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, CallCallType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, CallCallType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
     }
 }
 

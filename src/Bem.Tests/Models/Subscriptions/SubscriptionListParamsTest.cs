@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using Bem.Core;
-using Bem.Exceptions;
 using Bem.Models.Subscriptions;
 
 namespace Bem.Tests.Models.Subscriptions;
@@ -17,14 +14,12 @@ public class SubscriptionListParamsTest : TestBase
             EndingBefore = "endingBefore",
             FunctionNames = ["string"],
             Limit = 1,
-            SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
         };
 
         string expectedEndingBefore = "endingBefore";
         List<string> expectedFunctionNames = ["string"];
         long expectedLimit = 1;
-        ApiEnum<string, SortOrder> expectedSortOrder = SortOrder.Asc;
         string expectedStartingAfter = "startingAfter";
 
         Assert.Equal(expectedEndingBefore, parameters.EndingBefore);
@@ -35,7 +30,6 @@ public class SubscriptionListParamsTest : TestBase
             Assert.Equal(expectedFunctionNames[i], parameters.FunctionNames[i]);
         }
         Assert.Equal(expectedLimit, parameters.Limit);
-        Assert.Equal(expectedSortOrder, parameters.SortOrder);
         Assert.Equal(expectedStartingAfter, parameters.StartingAfter);
     }
 
@@ -50,8 +44,6 @@ public class SubscriptionListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
-        Assert.Null(parameters.SortOrder);
-        Assert.False(parameters.RawQueryData.ContainsKey("sortOrder"));
         Assert.Null(parameters.StartingAfter);
         Assert.False(parameters.RawQueryData.ContainsKey("startingAfter"));
     }
@@ -65,7 +57,6 @@ public class SubscriptionListParamsTest : TestBase
             EndingBefore = null,
             FunctionNames = null,
             Limit = null,
-            SortOrder = null,
             StartingAfter = null,
         };
 
@@ -75,8 +66,6 @@ public class SubscriptionListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("functionNames"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
-        Assert.Null(parameters.SortOrder);
-        Assert.False(parameters.RawQueryData.ContainsKey("sortOrder"));
         Assert.Null(parameters.StartingAfter);
         Assert.False(parameters.RawQueryData.ContainsKey("startingAfter"));
     }
@@ -89,7 +78,6 @@ public class SubscriptionListParamsTest : TestBase
             EndingBefore = "endingBefore",
             FunctionNames = ["string"],
             Limit = 1,
-            SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
         };
 
@@ -98,7 +86,7 @@ public class SubscriptionListParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/subscriptions?endingBefore=endingBefore&functionNames=string&limit=1&sortOrder=asc&startingAfter=startingAfter"
+                    "https://api.bem.ai/v3/subscriptions?endingBefore=endingBefore&functionNames=string&limit=1&startingAfter=startingAfter"
                 ),
                 url
             )
@@ -113,70 +101,11 @@ public class SubscriptionListParamsTest : TestBase
             EndingBefore = "endingBefore",
             FunctionNames = ["string"],
             Limit = 1,
-            SortOrder = SortOrder.Asc,
             StartingAfter = "startingAfter",
         };
 
         SubscriptionListParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
-    }
-}
-
-public class SortOrderTest : TestBase
-{
-    [Theory]
-    [InlineData(SortOrder.Asc)]
-    [InlineData(SortOrder.Desc)]
-    public void Validation_Works(SortOrder rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SortOrder> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SortOrder>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<BemInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(SortOrder.Asc)]
-    [InlineData(SortOrder.Desc)]
-    public void SerializationRoundtrip_Works(SortOrder rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, SortOrder> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SortOrder>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, SortOrder>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, SortOrder>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
     }
 }

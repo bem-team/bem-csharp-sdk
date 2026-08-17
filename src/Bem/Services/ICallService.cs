@@ -77,7 +77,9 @@ public interface ICallService
     /// <para>## Filtering</para>
     ///
     /// <para>- `callIDs`: Specific call identifiers - `referenceIDs`: Your custom
-    /// reference IDs - `workflowIDs` / `workflowNames`: Filter by workflow</para>
+    /// reference IDs - `workflowIDs` / `workflowNames`: Filter by workflow -
+    /// `functionIDs` / `functionNames`: Filter by function (function calls only) -
+    /// `callTypes`: Restrict to workflow calls or to function calls</para>
     ///
     /// <para>## Pagination</para>
     ///

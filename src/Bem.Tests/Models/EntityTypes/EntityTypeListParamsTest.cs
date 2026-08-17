@@ -12,17 +12,20 @@ public class EntityTypeListParamsTest : TestBase
         {
             EndingBefore = "endingBefore",
             Limit = 0,
+            Name = "name",
             ParentTypeID = "parentTypeId",
             StartingAfter = "startingAfter",
         };
 
         string expectedEndingBefore = "endingBefore";
         int expectedLimit = 0;
+        string expectedName = "name";
         string expectedParentTypeID = "parentTypeId";
         string expectedStartingAfter = "startingAfter";
 
         Assert.Equal(expectedEndingBefore, parameters.EndingBefore);
         Assert.Equal(expectedLimit, parameters.Limit);
+        Assert.Equal(expectedName, parameters.Name);
         Assert.Equal(expectedParentTypeID, parameters.ParentTypeID);
         Assert.Equal(expectedStartingAfter, parameters.StartingAfter);
     }
@@ -36,6 +39,8 @@ public class EntityTypeListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
+        Assert.Null(parameters.Name);
+        Assert.False(parameters.RawQueryData.ContainsKey("name"));
         Assert.Null(parameters.ParentTypeID);
         Assert.False(parameters.RawQueryData.ContainsKey("parentTypeId"));
         Assert.Null(parameters.StartingAfter);
@@ -50,6 +55,7 @@ public class EntityTypeListParamsTest : TestBase
             // Null should be interpreted as omitted for these properties
             EndingBefore = null,
             Limit = null,
+            Name = null,
             ParentTypeID = null,
             StartingAfter = null,
         };
@@ -58,6 +64,8 @@ public class EntityTypeListParamsTest : TestBase
         Assert.False(parameters.RawQueryData.ContainsKey("endingBefore"));
         Assert.Null(parameters.Limit);
         Assert.False(parameters.RawQueryData.ContainsKey("limit"));
+        Assert.Null(parameters.Name);
+        Assert.False(parameters.RawQueryData.ContainsKey("name"));
         Assert.Null(parameters.ParentTypeID);
         Assert.False(parameters.RawQueryData.ContainsKey("parentTypeId"));
         Assert.Null(parameters.StartingAfter);
@@ -71,6 +79,7 @@ public class EntityTypeListParamsTest : TestBase
         {
             EndingBefore = "endingBefore",
             Limit = 0,
+            Name = "name",
             ParentTypeID = "parentTypeId",
             StartingAfter = "startingAfter",
         };
@@ -80,7 +89,7 @@ public class EntityTypeListParamsTest : TestBase
         Assert.True(
             TestBase.UrisEqual(
                 new Uri(
-                    "https://api.bem.ai/v3/entity-types?endingBefore=endingBefore&limit=0&parentTypeId=parentTypeId&startingAfter=startingAfter"
+                    "https://api.bem.ai/v3/entity-types?endingBefore=endingBefore&limit=0&name=name&parentTypeId=parentTypeId&startingAfter=startingAfter"
                 ),
                 url
             )
@@ -94,6 +103,7 @@ public class EntityTypeListParamsTest : TestBase
         {
             EndingBefore = "endingBefore",
             Limit = 0,
+            Name = "name",
             ParentTypeID = "parentTypeId",
             StartingAfter = "startingAfter",
         };

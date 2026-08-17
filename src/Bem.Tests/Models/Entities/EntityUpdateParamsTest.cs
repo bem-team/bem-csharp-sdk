@@ -15,6 +15,7 @@ public class EntityUpdateParamsTest : TestBase
         var parameters = new EntityUpdateParams
         {
             ID = "id",
+            Bucket = "bucket",
             AddSynonyms = ["string"],
             AssignedTypeID = "assignedTypeID",
             Canonical = "canonical",
@@ -24,6 +25,7 @@ public class EntityUpdateParamsTest : TestBase
         };
 
         string expectedID = "id";
+        string expectedBucket = "bucket";
         List<string> expectedAddSynonyms = ["string"];
         string expectedAssignedTypeID = "assignedTypeID";
         string expectedCanonical = "canonical";
@@ -32,6 +34,7 @@ public class EntityUpdateParamsTest : TestBase
         ApiEnum<string, Status> expectedStatus = Status.Approved;
 
         Assert.Equal(expectedID, parameters.ID);
+        Assert.Equal(expectedBucket, parameters.Bucket);
         Assert.NotNull(parameters.AddSynonyms);
         Assert.Equal(expectedAddSynonyms.Count, parameters.AddSynonyms.Count);
         for (int i = 0; i < expectedAddSynonyms.Count; i++)
@@ -55,6 +58,8 @@ public class EntityUpdateParamsTest : TestBase
     {
         var parameters = new EntityUpdateParams { ID = "id" };
 
+        Assert.Null(parameters.Bucket);
+        Assert.False(parameters.RawQueryData.ContainsKey("bucket"));
         Assert.Null(parameters.AddSynonyms);
         Assert.False(parameters.RawBodyData.ContainsKey("addSynonyms"));
         Assert.Null(parameters.AssignedTypeID);
@@ -77,6 +82,7 @@ public class EntityUpdateParamsTest : TestBase
             ID = "id",
 
             // Null should be interpreted as omitted for these properties
+            Bucket = null,
             AddSynonyms = null,
             AssignedTypeID = null,
             Canonical = null,
@@ -85,6 +91,8 @@ public class EntityUpdateParamsTest : TestBase
             Status = null,
         };
 
+        Assert.Null(parameters.Bucket);
+        Assert.False(parameters.RawQueryData.ContainsKey("bucket"));
         Assert.Null(parameters.AddSynonyms);
         Assert.False(parameters.RawBodyData.ContainsKey("addSynonyms"));
         Assert.Null(parameters.AssignedTypeID);
@@ -102,11 +110,13 @@ public class EntityUpdateParamsTest : TestBase
     [Fact]
     public void Url_Works()
     {
-        EntityUpdateParams parameters = new() { ID = "id" };
+        EntityUpdateParams parameters = new() { ID = "id", Bucket = "bucket" };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
-        Assert.True(TestBase.UrisEqual(new Uri("https://api.bem.ai/v3/entities/id"), url));
+        Assert.True(
+            TestBase.UrisEqual(new Uri("https://api.bem.ai/v3/entities/id?bucket=bucket"), url)
+        );
     }
 
     [Fact]
@@ -115,6 +125,7 @@ public class EntityUpdateParamsTest : TestBase
         var parameters = new EntityUpdateParams
         {
             ID = "id",
+            Bucket = "bucket",
             AddSynonyms = ["string"],
             AssignedTypeID = "assignedTypeID",
             Canonical = "canonical",

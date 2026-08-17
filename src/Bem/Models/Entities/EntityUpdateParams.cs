@@ -30,6 +30,28 @@ public record class EntityUpdateParams : ParamsBase
     public string? ID { get; init; }
 
     /// <summary>
+    /// Optional bucket public ID (`bkt_...`) to scope the lookup to. Omit for the
+    /// default bucket.
+    /// </summary>
+    public string? Bucket
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("bucket");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("bucket", value);
+        }
+    }
+
+    /// <summary>
     /// Surface forms to attach as `customer_defined` synonyms.
     /// </summary>
     public IReadOnlyList<string>? AddSynonyms

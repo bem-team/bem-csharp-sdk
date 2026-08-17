@@ -4,13 +4,13 @@ using Bem.Models.Collections.Items;
 using Bem.Models.Connectors;
 using Bem.Models.Fs;
 using Bem.Models.Functions;
+using Bem.Models.Subscriptions;
 using Calls = Bem.Models.Calls;
 using Entities = Bem.Models.Entities;
 using Errors = Bem.Models.Errors;
 using Events = Bem.Models.Events;
 using Outputs = Bem.Models.Outputs;
 using Score = Bem.Models.Eval.Score;
-using Subscriptions = Bem.Models.Subscriptions;
 using Synonyms = Bem.Models.Entities.Synonyms;
 using Versions = Bem.Models.Functions.Versions;
 using Views = Bem.Models.Views;
@@ -55,9 +55,12 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, FunctionGetMetricsParamsSortOrder>(),
             new ApiEnumConverter<string, Versions::SplitType>(),
             new ApiEnumConverter<string, Versions::JoinType>(),
+            new ApiEnumConverter<string, Versions::SortOrder>(),
+            new ApiEnumConverter<string, Calls::CallCallType>(),
             new ApiEnumConverter<string, Calls::CallStatus>(),
             new ApiEnumConverter<string, Calls::FunctionCallStatus>(),
             new ApiEnumConverter<string, Calls::ActivityStatus>(),
+            new ApiEnumConverter<string, Calls::CallType>(),
             new ApiEnumConverter<string, Calls::SortOrder>(),
             new ApiEnumConverter<string, Calls::Status>(),
             new ApiEnumConverter<string, Errors::EventType>(),
@@ -116,10 +119,9 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Score::EvalScoreRunStatus>(),
             new ApiEnumConverter<string, FsOp>(),
             new ApiEnumConverter<string, ConnectorType>(),
-            new ApiEnumConverter<string, Subscriptions::SubscriptionV3Type>(),
-            new ApiEnumConverter<string, Subscriptions::Type>(),
-            new ApiEnumConverter<string, Subscriptions::SubscriptionUpdateParamsType>(),
-            new ApiEnumConverter<string, Subscriptions::SortOrder>(),
+            new ApiEnumConverter<string, SubscriptionV3Type>(),
+            new ApiEnumConverter<string, Type>(),
+            new ApiEnumConverter<string, SubscriptionUpdateParamsType>(),
             new ApiEnumConverter<string, Views::Function>(),
             new ApiEnumConverter<string, Views::DisplayType>(),
             new ApiEnumConverter<string, Views::FilterType>(),
