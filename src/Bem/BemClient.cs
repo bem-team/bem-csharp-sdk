@@ -186,18 +186,6 @@ public sealed class BemClient : IBemClient
         get { return _knowledgeGraph.Value; }
     }
 
-    readonly Lazy<IReviewQueueService> _reviewQueue;
-    public IReviewQueueService ReviewQueue
-    {
-        get { return _reviewQueue.Value; }
-    }
-
-    readonly Lazy<IUserService> _users;
-    public IUserService Users
-    {
-        get { return _users.Value; }
-    }
-
     public void Dispose() => this.HttpClient.Dispose();
 
     public BemClient()
@@ -224,8 +212,6 @@ public sealed class BemClient : IBemClient
         _entities = new(() => new EntityService(this));
         _entityTypes = new(() => new EntityTypeService(this));
         _knowledgeGraph = new(() => new KnowledgeGraphService(this));
-        _reviewQueue = new(() => new ReviewQueueService(this));
-        _users = new(() => new UserService(this));
     }
 
     public BemClient(ClientOptions options)
@@ -413,18 +399,6 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
     public IKnowledgeGraphServiceWithRawResponse KnowledgeGraph
     {
         get { return _knowledgeGraph.Value; }
-    }
-
-    readonly Lazy<IReviewQueueServiceWithRawResponse> _reviewQueue;
-    public IReviewQueueServiceWithRawResponse ReviewQueue
-    {
-        get { return _reviewQueue.Value; }
-    }
-
-    readonly Lazy<IUserServiceWithRawResponse> _users;
-    public IUserServiceWithRawResponse Users
-    {
-        get { return _users.Value; }
     }
 
     /// <inheritdoc/>
@@ -644,8 +618,6 @@ public sealed class BemClientWithRawResponse : IBemClientWithRawResponse
         _entities = new(() => new EntityServiceWithRawResponse(this));
         _entityTypes = new(() => new EntityTypeServiceWithRawResponse(this));
         _knowledgeGraph = new(() => new KnowledgeGraphServiceWithRawResponse(this));
-        _reviewQueue = new(() => new ReviewQueueServiceWithRawResponse(this));
-        _users = new(() => new UserServiceWithRawResponse(this));
     }
 
     public BemClientWithRawResponse(ClientOptions options)

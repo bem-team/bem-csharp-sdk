@@ -127,7 +127,9 @@ public interface IFunctionService
     /// `transform`, `analyze`, `route`, and `send` types remain readable via this
     /// filter. - `tags`: returns functions tagged with any of the supplied tags. -
     /// `workflowIDs` / `workflowNames`: returns only functions referenced by the named
-    /// workflows. Useful for "what functions does this workflow depend on?" lookups.</para>
+    /// workflows. Useful for "what functions does this workflow depend on?" lookups. -
+    /// `workflowIDVersionNums` / `workflowNameVersionNums`: the same lookup pinned to a
+    /// specific workflow version.</para>
     ///
     /// <para>## Pagination</para>
     ///

@@ -4,6 +4,7 @@ using System.Text.Json;
 using Bem.Core;
 using Bem.Models.Calls;
 using Bem.Models.Errors;
+using Bem.Models.Functions;
 using Outputs = Bem.Models.Outputs;
 
 namespace Bem.Tests.Models.Calls;
@@ -20,6 +21,7 @@ public class CallListPageResponseTest : TestBase
                 new()
                 {
                     CallID = "callID",
+                    CallType = CallCallType.Workflow,
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Errors =
                     [
@@ -135,6 +137,10 @@ public class CallListPageResponseTest : TestBase
                     Url = "url",
                     CallReferenceID = "callReferenceID",
                     FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    FunctionType = FunctionType.Transform,
+                    FunctionVersionNum = 0,
                     Input = new()
                     {
                         BatchFiles = new()
@@ -166,6 +172,7 @@ public class CallListPageResponseTest : TestBase
             new()
             {
                 CallID = "callID",
+                CallType = CallCallType.Workflow,
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Errors =
                 [
@@ -275,6 +282,10 @@ public class CallListPageResponseTest : TestBase
                 Url = "url",
                 CallReferenceID = "callReferenceID",
                 FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                FunctionID = "functionID",
+                FunctionName = "functionName",
+                FunctionType = FunctionType.Transform,
+                FunctionVersionNum = 0,
                 Input = new()
                 {
                     BatchFiles = new()
@@ -320,6 +331,7 @@ public class CallListPageResponseTest : TestBase
                 new()
                 {
                     CallID = "callID",
+                    CallType = CallCallType.Workflow,
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Errors =
                     [
@@ -435,6 +447,10 @@ public class CallListPageResponseTest : TestBase
                     Url = "url",
                     CallReferenceID = "callReferenceID",
                     FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    FunctionType = FunctionType.Transform,
+                    FunctionVersionNum = 0,
                     Input = new()
                     {
                         BatchFiles = new()
@@ -480,6 +496,7 @@ public class CallListPageResponseTest : TestBase
                 new()
                 {
                     CallID = "callID",
+                    CallType = CallCallType.Workflow,
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Errors =
                     [
@@ -595,6 +612,10 @@ public class CallListPageResponseTest : TestBase
                     Url = "url",
                     CallReferenceID = "callReferenceID",
                     FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    FunctionType = FunctionType.Transform,
+                    FunctionVersionNum = 0,
                     Input = new()
                     {
                         BatchFiles = new()
@@ -633,6 +654,7 @@ public class CallListPageResponseTest : TestBase
             new()
             {
                 CallID = "callID",
+                CallType = CallCallType.Workflow,
                 CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                 Errors =
                 [
@@ -742,6 +764,10 @@ public class CallListPageResponseTest : TestBase
                 Url = "url",
                 CallReferenceID = "callReferenceID",
                 FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                FunctionID = "functionID",
+                FunctionName = "functionName",
+                FunctionType = FunctionType.Transform,
+                FunctionVersionNum = 0,
                 Input = new()
                 {
                     BatchFiles = new()
@@ -787,6 +813,7 @@ public class CallListPageResponseTest : TestBase
                 new()
                 {
                     CallID = "callID",
+                    CallType = CallCallType.Workflow,
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Errors =
                     [
@@ -902,6 +929,10 @@ public class CallListPageResponseTest : TestBase
                     Url = "url",
                     CallReferenceID = "callReferenceID",
                     FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    FunctionType = FunctionType.Transform,
+                    FunctionVersionNum = 0,
                     Input = new()
                     {
                         BatchFiles = new()
@@ -995,6 +1026,7 @@ public class CallListPageResponseTest : TestBase
                 new()
                 {
                     CallID = "callID",
+                    CallType = CallCallType.Workflow,
                     CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                     Errors =
                     [
@@ -1110,6 +1142,10 @@ public class CallListPageResponseTest : TestBase
                     Url = "url",
                     CallReferenceID = "callReferenceID",
                     FinishedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
+                    FunctionID = "functionID",
+                    FunctionName = "functionName",
+                    FunctionType = FunctionType.Transform,
+                    FunctionVersionNum = 0,
                     Input = new()
                     {
                         BatchFiles = new()

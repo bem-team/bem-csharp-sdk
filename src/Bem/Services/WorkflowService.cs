@@ -116,16 +116,19 @@ public sealed class WorkflowService : IWorkflowService
     }
 
     /// <inheritdoc/>
-    public Task Delete(
+    public async Task<WorkflowDeleteResponse> Delete(
         WorkflowDeleteParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        return this.WithRawResponse.Delete(parameters, cancellationToken);
+        using var response = await this
+            .WithRawResponse.Delete(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task Delete(
+    public Task<WorkflowDeleteResponse> Delete(
         string workflowName,
         WorkflowDeleteParams? parameters = null,
         CancellationToken cancellationToken = default
@@ -133,8 +136,7 @@ public sealed class WorkflowService : IWorkflowService
     {
         parameters ??= new();
 
-        await this.Delete(parameters with { WorkflowName = workflowName }, cancellationToken)
-            .ConfigureAwait(false);
+        return this.Delete(parameters with { WorkflowName = workflowName }, cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -343,7 +345,7 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse> Delete(
+    public async Task<HttpResponse<WorkflowDeleteResponse>> Delete(
         WorkflowDeleteParams parameters,
         CancellationToken cancellationToken = default
     )
@@ -358,11 +360,25 @@ public sealed class WorkflowServiceWithRawResponse : IWorkflowServiceWithRawResp
             Method = HttpMethod.Delete,
             Params = parameters,
         };
-        return this._client.Execute(request, cancellationToken);
+        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                var workflow = await response
+                    .Deserialize<WorkflowDeleteResponse>(token)
+                    .ConfigureAwait(false);
+                if (this._client.ResponseValidation)
+                {
+                    workflow.Validate();
+                }
+                return workflow;
+            }
+        );
     }
 
     /// <inheritdoc/>
-    public Task<HttpResponse> Delete(
+    public Task<HttpResponse<WorkflowDeleteResponse>> Delete(
         string workflowName,
         WorkflowDeleteParams? parameters = null,
         CancellationToken cancellationToken = default

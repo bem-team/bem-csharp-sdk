@@ -37,16 +37,6 @@ public class EntityTypeServiceTest : TestBase
     }
 
     [Fact(Skip = "Mock server tests are disabled")]
-    public async Task List_Works()
-    {
-        var entityTypes = await this.client.EntityTypes.List(
-            new(),
-            TestContext.Current.CancellationToken
-        );
-        entityTypes.Validate();
-    }
-
-    [Fact(Skip = "Mock server tests are disabled")]
     public async Task Delete_Works()
     {
         await this.client.EntityTypes.Delete(

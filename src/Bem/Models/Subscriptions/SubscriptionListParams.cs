@@ -1,13 +1,11 @@
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Bem.Core;
-using Bem.Exceptions;
-using System = System;
 
 namespace Bem.Models.Subscriptions;
 
@@ -88,29 +86,6 @@ public record class SubscriptionListParams : ParamsBase
             }
 
             this._rawQueryData.Set("limit", value);
-        }
-    }
-
-    /// <summary>
-    /// Specifies sorting behavior. The two options are `asc` and `desc` to sort
-    /// ascending and descending respectively, with default sort being ascending.
-    /// Paging works in both directions.
-    /// </summary>
-    public ApiEnum<string, SortOrder>? SortOrder
-    {
-        get
-        {
-            this._rawQueryData.Freeze();
-            return this._rawQueryData.GetNullableClass<ApiEnum<string, SortOrder>>("sortOrder");
-        }
-        init
-        {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawQueryData.Set("sortOrder", value);
         }
     }
 
@@ -206,9 +181,9 @@ public record class SubscriptionListParams : ParamsBase
             && this._rawQueryData.Equals(other._rawQueryData);
     }
 
-    public override System::Uri Url(ClientOptions options)
+    public override Uri Url(ClientOptions options)
     {
-        return new System::UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v3/subscriptions")
+        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v3/subscriptions")
         {
             Query = this.QueryString(options),
         }.Uri;
@@ -226,54 +201,5 @@ public record class SubscriptionListParams : ParamsBase
     public override int GetHashCode()
     {
         return 0;
-    }
-}
-
-/// <summary>
-/// Specifies sorting behavior. The two options are `asc` and `desc` to sort ascending
-/// and descending respectively, with default sort being ascending. Paging works in
-/// both directions.
-/// </summary>
-[JsonConverter(typeof(SortOrderConverter))]
-public enum SortOrder
-{
-    Asc,
-    Desc,
-}
-
-sealed class SortOrderConverter : JsonConverter<SortOrder>
-{
-    public override SortOrder Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "asc" => SortOrder.Asc,
-            "desc" => SortOrder.Desc,
-            _ => (SortOrder)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        SortOrder value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                SortOrder.Asc => "asc",
-                SortOrder.Desc => "desc",
-                _ => throw new BemInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
     }
 }

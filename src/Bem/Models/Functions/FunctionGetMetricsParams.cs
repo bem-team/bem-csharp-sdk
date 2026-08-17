@@ -39,6 +39,27 @@ namespace Bem.Models.Functions;
 public record class FunctionGetMetricsParams : ParamsBase
 {
     /// <summary>
+    /// Case-insensitive substring match on the function display name.
+    /// </summary>
+    public string? DisplayName
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableClass<string>("displayName");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set("displayName", value);
+        }
+    }
+
+    /// <summary>
     /// Cursor — a `functionID` defining your place in the list.
     /// </summary>
     public string? EndingBefore
@@ -164,6 +185,30 @@ public record class FunctionGetMetricsParams : ParamsBase
         }
     }
 
+    /// <summary>
+    /// Returns metrics for functions tagged with any of the supplied tags.
+    /// </summary>
+    public IReadOnlyList<string>? Tags
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("tags");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "tags",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
     public IReadOnlyList<ApiEnum<string, FunctionType>>? Types
     {
         get
@@ -182,6 +227,107 @@ public record class FunctionGetMetricsParams : ParamsBase
 
             this._rawQueryData.Set<ImmutableArray<ApiEnum<string, FunctionType>>?>(
                 "types",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Returns metrics only for functions referenced by the named workflows.
+    /// </summary>
+    public IReadOnlyList<string>? WorkflowIds
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("workflowIDs");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "workflowIDs",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Narrow the workflow filter to a specific workflow version. Each entry is `&lt;workflowID&gt;.&lt;versionNum&gt;`.
+    /// </summary>
+    public IReadOnlyList<string>? WorkflowIDVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "workflowIDVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "workflowIDVersionNums",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Returns metrics only for functions referenced by the named workflows.
+    /// </summary>
+    public IReadOnlyList<string>? WorkflowNames
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>("workflowNames");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "workflowNames",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
+    /// Narrow the workflow filter to a specific workflow version, keyed by workflow
+    /// name. Each entry is `&lt;workflowName&gt;.&lt;versionNum&gt;`.
+    /// </summary>
+    public IReadOnlyList<string>? WorkflowNameVersionNums
+    {
+        get
+        {
+            this._rawQueryData.Freeze();
+            return this._rawQueryData.GetNullableStruct<ImmutableArray<string>>(
+                "workflowNameVersionNums"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawQueryData.Set<ImmutableArray<string>?>(
+                "workflowNameVersionNums",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
         }

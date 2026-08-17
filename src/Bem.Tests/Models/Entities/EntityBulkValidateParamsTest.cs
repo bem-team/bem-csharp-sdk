@@ -16,11 +16,13 @@ public class EntityBulkValidateParamsTest : TestBase
         {
             EntityIds = ["ent_2abc", "ent_2def"],
             Status = EntityBulkValidateParamsStatus.Approved,
+            Bucket = "bucket",
         };
 
         List<string> expectedEntityIds = ["ent_2abc", "ent_2def"];
         ApiEnum<string, EntityBulkValidateParamsStatus> expectedStatus =
             EntityBulkValidateParamsStatus.Approved;
+        string expectedBucket = "bucket";
 
         Assert.Equal(expectedEntityIds.Count, parameters.EntityIds.Count);
         for (int i = 0; i < expectedEntityIds.Count; i++)
@@ -28,6 +30,36 @@ public class EntityBulkValidateParamsTest : TestBase
             Assert.Equal(expectedEntityIds[i], parameters.EntityIds[i]);
         }
         Assert.Equal(expectedStatus, parameters.Status);
+        Assert.Equal(expectedBucket, parameters.Bucket);
+    }
+
+    [Fact]
+    public void OptionalNonNullableParamsUnsetAreNotSet_Works()
+    {
+        var parameters = new EntityBulkValidateParams
+        {
+            EntityIds = ["ent_2abc", "ent_2def"],
+            Status = EntityBulkValidateParamsStatus.Approved,
+        };
+
+        Assert.Null(parameters.Bucket);
+        Assert.False(parameters.RawQueryData.ContainsKey("bucket"));
+    }
+
+    [Fact]
+    public void OptionalNonNullableParamsSetToNullAreNotSet_Works()
+    {
+        var parameters = new EntityBulkValidateParams
+        {
+            EntityIds = ["ent_2abc", "ent_2def"],
+            Status = EntityBulkValidateParamsStatus.Approved,
+
+            // Null should be interpreted as omitted for these properties
+            Bucket = null,
+        };
+
+        Assert.Null(parameters.Bucket);
+        Assert.False(parameters.RawQueryData.ContainsKey("bucket"));
     }
 
     [Fact]
@@ -37,12 +69,16 @@ public class EntityBulkValidateParamsTest : TestBase
         {
             EntityIds = ["ent_2abc", "ent_2def"],
             Status = EntityBulkValidateParamsStatus.Approved,
+            Bucket = "bucket",
         };
 
         var url = parameters.Url(new() { ApiKey = "My API Key" });
 
         Assert.True(
-            TestBase.UrisEqual(new Uri("https://api.bem.ai/v3/entities/bulk-validate"), url)
+            TestBase.UrisEqual(
+                new Uri("https://api.bem.ai/v3/entities/bulk-validate?bucket=bucket"),
+                url
+            )
         );
     }
 
@@ -53,6 +89,7 @@ public class EntityBulkValidateParamsTest : TestBase
         {
             EntityIds = ["ent_2abc", "ent_2def"],
             Status = EntityBulkValidateParamsStatus.Approved,
+            Bucket = "bucket",
         };
 
         EntityBulkValidateParams copied = new(parameters);

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bem.Core;
 using Bem.Models.EntityTypes;
-using Bem.Services.EntityTypes;
 
 namespace Bem.Services;
 
@@ -42,8 +41,6 @@ public interface IEntityTypeService
     /// <para>The original service is not modified.</para>
     /// </summary>
     IEntityTypeService WithOptions(Func<ClientOptions, ClientOptions> modifier);
-
-    IReviewerService Reviewers { get; }
 
     /// <summary>
     /// Create an Entity Type
@@ -84,14 +81,6 @@ public interface IEntityTypeService
     );
 
     /// <summary>
-    /// List Entity Types
-    /// </summary>
-    Task<EntityTypeListResponse> List(
-        EntityTypeListParams? parameters = null,
-        CancellationToken cancellationToken = default
-    );
-
-    /// <summary>
     /// Delete an Entity Type
     /// </summary>
     Task Delete(EntityTypeDeleteParams parameters, CancellationToken cancellationToken = default);
@@ -116,8 +105,6 @@ public interface IEntityTypeServiceWithRawResponse
     /// <para>The original service is not modified.</para>
     /// </summary>
     IEntityTypeServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
-
-    IReviewerServiceWithRawResponse Reviewers { get; }
 
     /// <summary>
     /// Returns a raw HTTP response for <c>post /v3/entity-types</c>, but is otherwise the
@@ -157,15 +144,6 @@ public interface IEntityTypeServiceWithRawResponse
     Task<HttpResponse<EntityType>> Update(
         string typeID,
         EntityTypeUpdateParams? parameters = null,
-        CancellationToken cancellationToken = default
-    );
-
-    /// <summary>
-    /// Returns a raw HTTP response for <c>get /v3/entity-types</c>, but is otherwise the
-    /// same as <see cref="IEntityTypeService.List(EntityTypeListParams?, CancellationToken)"/>.
-    /// </summary>
-    Task<HttpResponse<EntityTypeListResponse>> List(
-        EntityTypeListParams? parameters = null,
         CancellationToken cancellationToken = default
     );
 
