@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Bem.Core;
 using Bem.Exceptions;
 using Bem.Models.EntityTypes;
-using Bem.Services.EntityTypes;
 
 namespace Bem.Services;
 
@@ -33,13 +32,6 @@ public sealed class EntityTypeService : IEntityTypeService
         _client = client;
 
         _withRawResponse = new(() => new EntityTypeServiceWithRawResponse(client.WithRawResponse));
-        _reviewers = new(() => new ReviewerService(client));
-    }
-
-    readonly Lazy<IReviewerService> _reviewers;
-    public IReviewerService Reviewers
-    {
-        get { return _reviewers.Value; }
     }
 
     /// <inheritdoc/>
@@ -103,18 +95,6 @@ public sealed class EntityTypeService : IEntityTypeService
     }
 
     /// <inheritdoc/>
-    public async Task<EntityTypeListResponse> List(
-        EntityTypeListParams? parameters = null,
-        CancellationToken cancellationToken = default
-    )
-    {
-        using var response = await this
-            .WithRawResponse.List(parameters, cancellationToken)
-            .ConfigureAwait(false);
-        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc/>
     public Task Delete(
         EntityTypeDeleteParams parameters,
         CancellationToken cancellationToken = default
@@ -153,14 +133,6 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
     public EntityTypeServiceWithRawResponse(IBemClientWithRawResponse client)
     {
         _client = client;
-
-        _reviewers = new(() => new ReviewerServiceWithRawResponse(client));
-    }
-
-    readonly Lazy<IReviewerServiceWithRawResponse> _reviewers;
-    public IReviewerServiceWithRawResponse Reviewers
-    {
-        get { return _reviewers.Value; }
     }
 
     /// <inheritdoc/>
@@ -279,36 +251,6 @@ public sealed class EntityTypeServiceWithRawResponse : IEntityTypeServiceWithRaw
         parameters ??= new();
 
         return this.Update(parameters with { TypeID = typeID }, cancellationToken);
-    }
-
-    /// <inheritdoc/>
-    public async Task<HttpResponse<EntityTypeListResponse>> List(
-        EntityTypeListParams? parameters = null,
-        CancellationToken cancellationToken = default
-    )
-    {
-        parameters ??= new();
-
-        HttpRequest<EntityTypeListParams> request = new()
-        {
-            Method = HttpMethod.Get,
-            Params = parameters,
-        };
-        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
-        return new(
-            response,
-            async (token) =>
-            {
-                var entityTypes = await response
-                    .Deserialize<EntityTypeListResponse>(token)
-                    .ConfigureAwait(false);
-                if (this._client.ResponseValidation)
-                {
-                    entityTypes.Validate();
-                }
-                return entityTypes;
-            }
-        );
     }
 
     /// <inheritdoc/>
