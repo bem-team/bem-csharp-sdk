@@ -327,13 +327,6 @@ public class ColumnValueTest : TestBase
     }
 
     [Fact]
-    public void JsonElementValidationWorks1()
-    {
-        ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
-        value.Validate();
-    }
-
-    [Fact]
     public void JsonElementsValidationWorks()
     {
         ColumnValue value = new([JsonSerializer.Deserialize<JsonElement>("{}")]);
@@ -381,19 +374,6 @@ public class ColumnValueTest : TestBase
 
     [Fact]
     public void JsonElementSerializationRoundtripWorks()
-    {
-        ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
-        string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ColumnValue>(
-            element,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void JsonElementSerializationRoundtripWorks1()
     {
         ColumnValue value = JsonSerializer.Deserialize<JsonElement>("{}");
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);

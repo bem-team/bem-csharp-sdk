@@ -5,12 +5,12 @@ using Bem.Models.Views;
 
 namespace Bem.Tests.Models.Views;
 
-public class ViewListResponseTest : TestBase
+public class ViewListPageResponseTest : TestBase
 {
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new ViewListResponse
+        var model = new ViewListPageResponse
         {
             TotalCount = 0,
             Views =
@@ -110,7 +110,7 @@ public class ViewListResponseTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new ViewListResponse
+        var model = new ViewListPageResponse
         {
             TotalCount = 0,
             Views =
@@ -157,7 +157,7 @@ public class ViewListResponseTest : TestBase
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewListResponse>(
+        var deserialized = JsonSerializer.Deserialize<ViewListPageResponse>(
             json,
             ModelBase.SerializerOptions
         );
@@ -168,7 +168,7 @@ public class ViewListResponseTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new ViewListResponse
+        var model = new ViewListPageResponse
         {
             TotalCount = 0,
             Views =
@@ -215,7 +215,7 @@ public class ViewListResponseTest : TestBase
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ViewListResponse>(
+        var deserialized = JsonSerializer.Deserialize<ViewListPageResponse>(
             element,
             ModelBase.SerializerOptions
         );
@@ -275,7 +275,7 @@ public class ViewListResponseTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new ViewListResponse
+        var model = new ViewListPageResponse
         {
             TotalCount = 0,
             Views =
@@ -327,7 +327,7 @@ public class ViewListResponseTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new ViewListResponse
+        var model = new ViewListPageResponse
         {
             TotalCount = 0,
             Views =
@@ -373,7 +373,7 @@ public class ViewListResponseTest : TestBase
             ],
         };
 
-        ViewListResponse copied = new(model);
+        ViewListPageResponse copied = new(model);
 
         Assert.Equal(model, copied);
     }

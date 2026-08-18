@@ -1045,23 +1045,18 @@ sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
 [JsonConverter(typeof(JsonModelConverter<Output, OutputFromRaw>))]
 public sealed record class Output : JsonModel
 {
-    public IReadOnlyList<Outputs::AnyType?>? OutputValue
+    public required IReadOnlyList<Outputs::AnyType?> OutputValue
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<Outputs::AnyType?>>("output");
+            return this._rawData.GetNotNullStruct<ImmutableArray<Outputs::AnyType?>>("output");
         }
         init
         {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<Outputs::AnyType?>?>(
+            this._rawData.Set<ImmutableArray<Outputs::AnyType?>>(
                 "output",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
+                ImmutableArray.ToImmutableArray(value)
             );
         }
     }
@@ -1069,7 +1064,7 @@ public sealed record class Output : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.OutputValue ?? [])
+        foreach (var item in this.OutputValue)
         {
             item?.Validate();
         }
@@ -1100,6 +1095,13 @@ public sealed record class Output : JsonModel
     public static Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public Output(IReadOnlyList<Outputs::AnyType?> outputValue)
+        : this()
+    {
+        this.OutputValue = outputValue;
     }
 }
 

@@ -93,7 +93,7 @@ public sealed class ViewService : IViewService
     }
 
     /// <inheritdoc/>
-    public async Task<ViewListResponse> List(
+    public async Task<ViewListPage> List(
         ViewListParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -275,7 +275,7 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<ViewListResponse>> List(
+    public async Task<HttpResponse<ViewListPage>> List(
         ViewListParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -292,14 +292,14 @@ public sealed class ViewServiceWithRawResponse : IViewServiceWithRawResponse
             response,
             async (token) =>
             {
-                var views = await response
-                    .Deserialize<ViewListResponse>(token)
+                var page = await response
+                    .Deserialize<ViewListPageResponse>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    views.Validate();
+                    page.Validate();
                 }
-                return views;
+                return new ViewListPage(this, parameters, page);
             }
         );
     }

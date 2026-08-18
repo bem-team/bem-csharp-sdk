@@ -17,11 +17,8 @@ public class CollectionServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task List_Works()
     {
-        var collections = await this.client.Collections.List(
-            new(),
-            TestContext.Current.CancellationToken
-        );
-        collections.Validate();
+        var page = await this.client.Collections.List(new(), TestContext.Current.CancellationToken);
+        page.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]

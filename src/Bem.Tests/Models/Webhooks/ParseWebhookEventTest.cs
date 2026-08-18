@@ -25,10 +25,9 @@ public class ParseWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ParseWebhookEventEventType.Parse,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -73,10 +72,9 @@ public class ParseWebhookEventTest : TestBase
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
         ParseWebhookEventCorrectedContent expectedCorrectedContent =
-            new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            };
+            new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            );
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         ApiEnum<string, ParseWebhookEventEventType> expectedEventType =
             ParseWebhookEventEventType.Parse;
@@ -168,10 +166,9 @@ public class ParseWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ParseWebhookEventEventType.Parse,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -229,10 +226,9 @@ public class ParseWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ParseWebhookEventEventType.Parse,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -284,10 +280,9 @@ public class ParseWebhookEventTest : TestBase
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
         ParseWebhookEventCorrectedContent expectedCorrectedContent =
-            new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            };
+            new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            );
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         ApiEnum<string, ParseWebhookEventEventType> expectedEventType =
             ParseWebhookEventEventType.Parse;
@@ -386,10 +381,9 @@ public class ParseWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ParseWebhookEventEventType.Parse,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -440,10 +434,9 @@ public class ParseWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             Inputs =
             [
                 new()
@@ -504,10 +497,9 @@ public class ParseWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             Inputs =
             [
                 new()
@@ -537,10 +529,9 @@ public class ParseWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             Inputs =
             [
                 new()
@@ -619,10 +610,9 @@ public class ParseWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             Inputs =
             [
                 new()
@@ -851,10 +841,9 @@ public class ParseWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new ParseWebhookEventCorrectedContentOutput()
-            {
-                Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new ParseWebhookEventCorrectedContentOutput(
+                [JsonSerializer.Deserialize<JsonElement>("{}")]
+            ),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = ParseWebhookEventEventType.Parse,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -900,10 +889,9 @@ public class ParseWebhookEventCorrectedContentTest : TestBase
     [Fact]
     public void ParseWebhookEventCorrectedContentOutputValidationWorks()
     {
-        ParseWebhookEventCorrectedContent value = new ParseWebhookEventCorrectedContentOutput()
-        {
-            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        ParseWebhookEventCorrectedContent value = new ParseWebhookEventCorrectedContentOutput(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
         value.Validate();
     }
 
@@ -947,10 +935,9 @@ public class ParseWebhookEventCorrectedContentTest : TestBase
     [Fact]
     public void ParseWebhookEventCorrectedContentOutputSerializationRoundtripWorks()
     {
-        ParseWebhookEventCorrectedContent value = new ParseWebhookEventCorrectedContentOutput()
-        {
-            Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        ParseWebhookEventCorrectedContent value = new ParseWebhookEventCorrectedContentOutput(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ParseWebhookEventCorrectedContent>(
             element,
@@ -1040,7 +1027,6 @@ public class ParseWebhookEventCorrectedContentOutputTest : TestBase
 
         List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
 
-        Assert.NotNull(model.Output);
         Assert.Equal(expectedOutput.Count, model.Output.Count);
         for (int i = 0; i < expectedOutput.Count; i++)
         {
@@ -1082,7 +1068,6 @@ public class ParseWebhookEventCorrectedContentOutputTest : TestBase
 
         List<AnyType?> expectedOutput = [JsonSerializer.Deserialize<JsonElement>("{}")];
 
-        Assert.NotNull(deserialized.Output);
         Assert.Equal(expectedOutput.Count, deserialized.Output.Count);
         for (int i = 0; i < expectedOutput.Count; i++)
         {
@@ -1096,48 +1081,6 @@ public class ParseWebhookEventCorrectedContentOutputTest : TestBase
         var model = new ParseWebhookEventCorrectedContentOutput
         {
             Output = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new ParseWebhookEventCorrectedContentOutput { };
-
-        Assert.Null(model.Output);
-        Assert.False(model.RawData.ContainsKey("output"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new ParseWebhookEventCorrectedContentOutput { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new ParseWebhookEventCorrectedContentOutput
-        {
-            // Null should be interpreted as omitted for these properties
-            Output = null,
-        };
-
-        Assert.Null(model.Output);
-        Assert.False(model.RawData.ContainsKey("output"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new ParseWebhookEventCorrectedContentOutput
-        {
-            // Null should be interpreted as omitted for these properties
-            Output = null,
         };
 
         model.Validate();

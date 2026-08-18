@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,145 +9,10 @@ using Bem.Core;
 namespace Bem.Models.Collections;
 
 /// <summary>
-/// Response for listing collections
+/// Collection metadata without items
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<CollectionListResponse, CollectionListResponseFromRaw>))]
 public sealed record class CollectionListResponse : JsonModel
-{
-    /// <summary>
-    /// List of collections
-    /// </summary>
-    public required IReadOnlyList<CollectionListResponseCollection> Collections
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<ImmutableArray<CollectionListResponseCollection>>(
-                "collections"
-            );
-        }
-        init
-        {
-            this._rawData.Set<ImmutableArray<CollectionListResponseCollection>>(
-                "collections",
-                ImmutableArray.ToImmutableArray(value)
-            );
-        }
-    }
-
-    /// <summary>
-    /// Number of collections per page
-    /// </summary>
-    public required long Limit
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("limit");
-        }
-        init { this._rawData.Set("limit", value); }
-    }
-
-    /// <summary>
-    /// Current page number
-    /// </summary>
-    public required long Page
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("page");
-        }
-        init { this._rawData.Set("page", value); }
-    }
-
-    /// <summary>
-    /// Total number of collections
-    /// </summary>
-    public required long TotalCount
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("totalCount");
-        }
-        init { this._rawData.Set("totalCount", value); }
-    }
-
-    /// <summary>
-    /// Total number of pages
-    /// </summary>
-    public required long TotalPages
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<long>("totalPages");
-        }
-        init { this._rawData.Set("totalPages", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        foreach (var item in this.Collections)
-        {
-            item.Validate();
-        }
-        _ = this.Limit;
-        _ = this.Page;
-        _ = this.TotalCount;
-        _ = this.TotalPages;
-    }
-
-    public CollectionListResponse() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public CollectionListResponse(CollectionListResponse collectionListResponse)
-        : base(collectionListResponse) { }
-#pragma warning restore CS8618
-
-    public CollectionListResponse(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    CollectionListResponse(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="CollectionListResponseFromRaw.FromRawUnchecked"/>
-    public static CollectionListResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class CollectionListResponseFromRaw : IFromRawJson<CollectionListResponse>
-{
-    /// <inheritdoc/>
-    public CollectionListResponse FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => CollectionListResponse.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// Collection metadata without items
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<
-        CollectionListResponseCollection,
-        CollectionListResponseCollectionFromRaw
-    >)
-)]
-public sealed record class CollectionListResponseCollection : JsonModel
 {
     /// <summary>
     /// Unique identifier for the collection
@@ -233,31 +97,29 @@ public sealed record class CollectionListResponseCollection : JsonModel
         _ = this.UpdatedAt;
     }
 
-    public CollectionListResponseCollection() { }
+    public CollectionListResponse() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public CollectionListResponseCollection(
-        CollectionListResponseCollection collectionListResponseCollection
-    )
-        : base(collectionListResponseCollection) { }
+    public CollectionListResponse(CollectionListResponse collectionListResponse)
+        : base(collectionListResponse) { }
 #pragma warning restore CS8618
 
-    public CollectionListResponseCollection(IReadOnlyDictionary<string, JsonElement> rawData)
+    public CollectionListResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    CollectionListResponseCollection(FrozenDictionary<string, JsonElement> rawData)
+    CollectionListResponse(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="CollectionListResponseCollectionFromRaw.FromRawUnchecked"/>
-    public static CollectionListResponseCollection FromRawUnchecked(
+    /// <inheritdoc cref="CollectionListResponseFromRaw.FromRawUnchecked"/>
+    public static CollectionListResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -265,10 +127,10 @@ public sealed record class CollectionListResponseCollection : JsonModel
     }
 }
 
-class CollectionListResponseCollectionFromRaw : IFromRawJson<CollectionListResponseCollection>
+class CollectionListResponseFromRaw : IFromRawJson<CollectionListResponse>
 {
     /// <inheritdoc/>
-    public CollectionListResponseCollection FromRawUnchecked(
+    public CollectionListResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
-    ) => CollectionListResponseCollection.FromRawUnchecked(rawData);
+    ) => CollectionListResponse.FromRawUnchecked(rawData);
 }

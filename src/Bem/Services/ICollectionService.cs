@@ -66,7 +66,7 @@ public interface ICollectionService
     /// <summary>
     /// List Collections
     /// </summary>
-    Task<CollectionListResponse> List(
+    Task<CollectionListPage> List(
         CollectionListParams? parameters = null,
         CancellationToken cancellationToken = default
     );
@@ -115,7 +115,7 @@ public interface ICollectionServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/collections</c>, but is otherwise the
     /// same as <see cref="ICollectionService.List(CollectionListParams?, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<CollectionListResponse>> List(
+    Task<HttpResponse<CollectionListPage>> List(
         CollectionListParams? parameters = null,
         CancellationToken cancellationToken = default
     );

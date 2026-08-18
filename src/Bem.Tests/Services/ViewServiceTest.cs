@@ -109,8 +109,8 @@ public class ViewServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task List_Works()
     {
-        var views = await this.client.Views.List(new(), TestContext.Current.CancellationToken);
-        views.Validate();
+        var page = await this.client.Views.List(new(), TestContext.Current.CancellationToken);
+        page.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]

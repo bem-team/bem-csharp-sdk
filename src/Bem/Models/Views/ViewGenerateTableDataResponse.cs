@@ -392,27 +392,6 @@ public record class ColumnValue : ModelBase
 
     /// <summary>
     /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
-    /// type <see cref="JsonElement"/>.
-    ///
-    /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
-    ///
-    /// <example>
-    /// <code>
-    /// if (instance.TryPickJsonElement1(out var value)) {
-    ///     // `value` is of type `JsonElement`
-    ///     Console.WriteLine(value);
-    /// }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public bool TryPickJsonElement1([NotNullWhen(true)] out JsonElement? value)
-    {
-        value = this.Value as JsonElement?;
-        return value != null;
-    }
-
-    /// <summary>
-    /// Returns true and sets the <c>out</c> parameter if the instance was constructed with a variant of
     /// type <see cref="List{T}"/> where <c>T</c> is a <c>JsonElement</c>.
     ///
     /// <para>Consider using <see cref="Switch"/> or <see cref="Match"/> if you need to handle every variant.</para>
@@ -450,7 +429,6 @@ public record class ColumnValue : ModelBase
     ///     (double value) =&gt; {...},
     ///     (bool value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
-    ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...}
     /// );
     /// </code>
@@ -461,7 +439,6 @@ public record class ColumnValue : ModelBase
         Action<double> @double,
         Action<bool> @bool,
         Action<JsonElement> jsonElement,
-        Action<JsonElement> jsonElement1,
         Action<IReadOnlyList<JsonElement>> jsonElements
     )
     {
@@ -478,9 +455,6 @@ public record class ColumnValue : ModelBase
                 break;
             case JsonElement value:
                 jsonElement(value);
-                break;
-            case JsonElement value:
-                jsonElement1(value);
                 break;
             case IReadOnlyList<JsonElement> value:
                 jsonElements(value);
@@ -509,7 +483,6 @@ public record class ColumnValue : ModelBase
     ///     (double value) =&gt; {...},
     ///     (bool value) =&gt; {...},
     ///     (JsonElement value) =&gt; {...},
-    ///     (JsonElement value) =&gt; {...},
     ///     (IReadOnlyList&lt;JsonElement&gt; value) =&gt; {...}
     /// );
     /// </code>
@@ -520,7 +493,6 @@ public record class ColumnValue : ModelBase
         Func<double, T> @double,
         Func<bool, T> @bool,
         Func<JsonElement, T> jsonElement,
-        Func<JsonElement, T> jsonElement1,
         Func<IReadOnlyList<JsonElement>, T> jsonElements
     )
     {
@@ -530,7 +502,6 @@ public record class ColumnValue : ModelBase
             double value => @double(value),
             bool value => @bool(value),
             JsonElement value => jsonElement(value),
-            JsonElement value => jsonElement1(value),
             IReadOnlyList<JsonElement> value => jsonElements(value),
             _ => throw new BemInvalidDataException("Data did not match any variant of ColumnValue"),
         };
@@ -541,8 +512,6 @@ public record class ColumnValue : ModelBase
     public static implicit operator ColumnValue(double value) => new(value);
 
     public static implicit operator ColumnValue(bool value) => new(value);
-
-    public static implicit operator ColumnValue(JsonElement value) => new(value);
 
     public static implicit operator ColumnValue(JsonElement value) => new(value);
 
@@ -591,8 +560,7 @@ public record class ColumnValue : ModelBase
             double _ => 1,
             bool _ => 2,
             JsonElement _ => 3,
-            JsonElement _ => 4,
-            IReadOnlyList<JsonElement> _ => 5,
+            IReadOnlyList<JsonElement> _ => 4,
             _ => -1,
         };
     }
@@ -645,15 +613,6 @@ sealed class ColumnValueConverter : JsonConverter<ColumnValue>
             {
                 return new(deserialized, element);
             }
-        }
-        catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
-        {
-            // ignore
-        }
-
-        try
-        {
-            return new(JsonSerializer.Deserialize<JsonElement>(element, options));
         }
         catch (Exception e) when (e is JsonException || e is BemInvalidDataException)
         {

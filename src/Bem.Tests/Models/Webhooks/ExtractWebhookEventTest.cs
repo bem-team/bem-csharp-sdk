@@ -25,10 +25,7 @@ public class ExtractWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = EventType.Extract,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -72,10 +69,9 @@ public class ExtractWebhookEventTest : TestBase
         JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
-        CorrectedContent expectedCorrectedContent = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        CorrectedContent expectedCorrectedContent = new Output(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         ApiEnum<string, EventType> expectedEventType = EventType.Extract;
         JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
@@ -166,10 +162,7 @@ public class ExtractWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = EventType.Extract,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -227,10 +220,7 @@ public class ExtractWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = EventType.Extract,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -281,10 +271,9 @@ public class ExtractWebhookEventTest : TestBase
         JsonElement expectedTransformedContent = JsonSerializer.Deserialize<JsonElement>("{}");
         float expectedAvgConfidence = 0;
         string expectedCallID = "callID";
-        CorrectedContent expectedCorrectedContent = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        CorrectedContent expectedCorrectedContent = new Output(
+            [JsonSerializer.Deserialize<JsonElement>("{}")]
+        );
         DateTimeOffset expectedCreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z");
         ApiEnum<string, EventType> expectedEventType = EventType.Extract;
         JsonElement expectedFieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}");
@@ -382,10 +371,7 @@ public class ExtractWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = EventType.Extract,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -436,10 +422,7 @@ public class ExtractWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             Inputs =
             [
                 new()
@@ -500,10 +483,7 @@ public class ExtractWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             Inputs =
             [
                 new()
@@ -533,10 +513,7 @@ public class ExtractWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             Inputs =
             [
                 new()
@@ -615,10 +592,7 @@ public class ExtractWebhookEventTest : TestBase
             ReferenceID = "referenceID",
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             Inputs =
             [
                 new()
@@ -847,10 +821,7 @@ public class ExtractWebhookEventTest : TestBase
             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
             AvgConfidence = 0,
             CallID = "callID",
-            CorrectedContent = new Output()
-            {
-                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-            },
+            CorrectedContent = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]),
             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
             EventType = EventType.Extract,
             FieldBoundingBoxes = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -896,10 +867,7 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void OutputValidationWorks()
     {
-        CorrectedContent value = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        CorrectedContent value = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]);
         value.Validate();
     }
 
@@ -941,10 +909,7 @@ public class CorrectedContentTest : TestBase
     [Fact]
     public void OutputSerializationRoundtripWorks()
     {
-        CorrectedContent value = new Output()
-        {
-            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-        };
+        CorrectedContent value = new Output([JsonSerializer.Deserialize<JsonElement>("{}")]);
         string element = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<CorrectedContent>(
             element,
@@ -1032,7 +997,6 @@ public class OutputTest : TestBase
             JsonSerializer.Deserialize<JsonElement>("{}"),
         ];
 
-        Assert.NotNull(model.OutputValue);
         Assert.Equal(expectedOutputValue.Count, model.OutputValue.Count);
         for (int i = 0; i < expectedOutputValue.Count; i++)
         {
@@ -1065,7 +1029,6 @@ public class OutputTest : TestBase
             JsonSerializer.Deserialize<JsonElement>("{}"),
         ];
 
-        Assert.NotNull(deserialized.OutputValue);
         Assert.Equal(expectedOutputValue.Count, deserialized.OutputValue.Count);
         for (int i = 0; i < expectedOutputValue.Count; i++)
         {
@@ -1077,48 +1040,6 @@ public class OutputTest : TestBase
     public void Validation_Works()
     {
         var model = new Output { OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")] };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Output { };
-
-        Assert.Null(model.OutputValue);
-        Assert.False(model.RawData.ContainsKey("output"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Output { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Output
-        {
-            // Null should be interpreted as omitted for these properties
-            OutputValue = null,
-        };
-
-        Assert.Null(model.OutputValue);
-        Assert.False(model.RawData.ContainsKey("output"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Output
-        {
-            // Null should be interpreted as omitted for these properties
-            OutputValue = null,
-        };
 
         model.Validate();
     }

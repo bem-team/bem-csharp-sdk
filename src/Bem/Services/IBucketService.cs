@@ -83,7 +83,7 @@ public interface IBucketService
     /// <summary>
     /// List Buckets
     /// </summary>
-    Task<BucketListResponse> List(
+    Task<BucketListPage> List(
         BucketListParams? parameters = null,
         CancellationToken cancellationToken = default
     );
@@ -159,7 +159,7 @@ public interface IBucketServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/buckets</c>, but is otherwise the
     /// same as <see cref="IBucketService.List(BucketListParams?, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<BucketListResponse>> List(
+    Task<HttpResponse<BucketListPage>> List(
         BucketListParams? parameters = null,
         CancellationToken cancellationToken = default
     );

@@ -39,8 +39,8 @@ public class BucketServiceTest : TestBase
     [Fact(Skip = "Mock server tests are disabled")]
     public async Task List_Works()
     {
-        var buckets = await this.client.Buckets.List(new(), TestContext.Current.CancellationToken);
-        buckets.Validate();
+        var page = await this.client.Buckets.List(new(), TestContext.Current.CancellationToken);
+        page.Validate();
     }
 
     [Fact(Skip = "Mock server tests are disabled")]

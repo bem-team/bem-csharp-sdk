@@ -65,10 +65,9 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new Outputs::Output()
-                            {
-                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                            },
+                            CorrectedContent = new Outputs::Output(
+                                [JsonSerializer.Deserialize<JsonElement>("{}")]
+                            ),
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                             EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -216,10 +215,9 @@ public class CallListPageResponseTest : TestBase
                         TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                         AvgConfidence = 0,
                         CallID = "callID",
-                        CorrectedContent = new Outputs::Output()
-                        {
-                            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                        },
+                        CorrectedContent = new Outputs::Output(
+                            [JsonSerializer.Deserialize<JsonElement>("{}")]
+                        ),
                         CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                         EventType = Outputs::EventType.Transform,
                         FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -375,10 +373,9 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new Outputs::Output()
-                            {
-                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                            },
+                            CorrectedContent = new Outputs::Output(
+                                [JsonSerializer.Deserialize<JsonElement>("{}")]
+                            ),
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                             EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -540,10 +537,9 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new Outputs::Output()
-                            {
-                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                            },
+                            CorrectedContent = new Outputs::Output(
+                                [JsonSerializer.Deserialize<JsonElement>("{}")]
+                            ),
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                             EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -698,10 +694,9 @@ public class CallListPageResponseTest : TestBase
                         TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                         AvgConfidence = 0,
                         CallID = "callID",
-                        CorrectedContent = new Outputs::Output()
-                        {
-                            OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                        },
+                        CorrectedContent = new Outputs::Output(
+                            [JsonSerializer.Deserialize<JsonElement>("{}")]
+                        ),
                         CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                         EventType = Outputs::EventType.Transform,
                         FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -857,10 +852,9 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new Outputs::Output()
-                            {
-                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                            },
+                            CorrectedContent = new Outputs::Output(
+                                [JsonSerializer.Deserialize<JsonElement>("{}")]
+                            ),
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                             EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),
@@ -1070,10 +1064,9 @@ public class CallListPageResponseTest : TestBase
                             TransformedContent = JsonSerializer.Deserialize<JsonElement>("{}"),
                             AvgConfidence = 0,
                             CallID = "callID",
-                            CorrectedContent = new Outputs::Output()
-                            {
-                                OutputValue = [JsonSerializer.Deserialize<JsonElement>("{}")],
-                            },
+                            CorrectedContent = new Outputs::Output(
+                                [JsonSerializer.Deserialize<JsonElement>("{}")]
+                            ),
                             CreatedAt = DateTimeOffset.Parse("2019-12-27T18:11:19.117Z"),
                             EventType = Outputs::EventType.Transform,
                             FieldConfidences = JsonSerializer.Deserialize<JsonElement>("{}"),

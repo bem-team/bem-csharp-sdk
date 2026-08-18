@@ -95,7 +95,7 @@ public sealed class BucketService : IBucketService
     }
 
     /// <inheritdoc/>
-    public async Task<BucketListResponse> List(
+    public async Task<BucketListPage> List(
         BucketListParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -255,7 +255,7 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<BucketListResponse>> List(
+    public async Task<HttpResponse<BucketListPage>> List(
         BucketListParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -272,14 +272,14 @@ public sealed class BucketServiceWithRawResponse : IBucketServiceWithRawResponse
             response,
             async (token) =>
             {
-                var buckets = await response
-                    .Deserialize<BucketListResponse>(token)
+                var page = await response
+                    .Deserialize<BucketListPageResponse>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    buckets.Validate();
+                    page.Validate();
                 }
-                return buckets;
+                return new BucketListPage(this, parameters, page);
             }
         );
     }

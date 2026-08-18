@@ -118,7 +118,7 @@ public interface IViewService
     /// <para>Filters AND together when combined. Pagination is cursor-based on
     /// `viewID`; default limit is 50, maximum 100.</para>
     /// </summary>
-    Task<ViewListResponse> List(
+    Task<ViewListPage> List(
         ViewListParams? parameters = null,
         CancellationToken cancellationToken = default
     );
@@ -233,7 +233,7 @@ public interface IViewServiceWithRawResponse
     /// Returns a raw HTTP response for <c>get /v3/views</c>, but is otherwise the
     /// same as <see cref="IViewService.List(ViewListParams?, CancellationToken)"/>.
     /// </summary>
-    Task<HttpResponse<ViewListResponse>> List(
+    Task<HttpResponse<ViewListPage>> List(
         ViewListParams? parameters = null,
         CancellationToken cancellationToken = default
     );

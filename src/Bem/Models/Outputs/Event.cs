@@ -2798,23 +2798,18 @@ sealed class CorrectedContentConverter : JsonConverter<CorrectedContent?>
 [JsonConverter(typeof(JsonModelConverter<Output, OutputFromRaw>))]
 public sealed record class Output : JsonModel
 {
-    public IReadOnlyList<AnyType?>? OutputValue
+    public required IReadOnlyList<AnyType?> OutputValue
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+            return this._rawData.GetNotNullStruct<ImmutableArray<AnyType?>>("output");
         }
         init
         {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<AnyType?>?>(
+            this._rawData.Set<ImmutableArray<AnyType?>>(
                 "output",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
+                ImmutableArray.ToImmutableArray(value)
             );
         }
     }
@@ -2822,7 +2817,7 @@ public sealed record class Output : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.OutputValue ?? [])
+        foreach (var item in this.OutputValue)
         {
             item?.Validate();
         }
@@ -2853,6 +2848,13 @@ public sealed record class Output : JsonModel
     public static Output FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public Output(IReadOnlyList<AnyType?> outputValue)
+        : this()
+    {
+        this.OutputValue = outputValue;
     }
 }
 
@@ -4430,23 +4432,18 @@ sealed class ExtractCorrectedContentConverter : JsonConverter<ExtractCorrectedCo
 )]
 public sealed record class ExtractCorrectedContentOutput : JsonModel
 {
-    public IReadOnlyList<AnyType?>? Output
+    public required IReadOnlyList<AnyType?> Output
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+            return this._rawData.GetNotNullStruct<ImmutableArray<AnyType?>>("output");
         }
         init
         {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<AnyType?>?>(
+            this._rawData.Set<ImmutableArray<AnyType?>>(
                 "output",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
+                ImmutableArray.ToImmutableArray(value)
             );
         }
     }
@@ -4454,7 +4451,7 @@ public sealed record class ExtractCorrectedContentOutput : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.Output ?? [])
+        foreach (var item in this.Output)
         {
             item?.Validate();
         }
@@ -4489,6 +4486,13 @@ public sealed record class ExtractCorrectedContentOutput : JsonModel
     )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public ExtractCorrectedContentOutput(IReadOnlyList<AnyType?> output)
+        : this()
+    {
+        this.Output = output;
     }
 }
 
@@ -5727,23 +5731,18 @@ sealed class ParseCorrectedContentConverter : JsonConverter<ParseCorrectedConten
 )]
 public sealed record class ParseCorrectedContentOutput : JsonModel
 {
-    public IReadOnlyList<AnyType?>? Output
+    public required IReadOnlyList<AnyType?> Output
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+            return this._rawData.GetNotNullStruct<ImmutableArray<AnyType?>>("output");
         }
         init
         {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<AnyType?>?>(
+            this._rawData.Set<ImmutableArray<AnyType?>>(
                 "output",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
+                ImmutableArray.ToImmutableArray(value)
             );
         }
     }
@@ -5751,7 +5750,7 @@ public sealed record class ParseCorrectedContentOutput : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.Output ?? [])
+        foreach (var item in this.Output)
         {
             item?.Validate();
         }
@@ -5784,6 +5783,13 @@ public sealed record class ParseCorrectedContentOutput : JsonModel
     )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public ParseCorrectedContentOutput(IReadOnlyList<AnyType?> output)
+        : this()
+    {
+        this.Output = output;
     }
 }
 

@@ -235,8 +235,8 @@ public interface IWorkflowService
     /// '{"inputContent": "@invoice.pdf", "inputType": "pdf"}' ```</para>
     ///
     /// <para>Batch files: ```bash bem workflows call \   --workflow-name my-workflow \
-    ///   --input.batch-files '{"inputs": [{"inputContent": "@a.pdf", "inputType":
-    /// "pdf"}, {"inputContent": "@b.png", "inputType": "png"}]}' ```</para>
+    /// --input.batch-files '{"inputs": [{"inputContent": "@a.pdf", "inputType": "pdf"},
+    /// {"inputContent": "@b.png", "inputType": "png"}]}' ```</para>
     ///
     /// <para>Alternative: pass the full `--input` flag as JSON: ```bash bem workflows
     /// call \   --workflow-name my-workflow \   --input '{"singleFile":

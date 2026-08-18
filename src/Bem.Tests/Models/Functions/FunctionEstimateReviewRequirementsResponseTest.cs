@@ -31,59 +31,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -147,59 +162,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -273,59 +303,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -403,59 +448,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -526,59 +586,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -652,59 +727,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -776,59 +866,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -868,59 +973,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -959,59 +1079,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -1054,59 +1189,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -1148,59 +1298,74 @@ public class FunctionEstimateReviewRequirementsResponseTest : TestBase
                         Threshold = 0,
                         Tn = 0,
                         Tp = 0,
-                        AccuracyAboveThreshold = new()
+                        AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            A95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalseDiscoveryRate = new()
+                        FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        FalsePositiveRate = new()
+                        FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            F95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Precision = new()
+                        Precision = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            P95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
-                        Recall = new()
+                        Recall = new Dictionary<string, RateConfidenceInterval>()
                         {
-                            R95 = new()
                             {
-                                CurrentSample = 0,
-                                SampleNeeded = 0,
-                                CiLower = 0,
-                                CiUpper = 0,
-                                Mid = 0,
+                                "foo",
+                                new()
+                                {
+                                    CurrentSample = 0,
+                                    SampleNeeded = 0,
+                                    CiLower = 0,
+                                    CiUpper = 0,
+                                    Mid = 0,
+                                }
                             },
                         },
                     },
@@ -1275,59 +1440,74 @@ public class EstimateTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -1353,59 +1533,74 @@ public class EstimateTest : TestBase
                 Threshold = 0,
                 Tn = 0,
                 Tp = 0,
-                AccuracyAboveThreshold = new()
+                AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    A95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                FalseDiscoveryRate = new()
+                FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    F95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                FalsePositiveRate = new()
+                FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    F95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                Precision = new()
+                Precision = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    P95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                Recall = new()
+                Recall = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    R95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
             },
@@ -1447,59 +1642,74 @@ public class EstimateTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -1536,59 +1746,74 @@ public class EstimateTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -1621,59 +1846,74 @@ public class EstimateTest : TestBase
                 Threshold = 0,
                 Tn = 0,
                 Tp = 0,
-                AccuracyAboveThreshold = new()
+                AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    A95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                FalseDiscoveryRate = new()
+                FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    F95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                FalsePositiveRate = new()
+                FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    F95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                Precision = new()
+                Precision = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    P95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
-                Recall = new()
+                Recall = new Dictionary<string, RateConfidenceInterval>()
                 {
-                    R95 = new()
                     {
-                        CurrentSample = 0,
-                        SampleNeeded = 0,
-                        CiLower = 0,
-                        CiUpper = 0,
-                        Mid = 0,
+                        "foo",
+                        new()
+                        {
+                            CurrentSample = 0,
+                            SampleNeeded = 0,
+                            CiLower = 0,
+                            CiUpper = 0,
+                            Mid = 0,
+                        }
                     },
                 },
             },
@@ -1715,59 +1955,74 @@ public class EstimateTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -1801,59 +2056,74 @@ public class EstimateTest : TestBase
                     Threshold = 0,
                     Tn = 0,
                     Tp = 0,
-                    AccuracyAboveThreshold = new()
+                    AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        A95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalseDiscoveryRate = new()
+                    FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    FalsePositiveRate = new()
+                    FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        F95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Precision = new()
+                    Precision = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        P95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
-                    Recall = new()
+                    Recall = new Dictionary<string, RateConfidenceInterval>()
                     {
-                        R95 = new()
                         {
-                            CurrentSample = 0,
-                            SampleNeeded = 0,
-                            CiLower = 0,
-                            CiUpper = 0,
-                            Mid = 0,
+                            "foo",
+                            new()
+                            {
+                                CurrentSample = 0,
+                                SampleNeeded = 0,
+                                CiLower = 0,
+                                CiUpper = 0,
+                                Mid = 0,
+                            }
                         },
                     },
                 },
@@ -2029,59 +2299,74 @@ public class ThresholdMatrixTest : TestBase
             Threshold = 0,
             Tn = 0,
             Tp = 0,
-            AccuracyAboveThreshold = new()
+            AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
             {
-                A95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalseDiscoveryRate = new()
+            FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalsePositiveRate = new()
+            FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Precision = new()
+            Precision = new Dictionary<string, RateConfidenceInterval>()
             {
-                P95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Recall = new()
+            Recall = new Dictionary<string, RateConfidenceInterval>()
             {
-                R95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
         };
@@ -2091,59 +2376,74 @@ public class ThresholdMatrixTest : TestBase
         float expectedThreshold = 0;
         long expectedTn = 0;
         long expectedTp = 0;
-        AccuracyAboveThreshold expectedAccuracyAboveThreshold = new()
+        Dictionary<string, RateConfidenceInterval> expectedAccuracyAboveThreshold = new()
         {
-            A95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        FalseDiscoveryRate expectedFalseDiscoveryRate = new()
+        Dictionary<string, RateConfidenceInterval> expectedFalseDiscoveryRate = new()
         {
-            F95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        FalsePositiveRate expectedFalsePositiveRate = new()
+        Dictionary<string, RateConfidenceInterval> expectedFalsePositiveRate = new()
         {
-            F95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        Precision expectedPrecision = new()
+        Dictionary<string, RateConfidenceInterval> expectedPrecision = new()
         {
-            P95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        Recall expectedRecall = new()
+        Dictionary<string, RateConfidenceInterval> expectedRecall = new()
         {
-            R95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
 
@@ -2152,11 +2452,46 @@ public class ThresholdMatrixTest : TestBase
         Assert.Equal(expectedThreshold, model.Threshold);
         Assert.Equal(expectedTn, model.Tn);
         Assert.Equal(expectedTp, model.Tp);
-        Assert.Equal(expectedAccuracyAboveThreshold, model.AccuracyAboveThreshold);
-        Assert.Equal(expectedFalseDiscoveryRate, model.FalseDiscoveryRate);
-        Assert.Equal(expectedFalsePositiveRate, model.FalsePositiveRate);
-        Assert.Equal(expectedPrecision, model.Precision);
-        Assert.Equal(expectedRecall, model.Recall);
+        Assert.NotNull(model.AccuracyAboveThreshold);
+        Assert.Equal(expectedAccuracyAboveThreshold.Count, model.AccuracyAboveThreshold.Count);
+        foreach (var item in expectedAccuracyAboveThreshold)
+        {
+            Assert.True(model.AccuracyAboveThreshold.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, model.AccuracyAboveThreshold[item.Key]);
+        }
+        Assert.NotNull(model.FalseDiscoveryRate);
+        Assert.Equal(expectedFalseDiscoveryRate.Count, model.FalseDiscoveryRate.Count);
+        foreach (var item in expectedFalseDiscoveryRate)
+        {
+            Assert.True(model.FalseDiscoveryRate.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, model.FalseDiscoveryRate[item.Key]);
+        }
+        Assert.NotNull(model.FalsePositiveRate);
+        Assert.Equal(expectedFalsePositiveRate.Count, model.FalsePositiveRate.Count);
+        foreach (var item in expectedFalsePositiveRate)
+        {
+            Assert.True(model.FalsePositiveRate.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, model.FalsePositiveRate[item.Key]);
+        }
+        Assert.NotNull(model.Precision);
+        Assert.Equal(expectedPrecision.Count, model.Precision.Count);
+        foreach (var item in expectedPrecision)
+        {
+            Assert.True(model.Precision.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, model.Precision[item.Key]);
+        }
+        Assert.NotNull(model.Recall);
+        Assert.Equal(expectedRecall.Count, model.Recall.Count);
+        foreach (var item in expectedRecall)
+        {
+            Assert.True(model.Recall.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, model.Recall[item.Key]);
+        }
     }
 
     [Fact]
@@ -2169,59 +2504,74 @@ public class ThresholdMatrixTest : TestBase
             Threshold = 0,
             Tn = 0,
             Tp = 0,
-            AccuracyAboveThreshold = new()
+            AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
             {
-                A95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalseDiscoveryRate = new()
+            FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalsePositiveRate = new()
+            FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Precision = new()
+            Precision = new Dictionary<string, RateConfidenceInterval>()
             {
-                P95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Recall = new()
+            Recall = new Dictionary<string, RateConfidenceInterval>()
             {
-                R95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
         };
@@ -2245,59 +2595,74 @@ public class ThresholdMatrixTest : TestBase
             Threshold = 0,
             Tn = 0,
             Tp = 0,
-            AccuracyAboveThreshold = new()
+            AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
             {
-                A95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalseDiscoveryRate = new()
+            FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalsePositiveRate = new()
+            FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Precision = new()
+            Precision = new Dictionary<string, RateConfidenceInterval>()
             {
-                P95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Recall = new()
+            Recall = new Dictionary<string, RateConfidenceInterval>()
             {
-                R95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
         };
@@ -2314,59 +2679,74 @@ public class ThresholdMatrixTest : TestBase
         float expectedThreshold = 0;
         long expectedTn = 0;
         long expectedTp = 0;
-        AccuracyAboveThreshold expectedAccuracyAboveThreshold = new()
+        Dictionary<string, RateConfidenceInterval> expectedAccuracyAboveThreshold = new()
         {
-            A95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        FalseDiscoveryRate expectedFalseDiscoveryRate = new()
+        Dictionary<string, RateConfidenceInterval> expectedFalseDiscoveryRate = new()
         {
-            F95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        FalsePositiveRate expectedFalsePositiveRate = new()
+        Dictionary<string, RateConfidenceInterval> expectedFalsePositiveRate = new()
         {
-            F95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        Precision expectedPrecision = new()
+        Dictionary<string, RateConfidenceInterval> expectedPrecision = new()
         {
-            P95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
-        Recall expectedRecall = new()
+        Dictionary<string, RateConfidenceInterval> expectedRecall = new()
         {
-            R95 = new()
             {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
+                "foo",
+                new()
+                {
+                    CurrentSample = 0,
+                    SampleNeeded = 0,
+                    CiLower = 0,
+                    CiUpper = 0,
+                    Mid = 0,
+                }
             },
         };
 
@@ -2375,11 +2755,49 @@ public class ThresholdMatrixTest : TestBase
         Assert.Equal(expectedThreshold, deserialized.Threshold);
         Assert.Equal(expectedTn, deserialized.Tn);
         Assert.Equal(expectedTp, deserialized.Tp);
-        Assert.Equal(expectedAccuracyAboveThreshold, deserialized.AccuracyAboveThreshold);
-        Assert.Equal(expectedFalseDiscoveryRate, deserialized.FalseDiscoveryRate);
-        Assert.Equal(expectedFalsePositiveRate, deserialized.FalsePositiveRate);
-        Assert.Equal(expectedPrecision, deserialized.Precision);
-        Assert.Equal(expectedRecall, deserialized.Recall);
+        Assert.NotNull(deserialized.AccuracyAboveThreshold);
+        Assert.Equal(
+            expectedAccuracyAboveThreshold.Count,
+            deserialized.AccuracyAboveThreshold.Count
+        );
+        foreach (var item in expectedAccuracyAboveThreshold)
+        {
+            Assert.True(deserialized.AccuracyAboveThreshold.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, deserialized.AccuracyAboveThreshold[item.Key]);
+        }
+        Assert.NotNull(deserialized.FalseDiscoveryRate);
+        Assert.Equal(expectedFalseDiscoveryRate.Count, deserialized.FalseDiscoveryRate.Count);
+        foreach (var item in expectedFalseDiscoveryRate)
+        {
+            Assert.True(deserialized.FalseDiscoveryRate.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, deserialized.FalseDiscoveryRate[item.Key]);
+        }
+        Assert.NotNull(deserialized.FalsePositiveRate);
+        Assert.Equal(expectedFalsePositiveRate.Count, deserialized.FalsePositiveRate.Count);
+        foreach (var item in expectedFalsePositiveRate)
+        {
+            Assert.True(deserialized.FalsePositiveRate.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, deserialized.FalsePositiveRate[item.Key]);
+        }
+        Assert.NotNull(deserialized.Precision);
+        Assert.Equal(expectedPrecision.Count, deserialized.Precision.Count);
+        foreach (var item in expectedPrecision)
+        {
+            Assert.True(deserialized.Precision.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, deserialized.Precision[item.Key]);
+        }
+        Assert.NotNull(deserialized.Recall);
+        Assert.Equal(expectedRecall.Count, deserialized.Recall.Count);
+        foreach (var item in expectedRecall)
+        {
+            Assert.True(deserialized.Recall.TryGetValue(item.Key, out var value));
+
+            Assert.Equal(value, deserialized.Recall[item.Key]);
+        }
     }
 
     [Fact]
@@ -2392,59 +2810,74 @@ public class ThresholdMatrixTest : TestBase
             Threshold = 0,
             Tn = 0,
             Tp = 0,
-            AccuracyAboveThreshold = new()
+            AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
             {
-                A95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalseDiscoveryRate = new()
+            FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalsePositiveRate = new()
+            FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Precision = new()
+            Precision = new Dictionary<string, RateConfidenceInterval>()
             {
-                P95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Recall = new()
+            Recall = new Dictionary<string, RateConfidenceInterval>()
             {
-                R95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
         };
@@ -2554,895 +2987,79 @@ public class ThresholdMatrixTest : TestBase
             Threshold = 0,
             Tn = 0,
             Tp = 0,
-            AccuracyAboveThreshold = new()
+            AccuracyAboveThreshold = new Dictionary<string, RateConfidenceInterval>()
             {
-                A95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalseDiscoveryRate = new()
+            FalseDiscoveryRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            FalsePositiveRate = new()
+            FalsePositiveRate = new Dictionary<string, RateConfidenceInterval>()
             {
-                F95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Precision = new()
+            Precision = new Dictionary<string, RateConfidenceInterval>()
             {
-                P95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
-            Recall = new()
+            Recall = new Dictionary<string, RateConfidenceInterval>()
             {
-                R95 = new()
                 {
-                    CurrentSample = 0,
-                    SampleNeeded = 0,
-                    CiLower = 0,
-                    CiUpper = 0,
-                    Mid = 0,
+                    "foo",
+                    new()
+                    {
+                        CurrentSample = 0,
+                        SampleNeeded = 0,
+                        CiLower = 0,
+                        CiUpper = 0,
+                        Mid = 0,
+                    }
                 },
             },
         };
 
         ThresholdMatrix copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class AccuracyAboveThresholdTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            A95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        RateConfidenceInterval expectedA95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedA95, model.A95);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            A95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<AccuracyAboveThreshold>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            A95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<AccuracyAboveThreshold>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        RateConfidenceInterval expectedA95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedA95, deserialized.A95);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            A95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new AccuracyAboveThreshold { };
-
-        Assert.Null(model.A95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new AccuracyAboveThreshold { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            // Null should be interpreted as omitted for these properties
-            A95 = null,
-        };
-
-        Assert.Null(model.A95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            // Null should be interpreted as omitted for these properties
-            A95 = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new AccuracyAboveThreshold
-        {
-            A95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        AccuracyAboveThreshold copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FalseDiscoveryRateTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        RateConfidenceInterval expectedF95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedF95, model.F95);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalseDiscoveryRate>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalseDiscoveryRate>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        RateConfidenceInterval expectedF95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedF95, deserialized.F95);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FalseDiscoveryRate { };
-
-        Assert.Null(model.F95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FalseDiscoveryRate { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            // Null should be interpreted as omitted for these properties
-            F95 = null,
-        };
-
-        Assert.Null(model.F95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            // Null should be interpreted as omitted for these properties
-            F95 = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FalseDiscoveryRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        FalseDiscoveryRate copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FalsePositiveRateTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        RateConfidenceInterval expectedF95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedF95, model.F95);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalsePositiveRate>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FalsePositiveRate>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        RateConfidenceInterval expectedF95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedF95, deserialized.F95);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new FalsePositiveRate { };
-
-        Assert.Null(model.F95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new FalsePositiveRate { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            // Null should be interpreted as omitted for these properties
-            F95 = null,
-        };
-
-        Assert.Null(model.F95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            // Null should be interpreted as omitted for these properties
-            F95 = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FalsePositiveRate
-        {
-            F95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        FalsePositiveRate copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class PrecisionTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Precision
-        {
-            P95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        RateConfidenceInterval expectedP95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedP95, model.P95);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Precision
-        {
-            P95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Precision>(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Precision
-        {
-            P95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Precision>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        RateConfidenceInterval expectedP95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedP95, deserialized.P95);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Precision
-        {
-            P95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Precision { };
-
-        Assert.Null(model.P95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Precision { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Precision
-        {
-            // Null should be interpreted as omitted for these properties
-            P95 = null,
-        };
-
-        Assert.Null(model.P95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Precision
-        {
-            // Null should be interpreted as omitted for these properties
-            P95 = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Precision
-        {
-            P95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        Precision copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class RecallTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new Recall
-        {
-            R95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        RateConfidenceInterval expectedR95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedR95, model.R95);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new Recall
-        {
-            R95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Recall>(json, ModelBase.SerializerOptions);
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new Recall
-        {
-            R95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Recall>(element, ModelBase.SerializerOptions);
-        Assert.NotNull(deserialized);
-
-        RateConfidenceInterval expectedR95 = new()
-        {
-            CurrentSample = 0,
-            SampleNeeded = 0,
-            CiLower = 0,
-            CiUpper = 0,
-            Mid = 0,
-        };
-
-        Assert.Equal(expectedR95, deserialized.R95);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new Recall
-        {
-            R95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
-    {
-        var model = new Recall { };
-
-        Assert.Null(model.R95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesUnsetValidation_Works()
-    {
-        var model = new Recall { };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
-    {
-        var model = new Recall
-        {
-            // Null should be interpreted as omitted for these properties
-            R95 = null,
-        };
-
-        Assert.Null(model.R95);
-        Assert.False(model.RawData.ContainsKey("95"));
-    }
-
-    [Fact]
-    public void OptionalNonNullablePropertiesSetToNullValidation_Works()
-    {
-        var model = new Recall
-        {
-            // Null should be interpreted as omitted for these properties
-            R95 = null,
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new Recall
-        {
-            R95 = new()
-            {
-                CurrentSample = 0,
-                SampleNeeded = 0,
-                CiLower = 0,
-                CiUpper = 0,
-                Mid = 0,
-            },
-        };
-
-        Recall copied = new(model);
 
         Assert.Equal(model, copied);
     }

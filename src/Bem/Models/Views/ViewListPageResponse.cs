@@ -11,8 +11,8 @@ namespace Bem.Models.Views;
 /// <summary>
 /// Response containing a list of views
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<ViewListResponse, ViewListResponseFromRaw>))]
-public sealed record class ViewListResponse : JsonModel
+[JsonConverter(typeof(JsonModelConverter<ViewListPageResponse, ViewListPageResponseFromRaw>))]
+public sealed record class ViewListPageResponse : JsonModel
 {
     /// <summary>
     /// Total number of views matching the query
@@ -56,29 +56,29 @@ public sealed record class ViewListResponse : JsonModel
         }
     }
 
-    public ViewListResponse() { }
+    public ViewListPageResponse() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public ViewListResponse(ViewListResponse viewListResponse)
-        : base(viewListResponse) { }
+    public ViewListPageResponse(ViewListPageResponse viewListPageResponse)
+        : base(viewListPageResponse) { }
 #pragma warning restore CS8618
 
-    public ViewListResponse(IReadOnlyDictionary<string, JsonElement> rawData)
+    public ViewListPageResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    ViewListResponse(FrozenDictionary<string, JsonElement> rawData)
+    ViewListPageResponse(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="ViewListResponseFromRaw.FromRawUnchecked"/>
-    public static ViewListResponse FromRawUnchecked(
+    /// <inheritdoc cref="ViewListPageResponseFromRaw.FromRawUnchecked"/>
+    public static ViewListPageResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -86,9 +86,10 @@ public sealed record class ViewListResponse : JsonModel
     }
 }
 
-class ViewListResponseFromRaw : IFromRawJson<ViewListResponse>
+class ViewListPageResponseFromRaw : IFromRawJson<ViewListPageResponse>
 {
     /// <inheritdoc/>
-    public ViewListResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        ViewListResponse.FromRawUnchecked(rawData);
+    public ViewListPageResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => ViewListPageResponse.FromRawUnchecked(rawData);
 }

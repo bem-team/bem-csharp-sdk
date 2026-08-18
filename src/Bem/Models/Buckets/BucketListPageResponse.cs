@@ -11,8 +11,8 @@ namespace Bem.Models.Buckets;
 /// <summary>
 /// Response body for listing buckets.
 /// </summary>
-[JsonConverter(typeof(JsonModelConverter<BucketListResponse, BucketListResponseFromRaw>))]
-public sealed record class BucketListResponse : JsonModel
+[JsonConverter(typeof(JsonModelConverter<BucketListPageResponse, BucketListPageResponseFromRaw>))]
+public sealed record class BucketListPageResponse : JsonModel
 {
     public required IReadOnlyList<BucketV3> Buckets
     {
@@ -53,29 +53,29 @@ public sealed record class BucketListResponse : JsonModel
         _ = this.TotalCount;
     }
 
-    public BucketListResponse() { }
+    public BucketListPageResponse() { }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    public BucketListResponse(BucketListResponse bucketListResponse)
-        : base(bucketListResponse) { }
+    public BucketListPageResponse(BucketListPageResponse bucketListPageResponse)
+        : base(bucketListPageResponse) { }
 #pragma warning restore CS8618
 
-    public BucketListResponse(IReadOnlyDictionary<string, JsonElement> rawData)
+    public BucketListPageResponse(IReadOnlyDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 
 #pragma warning disable CS8618
     [SetsRequiredMembers]
-    BucketListResponse(FrozenDictionary<string, JsonElement> rawData)
+    BucketListPageResponse(FrozenDictionary<string, JsonElement> rawData)
     {
         this._rawData = new(rawData);
     }
 #pragma warning restore CS8618
 
-    /// <inheritdoc cref="BucketListResponseFromRaw.FromRawUnchecked"/>
-    public static BucketListResponse FromRawUnchecked(
+    /// <inheritdoc cref="BucketListPageResponseFromRaw.FromRawUnchecked"/>
+    public static BucketListPageResponse FromRawUnchecked(
         IReadOnlyDictionary<string, JsonElement> rawData
     )
     {
@@ -83,9 +83,10 @@ public sealed record class BucketListResponse : JsonModel
     }
 }
 
-class BucketListResponseFromRaw : IFromRawJson<BucketListResponse>
+class BucketListPageResponseFromRaw : IFromRawJson<BucketListPageResponse>
 {
     /// <inheritdoc/>
-    public BucketListResponse FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        BucketListResponse.FromRawUnchecked(rawData);
+    public BucketListPageResponse FromRawUnchecked(
+        IReadOnlyDictionary<string, JsonElement> rawData
+    ) => BucketListPageResponse.FromRawUnchecked(rawData);
 }

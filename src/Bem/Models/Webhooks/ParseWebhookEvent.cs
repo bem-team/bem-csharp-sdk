@@ -1071,23 +1071,18 @@ sealed class ParseWebhookEventCorrectedContentConverter
 )]
 public sealed record class ParseWebhookEventCorrectedContentOutput : JsonModel
 {
-    public IReadOnlyList<AnyType?>? Output
+    public required IReadOnlyList<AnyType?> Output
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<AnyType?>>("output");
+            return this._rawData.GetNotNullStruct<ImmutableArray<AnyType?>>("output");
         }
         init
         {
-            if (value == null)
-            {
-                return;
-            }
-
-            this._rawData.Set<ImmutableArray<AnyType?>?>(
+            this._rawData.Set<ImmutableArray<AnyType?>>(
                 "output",
-                value == null ? null : ImmutableArray.ToImmutableArray(value)
+                ImmutableArray.ToImmutableArray(value)
             );
         }
     }
@@ -1095,7 +1090,7 @@ public sealed record class ParseWebhookEventCorrectedContentOutput : JsonModel
     /// <inheritdoc/>
     public override void Validate()
     {
-        foreach (var item in this.Output ?? [])
+        foreach (var item in this.Output)
         {
             item?.Validate();
         }
@@ -1130,6 +1125,13 @@ public sealed record class ParseWebhookEventCorrectedContentOutput : JsonModel
     )
     {
         return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+
+    [SetsRequiredMembers]
+    public ParseWebhookEventCorrectedContentOutput(IReadOnlyList<AnyType?> output)
+        : this()
+    {
+        this.Output = output;
     }
 }
 

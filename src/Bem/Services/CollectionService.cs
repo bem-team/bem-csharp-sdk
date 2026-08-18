@@ -54,7 +54,7 @@ public sealed class CollectionService : ICollectionService
     }
 
     /// <inheritdoc/>
-    public async Task<CollectionListResponse> List(
+    public async Task<CollectionListPage> List(
         CollectionListParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -142,7 +142,7 @@ public sealed class CollectionServiceWithRawResponse : ICollectionServiceWithRaw
     }
 
     /// <inheritdoc/>
-    public async Task<HttpResponse<CollectionListResponse>> List(
+    public async Task<HttpResponse<CollectionListPage>> List(
         CollectionListParams? parameters = null,
         CancellationToken cancellationToken = default
     )
@@ -159,14 +159,14 @@ public sealed class CollectionServiceWithRawResponse : ICollectionServiceWithRaw
             response,
             async (token) =>
             {
-                var collections = await response
-                    .Deserialize<CollectionListResponse>(token)
+                var page = await response
+                    .Deserialize<CollectionListPageResponse>(token)
                     .ConfigureAwait(false);
                 if (this._client.ResponseValidation)
                 {
-                    collections.Validate();
+                    page.Validate();
                 }
-                return collections;
+                return new CollectionListPage(this, parameters, page);
             }
         );
     }
