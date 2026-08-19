@@ -29,25 +29,7 @@ public sealed record class FNavigateResponse : JsonModel
     }
 
     /// <summary>
-    /// Operations exposed by `POST /v3/fs`.
-    ///
-    /// <para>The verbs and their flag names mirror Unix tools so an LLM agent's existing
-    /// vocabulary maps directly:</para>
-    ///
-    /// <para>- `ls` — list parsed documents - `cat` — read one parsed doc (optionally
-    /// sliced by range / projected by select) - `grep` — substring or regex search
-    /// across parse outputs - `head` — first N sections of one doc - `stat` — metadata
-    /// only (page count, section count, parsed at, ...) - `find` — list canonical
-    /// entities (cross-doc memory) - `open` — entity + mentions - `xref` — entity
-    /// → sections across docs that mention it</para>
-    ///
-    /// <para>Doc-level ops (ls, cat, grep, head, stat) work on every parsed document,
-    /// regardless of how the parse function was configured.</para>
-    ///
-    /// <para>Memory-level ops (find, open, xref) operate on the global entities
-    /// table which is only populated when the parse function had `linkAcrossDocuments:
-    /// true`. On environments with no memory-linked docs they return empty data
-    /// with a hint pointing at the toggle.</para>
+    /// The op echoed back.
     /// </summary>
     public required ApiEnum<string, FsOp> Op
     {

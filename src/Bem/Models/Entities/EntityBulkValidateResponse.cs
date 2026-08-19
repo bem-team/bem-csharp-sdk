@@ -38,7 +38,7 @@ public sealed record class EntityBulkValidateResponse : JsonModel
     }
 
     /// <summary>
-    /// Per-outcome tally across a bulk-validate batch.
+    /// Aggregate counts.
     /// </summary>
     public required EntityBulkValidateResponseSummary Summary
     {
@@ -247,7 +247,7 @@ sealed class ResultOutcomeConverter : JsonConverter<ResultOutcome>
 }
 
 /// <summary>
-/// Per-outcome tally across a bulk-validate batch.
+/// Aggregate counts.
 /// </summary>
 [JsonConverter(
     typeof(JsonModelConverter<

@@ -81,7 +81,7 @@ public sealed record class WorkflowCopyResponse : JsonModel
     }
 
     /// <summary>
-    /// V3 read representation of a workflow version.
+    /// The newly created workflow.
     /// </summary>
     public Workflow? Workflow
     {

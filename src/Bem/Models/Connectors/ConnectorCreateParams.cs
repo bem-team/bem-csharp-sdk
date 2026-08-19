@@ -38,7 +38,7 @@ public record class ConnectorCreateParams : ParamsBase
     }
 
     /// <summary>
-    /// Connector type.
+    /// The connector type.
     /// </summary>
     public required ApiEnum<string, ConnectorType> Type
     {

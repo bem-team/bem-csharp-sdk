@@ -167,15 +167,8 @@ public sealed record class Template : JsonModel
     }
 
     /// <summary>
-    /// The placeholder contract a Render template declares, grouped by how each placeholder
-    /// is filled. Derived from the template at create/update time by scanning its
-    /// `docxtpl` tags; not user-supplied.
-    ///
-    /// <para>- `stringKeys`: bare string placeholders (`{{ key }}`) filled with
-    /// a single value. - `blockKeys`: wrapped-primitive placeholders (`{{p key }}`)
-    /// — bind one core primitive (paragraph, table, image, or list). The placeholder's
-    /// own paragraph dissolves and is replaced by the rendered subdocument's blocks,
-    /// rather than substituting text inline.</para>
+    /// The placeholder contract derived from the template at create/update time.
+    /// Absent on configs created before create/update-time validation existed.
     /// </summary>
     public Placeholders? Placeholders
     {
@@ -336,15 +329,8 @@ sealed class ListKindConverter : JsonConverter<ListKind>
 }
 
 /// <summary>
-/// The placeholder contract a Render template declares, grouped by how each placeholder
-/// is filled. Derived from the template at create/update time by scanning its `docxtpl`
-/// tags; not user-supplied.
-///
-/// <para>- `stringKeys`: bare string placeholders (`{{ key }}`) filled with a single
-/// value. - `blockKeys`: wrapped-primitive placeholders (`{{p key }}`) — bind one
-/// core primitive (paragraph, table, image, or list). The placeholder's own paragraph
-/// dissolves and is replaced by the rendered subdocument's blocks, rather than substituting
-/// text inline.</para>
+/// The placeholder contract derived from the template at create/update time. Absent
+/// on configs created before create/update-time validation existed.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Placeholders, PlaceholdersFromRaw>))]
 public sealed record class Placeholders : JsonModel

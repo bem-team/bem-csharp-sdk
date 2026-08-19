@@ -252,11 +252,7 @@ public sealed record class Pair : JsonModel
     }
 
     /// <summary>
-    /// A single file input with base64-encoded content.
-    ///
-    /// <para>When using the Bem CLI, use `@path/to/file` in the `inputContent` field
-    /// to automatically read and base64-encode the file: `--input.single-file '{"inputContent":
-    /// "@file.pdf", "inputType": "pdf"}' --wait`</para>
+    /// The file input to feed into the function.
     /// </summary>
     public required FileInput Input
     {

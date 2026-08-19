@@ -2252,7 +2252,7 @@ class ClassifyFromRaw : IFromRawJson<Classify>
 public sealed record class Send : JsonModel
 {
     /// <summary>
-    /// Destination type for a Send function.
+    /// Where the payload is delivered.
     /// </summary>
     public required ApiEnum<string, SendDestinationType> DestinationType
     {

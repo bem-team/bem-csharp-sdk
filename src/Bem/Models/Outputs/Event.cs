@@ -12158,7 +12158,7 @@ class CollectionProcessingMetadataFromRaw : IFromRawJson<CollectionProcessingMet
 public sealed record class Send : JsonModel
 {
     /// <summary>
-    /// Outcome of a Send function's delivery attempt.
+    /// Whether the payload was successfully delivered or the send node was skipped.
     /// </summary>
     public required ApiEnum<string, DeliveryStatus> DeliveryStatus
     {
@@ -12171,7 +12171,7 @@ public sealed record class Send : JsonModel
     }
 
     /// <summary>
-    /// Destination type for a Send function.
+    /// The type of destination the payload was sent to.
     /// </summary>
     public required ApiEnum<string, Functions::SendDestinationType> DestinationType
     {
@@ -12386,7 +12386,7 @@ public sealed record class Send : JsonModel
     }
 
     /// <summary>
-    /// Metadata returned when a Send function delivers to Google Drive.
+    /// Populated when destinationType is "google_drive".
     /// </summary>
     public GoogleDriveOutput? GoogleDriveOutput
     {
@@ -12446,7 +12446,7 @@ public sealed record class Send : JsonModel
     }
 
     /// <summary>
-    /// Metadata returned when a Send function delivers to an S3 bucket.
+    /// Populated when destinationType is "s3".
     /// </summary>
     public S3Output? S3Output
     {
@@ -12467,7 +12467,7 @@ public sealed record class Send : JsonModel
     }
 
     /// <summary>
-    /// Metadata returned when a Send function delivers to a webhook.
+    /// Populated when destinationType is "webhook".
     /// </summary>
     public WebhookOutput? WebhookOutput
     {
@@ -12612,7 +12612,7 @@ class SendFromRaw : IFromRawJson<Send>
 }
 
 /// <summary>
-/// Outcome of a Send function's delivery attempt.
+/// Whether the payload was successfully delivered or the send node was skipped.
 /// </summary>
 [JsonConverter(typeof(DeliveryStatusConverter))]
 public enum DeliveryStatus
@@ -12700,7 +12700,7 @@ sealed class SendEventTypeConverter : JsonConverter<SendEventType>
 }
 
 /// <summary>
-/// Metadata returned when a Send function delivers to Google Drive.
+/// Populated when destinationType is "google_drive".
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<GoogleDriveOutput, GoogleDriveOutputFromRaw>))]
 public sealed record class GoogleDriveOutput : JsonModel
@@ -12838,7 +12838,7 @@ class SendMetadataFromRaw : IFromRawJson<SendMetadata>
 }
 
 /// <summary>
-/// Metadata returned when a Send function delivers to an S3 bucket.
+/// Populated when destinationType is "s3".
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<S3Output, S3OutputFromRaw>))]
 public sealed record class S3Output : JsonModel
@@ -12912,7 +12912,7 @@ class S3OutputFromRaw : IFromRawJson<S3Output>
 }
 
 /// <summary>
-/// Metadata returned when a Send function delivers to a webhook.
+/// Populated when destinationType is "webhook".
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<WebhookOutput, WebhookOutputFromRaw>))]
 public sealed record class WebhookOutput : JsonModel

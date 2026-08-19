@@ -180,9 +180,7 @@ public sealed record class Inbound : JsonModel
     }
 
     /// <summary>
-    /// A compact view of an entity sitting on the far end of a relation edge — the
-    /// stable public id, the canonical name, and the effective type. The full entity
-    /// is fetched separately via the entity detail / File System endpoints.
+    /// The entity at the tail of the edge.
     /// </summary>
     public required RelatedEntity SourceEntity
     {
@@ -284,9 +282,7 @@ public sealed record class Outbound : JsonModel
     }
 
     /// <summary>
-    /// A compact view of an entity sitting on the far end of a relation edge — the
-    /// stable public id, the canonical name, and the effective type. The full entity
-    /// is fetched separately via the entity detail / File System endpoints.
+    /// The entity at the head of the edge.
     /// </summary>
     public required RelatedEntity TargetEntity
     {

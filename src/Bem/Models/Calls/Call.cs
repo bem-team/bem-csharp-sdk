@@ -231,7 +231,7 @@ public sealed record class Call : JsonModel
     }
 
     /// <summary>
-    /// The type of the function.
+    /// Type of the function. Only set for function calls.
     /// </summary>
     public ApiEnum<string, FunctionType>? FunctionType
     {
