@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.14.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.13.0...v0.14.0) (2026-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* BucketService.List, CollectionService.List and ViewService.List now return page types instead of response classes, and ListAutoPaging variants are available for iteration. Code that called List and read the collection off the old response object will not compile.
+
+### Features
+
+* paginate bucket, collection and view list methods ([b91b385](https://github.com/bem-team/bem-csharp-sdk/commit/b91b385aed3a4178b0986a1c13df5f9a8aef1581))
+
 ## 0.13.0 (2026-08-17)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.12.0...v0.13.0)
