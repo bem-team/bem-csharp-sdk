@@ -1324,7 +1324,7 @@ public sealed record class UpdateFunctionSend : JsonModel
     }
 
     /// <summary>
-    /// Destination type for a Send function.
+    /// Where the payload is delivered.
     /// </summary>
     public ApiEnum<string, SendDestinationType>? DestinationType
     {

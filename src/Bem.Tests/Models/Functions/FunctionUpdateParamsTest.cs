@@ -11,7 +11,7 @@ public class FunctionUpdateParamsTest : TestBase
     {
         var parameters = new FunctionUpdateParams
         {
-            PathFunctionName = "functionName",
+            FunctionName = "functionName",
             UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
@@ -25,7 +25,7 @@ public class FunctionUpdateParamsTest : TestBase
             },
         };
 
-        string expectedPathFunctionName = "functionName";
+        string expectedFunctionName = "functionName";
         UpdateFunction expectedUpdateFunction = new UpdateFunctionExtract()
         {
             DisplayName = "displayName",
@@ -38,7 +38,7 @@ public class FunctionUpdateParamsTest : TestBase
             Tags = ["string"],
         };
 
-        Assert.Equal(expectedPathFunctionName, parameters.PathFunctionName);
+        Assert.Equal(expectedFunctionName, parameters.FunctionName);
         Assert.Equal(expectedUpdateFunction, parameters.UpdateFunction);
     }
 
@@ -47,7 +47,7 @@ public class FunctionUpdateParamsTest : TestBase
     {
         FunctionUpdateParams parameters = new()
         {
-            PathFunctionName = "functionName",
+            FunctionName = "functionName",
             UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",
@@ -73,7 +73,7 @@ public class FunctionUpdateParamsTest : TestBase
     {
         var parameters = new FunctionUpdateParams
         {
-            PathFunctionName = "functionName",
+            FunctionName = "functionName",
             UpdateFunction = new UpdateFunctionExtract()
             {
                 DisplayName = "displayName",

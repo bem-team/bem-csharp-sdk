@@ -36,7 +36,7 @@ public sealed record class EntityBulkCreateResponse : JsonModel
     }
 
     /// <summary>
-    /// Per-outcome tally across a batch.
+    /// Aggregate counts.
     /// </summary>
     public required Summary Summary
     {
@@ -97,7 +97,7 @@ class EntityBulkCreateResponseFromRaw : IFromRawJson<EntityBulkCreateResponse>
 }
 
 /// <summary>
-/// Per-outcome tally across a batch.
+/// Aggregate counts.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Summary, SummaryFromRaw>))]
 public sealed record class Summary : JsonModel

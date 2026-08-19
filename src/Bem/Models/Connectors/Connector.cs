@@ -133,7 +133,7 @@ public sealed record class Connector : JsonModel
     }
 
     /// <summary>
-    /// Connector type.
+    /// The connector type.
     /// </summary>
     public required ApiEnum<string, ConnectorType> Type
     {

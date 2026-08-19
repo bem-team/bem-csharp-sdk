@@ -106,18 +106,12 @@ public sealed class FunctionService : IFunctionService
 
     /// <inheritdoc/>
     public Task<FunctionResponse> Update(
-        string pathFunctionName,
+        string functionName,
         FunctionUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        return this.Update(
-            parameters with
-            {
-                PathFunctionName = pathFunctionName,
-            },
-            cancellationToken
-        );
+        return this.Update(parameters with { FunctionName = functionName }, cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -308,9 +302,9 @@ public sealed class FunctionServiceWithRawResponse : IFunctionServiceWithRawResp
         CancellationToken cancellationToken = default
     )
     {
-        if (parameters.PathFunctionName == null)
+        if (parameters.FunctionName == null)
         {
-            throw new BemInvalidDataException("'parameters.PathFunctionName' cannot be null");
+            throw new BemInvalidDataException("'parameters.FunctionName' cannot be null");
         }
 
         HttpRequest<FunctionUpdateParams> request = new()
@@ -337,18 +331,12 @@ public sealed class FunctionServiceWithRawResponse : IFunctionServiceWithRawResp
 
     /// <inheritdoc/>
     public Task<HttpResponse<FunctionResponse>> Update(
-        string pathFunctionName,
+        string functionName,
         FunctionUpdateParams parameters,
         CancellationToken cancellationToken = default
     )
     {
-        return this.Update(
-            parameters with
-            {
-                PathFunctionName = pathFunctionName,
-            },
-            cancellationToken
-        );
+        return this.Update(parameters with { FunctionName = functionName }, cancellationToken);
     }
 
     /// <inheritdoc/>

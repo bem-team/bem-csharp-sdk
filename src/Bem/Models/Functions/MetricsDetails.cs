@@ -15,7 +15,7 @@ namespace Bem.Models.Functions;
 public sealed record class MetricsDetails : JsonModel
 {
     /// <summary>
-    /// Comprehensive performance metrics
+    /// Aggregate confusion matrix metrics across all fields
     /// </summary>
     public Metrics? AggregateMetrics
     {

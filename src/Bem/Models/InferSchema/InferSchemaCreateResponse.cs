@@ -17,7 +17,7 @@ namespace Bem.Models.InferSchema;
 public sealed record class InferSchemaCreateResponse : JsonModel
 {
     /// <summary>
-    /// Analysis result returned by the infer-schema endpoint.
+    /// Full analysis result including description, schema, and document classification.
     /// </summary>
     public required Analysis Analysis
     {
@@ -88,7 +88,7 @@ class InferSchemaCreateResponseFromRaw : IFromRawJson<InferSchemaCreateResponse>
 }
 
 /// <summary>
-/// Analysis result returned by the infer-schema endpoint.
+/// Full analysis result including description, schema, and document classification.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Analysis, AnalysisFromRaw>))]
 public sealed record class Analysis : JsonModel

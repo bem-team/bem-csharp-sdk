@@ -38,7 +38,7 @@ public record class FunctionUpdateParams : ParamsBase
 {
     public JsonElement RawBodyData { get; private init; }
 
-    public string? PathFunctionName { get; init; }
+    public string? FunctionName { get; init; }
 
     /// <summary>
     /// V3 create/update variants of the shared function payloads.
@@ -75,7 +75,7 @@ public record class FunctionUpdateParams : ParamsBase
     public FunctionUpdateParams(FunctionUpdateParams functionUpdateParams)
         : base(functionUpdateParams)
     {
-        this.PathFunctionName = functionUpdateParams.PathFunctionName;
+        this.FunctionName = functionUpdateParams.FunctionName;
 
         this.RawBodyData = functionUpdateParams.RawBodyData;
     }
@@ -98,13 +98,13 @@ public record class FunctionUpdateParams : ParamsBase
         FrozenDictionary<string, JsonElement> rawHeaderData,
         FrozenDictionary<string, JsonElement> rawQueryData,
         JsonElement rawBodyData,
-        string pathFunctionName
+        string functionName
     )
     {
         this._rawHeaderData = new(rawHeaderData);
         this._rawQueryData = new(rawQueryData);
         this.RawBodyData = rawBodyData;
-        this.PathFunctionName = pathFunctionName;
+        this.FunctionName = functionName;
     }
 #pragma warning restore CS8618
 
@@ -113,14 +113,14 @@ public record class FunctionUpdateParams : ParamsBase
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
         JsonElement rawBodyData,
-        string pathFunctionName
+        string functionName
     )
     {
         return new(
             FrozenDictionary.ToFrozenDictionary(rawHeaderData),
             FrozenDictionary.ToFrozenDictionary(rawQueryData),
             rawBodyData,
-            pathFunctionName
+            functionName
         );
     }
 
@@ -129,7 +129,7 @@ public record class FunctionUpdateParams : ParamsBase
             FriendlyJsonPrinter.PrintValue(
                 new Dictionary<string, JsonElement>()
                 {
-                    ["PathFunctionName"] = JsonSerializer.SerializeToElement(this.PathFunctionName),
+                    ["FunctionName"] = JsonSerializer.SerializeToElement(this.FunctionName),
                     ["HeaderData"] = FriendlyJsonPrinter.PrintValue(
                         JsonSerializer.SerializeToElement(this._rawHeaderData.Freeze())
                     ),
@@ -148,10 +148,7 @@ public record class FunctionUpdateParams : ParamsBase
         {
             return false;
         }
-        return (
-                this.PathFunctionName?.Equals(other.PathFunctionName)
-                ?? other.PathFunctionName == null
-            )
+        return (this.FunctionName?.Equals(other.FunctionName) ?? other.FunctionName == null)
             && this._rawHeaderData.Equals(other._rawHeaderData)
             && this._rawQueryData.Equals(other._rawQueryData)
             && this.RawBodyData.Equals(other.RawBodyData);
@@ -161,7 +158,7 @@ public record class FunctionUpdateParams : ParamsBase
     {
         return new UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/')
-                + string.Format("/v3/functions/{0}", this.PathFunctionName)
+                + string.Format("/v3/functions/{0}", this.FunctionName)
         )
         {
             Query = this.QueryString(options),

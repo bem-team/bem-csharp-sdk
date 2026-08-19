@@ -92,25 +92,7 @@ public record class FNavigateParams : ParamsBase
     }
 
     /// <summary>
-    /// Operations exposed by `POST /v3/fs`.
-    ///
-    /// <para>The verbs and their flag names mirror Unix tools so an LLM agent's existing
-    /// vocabulary maps directly:</para>
-    ///
-    /// <para>- `ls` — list parsed documents - `cat` — read one parsed doc (optionally
-    /// sliced by range / projected by select) - `grep` — substring or regex search
-    /// across parse outputs - `head` — first N sections of one doc - `stat` — metadata
-    /// only (page count, section count, parsed at, ...) - `find` — list canonical
-    /// entities (cross-doc memory) - `open` — entity + mentions - `xref` — entity
-    /// → sections across docs that mention it</para>
-    ///
-    /// <para>Doc-level ops (ls, cat, grep, head, stat) work on every parsed document,
-    /// regardless of how the parse function was configured.</para>
-    ///
-    /// <para>Memory-level ops (find, open, xref) operate on the global entities
-    /// table which is only populated when the parse function had `linkAcrossDocuments:
-    /// true`. On environments with no memory-linked docs they return empty data
-    /// with a hint pointing at the toggle.</para>
+    /// The operation to run. Required.
     /// </summary>
     public required ApiEnum<string, FsOp> Op
     {
@@ -123,9 +105,9 @@ public record class FNavigateParams : ParamsBase
     }
 
     /// <summary>
-    /// Request-scoping concerns that are orthogonal to the op itself. Carried on
-    /// a `context` object so future scoping hints (e.g. as-of timestamps, read consistency)
-    /// can slot in without reshaping the op-specific fields.
+    /// Request-scoping context (currently just the bucket scope). Optional; when
+    /// omitted the request resolves against the account+environment default bucket.
+    /// See `FSContext`.
     /// </summary>
     public Context? Context
     {
@@ -190,7 +172,7 @@ public record class FNavigateParams : ParamsBase
     }
 
     /// <summary>
-    /// Filter options for `op=ls` and `op=find`.
+    /// Narrows results for `op=ls` and `op=find`.
     /// </summary>
     public Filter? Filter
     {
@@ -318,7 +300,7 @@ public record class FNavigateParams : ParamsBase
     }
 
     /// <summary>
-    /// Slice the parse output along page or section dimensions. Used with `op=cat`.
+    /// Slices the parse output for `op=cat`.
     /// </summary>
     public global::Bem.Models.Fs.Range? Range
     {
@@ -518,9 +500,8 @@ public record class FNavigateParams : ParamsBase
 }
 
 /// <summary>
-/// Request-scoping concerns that are orthogonal to the op itself. Carried on a `context`
-/// object so future scoping hints (e.g. as-of timestamps, read consistency) can
-/// slot in without reshaping the op-specific fields.
+/// Request-scoping context (currently just the bucket scope). Optional; when omitted
+/// the request resolves against the account+environment default bucket. See `FSContext`.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Context, ContextFromRaw>))]
 public sealed record class Context : JsonModel
@@ -598,7 +579,7 @@ class ContextFromRaw : IFromRawJson<Context>
 }
 
 /// <summary>
-/// Filter options for `op=ls` and `op=find`.
+/// Narrows results for `op=ls` and `op=find`.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Filter, FilterFromRaw>))]
 public sealed record class Filter : JsonModel
@@ -732,7 +713,7 @@ class FilterFromRaw : IFromRawJson<Filter>
 }
 
 /// <summary>
-/// Slice the parse output along page or section dimensions. Used with `op=cat`.
+/// Slices the parse output for `op=cat`.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<global::Bem.Models.Fs.Range, RangeFromRaw>))]
 public sealed record class Range : JsonModel

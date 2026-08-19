@@ -108,7 +108,7 @@ public interface IFunctionService
 
     /// <inheritdoc cref="Update(FunctionUpdateParams, CancellationToken)"/>
     Task<FunctionResponse> Update(
-        string pathFunctionName,
+        string functionName,
         FunctionUpdateParams parameters,
         CancellationToken cancellationToken = default
     );
@@ -295,7 +295,7 @@ public interface IFunctionServiceWithRawResponse
 
     /// <inheritdoc cref="Update(FunctionUpdateParams, CancellationToken)"/>
     Task<HttpResponse<FunctionResponse>> Update(
-        string pathFunctionName,
+        string functionName,
         FunctionUpdateParams parameters,
         CancellationToken cancellationToken = default
     );

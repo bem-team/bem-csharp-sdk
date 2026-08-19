@@ -1275,7 +1275,7 @@ public sealed record class Send : JsonModel
     }
 
     /// <summary>
-    /// Destination type for a Send function.
+    /// Where the payload is delivered.
     /// </summary>
     public ApiEnum<string, SendDestinationType>? DestinationType
     {
@@ -2695,11 +2695,8 @@ public sealed record class Render : JsonModel
     }
 
     /// <summary>
-    /// Request-side render configuration. Carries the template document as base64-encoded
-    /// `.docx` bytes: the server validates them, stores the template, and derives
-    /// the placeholder/style-id contract at create/update time, so clients never
-    /// submit `placeholders` or `styleIds`. The response shape (`RenderConfig`) returns
-    /// the derived contract.
+    /// Render configuration. Required at create time — a Render function without
+    /// a template has nothing to bind data to. Update bodies may omit this for partial edits.
     /// </summary>
     public required RenderConfigInput RenderConfig
     {

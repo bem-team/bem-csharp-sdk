@@ -98,7 +98,7 @@ public sealed record class EvalScoreRun : JsonModel
     }
 
     /// <summary>
-    /// Aggregate accuracy metrics.
+    /// Populated once `status` is `completed` or `error`.
     /// </summary>
     public Aggregate? Aggregate
     {
@@ -658,7 +658,7 @@ class ProgressFromRaw : IFromRawJson<global::Bem.Models.Eval.Score.Progress>
 }
 
 /// <summary>
-/// Aggregate accuracy metrics.
+/// Populated once `status` is `completed` or `error`.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Aggregate, AggregateFromRaw>))]
 public sealed record class Aggregate : JsonModel

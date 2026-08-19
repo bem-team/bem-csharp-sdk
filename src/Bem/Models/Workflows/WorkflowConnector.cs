@@ -27,7 +27,7 @@ public sealed record class WorkflowConnector : JsonModel
     }
 
     /// <summary>
-    /// Discriminator for a workflow connector. V3 supports `paragon` only.
+    /// Connector type. Must match stored type on update.
     /// </summary>
     public required ApiEnum<string, WorkflowConnectorType> Type
     {
@@ -61,8 +61,7 @@ public sealed record class WorkflowConnector : JsonModel
     }
 
     /// <summary>
-    /// Request-side config block for a Paragon connector. Fields absent on update
-    /// are unchanged.
+    /// Paragon configuration. Required on create for `type: "paragon"`.
     /// </summary>
     public WorkflowConnectorParagon? Paragon
     {
@@ -129,7 +128,7 @@ class WorkflowConnectorFromRaw : IFromRawJson<WorkflowConnector>
 }
 
 /// <summary>
-/// Request-side config block for a Paragon connector. Fields absent on update are unchanged.
+/// Paragon configuration. Required on create for `type: "paragon"`.
 /// </summary>
 [JsonConverter(
     typeof(JsonModelConverter<WorkflowConnectorParagon, WorkflowConnectorParagonFromRaw>)
