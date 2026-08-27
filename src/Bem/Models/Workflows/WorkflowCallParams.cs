@@ -3,7 +3,9 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Bem.Core;
@@ -293,7 +295,30 @@ public record class WorkflowCallParams : ParamsBase
 
     internal override HttpContent? BodyContent()
     {
-        return MultipartJsonSerializer.Serialize(RawBodyData);
+        // The server also accepts a multipart/form-data body (`file`/`files` fields),
+        // but this generated model only ever carries JSON-compatible values (Input,
+        // Bucket, CallReferenceID, Metadata) with file bytes pre-encoded as base64
+        // strings — never raw BinaryContent. Serializing it as multipart anyway sends
+        // no `input` field the server recognizes, so calls fail with "no files
+        // provided". Prefer JSON, matching what every other SDK sends. Fall back to
+        // multipart only if a caller has actually attached raw binary content.
+        var rawBodyData = this.RawBodyData;
+        if (rawBodyData.Values.Any(element => element.BinaryContents.Count > 0))
+        {
+            return MultipartJsonSerializer.Serialize(rawBodyData);
+        }
+
+        var jsonBody = new Dictionary<string, JsonElement>();
+        foreach (var item in rawBodyData)
+        {
+            jsonBody[item.Key] = item.Value.Json;
+        }
+
+        return new StringContent(
+            JsonSerializer.Serialize(jsonBody, ModelBase.SerializerOptions),
+            Encoding.UTF8,
+            "application/json"
+        );
     }
 
     internal override void AddHeadersToRequest(HttpRequestMessage request, ClientOptions options)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Bem.Core;
 using Bem.Models.Eval.Score;
 using Bem.Models.Workflows;
@@ -233,6 +234,43 @@ public class WorkflowCallParamsTest : TestBase
         WorkflowCallParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
+    }
+
+    [Fact]
+    public async Task BodyContent_SendsApplicationJson()
+    {
+        var parameters = new WorkflowCallParams
+        {
+            WorkflowName = "workflowName",
+            Input = new()
+            {
+                SingleFile = new()
+                {
+                    InputContent = "inputContent",
+                    InputType = Outputs::InputType.Csv,
+                },
+            },
+            Bucket = "bucket",
+        };
+
+        var body = parameters.BodyContent();
+
+        Assert.NotNull(body);
+        Assert.Equal("application/json", body.Headers.ContentType?.MediaType);
+
+        var json = await body.ReadAsStringAsync(
+#if NET
+            TestContext.Current.CancellationToken
+#endif
+        );
+        using var parsed = JsonDocument.Parse(json);
+        Assert.Equal(
+            "inputContent",
+            parsed.RootElement.GetProperty("input").GetProperty("singleFile").GetProperty(
+                "inputContent"
+            ).GetString()
+        );
+        Assert.Equal("bucket", parsed.RootElement.GetProperty("bucket").GetString());
     }
 }
 
