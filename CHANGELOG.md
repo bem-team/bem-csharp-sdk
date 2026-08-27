@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.14.1](https://github.com/bem-team/bem-csharp-sdk/compare/v0.14.0...v0.14.1) (2026-08-27)
+
+
+### Bug Fixes
+
+* send workflow call as application/json in the C# SDK ([20fa9d4](https://github.com/bem-team/bem-csharp-sdk/commit/20fa9d4807b817586065cb8147808bae35939e29))
+
+
+### Styles
+
+* run csharpier on WorkflowCallParamsTest.cs ([4c7ff55](https://github.com/bem-team/bem-csharp-sdk/commit/4c7ff558f7a25088c106fdc3fc3ebe143ad43fda))
+
 ## [0.14.0](https://github.com/bem-team/bem-csharp-sdk/compare/v0.13.0...v0.14.0) (2026-08-19)
 
 
