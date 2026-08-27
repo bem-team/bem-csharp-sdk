@@ -266,9 +266,11 @@ public class WorkflowCallParamsTest : TestBase
         using var parsed = JsonDocument.Parse(json);
         Assert.Equal(
             "inputContent",
-            parsed.RootElement.GetProperty("input").GetProperty("singleFile").GetProperty(
-                "inputContent"
-            ).GetString()
+            parsed
+                .RootElement.GetProperty("input")
+                .GetProperty("singleFile")
+                .GetProperty("inputContent")
+                .GetString()
         );
         Assert.Equal("bucket", parsed.RootElement.GetProperty("bucket").GetString());
     }
